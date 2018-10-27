@@ -60,6 +60,7 @@ public class AffairsProcess extends BaseProcess {
 					item.setContent(dataResult.getContent() == null ? "" : new String(dataResult.getContent()));
 					item.setTypeId(dataResult.getTypeId());
 					item.setBrows(dataResult.getBrows());
+					item.setSubordinate(dataResult.getSubordinate());
 					item.setGmtCreated(dataResult.getGmtCreated());
 					items.add(item);
 				}
@@ -75,6 +76,7 @@ public class AffairsProcess extends BaseProcess {
 		affair.setAffairsPic(param.getAffairsPic());
 		affair.setTypeId(param.getTypeId());
 		affair.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
+		affair.setSubordinate(param.getSubordinate());
 		ResponseDO<Long> response = affairsService.addAffair(affair);
 		if (!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());

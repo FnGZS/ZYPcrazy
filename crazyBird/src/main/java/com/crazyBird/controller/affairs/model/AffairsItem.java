@@ -7,6 +7,7 @@ public class AffairsItem {
 	private String content;
 	private Long typeId;
 	private Long brows;
+	private String subordinate;
 	private String gmtCreated;
 	public Long getId() {
 		return id;
@@ -43,6 +44,12 @@ public class AffairsItem {
 	}
 	public void setBrows(Long brows) {
 		this.brows = brows;
+	}
+	public String getSubordinate() {
+		return subordinate;
+	}
+	public void setSubordinate(String subordinate) {
+		this.subordinate = subordinate;
 	}
 	public String getGmtCreated() {
 		return gmtCreated;

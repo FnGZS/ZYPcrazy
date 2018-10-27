@@ -8,6 +8,13 @@ public class AffairsDO {
 	private byte[] content;
 	private Long typeId;
 	private Long brows;
+	private String subordinate;
+	public String getSubordinate() {
+		return subordinate;
+	}
+	public void setSubordinate(String subordinate) {
+		this.subordinate = subordinate;
+	}
 	private String gmtCreated;
 	public Long getId() {
 		return id;

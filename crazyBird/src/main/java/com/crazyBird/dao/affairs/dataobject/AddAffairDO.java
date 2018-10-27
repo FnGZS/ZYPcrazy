@@ -6,6 +6,7 @@ public class AddAffairDO {
 	private String affairsPic;
 	private byte[] content;
 	private Long typeId;
+	private String subordinate;
 	public String getTitle() {
 		return title;
 	}
@@ -29,6 +30,12 @@ public class AddAffairDO {
 	}
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
+	}
+	public String getSubordinate() {
+		return subordinate;
+	}
+	public void setSubordinate(String subordinate) {
+		this.subordinate = subordinate;
 	}
 	
 	
