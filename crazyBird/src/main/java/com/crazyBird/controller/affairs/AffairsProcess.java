@@ -1,9 +1,16 @@
 package com.crazyBird.controller.affairs;
 
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.controller.affairs.model.AddAffairsModel;
 import com.crazyBird.controller.affairs.model.AffairsItem;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
+import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import com.crazyBird.controller.base.BaseProcess;
+import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -43,7 +50,7 @@ public class AffairsProcess extends BaseProcess {
 
 	private List<AffairsItem> convertDemands(List<AffairsDO> dataResults) {
 		List<AffairsItem> items = new ArrayList<>();
-		if(CollectionUtil.isEmpty(dataResults)) {
+		if(CollectionUtil.isNotEmpty(dataResults)) {
 			for(AffairsDO dataResult : dataResults) {
 				if(dataResult != null) {
 					AffairsItem item = new AffairsItem();
@@ -59,6 +66,25 @@ public class AffairsProcess extends BaseProcess {
 			}
 		}
 		return items;
+	}
+
+	public AddAffairsModel addAffair(AddAffairsParam param) {
+		AddAffairsModel model = new AddAffairsModel();
+		AddAffairDO affair = new AddAffairDO();
+		affair.setTitle(param.getTitle());
+		affair.setAffairsPic(param.getAffairsPic());
+		affair.setTypeId(param.getTypeId());
+		affair.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
+		ResponseDO<Long> response = affairsService.addAffair(affair);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			model.setResult(response.getDataResult());
+			return model;
+		}
+		model.setMessage(response.getMessage());
+		model.setResult(response.getDataResult());
+		return model;
 	}
 }
 
