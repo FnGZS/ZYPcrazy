@@ -9,6 +9,13 @@ public class VoteActionDetailItem {
 	public void setSerialId(Long serialId) {
 		this.serialId = serialId;
 	}
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private Long serialId;
 	private String peopleName;
 	private String imageUrl;

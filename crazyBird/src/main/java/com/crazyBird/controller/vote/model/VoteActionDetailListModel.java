@@ -19,8 +19,7 @@ public class VoteActionDetailListModel extends AbstractFlagModel{
 	private Long visitNum;
 	private Long voteSum;
 	private Long timeDiff;
-
-
+	
 	private String startTime;
 	private String endTime;
 	private List<VoteActionDetailItem> voteDetailList;

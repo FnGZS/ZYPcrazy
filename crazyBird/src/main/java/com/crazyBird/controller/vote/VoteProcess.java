@@ -259,6 +259,7 @@ public class VoteProcess {
 				item.setCompete(tag.getCompete());
 				item.setContent(tag.getContent());
 				item.setHonor(tag.getHonor());
+				item.setScientific(tag.getScientific());
 				item.setId(tag.getId());
 				item.setImageUrl(tag.getImageUrl());
 				item.setNum(tag.getNum());

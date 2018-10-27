@@ -10,6 +10,7 @@
 		<result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="branch" property="branch" jdbcType="VARCHAR" />
+		<result column="scientific" property="scientific" jdbcType="VARCHAR" />
 		<result column="political" property="political" jdbcType="VARCHAR" />
 		<result column="class" property="className" jdbcType="VARCHAR" />
 		<result column="post" property="post" jdbcType="VARCHAR" />
@@ -20,7 +21,7 @@
 		<result column="num" property="num" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,action_id,serial_id,people_name,image_url,content,branch,political,class,post,compete,honor,story,
+		id,action_id,serial_id,people_name,image_url,scientific,content,branch,political,class,post,compete,honor,story,
 		recommend,num
 	</sql>
 	<select id="getVoteActionDetail" resultMap="BaseResultMap"

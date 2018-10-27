@@ -45,7 +45,7 @@
 	<select id="getVoteAction" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		action_name, action_introduce, vote_ruler, host, action_image, telephone, status,
+		id,action_name, action_introduce, vote_ruler, host, action_image, telephone, status,
 		visit_num,vote_sum, start_time, end_time
 		from vote_action where id=#{id,jdbcType=BIGINT}
 	</select>
