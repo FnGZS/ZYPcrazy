@@ -1,12 +1,10 @@
 package com.crazyBird.controller.base;
 
-/**
- * @author 
- */
+
 public class AbstractPageParam {
 	
     /**
-     * 当前�??
+     * 当前页
      */
     private Integer pageNo;
 

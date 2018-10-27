@@ -14,12 +14,12 @@ import com.crazyBird.validate.ValidateFactory.DEFAULT_ERROR_FLAG;
 @Documented
 @Inherited
 /**
- * 正则表达式验�??
+ * 正则表达式验�?
  *
  */
 public @interface RegexAnno {
     /**
-     * 正则表达�??
+     * 正则表达�?
      * 
      * @return
      */

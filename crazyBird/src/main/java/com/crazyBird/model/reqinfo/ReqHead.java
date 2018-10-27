@@ -3,13 +3,13 @@ package com.crazyBird.model.reqinfo;
 public class ReqHead {
 	
     private String accessToken = "";
-    // 版本�??
+    // 版本号
     private String version = "";
-    // 浏览�??
+    // 浏览器
     private String browser = "";
     // 手机操作系统iphone android
     private String os = "";
-    // 手机操作系统版本�??
+    // 手机操作系统版本号
     private String osVersion = "";
 
 	public String getBrowser() {

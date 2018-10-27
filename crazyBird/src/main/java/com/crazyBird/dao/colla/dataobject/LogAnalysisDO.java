@@ -1,17 +1,25 @@
 package com.crazyBird.dao.colla.dataobject;
 
+/**
+ * @Type LogAnalysisDO.java
+ * @Desc 
+ * @author luogm
+ * @date 2017年6月15日 下午4:01:50
+ * @Version V1.0
+ */
 public class LogAnalysisDO {
+
 	private Long id;
-
+	
 	private String ip;
-
+	
 	private Long userId;
-
+	
 	private String url;
-
+	
 	private Long respTime;
-
-	private String respCode;
+	
+	private String respCode; 
 
 	public Long getId() {
 		return id;
@@ -60,5 +68,4 @@ public class LogAnalysisDO {
 	public void setRespCode(String respCode) {
 		this.respCode = respCode;
 	}
-
 }

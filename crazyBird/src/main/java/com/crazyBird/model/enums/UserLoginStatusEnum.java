@@ -1,6 +1,9 @@
 package com.crazyBird.model.enums;
 
-
+/**
+ * @author luogm
+ *
+ */
 public enum UserLoginStatusEnum {
 	
 	LOGIN_SUCCESS(0, "登陆成功"),

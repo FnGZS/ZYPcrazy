@@ -11,13 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.crazyBird.controller.base.ErrorModel;
 import com.crazyBird.controller.base.RestModelView;
-import com.crazyBird.utils.RestLogUtils;
 import com.crazyBird.model.enums.BizStatusEnum;
+import com.crazyBird.utils.RestLogUtils;
 
 /**
  * @Type RestDispatcherServlet
- * @Desc 重写spring的DispatcherServlet捕获异常方法,添加json串转对象抛出异常时直接捕�?,不走response.
+ * @Desc 重写spring的DispatcherServlet捕获异常方法,添加json串转对象抛出异常时直接捕捉,不走response.
  *       sendError方式输出错误http错误信息
+ * @date 2016-08-04
+ * @Version V1.0
  */
 public class RestDispatcherServlet extends DispatcherServlet {
 	

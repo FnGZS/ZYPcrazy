@@ -5,6 +5,9 @@ import java.nio.charset.Charset;
 /**
  * @Type SimpleDeEnUtils.java
  * @Desc 
+ * @author luo
+ * @date 2017年7月14日 下午1:20:34
+ * @Version V1.0
  */
 public class SimpleDeEnUtils {
 

@@ -9,12 +9,12 @@ public class RestModelView extends ModelAndView {
 	private static final String	MODEL_NAME		= "MODEL_NAME";
 
 	/**
-	 * 设置输入的Model�??,避免从model中获�??
+	 * 设置输入的Model值,避免从model中获取
 	 */
 	private Object				modelObject;
 
 	/**
-	 * 设置模型视图的�??
+	 * 设置模型视图的值
 	 * @param modelObject
 	 */
 	public RestModelView(Object modelObject) {

@@ -9,15 +9,18 @@ import java.util.Date;
 /**
  * @Type DateUtil
  * @Desc
+ * @author luo
+ * @date 2016年6月6日
+ * @Version V1.0
  */
 public class DateUtil {
 
     /**
-     * �?周星期数�?
+     * 一周星期数组
      */
-    private final static String dayNames[] = { "星期�?", "星期�?", "星期�?", "星期�?", "星期�?", "星期�?", "星期�?" };
+    private final static String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
     /**
-     * �?周星期数�?
+     * 一周星期数组
      */
     private final static String dayNums[] = { "7", "1", "2", "3", "4", "5", "6" };
 
@@ -27,11 +30,11 @@ public class DateUtil {
     public static final String dtLong = "yyyyMMddHHmmss";
 
     /**
-     * 获取日期指定的格式的字符�?
+     * 获取日期指定的格式的字符串
      * 
      * @param date
      * @param pattern
-     * @return Date 对象类型字符串形�?
+     * @return Date 对象类型字符串形式
      */
     public static String formatDate(Date date, String pattern) {
         if (null != date) {
@@ -76,7 +79,7 @@ public class DateUtil {
     }
 
     /**
-     * 获取指定日期�?在的周期中的序号，从0�?始（当前日期的下�?天为周期的起始日期，7天为�?个周期，即一周）
+     * 获取指定日期所在的周期中的序号，从0开始（当前日期的下一天为周期的起始日期，7天为一个周期，即一周）
      * 
      * @param date
      * @return int
@@ -85,12 +88,12 @@ public class DateUtil {
         try {
             SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_YMD);
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_YEAR, 1); // 第二�?
-            int d = cal.get(Calendar.DAY_OF_WEEK); // 星期�?
+            cal.add(Calendar.DAY_OF_YEAR, 1); // 第二天
+            int d = cal.get(Calendar.DAY_OF_WEEK); // 星期几
             cal.setTime(df.parse(date));
             int id = cal.get(Calendar.DAY_OF_WEEK); // 输入日期的星期几
             int idx = id - d;
-            idx = idx < 0 ? idx + 7 : idx; // �?周有7�?
+            idx = idx < 0 ? idx + 7 : idx; // 一周有7天
             return idx;
         } catch (Exception e) {
         }
@@ -98,7 +101,7 @@ public class DateUtil {
     }
 
     /**
-     * 计算两个日期的差�?(天数)，去掉时分秒
+     * 计算两个日期的差距(天数)，去掉时分秒
      * 
      * @param date1
      * @param date2
@@ -115,7 +118,7 @@ public class DateUtil {
     }
 
     /**
-     * 去掉时分�?
+     * 去掉时分秒
      * 
      * @param date
      * @return Date
@@ -153,7 +156,7 @@ public class DateUtil {
         Calendar now = Calendar.getInstance();
         Calendar time = Calendar.getInstance();
         time.setTime(date);
-        // 毫秒偏移�?
+        // 毫秒偏移量
         long t = (now.getTimeInMillis() - time.getTimeInMillis()) / 1000;
         // 昨天以前的，直接显示日期，如2012-01-08，如果有多余空间，显示日期及时间2012-01-08 09:20
         if ((t < 0) || (t > ((now.get(Calendar.HOUR_OF_DAY) + 24) * 3600 + now.get(Calendar.MINUTE) + 60
@@ -167,9 +170,9 @@ public class DateUtil {
             SimpleDateFormat df = new SimpleDateFormat("HH:mm");
             String str = df.format(date);
             int day_time = time.get(Calendar.DAY_OF_YEAR);// 评论的天
-            int now_time = now.get(Calendar.DAY_OF_YEAR);// 当前�?
+            int now_time = now.get(Calendar.DAY_OF_YEAR);// 当前天
 
-            // 1个小时以上，但在昨天内，显示�?"昨天11:59"
+            // 1个小时以上，但在昨天内，显示为"昨天11:59"
             if (day_time < now_time) {
                 str = "昨天 ".concat(str);
             } else {
@@ -177,16 +180,16 @@ public class DateUtil {
             }
             return str;
         }
-        // 1分钟�?1个小时内，显示为"XX分钟�?"
+        // 1分钟到1个小时内，显示为"XX分钟前"
         if (t >= 60) {
-            return t / 60 + "分钟�?";
+            return t / 60 + "分钟前";
         }
         // 小于1分钟的为刚刚
         return "刚刚";
     }
 
     /**
-     * 根据日期获得星期�?
+     * 根据日期获得星期几
      * 
      * @param date
      * @return
@@ -199,7 +202,7 @@ public class DateUtil {
     }
 
     /**
-     * 根据日期获得星期�? 数字
+     * 根据日期获得星期几 数字
      * 
      * @param date
      * @return
@@ -224,7 +227,7 @@ public class DateUtil {
     }
 
     /**
-     * 时间差比�? 返回毫秒�?
+     * 时间差比较 返回毫秒数
      * 
      * @param t1
      * @param t2
@@ -276,7 +279,7 @@ public class DateUtil {
     }
 
     /**
-     * 判断时间是否在接下来的一天之�?
+     * 判断时间是否在接下来的一天之内
      * @param date
      * @return
      */

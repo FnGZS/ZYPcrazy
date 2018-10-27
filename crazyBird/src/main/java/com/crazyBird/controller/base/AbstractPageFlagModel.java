@@ -1,8 +1,5 @@
 package com.crazyBird.controller.base;
 
-/**
- * @author
- */
 
 public abstract class AbstractPageFlagModel extends AbstractFlagModel {
 
@@ -12,7 +9,7 @@ public abstract class AbstractPageFlagModel extends AbstractFlagModel {
     private Integer pageNo = 0;
 
     /**
-     * 分页�??
+     * 分页数
      */
     private Integer pageSize = 0;
 

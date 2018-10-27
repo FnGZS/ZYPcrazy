@@ -1,13 +1,14 @@
 package com.crazyBird.model.enums;
 
 /**
+ * @author luogm
  *
  */
 public enum DeviceTypeEnum {
 	
 	WEB(0, "网站"),
 	APP(1, "APP"),
-	WEIXIN_APP(2, "微信小程�??");
+	WEIXIN_APP(2, "微信小程序");
 	
 	private DeviceTypeEnum(Integer code, String desc) {
 		this.code = code;

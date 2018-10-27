@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @Type MobileUtils
  * @Desc 
+ * @Version V1.0
  */
 public class MobileUtils extends StringUtils{
 	/**

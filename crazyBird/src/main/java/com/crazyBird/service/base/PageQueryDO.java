@@ -1,37 +1,75 @@
 package com.crazyBird.service.base;
 
+/**
+ * @Type PageQueryDO
+ * @Desc
+ * @author luogm
+ * @date 2014年2月11日
+ * @Version V1.0
+ */
 public class PageQueryDO {
-	public static final int DEFAULT_PAGE_SIZE = 10;
 
-	public static final int MAX_PAGE_SIZE = 200;
+    /**
+     * 默认每页显示的记录数
+     */
+    public static final int DEFAULT_PAGE_SIZE = 10;
 
-	protected int pageSize;
+    /**
+     * 每页最多显示的记录数
+     */
+    public static final int MAX_PAGE_SIZE = 200;
 
-	protected int pageIndex;
+    /**
+     * 一页大小
+     */
+    protected int pageSize;
 
-	public int getPageSize() {
-		return pageSize;
-	}
+    /**
+     * 当前页数，从 0开始，0代表第一页
+     */
+    protected int pageIndex;
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+    /**
+     * 获取一页的记录数
+     * 
+     * @return int
+     */
+    public int getPageSize() {
+        if (pageSize < 1) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+        return pageSize;
+    }
 
-	public int getPageIndex() {
-		return pageIndex;
-	}
+    /**
+     * 设置一页的记录数
+     * 
+     * @param pageSize
+     */
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 
-	public void setPageIndex(int pageIndex) {
-		this.pageIndex = pageIndex;
-	}
+    /**
+     * 设置当前页面
+     * 
+     * @param pageIndex
+     */
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
 
-	public static int getDefaultPageSize() {
-		return DEFAULT_PAGE_SIZE;
-	}
-
-	public static int getMaxPageSize() {
-		return MAX_PAGE_SIZE;
-	}
-
+    /**
+     * @return the pageIndex
+     */
+    public int getPageIndex() {
+        return pageIndex;
+    }
+    
+    /**
+     * 获取分页起始位置
+     */
+    public int getStartPos() {
+    	return getPageIndex() * getPageSize();
+    }
 }
-

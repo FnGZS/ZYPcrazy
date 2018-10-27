@@ -2,7 +2,7 @@ package com.crazyBird.exception;
 
 /**
  * @Type UploadException
- * @Desc 上传异常�?
+ * @Desc 上传异常类
  */
 public class UploadException extends Exception{
 

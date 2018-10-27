@@ -1,8 +1,5 @@
 package com.crazyBird.controller.base;
 
-/**
- * @author
- */
 public class AbstractOrderPageParam extends AbstractPageParam {
 	
     /**

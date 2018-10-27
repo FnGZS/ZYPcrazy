@@ -3,12 +3,15 @@ package com.crazyBird.model.enums;
 /**
  * @Type UserCollectionStatusEnum.java
  * @Desc
+ * @author shansj
+ * @date 2017年7月12日上午11:53:41
+ * @version V1.0
  */
 
 public enum UserCollectionStatusEnum {
     
-	NO_COLLECT(0, "未收�??"),
-	COLLECT(1, "已收�??");
+	NO_COLLECT(0, "未收藏"),
+	COLLECT(1, "已收藏");
 	
 	private UserCollectionStatusEnum(Integer code, String desc) {
 		this.code = code;

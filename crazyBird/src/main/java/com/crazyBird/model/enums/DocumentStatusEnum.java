@@ -3,13 +3,15 @@ package com.crazyBird.model.enums;
 /**
  * @Type DocumentStatusEnum.java
  * @Desc 
- * @date 2018�??10�??5�??
+ * @author luogm
+ * @date 2016年10月14日 下午5:13:12
+ * @Version V1.0
  */
 public enum DocumentStatusEnum {
 
 	NORMAL(0, "正常"),
 	DELETED(1, "删除"),
-	NOT_BIND(2, "上传未绑�??");
+	NOT_BIND(2, "上传未绑定");
 	
 	private DocumentStatusEnum(Integer code, String desc) {
 		this.code = code;

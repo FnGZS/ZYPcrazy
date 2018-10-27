@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.RestModelView;
 import com.crazyBird.dao.colla.dataobject.LogAnalysisDO;
+import com.crazyBird.exception.ParamException;
+import com.crazyBird.model.reqinfo.ReqParam;
 import com.crazyBird.service.colla.LogAnalysisService;
 import com.crazyBird.utils.JsonUtils;
 import com.crazyBird.utils.PropertiesUtils;
 import com.crazyBird.utils.RestLogUtils;
-import com.crazyBird.exception.ParamException;
-import com.crazyBird.model.reqinfo.ReqParam;
 import com.crazyBird.validate.ValidateProcess;
 import com.crazyBird.validate.common.ValidateResult;
 import com.google.common.base.Splitter;
 
 /**
  * @Type ParamValidateInterceptor
- * @Desc 参数验证拦截�?
+ * @Desc 参数验证拦截器
  */
 public class ParamValidateInterceptor implements MethodInterceptor {
 	
@@ -58,9 +58,9 @@ public class ParamValidateInterceptor implements MethodInterceptor {
                 }
                 ReqParam reqParam = (ReqParam) request.getAttribute("ReqParam");
                 reqParam.setFormParam(JsonUtils.toJSON(param));
-                // 获得Controller对象的传入参�?
+                // 获得Controller对象的传入参数
                 Class<?> paramType = param.getClass();
-                // 判断是否有验证注解信�?
+                // 判断是否有验证注解信息
                 if (ValidateProcess.hasAnnotation(paramType)) {
                     ValidateResult verifyResult = ValidateProcess.validateObject(param);
                     if (!verifyResult.isSuccess()) {
@@ -80,7 +80,7 @@ public class ParamValidateInterceptor implements MethodInterceptor {
                 resultObject = result;
             }
 
-            // 数据格式化处�?
+            // 数据格式化处理
             PropertiesUtils.setNullProperties(resultObject);
 
             // 日志输出:仅配置需要输出内容列表的才会输出

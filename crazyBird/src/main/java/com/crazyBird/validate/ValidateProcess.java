@@ -18,12 +18,13 @@ import net.sf.cglib.beans.BeanMap;
 
 /**
  * @Type ValidateProcess
- * @Desc 注释验证
+ * @Desc 注释验证�?
+ * @Version V1.0
  */
 public class ValidateProcess {
 
     /**
-     * 是否有注释验证信�??
+     * 是否有注释验证信�?
      * 
      * @param paramType
      * @return
@@ -59,7 +60,7 @@ public class ValidateProcess {
         if (entity == null) {
             return errorMap;
         }
-        // 获得对象,及继承对�??
+        // 获得对象,及继承对�?
         recursionFieldValidate(entity, errorMap);
         return errorMap;
     }
@@ -113,13 +114,13 @@ public class ValidateProcess {
             for (Field field : fields) {
                 String fieldName = field.getName();
                 Object object = fieldMap.get(fieldName);
-                // 当时List容器�??
+                // 当时List容器�?
                 if (object != null && field.getType().equals(List.class)) {
                     for (Object itemObject : (List<?>) object) {
                         recursionFieldValidate(itemObject, errorMap);
                     }
                 }
-                // 判断是个类对�??
+                // 判断是个类对�?
                 else if (object != null && !MobileUtils.isBaseObject(object)) {
                     recursionFieldValidate(object, errorMap);
                 }
@@ -161,7 +162,7 @@ public class ValidateProcess {
             }
             ValidateResult result = validate.validate();
             if (!result.isSuccess()) {
-                // �??个属性的错误合并到一�??
+                // �?个属性的错误合并到一�?
                 if (errorMap.containsKey(fieldName)) {
                     String data = errorMap.get(fieldName);
                     errorMap.put(fieldName, data + "," + result.getErrorMsg());

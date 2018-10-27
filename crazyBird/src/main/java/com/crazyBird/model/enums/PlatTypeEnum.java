@@ -1,6 +1,9 @@
 package com.crazyBird.model.enums;
 
-
+/**
+ * @author luogm
+ *
+ */
 public enum PlatTypeEnum {
 	
 	WEIXIN(1, "微信"),

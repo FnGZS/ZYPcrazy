@@ -2,7 +2,7 @@ package com.crazyBird.exception;
 
 /**
  * @Type ParamException
- * @Desc 参数异常�?
+ * @Desc 参数异常类
  */
 public class ParamException extends Exception{
 

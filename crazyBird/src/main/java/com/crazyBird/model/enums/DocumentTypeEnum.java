@@ -3,6 +3,9 @@ package com.crazyBird.model.enums;
 /**
  * @Type DocumentTypeEnum.java
  * @Desc
+ * @author
+ * @date 2017年9月22日下午1:56:06
+ * @version V1.0
  */
 
 public enum DocumentTypeEnum {

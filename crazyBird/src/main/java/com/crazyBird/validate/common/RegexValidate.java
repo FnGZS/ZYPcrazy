@@ -7,7 +7,7 @@ import com.crazyBird.utils.RegexUtils;
 public class RegexValidate extends AbstractValidate {
 
     /**
-     * 正则表达式规�??
+     * 正则表达式规�?
      */
     private String pattern;
 

@@ -2,7 +2,7 @@ package com.crazyBird.exception;
 
 /**
  * @Type ForceExitException
- * @Desc 强制�?出异�?
+ * @Desc 强制退出异常
  */
 public class ForceExitException extends Exception {
 

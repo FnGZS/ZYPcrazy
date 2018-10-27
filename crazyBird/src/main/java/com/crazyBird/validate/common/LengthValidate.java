@@ -5,12 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 public class LengthValidate extends AbstractValidate {
 
     /**
-     * �?小长�?
+     * �?小长�?
      */
     private int minLength;
 
     /**
-     * �?大长�?
+     * �?大长�?
      */
     private int maxLength;
 

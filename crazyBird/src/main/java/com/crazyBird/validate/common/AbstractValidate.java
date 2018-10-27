@@ -3,7 +3,7 @@ package com.crazyBird.validate.common;
 public abstract class AbstractValidate {
 
     /**
-     * 传入的�??
+     * 传入的�??
      */
     protected String value;
 

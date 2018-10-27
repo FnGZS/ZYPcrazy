@@ -2,7 +2,7 @@ package com.crazyBird.exception;
 
 /**
  * @Type CertificateException
- * @Desc 安全认证异常�?
+ * @Desc 安全认证异常类
  */
 public class CertificateException extends Exception {
 

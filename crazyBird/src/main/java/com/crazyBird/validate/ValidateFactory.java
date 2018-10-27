@@ -31,7 +31,7 @@ public class ValidateFactory {
     static {
         errorMap.put(DEFAULT_ERROR_FLAG.LENGTH_ANNO, "长度验证失败");
         errorMap.put(DEFAULT_ERROR_FLAG.NUMBER_ANNO, "数字验证失败");
-        errorMap.put(DEFAULT_ERROR_FLAG.REGEX_ANNO, "正则表达式验证失�??");
+        errorMap.put(DEFAULT_ERROR_FLAG.REGEX_ANNO, "正则表达式验证失�?");
         errorMap.put(DEFAULT_ERROR_FLAG.REQUIRE_ANNO, "非空验证失败");
     }
 

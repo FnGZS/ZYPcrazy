@@ -40,7 +40,7 @@ public class JsonUtils {
     }
 
     /**
-     * json格式转换成对�?
+     * json格式转换成对象
      * 
      * @param json
      * @param clazz
@@ -111,7 +111,7 @@ public class JsonUtils {
     }
     
     /**
-     * 读取名片识别的结�?
+     * 读取名片识别的结果
      * 
      */
     public static Map<String, String> getCard(String jsonString) {

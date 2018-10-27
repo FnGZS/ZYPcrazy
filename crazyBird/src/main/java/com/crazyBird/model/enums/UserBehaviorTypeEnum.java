@@ -3,6 +3,9 @@ package com.crazyBird.model.enums;
 /**
  * @Type UserBehaviorTypeEnum.java
  * @Desc 
+ * @author luo
+ * @date 2017年8月26日 下午1:52:07
+ * @Version V1.0
  */
 public enum UserBehaviorTypeEnum {
 	

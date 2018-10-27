@@ -17,13 +17,13 @@ public class PropertiesUtils {
 	
     private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
 
-    // 读取资源文件,并处理中文乱�?
+    // 读取资源文件,并处理中文乱码
     public static Properties readPropertiesFile(String filename) {
         Properties properties = new Properties();
         try {
             InputStream inputStream = new FileInputStream(filename);
             properties.load(inputStream);
-            inputStream.close(); // 关闭�?
+            inputStream.close(); // 关闭流
         } catch (IOException e) {
             properties = null;
             logger.info(e.getMessage());
@@ -31,7 +31,7 @@ public class PropertiesUtils {
         return properties;
     }
 
-    // 读取XML文件,并处理中文乱�?
+    // 读取XML文件,并处理中文乱码
     public static Properties readPropertiesFileFromXML(String filename) {
         Properties properties = new Properties();
         try {
@@ -47,7 +47,7 @@ public class PropertiesUtils {
     }
 
     /**
-     * 递归设置null字段�?""
+     * 递归设置null字段为""
      * 
      * @param entity
      */
@@ -83,7 +83,7 @@ public class PropertiesUtils {
                     }
                 }
             }
-            // 当时List容器�?
+            // 当时List容器时
             else if (field.getType().equals(List.class)) {
                 if (properties != null) {
                     for (Object obj : (List<?>) properties) {

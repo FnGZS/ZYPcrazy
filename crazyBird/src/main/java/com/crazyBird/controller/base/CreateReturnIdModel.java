@@ -1,10 +1,6 @@
 package com.crazyBird.controller.base;
 
-/**
- * @author 
- * @date 2016-08-03
- * @Version V1.0
- */
+
 public class CreateReturnIdModel extends AbstractFlagModel {
 
 	private Long id;

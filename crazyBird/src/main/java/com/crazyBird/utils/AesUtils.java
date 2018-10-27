@@ -16,6 +16,9 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @Type AesUtils
  * @Desc
+ * @author luogm
+ * @date 2014-2-11
+ * @Version V1.0
  */
 public class AesUtils {
     private static final Log logger = LogFactory.getLog(AesUtils.class);

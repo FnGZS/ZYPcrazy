@@ -2,9 +2,6 @@ package com.crazyBird.controller.base;
 
 import java.util.Map;
 
-/**
- * @author
- */
 public class AbstractSearchPageParam extends AbstractOrderPageParam {
 	
 	private Map<String, String> searchMap;

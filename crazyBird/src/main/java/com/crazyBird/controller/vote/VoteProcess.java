@@ -46,7 +46,6 @@ import com.crazyBird.utils.PageUtils;
 public class VoteProcess {
 	@Autowired
 	private VoteService voteService;
-
 	public VoteActionListModel getActionList(VoteActionParam param) {
 		VoteActionListModel model = new VoteActionListModel();
 		if (param.getStatus() == null) {

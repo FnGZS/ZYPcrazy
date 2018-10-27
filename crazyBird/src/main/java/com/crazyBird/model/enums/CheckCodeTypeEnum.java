@@ -1,13 +1,14 @@
 package com.crazyBird.model.enums;
 
 /**
- * @Desc 验证码类型枚�??
+ * @Desc 验证码类型枚举
+ * @author 
  */
 public enum CheckCodeTypeEnum {
 	
     REGISTER(0, "用户注册"),
 	CHANGE_PASSWORD(1, "修改密码"),
-	BIND_MOBILE(2, "绑定手机�??");
+	BIND_MOBILE(2, "绑定手机号");
 
 	private CheckCodeTypeEnum(Integer code, String message) {
 		this.code = code;

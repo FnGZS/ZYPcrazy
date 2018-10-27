@@ -36,7 +36,7 @@ public class RestLogUtils {
         ReqParam reqParam = (ReqParam) request.getAttribute("ReqParam");
         Date reqTime = (Date) request.getAttribute("req_time") != null ? (Date) request.getAttribute("req_time"): new Date();
         
-        boolean logResultObject = false; // 日志是否�?要打印返回结果对�?
+        boolean logResultObject = false; // 日志是否需要打印返回结果对象
         if(reqParam != null && StringUtils.isNotBlank(reqParam.getUrl())) {
         	// 打印接口返回对象信息
         	String url = reqParam.getUrl();

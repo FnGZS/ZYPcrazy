@@ -1,15 +1,12 @@
 package com.crazyBird.controller.base;
 
-/**
- * @author
- *
- */
+
 public abstract class AbstractFlagModel {
 	
     public static String SUCCESS = "200";
     
     /**
-     * 系统接口状�?�编�??,包括权限,异常等异常提�??
+     * 系统接口状态编码,包括权限,异常等异常提示
      */
     private String code = SUCCESS;
 

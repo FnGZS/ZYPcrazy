@@ -2,7 +2,7 @@ package com.crazyBird.exception;
 
 /**
  * @Type AuthorityException
- * @Desc 权限异常�?
+ * @Desc 权限异常类
  */
 public class AuthorityException extends Exception{
 

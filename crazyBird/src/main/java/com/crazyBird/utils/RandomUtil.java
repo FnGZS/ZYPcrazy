@@ -2,7 +2,10 @@ package com.crazyBird.utils;
 
 import java.util.Random;
 
-
+/**
+ * @author luogm
+ *
+ */
 public class RandomUtil {
 
 	/**
@@ -19,7 +22,7 @@ public class RandomUtil {
 	}
 	
 	/**
-	 * 获取随机n位数�?+字母,以字符串形式返回
+	 * 获取随机n位数字+字母,以字符串形式返回
 	 * @return
 	 */
 	public static String getRandomCharString(int num) {
@@ -33,7 +36,7 @@ public class RandomUtil {
 	}
 	
 	/**
-	 * 获取随机n位大写字�?,以字符串形式返回
+	 * 获取随机n位大写字母,以字符串形式返回
 	 * @return
 	 */
 	public static String getRandomUpperCharString(int num) {

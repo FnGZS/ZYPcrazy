@@ -9,7 +9,7 @@ import com.crazyBird.validate.extend.AbstractExecutor;
 
 public class CustomizeValidate extends AbstractValidate {
     /**
-     * 实例化容�??
+     * 实例化容�?
      */
     private static Map<String, AbstractExecutor> container = new HashMap<String, AbstractExecutor>();
 

@@ -20,14 +20,14 @@ import com.crazyBird.validate.ValidateFactory.DEFAULT_ERROR_FLAG;
 public @interface LengthAnno {
 	
     /**
-     * �??小长�??
+     * �?小长�?
      * 
      * @return
      */
     int minLength() default 1;
 
     /**
-     * �??大长�??
+     * �?大长�?
      * 
      * @return
      */

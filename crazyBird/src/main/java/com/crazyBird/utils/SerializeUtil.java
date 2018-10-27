@@ -8,11 +8,14 @@ import java.io.ObjectOutputStream;
 /**
  * @Type SerializeUtil.java
  * @Desc 
+ * @author luo
+ * @date 2017年7月25日 下午3:40:23
+ * @Version V1.0
  */
 public class SerializeUtil {
 	
 	/**
-	 * 序列�?
+	 * 序列化
 	 *
 	 * @param object
 	 * @return
@@ -21,7 +24,7 @@ public class SerializeUtil {
 		ObjectOutputStream oos = null;
 		ByteArrayOutputStream baos = null;
 		try {
-			// 序列�?
+			// 序列化
 			baos = new ByteArrayOutputStream();
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(object);

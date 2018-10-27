@@ -1,48 +1,63 @@
 package com.crazyBird.service.base;
 
+
+/**
+ * @Type ResponseDO
+ * @Desc 
+ * @author luogm
+ * @date 2014年2月11日
+ * @Version V1.0
+ */
 public class ResponseDO<T> {
-	private String code = "0";
 
-	private String message;
+    /**
+     * 返回code 0：成功 1：业务错误 （有异常，直接抛出自定义异常，框架层捕获处理）
+     */
+    private String code = ResponseCode.SUCCESS;
 
-	private T dataResult;
+    /**
+     * 消息
+     */
+    private String message;
 
-	public String getCode() {
-		return this.code;
-	}
+    private T dataResult;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getMessage() {
-		return this.message;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public T getDataResult() {
-		return (T) this.dataResult;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setDataResult(T dataResult) {
-		this.dataResult = dataResult;
-	}
+    public T getDataResult() {
+        return dataResult;
+    }
 
-	public void setResult(String code, String message) {
-		this.message = message;
-		this.code = code;
-	}
+    public void setDataResult(T dataResult) {
+        this.dataResult = dataResult;
+    }
 
-	public void setResult(String code, String message, T dataResult) {
-		this.message = message;
-		this.code = code;
-		this.dataResult = dataResult;
-	}
+    public void setResult(String code, String message) {
+        this.message = message;
+        this.code = code;
+    }
 
-	public boolean isSuccess() {
-		return ResponseCode.isSuccess(this.code);
-	}
+    public void setResult(String code, String message, T dataResult) {
+        this.message = message;
+        this.code = code;
+        this.dataResult = dataResult;
+    }
+
+    public boolean isSuccess() {
+        return ResponseCode.isSuccess(code);
+    }
 }

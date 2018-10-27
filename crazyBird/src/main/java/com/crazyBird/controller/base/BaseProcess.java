@@ -10,10 +10,6 @@ import com.crazyBird.controller.user.model.UserModel;
 import com.crazyBird.model.reqinfo.ReqParam;
 import com.crazyBird.utils.IPUtils;
 
-/**
- * @author 
- *
- */
 public abstract class BaseProcess {
 	
     /**
@@ -80,7 +76,7 @@ public abstract class BaseProcess {
     }
     
     /**
-     * 获得APP版本�?
+     * 获得APP版本号
      * 
      * @return
      */
@@ -92,7 +88,7 @@ public abstract class BaseProcess {
     }
     
     /**
-     * 获得用户浏览器类�?
+     * 获得用户浏览器类型
      * 
      * @return
      */
@@ -116,11 +112,25 @@ public abstract class BaseProcess {
         return (ReqParam) getRequest().getAttribute("ReqParam");
     }
     
+    public String getPicPath(String ossKey) {
+    	return getPicPath(ossKey, null);
+    }
     
-	// 样品图片列表展示�?大高�?
+    public String getPicPath(String ossKey, Integer picHigh) {
+    	if(StringUtils.isBlank(ossKey)) {
+    		return "";
+    	}
+    	if(picHigh != null && picHigh.intValue() != 0) {
+    		ossKey = ossKey + "?x-oss-process=image/resize,h_" + picHigh;
+    	}
+    	return null;
+    			//ServiceProperties.IMG_ENDPOINT + ossKey;
+    }
+    
+	// 样品图片列表展示最大高度
 	public static final int LABLE_TEMPLATE_PIC_MAX_HIGH = 400;
-	// 样品图片列表展示�?大高�?
+	// 样品图片列表展示最大高度
 	public static final int SAMPLE_PIC_LIST_MAX_HIGH = 180;
-	// 样品图片详情展示�?大高�?
+	// 样品图片详情展示最大高度
 	public static final int SAMPLE_PIC_DETAIL_MAX_HIGH = 1080;
 }

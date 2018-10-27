@@ -5,6 +5,9 @@ import com.crazyBird.exception.UploadException;
 /**
  * @Type UploadBizTypeEnum.java
  * @Desc 
+ * @author luogm
+ * @date 2017年5月11日 下午5:13:12
+ * @Version V1.0
  */
 public enum UploadBizTypeEnum {
 
@@ -12,10 +15,10 @@ public enum UploadBizTypeEnum {
 	USER_AVATAR(0, "useravatar/%s/%s.%s"),
 	USER(1, "user/%s/%s.%s"),
 
-	// 小程序模�??
+	// 小程序模块
 	WEIXIN_A_CODE(50, "weixinACode/%s.%s"),
 	
-	//纺织圈模�??
+	//纺织圈模块
 	CIRCLE_FACTORY_PIC_NEW(60,"circle/%s/factory/%s.%s"),
 	CIRCLE_FACTORY_PIC_UPDATE(61,"circle/%s/factory/%s.%s"),
 	CIRCLE_FACTORY_LICENSE(62,"circle/%s/license/%s.%s"),
@@ -47,6 +50,6 @@ public enum UploadBizTypeEnum {
 				return bizTypeEnum.getPath();
 			}
 		}
-		throw new UploadException("不支持该业务类型的图片上�??");
+		throw new UploadException("不支持该业务类型的图片上传");
 	}
 }

@@ -17,17 +17,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.crazyBird.controller.base.ErrorModel;
 import com.crazyBird.controller.base.RestModelView;
-import com.crazyBird.utils.RestLogUtils;
 import com.crazyBird.exception.AuthorityException;
 import com.crazyBird.exception.CertificateException;
 import com.crazyBird.exception.ForceExitException;
 import com.crazyBird.exception.ParamException;
 import com.crazyBird.exception.UploadException;
 import com.crazyBird.model.enums.BizStatusEnum;
+import com.crazyBird.utils.RestLogUtils;
 
 /**
  * @Type ExceptionResolver
  * @Desc 统一异常处理
+ * 
+ * @date 2016-08-08
+ * @version 1.0
  */
 public class ExceptionResolver implements HandlerExceptionResolver {
 	
@@ -48,7 +51,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
             // RestLogUtils.writeExceptionResolverByInfo(request, ex, logger);
             RestLogUtils.writeRestLogByInfo(request, error);
         }
-        // 其他用户登陆,强制�?�?
+        // 其他用户登陆,强制退出
         else if (ex instanceof ForceExitException) {
             error.setCode(BizStatusEnum.SYS_OTHER_LOGIN_ERROR.getCodeEnum().getCode());
             error.setMessage(BizStatusEnum.SYS_OTHER_LOGIN_ERROR.getMessage());
@@ -93,7 +96,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
             RestLogUtils.writeExceptionResolverByError(request, ex, logger);
             RestLogUtils.writeRestLogByInfo(request, error);
         }
-        // 上传超过�?大尺�?
+        // 上传超过最大尺寸
         else if (ex instanceof MaxUploadSizeExceededException) {
             error.setCode(BizStatusEnum.SYS_MAXUP_lOAD_SIZE.getCodeEnum().getCode());
             error.setMessage(BizStatusEnum.SYS_MAXUP_lOAD_SIZE.getMessage());
@@ -117,7 +120,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
                 RestLogUtils.writeExceptionResolverByError(request, ex, logger);
                 RestLogUtils.writeRestLogByInfo(request, error);
             }
-            // 错误流问�?
+            // 错误流问题
             else if (throwable.getUndeclaredThrowable().getClass().equals(ClosedChannelException.class)) {
                 ParamException paramException = (ParamException) throwable.getUndeclaredThrowable();
                 error.setCode(BizStatusEnum.SYS_PARAM_ERROR.getCodeEnum().getCode());
