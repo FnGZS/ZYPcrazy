@@ -16,7 +16,7 @@ public class AffairsController {
 	@Autowired
 	private AffairsProcess affairsProcess;
 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/getAffairsList" }, method = RequestMethod.GET)
 	@ResponseBody
 	public AffairsPageModel getAffairsList(AffairsPageParam param) throws UnsupportedEncodingException {
 		if (StringUtils.isNotBlank(param.getKey())) {
