@@ -17,7 +17,13 @@ public class VoteActionDetailDO {
 	private String political;
 	private String className;
 	private String post;
-	
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private String compete;
 	private String honor;
 	private String story;
