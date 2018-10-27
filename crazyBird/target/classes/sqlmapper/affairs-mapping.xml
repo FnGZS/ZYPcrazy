@@ -14,6 +14,13 @@
   <sql id="Base_Column_List" >
     id, title, affairs_pic, content, typeId, brows, subordinate, gmt_created, gmt_modified
   </sql>
+ <select id="getAffairsDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select 
+  <include refid="Base_Column_List" />
+  from affairs
+  where id = #{typeId,jdbcType=BIGINT}
+  limit 1
+  </select>
   <select id="getAffairsCount" resultType="java.lang.Integer">
   select count(*)
   from affairs
@@ -62,4 +69,14 @@
 	    	NOW()
 		)
 	</insert>
+  <update id="update" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsDO" >
+    update affairs
+    set title = #{title,jdbcType=VARCHAR},
+    	affairs_pic = #{affairsPic,jdbcType=VARCHAR},
+    	content = #{content,jdbcType=BLOB},
+   	 	typeId = #{typeId,jdbcType=BIGINT},
+    	subordinate = #{subordinate,jdbcType=VARCHAR},
+    	brows = brows + 1 
+    where  id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.controller.affairs.model.AddAffairsModel;
+import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsItem;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
@@ -86,6 +87,27 @@ public class AffairsProcess extends BaseProcess {
 		}
 		model.setMessage(response.getMessage());
 		model.setResult(response.getDataResult());
+		return model;
+	}
+
+	public AffairsDetailsModel getAffairsDetails(Long id) {
+		AffairsDetailsModel model = new AffairsDetailsModel();
+		AffairsDO detail = affairsService.getAffairsDetails(id);
+		if(detail!=null) {
+			AffairsItem affairs = new AffairsItem();
+			affairs.setId(detail.getId());
+			affairs.setTitle(detail.getTitle());
+			affairs.setAffairsPic(detail.getAffairsPic());
+			affairs.setContent(detail.getContent() == null ? "" : new String(detail.getContent()));
+			affairs.setTypeId(detail.getTypeId());
+			affairs.setBrows(detail.getBrows());
+			affairs.setSubordinate(detail.getSubordinate());
+			affairs.setGmtCreated(detail.getGmtCreated());
+			model.setDetails(affairs);
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		model.setMessage("无此项");
 		return model;
 	}
 }

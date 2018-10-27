@@ -12,5 +12,7 @@ public abstract interface AffairsService {
 
 	ResponseDO<Long> addAffair(AddAffairDO affair);
 
+	AffairsDO getAffairsDetails(Long id);
+
 
 }

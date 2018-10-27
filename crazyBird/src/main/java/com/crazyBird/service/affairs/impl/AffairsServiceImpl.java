@@ -40,5 +40,12 @@ public class AffairsServiceImpl implements AffairsService {
 		return result;
 	}
 
+	@Override
+	public AffairsDO getAffairsDetails(Long id) {
+		AffairsDO affairs = affairsDao.getAffairsDetails(id);
+		affairsDao.update(affairs);
+		return affairs;
+	}
+
 	
 }

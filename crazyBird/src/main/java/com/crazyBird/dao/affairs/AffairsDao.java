@@ -11,4 +11,8 @@ public abstract interface AffairsDao {
 	List<AffairsDO> getAffairs(AffairsPO po);
 
 	void addAffairs(AddAffairDO affair);
+
+	AffairsDO getAffairsDetails(Long id);
+
+	void update(AffairsDO affairs);
 }
