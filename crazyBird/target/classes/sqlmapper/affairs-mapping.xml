@@ -7,13 +7,21 @@
     <result column="affairs_pic" property="affairsPic" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="BLOB" />
     <result column="typeId" property="typeId" jdbcType="BIGINT" />
-    <result column="brows" property="brows" jdbcType="VARCHAR" />
+    <result column="brows" property="brows" jdbcType="BIGINT" />
+     <result column="subordinate" property="subordinate" jdbcType="BIGINT" />
     <result column="gmt_created" property="gmtCreated" jdbcType="VARCHAR" />
 </resultMap>
   <sql id="Base_Column_List" >
-    id, title, affairs_pic, content, typeId, brows, gmt_created, gmt_modified
+    id, title, affairs_pic, content, typeId, brows, subordinate, gmt_created, gmt_modified
   </sql>
-  <select id="getAffairsCount" resultType="java.lang.Long" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsPO">
+ <select id="getAffairsDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select 
+  <include refid="Base_Column_List" />
+  from affairs
+  where id = #{typeId,jdbcType=BIGINT}
+  limit 1
+  </select>
+  <select id="getAffairsCount" resultType="java.lang.Integer">
   select count(*)
   from affairs
   where id !=""
@@ -28,7 +36,7 @@
   	select 
   	<include refid="Base_Column_List" />
   	from affairs
-  	where id !=""
+  	where id !=''
     <if test="typeId != null">
   		AND typeId = #{typeId,jdbcType=INTEGER}
   	</if>
@@ -38,4 +46,37 @@
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+   <insert id="addAffairs" parameterType="com.crazyBird.dao.affairs.dataobject.AddAffairDO">
+	    insert into affairs (
+	    	title,
+	    	affairs_pic, 
+	    	content, 
+	    	typeId,
+	    	brows,
+	    	subordinate,
+	    	gmt_created,
+	    	gmt_modified
+	    )
+	    values 
+	    (
+	    	#{title,jdbcType=VARCHAR},
+	    	#{affairsPic,jdbcType=VARCHAR},
+	    	#{content,jdbcType=BLOB},
+	    	#{typeId,jdbcType=BIGINT},
+	    	1,
+	    	#{subordinate,jdbcType=VARCHAR},
+	    	NOW(),
+	    	NOW()
+		)
+	</insert>
+  <update id="update" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsDO" >
+    update affairs
+    set title = #{title,jdbcType=VARCHAR},
+    	affairs_pic = #{affairsPic,jdbcType=VARCHAR},
+    	content = #{content,jdbcType=BLOB},
+   	 	typeId = #{typeId,jdbcType=BIGINT},
+    	subordinate = #{subordinate,jdbcType=VARCHAR},
+    	brows = brows + 1 
+    where  id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>
