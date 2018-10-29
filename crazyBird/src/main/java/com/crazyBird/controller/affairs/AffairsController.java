@@ -3,6 +3,7 @@ package com.crazyBird.controller.affairs;
 import com.crazyBird.controller.affairs.model.AddAffairsModel;
 import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
+import com.crazyBird.controller.affairs.model.AffairsTypeModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import java.io.UnsupportedEncodingException;
@@ -21,6 +22,17 @@ public class AffairsController {
 	@Autowired
 	private AffairsProcess affairsProcess;
 
+	/**
+	 * 获取时事类别信息
+	 * @param param
+	 * @return
+	 * **/
+	@RequestMapping(value ="/Affairs/type", method = RequestMethod.GET)
+	@ResponseBody
+	public AffairsTypeModel getAffairsType() {
+		return affairsProcess.getAffairsType();
+	}
+	
 	/** 
 	 * 获得时事列表
 	 * @param param

@@ -1,9 +1,11 @@
 package com.crazyBird.service.affairs.impl;
 
 import com.crazyBird.dao.affairs.AffairsDao;
+import com.crazyBird.dao.affairs.AffairsMenuDao;
 import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
+import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
 import com.crazyBird.service.affairs.AffairsService;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 public class AffairsServiceImpl implements AffairsService {
 	@Autowired
 	private AffairsDao affairsDao;
+	@Autowired
+	private AffairsMenuDao affairsMenuDao;
 
 	public ResponsePageQueryDO<List<AffairsDO>> getAffairsList(AffairsPO po) {
 		ResponsePageQueryDO<List<AffairsDO>> response = new ResponsePageQueryDO<>();
@@ -45,6 +49,11 @@ public class AffairsServiceImpl implements AffairsService {
 		AffairsDO affairs = affairsDao.getAffairsDetails(id);
 		affairsDao.update(affairs);
 		return affairs;
+	}
+
+	@Override
+	public List<AffairsTypeDO> getAffairsType() {
+		return affairsMenuDao.getAffairsType();
 	}
 
 	
