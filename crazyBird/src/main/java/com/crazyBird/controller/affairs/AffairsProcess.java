@@ -8,12 +8,15 @@ import com.crazyBird.controller.affairs.model.AddAffairsModel;
 import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsItem;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
+import com.crazyBird.controller.affairs.model.AffairsTypeItem;
+import com.crazyBird.controller.affairs.model.AffairsTypeModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
+import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.affairs.AffairsService;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -108,6 +111,22 @@ public class AffairsProcess extends BaseProcess {
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("无此项");
+		return model;
+	}
+
+	public AffairsTypeModel getAffairsType() {
+		AffairsTypeModel model = new AffairsTypeModel();
+		List<AffairsTypeDO> tags = affairsService.getAffairsType();
+		if(CollectionUtil.isNotEmpty(tags)) {
+			List<AffairsTypeItem> items = new ArrayList<AffairsTypeItem>();
+			for(AffairsTypeDO tag : tags) {
+				AffairsTypeItem item = new AffairsTypeItem();
+				item.setTypeid(tag.getTypeid());
+				item.setTypeName(tag.getTypename());
+				items.add(item);
+			}
+			model.setTags(items);
+		}
 		return model;
 	}
 }
