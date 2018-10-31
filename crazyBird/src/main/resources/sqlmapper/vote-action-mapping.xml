@@ -15,6 +15,8 @@
 			jdbcType="VARCHAR" />
 		<result column="telephone" property="telephone"
 			jdbcType="VARCHAR" />
+		<result column="vote_min" property="voteMin" jdbcType="INTEGER" />
+		<result column="vote_max" property="voteMax" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="visit_num" property="visitNum"
 			jdbcType="BIGINT" />
@@ -25,7 +27,7 @@
 			jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, action_name, action_introduce, vote_ruler, host, action_image,
+		id, action_name, action_introduce, vote_ruler, host,vote_min,vote_max, action_image,
 		telephone, status, visit_num,vote_sum, start_time, end_time
 	</sql>
 	<select id="getVoteActionlist" resultMap="BaseResultMap"
@@ -45,8 +47,7 @@
 	<select id="getVoteAction" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		id,action_name, action_introduce, vote_ruler, host, action_image, telephone, status,
-		visit_num,vote_sum, start_time, end_time
+			<include refid="Base_Column_List" />
 		from vote_action where id=#{id,jdbcType=BIGINT}
 	</select>
 	<select id="getVoteActionHotList" resultMap="BaseResultMap">

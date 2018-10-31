@@ -14,6 +14,13 @@ public class VoteActionDetailModel extends AbstractFlagModel{
 	private String post;
 	private String compete;
 	private String honor;
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private String story;
 	private String recommend;
 	private Long num;
