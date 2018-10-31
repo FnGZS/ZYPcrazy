@@ -21,6 +21,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/user/binding");
     	notVerifyUrlList.add("/user/login");
     	notVerifyUrlList.add("/vote");
+    	notVerifyUrlList.add("/affairs");
         
         loginNotNecessaryUrlList.add("/user/account/public");
         

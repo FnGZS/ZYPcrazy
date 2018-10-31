@@ -27,7 +27,7 @@ public class AffairsController {
 	 * @param param
 	 * @return
 	 * **/
-	@RequestMapping(value ="/Affairs/type", method = RequestMethod.GET)
+	@RequestMapping(value ="/type", method = RequestMethod.GET)
 	@ResponseBody
 	public AffairsTypeModel getAffairsType() {
 		return affairsProcess.getAffairsType();
