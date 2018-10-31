@@ -110,9 +110,9 @@ public class VoteController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/record",method = RequestMethod.POST)
+	@RequestMapping(value = "/record",method = RequestMethod.GET)
 	@ResponseBody
-	public VoteActionRecordModel getVoteActionRecord(@RequestBody VoteActionRecordParam param) {
+	public VoteActionRecordModel getVoteActionRecord(VoteActionRecordParam param) {
 		return voteProcess.getVoteActionRecord(param);	
 	}
 }

@@ -10,23 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.admin.controller.base.SimpleFlagModel;
-import com.admin.controller.vote.model.VoteActionCheckRecordModel;
-import com.admin.controller.vote.model.VoteActionDetailItem;
 import com.admin.controller.vote.model.VoteActionDetailListModel;
-import com.admin.controller.vote.model.VoteActionDetailModel;
 import com.admin.controller.vote.model.VoteActionDetailRankModel;
 import com.admin.controller.vote.model.VoteActionHotListModel;
 import com.admin.controller.vote.model.VoteActionListModel;
 import com.admin.controller.vote.model.VoteActionRecordModel;
-import com.admin.controller.vote.param.VoteActionDeleteParam;
-import com.admin.controller.vote.param.VoteActionDetailListParam;
 import com.admin.controller.vote.param.VoteActionDetailParam;
 import com.admin.controller.vote.param.VoteActionParam;
 import com.admin.controller.vote.param.VoteActionStatusParam;
+import com.admin.controller.vote.param.VoteRecordParam;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
-import com.admin.controller.vote.param.VoteRecordParam;
-import com.admin.service.vote.VoteService;
 
 /**
  * 
@@ -89,26 +83,29 @@ public class VoteController {
 		return voteProcess.getActionDetailByRank(id);
 	}
 	/**
-	 * 某个用户或活动的投票记录
-	 * @param id
+	 * 某个用户或活动投票记录
+	 * @param param
 	 * @return
 	 */
-	@RequestMapping(value = "/user/record",method = RequestMethod.POST)
+	@RequestMapping(value = "/user",method = RequestMethod.GET)
 	@ResponseBody
-	public VoteActionRecordModel getVoteActionUserRecord(@RequestBody VoteActionRecordParam param) {
+	public VoteActionRecordModel getVoteActionUserRecord(VoteActionRecordParam param) {
 		return voteProcess.getVoteActionRecord(param);	
 	}
 	/**
-	 * 添加活动
+	  * 添加活动
+	 * @param param
+	 * @return
 	 */
 	@RequestMapping(value = "/action/add",method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleFlagModel addVoteAction(@RequestBody VoteActionParam param) {
 		return null;
 	}
-	
 	/**
 	 * 添加活动详情(候选人)
+	 * @param param
+	 * @return
 	 */
 	@RequestMapping(value = "/detail/add",method = RequestMethod.POST)
 	@ResponseBody
@@ -116,30 +113,44 @@ public class VoteController {
 		return null;
 	}
 	/**
-	   * 修改活动
+	 * 修改活动
+	 * @param param
+	 * @return
 	 */
-	@RequestMapping(value = "/action/update",method = RequestMethod.POST)
+	@RequestMapping(value = "/action/update",method = RequestMethod.PUT)
 	@ResponseBody
 	public SimpleFlagModel updateVoteAction(@RequestBody VoteActionParam param) {
 		return null;
 	}
 	
 	/**
-	  * 修改活动详情
+	 * 修改活动详情(候选人)
+	 * @param param
+	 * @return
 	 */
-	@RequestMapping(value = "/detail/update",method = RequestMethod.POST)
+	@RequestMapping(value = "/detail/update",method = RequestMethod.PUT)
 	@ResponseBody
 	public SimpleFlagModel updateVoteActionDetail(@RequestBody VoteActionDetailParam param) {
 		return null;
 	}
 	/**
-	 * 删除活动或活动详情
+	 * 删除活动
+	 * @param id
+	 * @return
 	 */
-	@RequestMapping(value = "/delete",method = RequestMethod.POST)
+	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	@ResponseBody
-	public SimpleFlagModel daleteVoteActionDetail(@RequestBody VoteActionDeleteParam param) {
+	public SimpleFlagModel daleteVoteAction(@PathVariable Long id) {
 		return null;
 	}
-	
-
+	/**
+	 * 删除活动详情(候选人)
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/delete/detail/{id}",method = RequestMethod.DELETE)
+	@ResponseBody
+	public SimpleFlagModel daleteVoteActionDetail(@PathVariable Long id) {
+		return null;
+	}
 }

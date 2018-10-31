@@ -14,12 +14,14 @@ import com.admin.service.base.ResponseDO;
 import com.admin.service.base.ResponsePageQueryDO;
 
 public interface VoteService {
-	public ResponsePageQueryDO<List<VoteActionDO>> getVoteActionList(VoteActionPO po);
-	public List<VoteActionDetailDO> getActionDetailList(Long id);
-	public VoteActionDO getAction(Long id);
-	public List<VoteActionDO> getVoteActionHotList();
-	public List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
-	public List<VoteActionDetailDO> getActionDetailByRank(Long id);
-	public ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
+	ResponsePageQueryDO<List<VoteActionDO>> getVoteActionList(VoteActionPO po);
+	List<VoteActionDetailDO> getActionDetailList(Long id);
+	VoteActionDO getAction(Long id);
+	List<VoteActionDO> getVoteActionHotList();
+	List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
+	List<VoteActionDetailDO> getActionDetailByRank(Long id);
+	ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
+	int 
+ 
 	
 }

@@ -130,6 +130,8 @@ public class VoteProcess {
 		model.setActionImage(voteActionDO.getActionImage());
 		model.setId(voteActionDO.getId());
 		model.setStatus(voteActionDO.getStatus());
+		model.setVoteMax(voteActionDO.getVoteMax());
+		model.setVoteMin(voteActionDO.getVoteMin());
 		model.setTelephone(voteActionDO.getTelephone());
 		model.setVisitNum(voteActionDO.getVisitNum());
 		model.setVoteRuler(voteActionDO.getVoteRuler());
@@ -238,6 +240,8 @@ public class VoteProcess {
 				item.setStatus(tag.getStatus());
 				item.setTelephone(tag.getTelephone());
 				item.setVisitNum(tag.getVisitNum());
+				item.setVoteMin(tag.getVoteMin());
+				item.setVoteMax(tag.getVoteMax());
 				item.setVoteRuler(tag.getVoteRuler());
 				item.setVoteSum(tag.getVoteSum());
 				actionItems.add(item);
