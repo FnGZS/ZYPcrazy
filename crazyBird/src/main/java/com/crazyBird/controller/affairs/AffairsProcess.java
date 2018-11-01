@@ -65,7 +65,9 @@ public class AffairsProcess extends BaseProcess {
 					item.setTypeId(dataResult.getTypeId());
 					item.setBrows(dataResult.getBrows());
 					item.setSubordinate(dataResult.getSubordinate());
-					item.setGmtCreated(dataResult.getGmtCreated());
+					item.setYear(dataResult.getGmtCreated().substring(0, 4));
+					item.setDay(dataResult.getGmtCreated().substring(5, 11));
+					item.setMinute(dataResult.getGmtCreated().substring(11, 19));
 					items.add(item);
 				}
 			}
@@ -105,7 +107,9 @@ public class AffairsProcess extends BaseProcess {
 			affairs.setTypeId(detail.getTypeId());
 			affairs.setBrows(detail.getBrows());
 			affairs.setSubordinate(detail.getSubordinate());
-			affairs.setGmtCreated(detail.getGmtCreated());
+			affairs.setYear(detail.getGmtCreated().substring(0, 4));
+			affairs.setDay(detail.getGmtCreated().substring(5, 11));
+			affairs.setMinute(detail.getGmtCreated().substring(11, 19));
 			model.setDetails(affairs);
 			return model;
 		}

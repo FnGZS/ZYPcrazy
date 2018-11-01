@@ -8,7 +8,11 @@ public class AffairsItem {
 	private Long typeId;
 	private Long brows;
 	private String subordinate;
-	private String gmtCreated;
+	
+	private String year;
+	private String day;
+	private String minute;
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,11 +55,23 @@ public class AffairsItem {
 	public void setSubordinate(String subordinate) {
 		this.subordinate = subordinate;
 	}
-	public String getGmtCreated() {
-		return gmtCreated;
+	public String getYear() {
+		return year;
 	}
-	public void setGmtCreated(String gmtCreated) {
-		this.gmtCreated = gmtCreated;
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getMinute() {
+		return minute;
+	}
+	public void setMinute(String minute) {
+		this.minute = minute;
 	}
 
 
