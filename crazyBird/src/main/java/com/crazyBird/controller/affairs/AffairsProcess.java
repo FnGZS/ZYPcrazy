@@ -47,8 +47,8 @@ public class AffairsProcess extends BaseProcess {
 			model.setItems(convertDemands(response.getDataResult()));
 		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage(response.getMessage());
 		}
+		model.setMessage(response.getMessage());
 		return model;
 	}
 

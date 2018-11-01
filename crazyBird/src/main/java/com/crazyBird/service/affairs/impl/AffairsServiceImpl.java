@@ -27,6 +27,8 @@ public class AffairsServiceImpl implements AffairsService {
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
 			List<AffairsDO> dataResult = affairsDao.getAffairs(po);
 			response.setDataResult(dataResult);
+		}else {
+			response.setMessage("到底了");
 		}
 		return response;
 	}
