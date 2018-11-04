@@ -10,6 +10,8 @@ import com.crazyBird.controller.affairs.model.AffairsItem;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeItem;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
+import com.crazyBird.controller.affairs.model.BroadItem;
+import com.crazyBird.controller.affairs.model.BroadModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import com.crazyBird.controller.base.BaseProcess;
@@ -17,6 +19,7 @@ import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
+import com.crazyBird.dao.affairs.dataobject.BroadDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.affairs.AffairsService;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -127,6 +130,22 @@ public class AffairsProcess extends BaseProcess {
 				AffairsTypeItem item = new AffairsTypeItem();
 				item.setTypeid(tag.getTypeid());
 				item.setTypeName(tag.getTypename());
+				items.add(item);
+			}
+			model.setTags(items);
+		}
+		return model;
+	}
+
+	public BroadModel getBroad() {
+		BroadModel model = new BroadModel();
+		List<BroadDO> broads = affairsService.getBroad();
+		if(CollectionUtil.isNotEmpty(broads)) {
+			List<BroadItem> items = new ArrayList<BroadItem>();
+			for(BroadDO broad : broads) {
+				BroadItem item = new BroadItem();
+				item.setId(broad.getId());
+				item.setPicture(broad.getPicture());
 				items.add(item);
 			}
 			model.setTags(items);

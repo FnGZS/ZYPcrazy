@@ -79,6 +79,11 @@ public class UserLoginServiceImpl implements UserLoginService {
 		ResponseDO<BindingDO> responseDO = new ResponseDO<>();
 		BingDO bing = new BingDO();
 		UserDO userBinding = userDao.seletUserBySnum(binding.getSchoolNum());
+		if(userBinding == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("无此学号");
+			return responseDO;
+		}
 		if (!userBinding.getPassword().equals(binding.getPassword())) {
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage("密码错误");

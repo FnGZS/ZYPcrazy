@@ -4,6 +4,7 @@ import com.crazyBird.controller.affairs.model.AddAffairsModel;
 import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
+import com.crazyBird.controller.affairs.model.BroadModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import java.io.UnsupportedEncodingException;
@@ -69,5 +70,15 @@ public class AffairsController {
 	public AddAffairsModel addAffair(@RequestBody AddAffairsParam param) {
 		return affairsProcess.addAffair(param);
 	}
+	
+	/**
+	 * 轮播图
+	 * */
+	@RequestMapping(value ="/broad", method = RequestMethod.GET)
+	@ResponseBody
+	public BroadModel getBroad() {
+		return affairsProcess.getBroad();
+	}
+	
 	
 }
