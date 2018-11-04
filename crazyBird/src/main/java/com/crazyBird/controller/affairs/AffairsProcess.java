@@ -10,6 +10,8 @@ import com.crazyBird.controller.affairs.model.AffairsItem;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeItem;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
+import com.crazyBird.controller.affairs.model.BroadItem;
+import com.crazyBird.controller.affairs.model.BroadModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import com.crazyBird.controller.base.BaseProcess;
@@ -17,6 +19,7 @@ import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
+import com.crazyBird.dao.affairs.dataobject.BroadDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.affairs.AffairsService;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -47,8 +50,8 @@ public class AffairsProcess extends BaseProcess {
 			model.setItems(convertDemands(response.getDataResult()));
 		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage(response.getMessage());
 		}
+		model.setMessage(response.getMessage());
 		return model;
 	}
 
@@ -65,7 +68,9 @@ public class AffairsProcess extends BaseProcess {
 					item.setTypeId(dataResult.getTypeId());
 					item.setBrows(dataResult.getBrows());
 					item.setSubordinate(dataResult.getSubordinate());
-					item.setGmtCreated(dataResult.getGmtCreated());
+					item.setYear(dataResult.getGmtCreated().substring(0, 4));
+					item.setDay(dataResult.getGmtCreated().substring(5, 11));
+					item.setMinute(dataResult.getGmtCreated().substring(11, 19));
 					items.add(item);
 				}
 			}
@@ -105,7 +110,9 @@ public class AffairsProcess extends BaseProcess {
 			affairs.setTypeId(detail.getTypeId());
 			affairs.setBrows(detail.getBrows());
 			affairs.setSubordinate(detail.getSubordinate());
-			affairs.setGmtCreated(detail.getGmtCreated());
+			affairs.setYear(detail.getGmtCreated().substring(0, 4));
+			affairs.setDay(detail.getGmtCreated().substring(5, 11));
+			affairs.setMinute(detail.getGmtCreated().substring(11, 19));
 			model.setDetails(affairs);
 			return model;
 		}
@@ -123,6 +130,22 @@ public class AffairsProcess extends BaseProcess {
 				AffairsTypeItem item = new AffairsTypeItem();
 				item.setTypeid(tag.getTypeid());
 				item.setTypeName(tag.getTypename());
+				items.add(item);
+			}
+			model.setTags(items);
+		}
+		return model;
+	}
+
+	public BroadModel getBroad() {
+		BroadModel model = new BroadModel();
+		List<BroadDO> broads = affairsService.getBroad();
+		if(CollectionUtil.isNotEmpty(broads)) {
+			List<BroadItem> items = new ArrayList<BroadItem>();
+			for(BroadDO broad : broads) {
+				BroadItem item = new BroadItem();
+				item.setId(broad.getId());
+				item.setPicture(broad.getPicture());
 				items.add(item);
 			}
 			model.setTags(items);

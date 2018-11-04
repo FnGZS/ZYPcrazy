@@ -2,10 +2,12 @@ package com.crazyBird.service.affairs.impl;
 
 import com.crazyBird.dao.affairs.AffairsDao;
 import com.crazyBird.dao.affairs.AffairsMenuDao;
+import com.crazyBird.dao.affairs.BroadDao;
 import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
+import com.crazyBird.dao.affairs.dataobject.BroadDO;
 import com.crazyBird.service.affairs.AffairsService;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -19,7 +21,10 @@ public class AffairsServiceImpl implements AffairsService {
 	private AffairsDao affairsDao;
 	@Autowired
 	private AffairsMenuDao affairsMenuDao;
-
+	@Autowired
+	private BroadDao broadDao;
+	
+	
 	public ResponsePageQueryDO<List<AffairsDO>> getAffairsList(AffairsPO po) {
 		ResponsePageQueryDO<List<AffairsDO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
@@ -27,6 +32,8 @@ public class AffairsServiceImpl implements AffairsService {
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
 			List<AffairsDO> dataResult = affairsDao.getAffairs(po);
 			response.setDataResult(dataResult);
+		}else {
+			response.setMessage("到底了");
 		}
 		return response;
 	}
@@ -54,6 +61,11 @@ public class AffairsServiceImpl implements AffairsService {
 	@Override
 	public List<AffairsTypeDO> getAffairsType() {
 		return affairsMenuDao.getAffairsType();
+	}
+
+	@Override
+	public List<BroadDO> getBroad() {
+		return broadDao.getBroad();
 	}
 
 	
