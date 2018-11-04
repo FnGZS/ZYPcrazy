@@ -21,7 +21,6 @@ public interface VoteService {
 	List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
 	List<VoteActionDetailDO> getActionDetailByRank(Long id);
 	ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
-	int 
  
 	
 }

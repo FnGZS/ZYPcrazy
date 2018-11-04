@@ -21,6 +21,8 @@ import com.crazyBird.controller.vote.model.VoteActionItem;
 import com.crazyBird.controller.vote.model.VoteActionListModel;
 import com.crazyBird.controller.vote.model.VoteActionRecordItem;
 import com.crazyBird.controller.vote.model.VoteActionRecordModel;
+import com.crazyBird.controller.vote.model.VoteActionSlideItem;
+import com.crazyBird.controller.vote.model.VoteActionSlideModel;
 import com.crazyBird.controller.vote.param.VoteActionDetailListParam;
 import com.crazyBird.controller.vote.param.VoteActionDetailParam;
 import com.crazyBird.controller.vote.param.VoteActionParam;
@@ -33,6 +35,7 @@ import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionPO;
 import com.crazyBird.dao.vote.dataobject.VoteActionRecordDTO;
 import com.crazyBird.dao.vote.dataobject.VoteActionRecordPO;
+import com.crazyBird.dao.vote.dataobject.VoteActionSlideDO;
 import com.crazyBird.dao.vote.dataobject.VoteRecordDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
@@ -161,6 +164,33 @@ public class VoteProcess {
 		List<VoteActionItem> actionItems = convertVoteAction(actionList);
 		model.setVoteList(actionItems);
 		return model;
+	}
+	
+	public VoteActionHotListModel getVoteActionHot() {
+		VoteActionHotListModel model = new VoteActionHotListModel();
+		List<VoteActionDO> actionList = voteService.getVoteActionHot();
+		if (CollectionUtil.isEmpty(actionList)) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("暂无进行中的热门活动");
+			return model;
+		}
+		List<VoteActionItem> actionItems = convertVoteAction(actionList);
+		model.setVoteList(actionItems);
+		return model;
+	}
+	public VoteActionSlideModel getVoteActionSlide() {
+		VoteActionSlideModel model = new VoteActionSlideModel();
+		List<VoteActionSlideDO> tags = voteService.getVoteActionSlide();
+		List<VoteActionSlideItem> items = new ArrayList<>();
+		for (VoteActionSlideDO tag: tags) {
+			VoteActionSlideItem item = new VoteActionSlideItem();
+			item.setActionId(tag.getActionId());
+			item.setPicUrl(tag.getPicUrl());
+			items.add(item);
+		}
+		model.setItems(items);
+		return model;
+		
 	}
 	public SimpleFlagModel createVoteDetailNum(VoteActionDetailListParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();

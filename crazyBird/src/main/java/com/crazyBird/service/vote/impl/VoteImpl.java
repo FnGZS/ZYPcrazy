@@ -9,12 +9,14 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.vote.VoteDao;
 import com.crazyBird.dao.vote.VoteDetailDao;
 import com.crazyBird.dao.vote.VoteRecordDao;
+import com.crazyBird.dao.vote.VoteSlideDao;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionPO;
 import com.crazyBird.dao.vote.dataobject.VoteActionRecordDTO;
 import com.crazyBird.dao.vote.dataobject.VoteActionRecordPO;
+import com.crazyBird.dao.vote.dataobject.VoteActionSlideDO;
 import com.crazyBird.dao.vote.dataobject.VoteRecordDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
@@ -30,6 +32,8 @@ public class VoteImpl implements VoteService {
 	private VoteDetailDao voteDetailDao;
 	@Autowired
 	private VoteRecordDao voteRecordDao;
+	@Autowired
+	private VoteSlideDao voteSlideDao;
 
 	@Override
 	public ResponsePageQueryDO<List<VoteActionDO>> getVoteActionList(VoteActionPO po) {
@@ -139,5 +143,14 @@ public class VoteImpl implements VoteService {
 	@Override
 	public Integer checkActionStatus(Long id) {
 		return voteDao.checkVoteAction(id);
+	}
+	@Override
+	public List<VoteActionDO> getVoteActionHot() {
+		return voteDao.getVoteActionHot();
+	}
+	@Override
+	public List<VoteActionSlideDO> getVoteActionSlide() {
+		// TODO Auto-generated method stub
+		return voteSlideDao.getVoteActionSlide();
 	}
 }

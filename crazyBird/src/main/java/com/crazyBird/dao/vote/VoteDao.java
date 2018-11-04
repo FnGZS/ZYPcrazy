@@ -5,6 +5,7 @@ import java.util.List;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionPO;
+import com.crazyBird.dao.vote.dataobject.VoteActionSlideDO;
 import com.crazyBird.dao.vote.dataobject.VoteRecordDO;
 
 public interface VoteDao {
@@ -30,5 +31,9 @@ public interface VoteDao {
 	Integer getVoteActionCount(Integer status);
 	//检测活动状态
 	Integer checkVoteAction(Long id);
+	
+	//得到特别推荐活动
+	List<VoteActionDO> getVoteActionHot();
+
 	
 }

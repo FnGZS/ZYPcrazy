@@ -54,7 +54,7 @@
 			<set>
 				num=num+1
 			</set>
-			where id in
+			where serial_id in
 			<foreach collection="list" item="id" index="index" open="(" close=")" separator=","> 
 			#{id,jdbcType=BIGINT} 
 		</foreach>

@@ -18,6 +18,7 @@ import com.crazyBird.controller.vote.model.VoteActionDetailRankModel;
 import com.crazyBird.controller.vote.model.VoteActionHotListModel;
 import com.crazyBird.controller.vote.model.VoteActionListModel;
 import com.crazyBird.controller.vote.model.VoteActionRecordModel;
+import com.crazyBird.controller.vote.model.VoteActionSlideModel;
 import com.crazyBird.controller.vote.param.VoteActionDetailListParam;
 import com.crazyBird.controller.vote.param.VoteActionParam;
 import com.crazyBird.controller.vote.param.VoteActionRecordParam;
@@ -67,13 +68,30 @@ public class VoteController {
 		return voteProcess.createVoteDetailNum(param);	
 	}
 	/**
-	 * 获得进行中的三个热门活动
+	 * 获得三个热门活动
 	 * @return
 	 */
 	@RequestMapping(value = "/getAction/hot",method = RequestMethod.GET)
 	@ResponseBody
 	public VoteActionHotListModel getVoteActionHotList() {
 		return voteProcess.getVoteActionHotList();	
+	}
+	/**
+	 * 获得特别推荐的活动
+	 * @return
+	 */
+	@RequestMapping(value = "/getAction/special",method = RequestMethod.GET)
+	@ResponseBody
+	public VoteActionHotListModel getVoteActionHot() {
+		return voteProcess.getVoteActionHot();	
+	}
+	/**
+	 * 获得投票界面幻灯片图
+	 */
+	@RequestMapping(value = "/getAction/slide",method = RequestMethod.GET)
+	@ResponseBody
+	public VoteActionSlideModel getVoteActionSlide() {
+		return voteProcess.getVoteActionSlide();	
 	}
 	/**
 	  * 搜索候选人
@@ -115,4 +133,5 @@ public class VoteController {
 	public VoteActionRecordModel getVoteActionRecord(VoteActionRecordParam param) {
 		return voteProcess.getVoteActionRecord(param);	
 	}
+	
 }
