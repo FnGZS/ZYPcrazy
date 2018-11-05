@@ -21,6 +21,8 @@ public interface VoteDetailDao {
 	//搜索
 	
 	List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
-	
+
+	//新增活动详情
+	int insertVoteActionDetail(VoteActionDetailDO detailDO);
 	
 }

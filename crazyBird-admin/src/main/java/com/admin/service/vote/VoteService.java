@@ -21,6 +21,10 @@ public interface VoteService {
 	List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
 	List<VoteActionDetailDO> getActionDetailByRank(Long id);
 	ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
- 
+	//新增活动
+	int insertVoteAction(VoteActionDO actionDO);
+
+	//新增活动详情
+	int insertVoteActionDetail(VoteActionDetailDO detailDO);
 	
 }

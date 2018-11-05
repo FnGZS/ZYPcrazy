@@ -5,6 +5,20 @@ import com.admin.controller.base.AbstractFlagModel;
 public class VoteActionDetailModel extends AbstractFlagModel{
 	private Long id;
 	private Long actionId;
+	public Long getSerialId() {
+		return serialId;
+	}
+	public void setSerialId(Long serialId) {
+		this.serialId = serialId;
+	}
+	private Long serialId;
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private String peopleName;
 	private String imageUrl;
 	private String content;

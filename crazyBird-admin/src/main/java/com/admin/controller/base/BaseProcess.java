@@ -127,7 +127,7 @@ public abstract class BaseProcess {
     	if(picHigh != null && picHigh.intValue() != 0) {
     		ossKey = ossKey + "?x-oss-process=image/resize,h_" + picHigh;
     	}
-    	return ServiceProperties.IMG_ENDPOINT + ossKey;
+    	return null;
     }
     
 	// 样品图片列表展示�?大高�?

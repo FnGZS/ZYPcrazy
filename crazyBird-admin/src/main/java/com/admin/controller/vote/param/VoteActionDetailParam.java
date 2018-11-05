@@ -1,14 +1,21 @@
 package com.admin.controller.vote.param;
 
 public class VoteActionDetailParam {
+	private Long id;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	private Long actionId;
+	private Long serialId;
 	public Long getSerialId() {
 		return serialId;
 	}
 	public void setSerialId(Long serialId) {
 		this.serialId = serialId;
 	}
-	private Long serialId;
 	private String peopleName;
 	private String imageUrl;
 	private String content;
@@ -18,6 +25,13 @@ public class VoteActionDetailParam {
 	private String post;
 	private String compete;
 	private String honor;
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private String story;
 	private String recommend;
 	private Long num;
@@ -99,4 +113,5 @@ public class VoteActionDetailParam {
 	public void setRecommend(String recommend) {
 		this.recommend = recommend;
 	}
+
 }

@@ -23,7 +23,9 @@ import com.admin.controller.vote.model.VoteActionListModel;
 import com.admin.controller.vote.model.VoteActionRecordItem;
 import com.admin.controller.vote.model.VoteActionRecordModel;
 import com.admin.controller.vote.param.VoteActionDetailListParam;
+import com.admin.controller.vote.param.VoteActionDetailParam;
 import com.admin.controller.vote.param.VoteActionGetDetailParam;
+import com.admin.controller.vote.param.VoteActionParam;
 import com.admin.controller.vote.param.VoteActionStatusParam;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
@@ -132,6 +134,8 @@ public class VoteProcess {
 		model.setEndTime(DateUtil.formatDate(voteActionDO.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
 		model.setHost(voteActionDO.getHost());
 		model.setActionImage(voteActionDO.getActionImage());
+		model.setVoteMax(voteActionDO.getVoteMax());
+		model.setVoteMin(voteActionDO.getVoteMin());
 		model.setId(voteActionDO.getId());
 		model.setStatus(voteActionDO.getStatus());
 		model.setTelephone(voteActionDO.getTelephone());
@@ -184,13 +188,56 @@ public class VoteProcess {
 		model.setVoteDetailList(convertVoteActionDetail(tags));
 		return model;
 	}
-	/*public Date getdate() {
-		String date = "1258-12-08 12:54:20";
-		Date newDate= DateUtil.getStringToDate(date, DateUtil.DATE_FORMAT_YMDHMS);
-		return null;
+	public SimpleFlagModel addVoteAction(VoteActionParam param){
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionDO actionDO = new VoteActionDO();
+		actionDO.setActionImage(param.getActionImage());
+		actionDO.setActionIntro(param.getActionIntro());
+		actionDO.setActionName(param.getActionName());
+		actionDO.setEndTime(param.getEndTime());
+		actionDO.setHost(param.getHost());
+		actionDO.setStartTime(param.getStartTime());
+		actionDO.setStatus(param.getStatus());
+		actionDO.setTelephone(param.getTelephone());
+		actionDO.setVisitNum(param.getVisitNum());
+		actionDO.setVoteMax(param.getVoteMax());
+		actionDO.setVoteMin(param.getVoteMin());
+		actionDO.setVoteRuler(param.getVoteRuler());
+		actionDO.setVoteSum(param.getVoteSum());
 		
-	}*/
-	
+		int count = voteService.insertVoteAction(actionDO);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+		}
+		return model;
+	}
+	public SimpleFlagModel addVoteActionDetail(VoteActionDetailParam param){
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionDetailDO detailDO = new VoteActionDetailDO();
+		detailDO.setActionId(param.getActionId());
+		detailDO.setBranch(param.getBranch());
+		detailDO.setClassName(param.getClassName());
+		detailDO.setCompete(param.getCompete());
+		detailDO.setContent(param.getContent());
+		detailDO.setHonor(param.getHonor());
+		detailDO.setImageUrl(param.getImageUrl());
+		detailDO.setNum(param.getNum());
+		detailDO.setPeopleName(param.getPeopleName());
+		detailDO.setPolitical(param.getPolitical());
+		detailDO.setPost(param.getPost());
+		detailDO.setRecommend(param.getRecommend());
+		detailDO.setScientific(param.getScientific());
+		detailDO.setSerialId(param.getSerialId());
+		detailDO.setStory(param.getStory());
+		
+		int count = voteService.insertVoteActionDetail(detailDO);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+		}
+		return model;
+	}
 	private List<VoteActionItem> convertVoteAction(List<VoteActionDO> tags) {
 		List<VoteActionItem> actionItems = new ArrayList<>();
 		if (CollectionUtil.isNotEmpty(tags)) {
@@ -206,6 +253,8 @@ public class VoteProcess {
 				item.setHost(tag.getHost());
 				item.setStatus(tag.getStatus());
 				item.setTelephone(tag.getTelephone());
+				item.setVoteMax(tag.getVoteMax());
+				item.setVoteMin(tag.getVoteMin());
 				item.setVisitNum(tag.getVisitNum());
 				item.setVoteRuler(tag.getVoteRuler());
 				item.setVoteSum(tag.getVoteSum());
@@ -228,6 +277,7 @@ public class VoteProcess {
 				item.setCompete(tag.getCompete());
 				item.setContent(tag.getContent());
 				item.setHonor(tag.getHonor());
+				item.setScientific(tag.getScientific());
 				item.setId(tag.getId());
 				item.setImageUrl(tag.getImageUrl());
 				item.setNum(tag.getNum());

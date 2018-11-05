@@ -6,7 +6,7 @@
 	<artifactId>crazyBird-admin</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>backstage</name>
+	<name>crazyBird-admin</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

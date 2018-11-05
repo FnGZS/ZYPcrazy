@@ -100,7 +100,7 @@ public class VoteController {
 	@RequestMapping(value = "/action/add",method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleFlagModel addVoteAction(@RequestBody VoteActionParam param) {
-		return null;
+		return voteProcess.addVoteAction(param);
 	}
 	/**
 	 * 添加活动详情(候选人)
@@ -110,7 +110,7 @@ public class VoteController {
 	@RequestMapping(value = "/detail/add",method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleFlagModel addVoteActionDetail(@RequestBody VoteActionDetailParam param) {
-		return null;
+		return voteProcess.addVoteActionDetail(param);
 	}
 	/**
 	 * 修改活动

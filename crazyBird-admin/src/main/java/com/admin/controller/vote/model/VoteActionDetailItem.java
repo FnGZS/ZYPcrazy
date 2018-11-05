@@ -15,6 +15,13 @@ public class VoteActionDetailItem {
 	private String content;
 	private String branch;
 	private String political;
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
+	private String scientific;
 	private String className;
 	private String post;
 	private String compete;

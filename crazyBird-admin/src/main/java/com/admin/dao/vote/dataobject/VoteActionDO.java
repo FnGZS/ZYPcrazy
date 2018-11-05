@@ -13,6 +13,8 @@ public class VoteActionDO {
 	private Integer status;
 	private Long visitNum;
 	private Long voteSum;
+	private Integer voteMax;
+	private Integer voteMin;
 	private Date startTime;
 	private Date endTime;
 	public Long getId() {
@@ -87,6 +89,17 @@ public class VoteActionDO {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-
+	public Integer getVoteMax() {
+		return voteMax;
+	}
+	public void setVoteMax(Integer voteMax) {
+		this.voteMax = voteMax;
+	}
+	public Integer getVoteMin() {
+		return voteMin;
+	}
+	public void setVoteMin(Integer voteMin) {
+		this.voteMin = voteMin;
+	}
 	
 }

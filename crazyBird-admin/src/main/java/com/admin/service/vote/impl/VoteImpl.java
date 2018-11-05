@@ -104,4 +104,14 @@ public class VoteImpl implements VoteService {
 		}
 		return response;
 	}
+	@Override
+	public int insertVoteAction(VoteActionDO actionDO) {
+		
+		return voteDao.insertVoteAction(actionDO);
+	}
+	@Override
+	public int insertVoteActionDetail(VoteActionDetailDO detailDO) {
+		// TODO Auto-generated method stub
+		return voteDetailDao.insertVoteActionDetail(detailDO);
+	}
 }

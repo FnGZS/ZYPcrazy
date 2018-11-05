@@ -4,12 +4,6 @@ public class VoteActionDetailDO {
 	private Long id;
 	private Long actionId;
 	private Long serialId;
-	public Long getSerialId() {
-		return serialId;
-	}
-	public void setSerialId(Long serialId) {
-		this.serialId = serialId;
-	}
 	private String peopleName;
 	private String imageUrl;
 	private String content;
@@ -17,7 +11,7 @@ public class VoteActionDetailDO {
 	private String political;
 	private String className;
 	private String post;
-	
+	private String scientific;
 	private String compete;
 	private String honor;
 	private String story;
@@ -108,5 +102,16 @@ public class VoteActionDetailDO {
 	public void setRecommend(String recommend) {
 		this.recommend = recommend;
 	}
-
+	public Long getSerialId() {
+		return serialId;
+	}
+	public void setSerialId(Long serialId) {
+		this.serialId = serialId;
+	}
+	public String getScientific() {
+		return scientific;
+	}
+	public void setScientific(String scientific) {
+		this.scientific = scientific;
+	}
 }

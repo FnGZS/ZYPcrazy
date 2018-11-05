@@ -15,7 +15,20 @@ public class VoteActionItem {
 	private Integer status;
 	private Long visitNum;
 	private Long voteSum;
-
+	public Integer getVoteMin() {
+		return voteMin;
+	}
+	public void setVoteMin(Integer voteMin) {
+		this.voteMin = voteMin;
+	}
+	public Integer getVoteMax() {
+		return voteMax;
+	}
+	public void setVoteMax(Integer voteMax) {
+		this.voteMax = voteMax;
+	}
+	private Integer voteMin;
+	private Integer voteMax;
 	private String startTime;
 	private String endTime;
 	public Long getId() {

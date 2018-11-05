@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.crazyBird.dao.vote.VoteDetailDao">
+<mapper namespace="com.admin.dao.vote.VoteDetailDao">
 	<resultMap id="BaseResultMap"
-		type="com.crazyBird.dao.vote.dataobject.VoteActionDetailDO">
+		type="com.admin.dao.vote.dataobject.VoteActionDetailDO">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="action_id" property="actionId" jdbcType="BIGINT" />
 		<result column="serial_id" property="serialId" jdbcType="BIGINT" />
@@ -15,12 +15,13 @@
 		<result column="post" property="post" jdbcType="VARCHAR" />
 		<result column="compete" property="compete" jdbcType="VARCHAR" />
 		<result column="honor" property="honor" jdbcType="VARCHAR" />
+		<result column="scientific" property="scientific" jdbcType="VARCHAR" />
 		<result column="story" property="story" jdbcType="VARCHAR" />
 		<result column="recommend" property="recommend" jdbcType="VARCHAR" />
 		<result column="num" property="num" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,action_id,serial_id,people_name,image_url,content,branch,political,class,post,compete,honor,story,
+		id,action_id,serial_id,people_name,image_url,scientific,content,branch,political,class,post,compete,honor,story,
 		recommend,num
 	</sql>
 	<select id="getVoteActionDetail" resultMap="BaseResultMap"
@@ -40,12 +41,52 @@
 	</select>
 	
 	<select id="selectActionDetailByName" resultMap="BaseResultMap"
-		parameterType="com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO">
+		parameterType="com.admin.dao.vote.dataobject.VoteActionDetailSearchDO">
 		select
 		<include refid="Base_Column_List" />
 		from vote_action_detail
 		where action_id = #{actionId,jdbcType=BIGINT} and people_name LIKE CONCAT(CONCAT('%',#{peopleName,jdbcType=VARCHAR},'%'))
 	</select>
+	<insert id="insertVoteActionDetail" parameterType="com.admin.dao.vote.dataobject.VoteActionDetailDO">
+	insert into vote_action_detail 
+	(
+	id,
+	action_id,
+	serial_id,
+	people_name,
+	image_url,
+	content,
+	branch,
+	political,
+	class,
+	post,
+	scientific,
+	compete,
+	honor,
+	story,
+	recommend,
+	num
+	)
+	values
+	(
+	#{id,jdbcType=BIGINT},
+	#{actionId,jdbcType=BIGINT},
+	#{serialId,jdbcType=BIGINT},
+	#{peopleName,jdbcType=VARCHAR},
+	#{imageUrl,jdbcType=VARCHAR},
+	#{content,jdbcType=VARCHAR},
+	#{branch,jdbcType=VARCHAR},
+	#{political,jdbcType=VARCHAR},
+	#{className,jdbcType=VARCHAR},
+	#{post,jdbcType=VARCHAR},
+	#{scientific,jdbcType=VARCHAR},
+	#{compete,jdbcType=VARCHAR},
+	#{honor,jdbcType=VARCHAR},
+	#{story,jdbcType=VARCHAR},
+	#{recommend,jdbcType=VARCHAR},
+	#{num,jdbcType=VARCHAR}
+	)
+	</insert>
 	<update id="BatchupdateVoteActionDetail"
 		parameterType="ArrayList">
 		

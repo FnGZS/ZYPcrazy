@@ -30,9 +30,7 @@ public interface VoteDao {
 	Integer getVoteActionCount(Integer status);
 	
 	//新增活动
-	void insertVoteAction(VoteActionDO actionDO);
+	int insertVoteAction(VoteActionDO actionDO);
 
-	//新增活动详情
-	void insertVoteActionDetail(VoteActionDetailDO detailDO);
 	
 }
