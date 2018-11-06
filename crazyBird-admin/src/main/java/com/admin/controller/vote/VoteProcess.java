@@ -197,6 +197,7 @@ public class VoteProcess {
 		actionDO.setEndTime(param.getEndTime());
 		actionDO.setHost(param.getHost());
 		actionDO.setStartTime(param.getStartTime());
+		
 		actionDO.setStatus(param.getStatus());
 		actionDO.setTelephone(param.getTelephone());
 		actionDO.setVisitNum(param.getVisitNum());
@@ -213,6 +214,57 @@ public class VoteProcess {
 		return model;
 	}
 	public SimpleFlagModel addVoteActionDetail(VoteActionDetailParam param){
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionDetailDO detailDO = new VoteActionDetailDO();
+		detailDO.setActionId(param.getActionId());
+		detailDO.setBranch(param.getBranch());
+		detailDO.setClassName(param.getClassName());
+		detailDO.setCompete(param.getCompete());
+		detailDO.setContent(param.getContent());
+		detailDO.setHonor(param.getHonor());
+		detailDO.setImageUrl(param.getImageUrl());
+		detailDO.setNum(param.getNum());
+		detailDO.setPeopleName(param.getPeopleName());
+		detailDO.setPolitical(param.getPolitical());
+		detailDO.setPost(param.getPost());
+		detailDO.setRecommend(param.getRecommend());
+		detailDO.setScientific(param.getScientific());
+		detailDO.setSerialId(param.getSerialId());
+		detailDO.setStory(param.getStory());
+		
+		int count = voteService.insertVoteActionDetail(detailDO);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+		}
+		return model;
+	}
+	public SimpleFlagModel updateVoteAction(VoteActionParam param){
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionDO actionDO = new VoteActionDO();
+		actionDO.setActionImage(param.getActionImage());
+		actionDO.setActionIntro(param.getActionIntro());
+		actionDO.setActionName(param.getActionName());
+		actionDO.setEndTime(param.getEndTime());
+		actionDO.setHost(param.getHost());
+		actionDO.setStartTime(param.getStartTime());
+		
+		actionDO.setStatus(param.getStatus());
+		actionDO.setTelephone(param.getTelephone());
+		actionDO.setVisitNum(param.getVisitNum());
+		actionDO.setVoteMax(param.getVoteMax());
+		actionDO.setVoteMin(param.getVoteMin());
+		actionDO.setVoteRuler(param.getVoteRuler());
+		actionDO.setVoteSum(param.getVoteSum());
+		
+		int count = voteService.insertVoteAction(actionDO);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+		}
+		return model;
+	}
+	public SimpleFlagModel updateVoteActionDetail(VoteActionDetailParam param){
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteActionDetailDO detailDO = new VoteActionDetailDO();
 		detailDO.setActionId(param.getActionId());

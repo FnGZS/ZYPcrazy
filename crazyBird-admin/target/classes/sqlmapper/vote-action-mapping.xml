@@ -72,10 +72,10 @@
 	(
 	id,
 	action_name,
-	action_image,
+	action_introduce,
 	vote_ruler,
 	host,
-	actionImage,
+	action_image,
 	telephone,
 	`status`,
 	visit_num,
@@ -83,7 +83,9 @@
 	vote_max,
 	vote_min,
 	start_time,
-	end_time
+	end_time,
+	gmt_created,
+	gmt_modified
 	)
 	values
 	(
@@ -100,7 +102,9 @@
 	#{voteMax,jdbcType=INTEGER},
 	#{voteMin,jdbcType=INTEGER},	
 	#{startTime,jdbcType=TIMESTAMP},
-	#{startTime,jdbcType=TIMESTAMP}
+	#{endTime,jdbcType=TIMESTAMP},
+	now(),
+	now()
 	)
 	</insert>
 	

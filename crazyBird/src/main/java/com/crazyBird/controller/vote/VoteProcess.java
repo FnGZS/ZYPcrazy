@@ -195,6 +195,12 @@ public class VoteProcess {
 	public SimpleFlagModel createVoteDetailNum(VoteActionDetailListParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteRecordDO recordDO = new VoteRecordDO();
+		if(param.getStudentId()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("学号不能为空");
+			return model;
+		}
+		
 		recordDO.setActionId(param.getActionId());
 		recordDO.setStudentId(param.getStudentId());
 		recordDO.setDetail(param.getDetail());

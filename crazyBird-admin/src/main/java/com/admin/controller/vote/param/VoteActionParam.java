@@ -2,6 +2,8 @@ package com.admin.controller.vote.param;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class VoteActionParam {
 	private Long id;
 	public Long getId() {
@@ -45,7 +47,9 @@ public class VoteActionParam {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endTime;
 	public String getActionImage() {
 		return actionImage;
