@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
@@ -44,9 +45,10 @@ import com.crazyBird.service.vote.VoteService;
 import com.crazyBird.utils.CollectionUtil;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.PageUtils;
+import com.crazyBird.utils.TokenUtils;
 
 @Component
-public class VoteProcess {
+public class VoteProcess extends BaseProcess {
 	@Autowired
 	private VoteService voteService;
 	public VoteActionListModel getActionList(VoteActionParam param) {
@@ -195,6 +197,18 @@ public class VoteProcess {
 	public SimpleFlagModel createVoteDetailNum(VoteActionDetailListParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteRecordDO recordDO = new VoteRecordDO();
+		Long shoolNum = (long) 0;
+		try {
+			shoolNum = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(param.getStudentId() != shoolNum) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("学号非法");
+			return model;
+		}
 		recordDO.setActionId(param.getActionId());
 		recordDO.setStudentId(param.getStudentId());
 		recordDO.setDetail(param.getDetail());
