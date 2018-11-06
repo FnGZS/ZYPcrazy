@@ -20,5 +20,7 @@ public abstract interface AffairsService {
 
 	List<BroadDO> getBroad();
 
+	AffairsDO getRecommend();
+
 
 }

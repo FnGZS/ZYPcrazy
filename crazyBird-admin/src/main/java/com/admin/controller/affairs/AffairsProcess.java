@@ -1,12 +1,16 @@
 package com.admin.controller.affairs;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.model.AffairsItem;
 import com.admin.controller.affairs.model.AffairsPageModel;
+import com.admin.controller.affairs.param.AddAffairsParam;
 import com.admin.controller.affairs.param.AffairsPageParam;
 import com.admin.controller.base.BaseProcess;
 import com.admin.dao.affairs.dataobject.AffairsDO;
@@ -15,6 +19,9 @@ import com.admin.model.enums.HttpCodeEnum;
 import com.admin.service.affairs.AffairsService;
 import com.admin.service.base.ResponsePageQueryDO;
 import com.admin.utils.PageUtils;
+import com.admin.dao.affairs.dataobject.AddAffairDO;
+import com.admin.service.base.ResponseDO;
+import com.admin.utils.CollectionUtil;
 
 
 @Component
@@ -43,9 +50,47 @@ public class AffairsProcess extends BaseProcess{
 		return model;
 	}
 
-	private List<AffairsItem> convertDemands(List<AffairsDO> dataResult) {
-		// TODO Auto-generated method stub
-		return null;
+	private List<AffairsItem> convertDemands(List<AffairsDO> dataResults) {
+		List<AffairsItem> items = new ArrayList<>();
+		if(CollectionUtil.isNotEmpty(dataResults)) {
+			for(AffairsDO dataResult : dataResults) {
+				if(dataResult != null) {
+					AffairsItem item = new AffairsItem();
+					item.setId(dataResult.getId());
+					item.setTitle(dataResult.getTitle());
+					item.setAffairsPic(dataResult.getAffairsPic());
+					item.setContent(dataResult.getContent() == null ? "" : new String(dataResult.getContent()));
+					item.setTypeId(dataResult.getTypeId());
+					item.setBrows(dataResult.getBrows());
+					item.setSubordinate(dataResult.getSubordinate());
+					item.setYear(dataResult.getGmtCreated().substring(0, 4));
+					item.setDay(dataResult.getGmtCreated().substring(5, 11));
+					item.setMinute(dataResult.getGmtCreated().substring(11, 19));
+					items.add(item);
+				}
+			}
+		}
+		return items;
+	}
+
+	public AddAffairsModel addAffair(AddAffairsParam param) {
+		AddAffairsModel model = new AddAffairsModel();
+		AddAffairDO affair = new AddAffairDO();
+		affair.setTitle(param.getTitle());
+		affair.setAffairsPic(param.getAffairsPic());
+		affair.setTypeId(param.getTypeId());
+		affair.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
+		affair.setSubordinate(param.getSubordinate());
+		ResponseDO<Long> response = affairsService.addAffair(affair);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			model.setResult(response.getDataResult());
+			return model;
+		}
+		model.setMessage(response.getMessage());
+		model.setResult(response.getDataResult());
+		return model;
 	}
 
 }

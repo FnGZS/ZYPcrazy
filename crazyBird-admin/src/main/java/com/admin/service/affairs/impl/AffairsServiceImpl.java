@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.admin.dao.affairs.AffairsDao;
+import com.admin.dao.affairs.dataobject.AddAffairDO;
 import com.admin.dao.affairs.dataobject.AffairsDO;
 import com.admin.dao.affairs.dataobject.AffairsPO;
 import com.admin.service.affairs.AffairsService;
+import com.admin.service.base.ResponseDO;
 import com.admin.service.base.ResponsePageQueryDO;
 
 
@@ -28,6 +30,12 @@ public class AffairsServiceImpl implements AffairsService{
 			response.setDataResult(dataResult);
 		}
 		return response;
+	}
+
+	@Override
+	public ResponseDO<Long> addAffair(AddAffairDO affair) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

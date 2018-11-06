@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.admin.controller.affairs.model.AffairsPageModel;
 import com.admin.controller.affairs.param.AffairsPageParam;
+import com.admin.controller.affairs.model.AddAffairsModel;
+import com.admin.controller.affairs.param.AddAffairsParam;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Type AffairsController.java
  * @Desc
  * @author zjw
- * @date 2018ï¿½?7ï¿½?26æ—¥ä¸Šï¿½?9:17:09
  * @version V1.0
  */
 
@@ -31,8 +32,12 @@ public class AffairsController {
 	@Autowired
 	private AffairsProcess affairsProcess;
 	
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	/**
+	 * ºóÌ¨¹ÜÀíµÄÁÐ±í
+	 * @param
+	 * @return
+	 * */
+	@RequestMapping(value = "/affairsList", method = RequestMethod.GET)
     @ResponseBody
     public AffairsPageModel getAffairsList(AffairsPageParam param) throws UnsupportedEncodingException{
 		if (StringUtils.isNotBlank(param.getKey())) {
@@ -41,4 +46,16 @@ public class AffairsController {
 		}
     	return affairsProcess.getAffairsList(param);
     }
+	
+	/**
+	 * Ìí¼ÓÊ±ÊÂ
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value ="/addAffairs", method = RequestMethod.POST)
+	@ResponseBody
+	public AddAffairsModel addAffair(@RequestBody AddAffairsParam param) {
+		return affairsProcess.addAffair(param);
+	}
+	
 }

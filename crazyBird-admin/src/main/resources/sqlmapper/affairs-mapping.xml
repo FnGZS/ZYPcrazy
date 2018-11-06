@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.crazyBird.dao.affairs.AffairsDao">
-<resultMap id="BaseResultMap" type="com.crazyBird.dao.affairs.dataobject.AffairsDO" >
+<mapper namespace="com.admin.dao.affairs.AffairsDao">
+<resultMap id="BaseResultMap" type="com.admin.dao.affairs.dataobject.AffairsDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="affairs_pic" property="affairsPic" jdbcType="VARCHAR" />
@@ -32,7 +32,7 @@
   		AND content LIKE CONCAT('%',#{key},'%')
   	</if>
   </select>
-  <select id="getAffairs" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsPO">
+  <select id="getAffairs" resultMap="BaseResultMap" parameterType="com.admin.dao.affairs.dataobject.AffairsPO">
   	select 
   	<include refid="Base_Column_List" />
   	from affairs
@@ -46,30 +46,7 @@
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
-   <insert id="addAffairs" parameterType="com.crazyBird.dao.affairs.dataobject.AddAffairDO">
-	    insert into affairs (
-	    	title,
-	    	affairs_pic, 
-	    	content, 
-	    	typeId,
-	    	brows,
-	    	subordinate,
-	    	gmt_created,
-	    	gmt_modified
-	    )
-	    values 
-	    (
-	    	#{title,jdbcType=VARCHAR},
-	    	#{affairsPic,jdbcType=VARCHAR},
-	    	#{content,jdbcType=BLOB},
-	    	#{typeId,jdbcType=BIGINT},
-	    	1,
-	    	#{subordinate,jdbcType=VARCHAR},
-	    	NOW(),
-	    	NOW()
-		)
-	</insert>
-  <update id="update" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsDO" >
+  <update id="update" parameterType="com.admin.dao.affairs.dataobject.AffairsDO" >
     update affairs
     set title = #{title,jdbcType=VARCHAR},
     	affairs_pic = #{affairsPic,jdbcType=VARCHAR},
@@ -79,10 +56,4 @@
     	brows = brows + 1 
     where  id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="getRecommend" resultMap="BaseResultMap">
- 	select 
-	<include refid="Base_Column_List" />
- 	from affairs	
- 	where typeId = 0
-  </select>
 </mapper>

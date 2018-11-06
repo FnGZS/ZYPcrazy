@@ -79,4 +79,10 @@
     	brows = brows + 1 
     where  id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getRecommend" resultMap="BaseResultMap">
+ 	select 
+	<include refid="Base_Column_List" />
+ 	from affairs	
+ 	where typeId = 0
+  </select>
 </mapper>
