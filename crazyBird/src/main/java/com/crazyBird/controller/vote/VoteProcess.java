@@ -1,21 +1,16 @@
 package com.crazyBird.controller.vote;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
 import com.crazyBird.controller.vote.model.VoteActionDetailListModel;
-import com.crazyBird.controller.vote.model.VoteActionDetailModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailRankModel;
 import com.crazyBird.controller.vote.model.VoteActionHotListModel;
 import com.crazyBird.controller.vote.model.VoteActionItem;
@@ -25,7 +20,6 @@ import com.crazyBird.controller.vote.model.VoteActionRecordModel;
 import com.crazyBird.controller.vote.model.VoteActionSlideItem;
 import com.crazyBird.controller.vote.model.VoteActionSlideModel;
 import com.crazyBird.controller.vote.param.VoteActionDetailListParam;
-import com.crazyBird.controller.vote.param.VoteActionDetailParam;
 import com.crazyBird.controller.vote.param.VoteActionParam;
 import com.crazyBird.controller.vote.param.VoteActionRecordParam;
 import com.crazyBird.controller.vote.param.VoteActionSearchDetailParam;
@@ -197,14 +191,11 @@ public class VoteProcess extends BaseProcess {
 	public SimpleFlagModel createVoteDetailNum(VoteActionDetailListParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteRecordDO recordDO = new VoteRecordDO();
-<<<<<<< HEAD
 		if(param.getStudentId()==null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("学号不能为空");
 			return model;
 		}
-		
-=======
 		Long shoolNum = (long) 0;
 		try {
 			shoolNum = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
@@ -217,7 +208,6 @@ public class VoteProcess extends BaseProcess {
 			model.setMessage("学号非法");
 			return model;
 		}
->>>>>>> e9f5b62d429d9824eeac8f0cf9a056c7f407152a
 		recordDO.setActionId(param.getActionId());
 		recordDO.setStudentId(param.getStudentId());
 		recordDO.setDetail(param.getDetail());
