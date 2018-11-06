@@ -68,5 +68,10 @@ public class AffairsServiceImpl implements AffairsService {
 		return broadDao.getBroad();
 	}
 
+	@Override
+	public AffairsDO getRecommend() {
+		return affairsDao.getRecommend();
+	}
+
 	
 }

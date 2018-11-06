@@ -5,6 +5,7 @@ import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
 import com.crazyBird.controller.affairs.model.BroadModel;
+import com.crazyBird.controller.affairs.model.RecommendModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import java.io.UnsupportedEncodingException;
@@ -73,6 +74,8 @@ public class AffairsController {
 	
 	/**
 	 * 轮播图
+	 * @param param
+	 * @return
 	 * */
 	@RequestMapping(value ="/broad", method = RequestMethod.GET)
 	@ResponseBody
@@ -80,5 +83,14 @@ public class AffairsController {
 		return affairsProcess.getBroad();
 	}
 	
-	
+	/**
+	 * 时事的推荐
+	 * @param param
+	 * @return
+	 * **/
+	@RequestMapping(value ="/recommend", method = RequestMethod.GET)
+	@ResponseBody
+	public RecommendModel getRecommend() {
+		return affairsProcess.getRecommend();
+	}
 }

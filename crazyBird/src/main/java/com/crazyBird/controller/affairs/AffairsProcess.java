@@ -12,6 +12,7 @@ import com.crazyBird.controller.affairs.model.AffairsTypeItem;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
 import com.crazyBird.controller.affairs.model.BroadItem;
 import com.crazyBird.controller.affairs.model.BroadModel;
+import com.crazyBird.controller.affairs.model.RecommendModel;
 import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import com.crazyBird.controller.base.BaseProcess;
@@ -152,5 +153,20 @@ public class AffairsProcess extends BaseProcess {
 		}
 		return model;
 	}
+
+	public RecommendModel getRecommend() {
+		RecommendModel model = new RecommendModel();
+		AffairsDO recommend = affairsService.getRecommend();
+		if(recommend != null) {
+			model.setId(recommend.getId());
+			model.setPic(recommend.getAffairsPic());
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		model.setMessage("无推荐项");
+		return model;
+	}
+
+
 }
 

@@ -1,27 +1,12 @@
 package com.admin.dao.affairs.dataobject;
 
-public class AffairsDO {
+public class AddAffairDO {
 
-	private Long id;
 	private String title;
 	private String affairsPic;
 	private byte[] content;
 	private Long typeId;
-	private Long brows;
 	private String subordinate;
-	public String getSubordinate() {
-		return subordinate;
-	}
-	public void setSubordinate(String subordinate) {
-		this.subordinate = subordinate;
-	}
-	private String gmtCreated;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getTitle() {
 		return title;
 	}
@@ -46,17 +31,12 @@ public class AffairsDO {
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
 	}
-	public Long getBrows() {
-		return brows;
+	public String getSubordinate() {
+		return subordinate;
 	}
-	public void setBrows(Long brows) {
-		this.brows = brows;
+	public void setSubordinate(String subordinate) {
+		this.subordinate = subordinate;
 	}
-	public String getGmtCreated() {
-		return gmtCreated;
-	}
-	public void setGmtCreated(String gmtCreated) {
-		this.gmtCreated = gmtCreated;
-	}
+	
 	
 }

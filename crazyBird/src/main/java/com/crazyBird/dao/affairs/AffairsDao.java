@@ -17,4 +17,6 @@ public abstract interface AffairsDao {
 	AffairsDO getAffairsDetails(Long id);
 
 	void update(AffairsDO affairs);
+
+	AffairsDO getRecommend();
 }
