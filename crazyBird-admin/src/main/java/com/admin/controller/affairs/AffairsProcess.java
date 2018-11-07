@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.model.AffairsItem;
 import com.admin.controller.affairs.model.AffairsPageModel;
+import com.admin.controller.affairs.model.DeleteAffairsModel;
 import com.admin.controller.affairs.param.AddAffairsParam;
 import com.admin.controller.affairs.param.AffairsPageParam;
 import com.admin.controller.base.BaseProcess;
@@ -82,6 +83,20 @@ public class AffairsProcess extends BaseProcess{
 		affair.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
 		affair.setSubordinate(param.getSubordinate());
 		ResponseDO<Long> response = affairsService.addAffair(affair);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			model.setResult(response.getDataResult());
+			return model;
+		}
+		model.setMessage(response.getMessage());
+		model.setResult(response.getDataResult());
+		return model;
+	}
+
+	public DeleteAffairsModel deleteAffair(Long id) {
+		DeleteAffairsModel model = new DeleteAffairsModel();
+		ResponseDO<Long> response = affairsService.deleteAffair(id);
 		if (!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());

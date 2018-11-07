@@ -208,7 +208,7 @@ public class VoteProcess extends BaseProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(param.getStudentId() != shoolNum) {
+		if(param.getStudentId().longValue() != shoolNum.longValue()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("学号非法");
 			return model;
