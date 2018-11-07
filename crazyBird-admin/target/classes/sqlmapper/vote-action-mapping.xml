@@ -67,6 +67,9 @@
 		parameterType="com.admin.dao.vote.dataobject.VoteRecordDO">
 		update vote_action set vote_sum =(SELECT SUM(num) from vote_action_detail where action_id= #{actionId,jdbcType=BIGINT}) where id=#{actionId,jdbcType=BIGINT}
 	</update>
+	<update id="updateVoteAction" parameterType="com.admin.dao.vote.dataobject.VoteActionDO">
+
+	</update>
 	<insert id="insertVoteAction" parameterType="com.admin.dao.vote.dataobject.VoteActionDO">
 	insert into vote_action 
 	(

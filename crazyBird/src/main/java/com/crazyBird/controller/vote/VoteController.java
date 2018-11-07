@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
+import com.crazyBird.controller.vote.model.VoteActionCustomModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
 import com.crazyBird.controller.vote.model.VoteActionDetailListModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailModel;
@@ -103,6 +104,15 @@ public class VoteController {
 	public VoteActionDetailRankModel searchActionDeatil(@RequestBody VoteActionSearchDetailParam param) {
 		return voteProcess.selectActionDetailByName(param);
 	}
+	/**
+	 * 获取单个候选人信息
+	 */
+	@RequestMapping(value = "/search/{id}",method = RequestMethod.GET)
+	@ResponseBody
+	public VoteActionCustomModel searchActionDeatilById(@PathVariable Long id) {
+		return voteProcess.searchActionDeatilById(id);
+	}
+	
 	/**
 	 * 获得活动详情排名
 	 * @param status

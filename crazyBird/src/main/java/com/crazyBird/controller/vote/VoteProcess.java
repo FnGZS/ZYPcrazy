@@ -6,9 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
+import com.crazyBird.controller.vote.model.VoteActionCustomModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
 import com.crazyBird.controller.vote.model.VoteActionDetailListModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailRankModel;
@@ -24,6 +27,7 @@ import com.crazyBird.controller.vote.param.VoteActionParam;
 import com.crazyBird.controller.vote.param.VoteActionRecordParam;
 import com.crazyBird.controller.vote.param.VoteActionSearchDetailParam;
 import com.crazyBird.controller.vote.param.VoteRecordParam;
+import com.crazyBird.dao.vote.dataobject.VoteActionCustomDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
@@ -40,6 +44,7 @@ import com.crazyBird.utils.CollectionUtil;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.PageUtils;
 import com.crazyBird.utils.TokenUtils;
+import com.mysql.fabric.xmlrpc.base.Param;
 
 @Component
 public class VoteProcess extends BaseProcess {
@@ -227,6 +232,18 @@ public class VoteProcess extends BaseProcess {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 		}
 		model.setMessage(response.getMessage());
+		return model;
+	}
+	public VoteActionCustomModel searchActionDeatilById(Long id) {
+		VoteActionCustomModel model = new VoteActionCustomModel();
+		VoteActionCustomDO customDO = voteService.selectActionDetailById(id);
+		if(id==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("id为空");
+		}
+		model.setId(customDO.getId());
+		model.setParam(customDO.getParam());
+		model.setValue(customDO.getValue());
 		return model;
 	}
 	public VoteActionDetailRankModel selectActionDetailByName(VoteActionSearchDetailParam param) {

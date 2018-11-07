@@ -2,7 +2,7 @@ package com.crazyBird.service.vote;
 
 import java.util.List;
 
-
+import com.crazyBird.dao.vote.dataobject.VoteActionCustomDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
@@ -27,4 +27,5 @@ public interface VoteService {
 	public List<VoteActionDetailDO> getActionDetailByRank(Long id);
 	public ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
 	public List<VoteActionSlideDO> getVoteActionSlide();
+	VoteActionCustomDO selectActionDetailById(Long id);
 }

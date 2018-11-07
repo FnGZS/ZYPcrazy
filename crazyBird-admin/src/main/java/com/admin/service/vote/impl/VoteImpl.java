@@ -114,4 +114,23 @@ public class VoteImpl implements VoteService {
 		// TODO Auto-generated method stub
 		return voteDetailDao.insertVoteActionDetail(detailDO);
 	}
+	@Override
+	public int updateVoteAction(VoteActionDO actionDO) {
+		// TODO Auto-generated method stub
+		return voteDao.updateVoteAction(actionDO);
+	}
+	@Override
+	public int updateVoteActionDetail(VoteActionDetailDO detailDO) {
+		// TODO Auto-generated method stub
+		return voteDetailDao.updateVoteActionDetail(detailDO);
+	}
+	@Override
+	public int deleteVoteAction(Long id) {	
+		return voteDao.daleteVoteAction(id);
+	}
+	@Override
+	public int deleteVoteActionDetail(Long id) {
+		// TODO Auto-generated method stub
+		return voteDetailDao.daleteVoteActionDetail(id);
+	}
 }
