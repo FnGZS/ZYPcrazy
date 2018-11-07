@@ -36,7 +36,7 @@ public class AffairsController {
 	private AffairsProcess affairsProcess;
 	
 	/**
-	 * 后台管理的列表
+	 * 鍚庡彴鍒楄〃
 	 * @param
 	 * @return
 	 * */
@@ -53,7 +53,7 @@ public class AffairsController {
 	
 	
 	/**
-	 * 添加时事
+	 * 娣诲姞鏃朵簨
 	 * @param param
 	 * @return
 	 */
@@ -64,7 +64,7 @@ public class AffairsController {
 	}
 	
 	/**
-	 *时事详情
+	 *鏃朵簨璇︽儏
 	 * @param param
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public class AffairsController {
 	}
 	
 	/**
-	 * 删除时事
+	 * 鍒犻櫎鏃朵簨
 	 * @param
 	 * @return
 	 * */
