@@ -20,6 +20,7 @@ import com.admin.model.enums.HttpCodeEnum;
 import com.admin.service.affairs.AffairsService;
 import com.admin.service.base.ResponsePageQueryDO;
 import com.admin.utils.PageUtils;
+import com.admin.controller.affairs.model.AffairsDetailsModel;
 import com.admin.dao.affairs.dataobject.AddAffairDO;
 import com.admin.service.base.ResponseDO;
 import com.admin.utils.CollectionUtil;
@@ -105,6 +106,29 @@ public class AffairsProcess extends BaseProcess{
 		}
 		model.setMessage(response.getMessage());
 		model.setResult(response.getDataResult());
+		return model;
+	}
+
+	public AffairsDetailsModel getAffairsDetails(Long id) {
+		AffairsDetailsModel model = new AffairsDetailsModel();
+		AffairsDO detail = affairsService.getAffairsDetails(id);
+		if(detail!=null) {
+			AffairsItem affairs = new AffairsItem();
+			affairs.setId(detail.getId());
+			affairs.setTitle(detail.getTitle());
+			affairs.setAffairsPic(detail.getAffairsPic());
+			affairs.setContent(detail.getContent() == null ? "" : new String(detail.getContent()));
+			affairs.setTypeId(detail.getTypeId());
+			affairs.setBrows(detail.getBrows());
+			affairs.setSubordinate(detail.getSubordinate());
+			affairs.setYear(detail.getGmtCreated().substring(0, 4));
+			affairs.setDay(detail.getGmtCreated().substring(5, 11));
+			affairs.setMinute(detail.getGmtCreated().substring(11, 19));
+			model.setDetails(affairs);
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		model.setMessage("ÎÞ´ËÏî");
 		return model;
 	}
 

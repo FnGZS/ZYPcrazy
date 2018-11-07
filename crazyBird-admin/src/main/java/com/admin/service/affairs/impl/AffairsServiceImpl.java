@@ -34,8 +34,15 @@ public class AffairsServiceImpl implements AffairsService{
 
 	@Override
 	public ResponseDO<Long> addAffair(AddAffairDO affair) {
-		// TODO Auto-generated method stub
-		return null;
+		ResponseDO<Long> result = new ResponseDO<>();
+		if(affair!=null) {
+			affairsDao.addAffairs(affair);
+			result.setMessage("Ìí¼Ó³É¹¦");
+			result.setDataResult((long) 1);
+			return result;
+		}
+		result.setDataResult((long) 0);
+		return result;
 	}
 
 	@Override
@@ -50,6 +57,13 @@ public class AffairsServiceImpl implements AffairsService{
 		}
 		result.setDataResult((long) 0);
 		return result;
+	}
+
+	@Override
+	public AffairsDO getAffairsDetails(Long id) {
+		AffairsDO affairs = affairsDao.getAffairsDetails(id);
+		affairsDao.update(affairs);
+		return affairs;
 	}
 
 }
