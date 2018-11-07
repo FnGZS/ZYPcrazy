@@ -128,7 +128,7 @@ public class AffairsProcess extends BaseProcess{
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
-		model.setMessage("ÎÞ´ËÏî");
+		model.setMessage("æ— æ­¤é¡¹");
 		return model;
 	}
 

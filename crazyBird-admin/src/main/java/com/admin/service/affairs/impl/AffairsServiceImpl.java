@@ -37,7 +37,7 @@ public class AffairsServiceImpl implements AffairsService{
 		ResponseDO<Long> result = new ResponseDO<>();
 		if(affair!=null) {
 			affairsDao.addAffairs(affair);
-			result.setMessage("添加成功");
+			result.setMessage("娣诲姞鎴愬姛");
 			result.setDataResult((long) 1);
 			return result;
 		}
@@ -51,7 +51,7 @@ public class AffairsServiceImpl implements AffairsService{
 		AffairsDO affair = affairsDao.getAffairsDetails(id);
 		if(affair != null) {
 			affairsDao.deleteAffair(id);
-			result.setMessage("删除成功");
+			result.setMessage("鍒犻櫎鎴愬姛");
 			result.setDataResult((long) 1);
 			return result;
 		}
