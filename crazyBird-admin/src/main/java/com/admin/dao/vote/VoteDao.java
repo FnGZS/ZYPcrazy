@@ -31,6 +31,10 @@ public interface VoteDao {
 	
 	//新增活动
 	int insertVoteAction(VoteActionDO actionDO);
+	//新增活动
+	int updateVoteAction(VoteActionDO actionDO);
+	
+	int daleteVoteAction(Long id);
 
 	
 }

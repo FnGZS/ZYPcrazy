@@ -27,4 +27,13 @@ public interface VoteService {
 	//新增活动详情
 	int insertVoteActionDetail(VoteActionDetailDO detailDO);
 	
+
+	int updateVoteAction(VoteActionDO actionDO);
+
+	int updateVoteActionDetail(VoteActionDetailDO detailDO);
+	
+	int deleteVoteAction(Long id);
+	
+	int deleteVoteActionDetail(Long id);
+	
 }

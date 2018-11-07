@@ -24,5 +24,9 @@ public interface VoteDetailDao {
 
 	//新增活动详情
 	int insertVoteActionDetail(VoteActionDetailDO detailDO);
+
+	int updateVoteActionDetail(VoteActionDetailDO detailDO);
+	
+	int daleteVoteActionDetail(Long id);
 	
 }

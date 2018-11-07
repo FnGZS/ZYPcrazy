@@ -10,6 +10,7 @@ import com.crazyBird.dao.vote.VoteDao;
 import com.crazyBird.dao.vote.VoteDetailDao;
 import com.crazyBird.dao.vote.VoteRecordDao;
 import com.crazyBird.dao.vote.VoteSlideDao;
+import com.crazyBird.dao.vote.dataobject.VoteActionCustomDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
@@ -152,5 +153,10 @@ public class VoteImpl implements VoteService {
 	public List<VoteActionSlideDO> getVoteActionSlide() {
 		// TODO Auto-generated method stub
 		return voteSlideDao.getVoteActionSlide();
+	}
+	@Override
+	public VoteActionCustomDO selectActionDetailById(Long id) {
+		// TODO Auto-generated method stub
+		return voteDetailDao.selectActionDetailById(id);
 	}
 }

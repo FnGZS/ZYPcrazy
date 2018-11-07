@@ -141,7 +141,7 @@ public class VoteController {
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	@ResponseBody
 	public SimpleFlagModel daleteVoteAction(@PathVariable Long id) {
-		return null;
+		return voteProcess.deleteVoteAction(id);
 	}
 	/**
 	 * 删除活动详情(候选人)
@@ -151,6 +151,6 @@ public class VoteController {
 	@RequestMapping(value = "/delete/detail/{id}",method = RequestMethod.DELETE)
 	@ResponseBody
 	public SimpleFlagModel daleteVoteActionDetail(@PathVariable Long id) {
-		return null;
+		return voteProcess.deleteVoteActionDetail(id);
 	}
 }

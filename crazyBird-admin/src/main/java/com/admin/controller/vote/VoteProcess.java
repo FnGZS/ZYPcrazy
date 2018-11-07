@@ -248,7 +248,7 @@ public class VoteProcess {
 		actionDO.setEndTime(param.getEndTime());
 		actionDO.setHost(param.getHost());
 		actionDO.setStartTime(param.getStartTime());
-		
+		actionDO.setId(param.getId());
 		actionDO.setStatus(param.getStatus());
 		actionDO.setTelephone(param.getTelephone());
 		actionDO.setVisitNum(param.getVisitNum());
@@ -257,10 +257,10 @@ public class VoteProcess {
 		actionDO.setVoteRuler(param.getVoteRuler());
 		actionDO.setVoteSum(param.getVoteSum());
 		
-		int count = voteService.insertVoteAction(actionDO);
+		int count = voteService.updateVoteAction(actionDO);
 		if(count<=0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("添加失败");
+			model.setMessage("更新失败");
 		}
 		return model;
 	}
@@ -268,6 +268,7 @@ public class VoteProcess {
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteActionDetailDO detailDO = new VoteActionDetailDO();
 		detailDO.setActionId(param.getActionId());
+		detailDO.setId(param.getId());
 		detailDO.setBranch(param.getBranch());
 		detailDO.setClassName(param.getClassName());
 		detailDO.setCompete(param.getCompete());
@@ -283,10 +284,29 @@ public class VoteProcess {
 		detailDO.setSerialId(param.getSerialId());
 		detailDO.setStory(param.getStory());
 		
-		int count = voteService.insertVoteActionDetail(detailDO);
+		int count = voteService.updateVoteActionDetail(detailDO);
 		if(count<=0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("添加失败");
+			model.setMessage("更新失败");
+		}
+		return model;
+	}
+	
+	public SimpleFlagModel deleteVoteAction(Long id){
+		SimpleFlagModel model = new SimpleFlagModel();
+		int count = voteService.deleteVoteAction(id);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("删除失败");
+		}
+		return model;
+	}
+	public SimpleFlagModel deleteVoteActionDetail(Long id){
+		SimpleFlagModel model = new SimpleFlagModel();
+		int count = voteService.deleteVoteActionDetail(id);
+		if(count<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("删除失败");
 		}
 		return model;
 	}

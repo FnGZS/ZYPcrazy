@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.crazyBird.dao.vote.dataobject.VoteActionCustomDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDetailSearchDO;
 
@@ -22,5 +23,6 @@ public interface VoteDetailDao {
 	
 	List<VoteActionDetailDO> selectActionDetailByName(VoteActionDetailSearchDO searchDO);
 	
+	VoteActionCustomDO selectActionDetailById(Long id); 
 	
 }
