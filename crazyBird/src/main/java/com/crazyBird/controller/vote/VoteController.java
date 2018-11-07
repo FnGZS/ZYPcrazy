@@ -1,6 +1,8 @@
 package com.crazyBird.controller.vote;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -104,6 +106,7 @@ public class VoteController {
 	public VoteActionDetailRankModel searchActionDeatil(@RequestBody VoteActionSearchDetailParam param) {
 		return voteProcess.selectActionDetailByName(param);
 	}
+
 	/**
 	 * 获取单个候选人信息
 	 */
