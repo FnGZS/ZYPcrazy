@@ -5,12 +5,14 @@ import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.admin.controller.affairs.model.AffairsPageModel;
+import com.admin.controller.affairs.model.DeleteAffairsModel;
 import com.admin.controller.affairs.param.AffairsPageParam;
 import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.param.AddAffairsParam;
@@ -56,6 +58,16 @@ public class AffairsController {
 	@ResponseBody
 	public AddAffairsModel addAffair(@RequestBody AddAffairsParam param) {
 		return affairsProcess.addAffair(param);
+	}
+	/**
+	 * É¾³ýÊ±ÊÂ
+	 * @param
+	 * @return
+	 * */
+	@RequestMapping(value ="/delete", method = RequestMethod.GET)
+	@ResponseBody
+	public DeleteAffairsModel deleteAffair(Long id) {
+		return affairsProcess.deleteAffair(id);
 	}
 	
 }

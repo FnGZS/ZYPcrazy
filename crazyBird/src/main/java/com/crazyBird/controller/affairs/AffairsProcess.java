@@ -160,6 +160,7 @@ public class AffairsProcess extends BaseProcess {
 		if(recommend != null) {
 			model.setId(recommend.getId());
 			model.setPic(recommend.getAffairsPic());
+			model.setTitle(recommend.getTitle());
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());

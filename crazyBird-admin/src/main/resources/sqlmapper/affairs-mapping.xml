@@ -56,4 +56,8 @@
     	brows = brows + 1 
     where  id = #{id,jdbcType=BIGINT}
   </update>
+  <delete id="deleteAffair" parameterType="java.lang.Long">
+  	delete from affairs
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
 </mapper>

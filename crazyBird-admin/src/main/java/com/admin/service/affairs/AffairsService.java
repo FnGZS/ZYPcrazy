@@ -14,4 +14,6 @@ public interface AffairsService {
 
 	ResponseDO<Long> addAffair(AddAffairDO affair);
 
+	ResponseDO<Long> deleteAffair(Long id);
+
 }

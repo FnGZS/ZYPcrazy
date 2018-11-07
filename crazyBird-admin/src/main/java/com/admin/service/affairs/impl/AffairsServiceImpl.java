@@ -38,4 +38,18 @@ public class AffairsServiceImpl implements AffairsService{
 		return null;
 	}
 
+	@Override
+	public ResponseDO<Long> deleteAffair(Long id) {
+		ResponseDO<Long> result = new ResponseDO<>();
+		AffairsDO affair = affairsDao.getAffairsDetails(id);
+		if(affair != null) {
+			affairsDao.deleteAffair(id);
+			result.setMessage("É¾³ý³É¹¦");
+			result.setDataResult((long) 1);
+			return result;
+		}
+		result.setDataResult((long) 0);
+		return result;
+	}
+
 }

@@ -11,4 +11,8 @@ public interface AffairsDao {
 
 	List<AffairsDO> getAffairs(AffairsPO po);
 
+	AffairsDO getAffairsDetails(Long id);
+
+	void deleteAffair(Long id);
+
 }
