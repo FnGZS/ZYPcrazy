@@ -68,7 +68,7 @@
 	    	NOW(),
 	    	NOW()
 		)
-	</insert>
+  </insert>
   <update id="update" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsDO" >
     update affairs
     set title = #{title,jdbcType=VARCHAR},

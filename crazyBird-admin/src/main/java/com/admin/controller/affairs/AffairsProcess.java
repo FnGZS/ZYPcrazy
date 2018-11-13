@@ -11,8 +11,10 @@ import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.model.AffairsItem;
 import com.admin.controller.affairs.model.AffairsPageModel;
 import com.admin.controller.affairs.model.DeleteAffairsModel;
+import com.admin.controller.affairs.model.UpdateAffairsModel;
 import com.admin.controller.affairs.param.AddAffairsParam;
 import com.admin.controller.affairs.param.AffairsPageParam;
+import com.admin.controller.affairs.param.UpdateAffairParam;
 import com.admin.controller.base.BaseProcess;
 import com.admin.dao.affairs.dataobject.AffairsDO;
 import com.admin.dao.affairs.dataobject.AffairsPO;
@@ -129,6 +131,26 @@ public class AffairsProcess extends BaseProcess{
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("无此项");
+		return model;
+	}
+
+	public UpdateAffairsModel updateAffair(UpdateAffairParam param) {
+		UpdateAffairsModel model = new UpdateAffairsModel();
+		AffairsDO update = new AffairsDO();
+		update.setId(param.getId());
+		update.setTitle(param.getTitle());
+		update.setAffairsPic(param.getAffairsPic());
+		update.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
+		update.setTypeId(param.getTypeId());
+		update.setSubordinate(param.getSubordinate());
+		ResponseDO<Long> response = affairsService.update(update);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("修改失败");
+			return model;
+		}		
+		model.setResult(response.getDataResult());
+		model.setMessage("修改成功");
 		return model;
 	}
 

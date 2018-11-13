@@ -66,4 +66,20 @@ public class AffairsServiceImpl implements AffairsService{
 		return affairs;
 	}
 
+	@Override
+	public ResponseDO<Long> update(AffairsDO update) {
+		ResponseDO<Long> result = new ResponseDO<>();
+		AffairsDO affair = affairsDao.getAffairsDetails(update.getId());
+		if(affair != null) {
+			affairsDao.update(update);
+			result.setMessage("修改成功");
+			result.setDataResult((long) 1);
+			return result;
+		}
+		result.setDataResult((long) 0);
+		return result;
+	}
+
+
+
 }

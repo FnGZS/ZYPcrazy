@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.admin.controller.affairs.model.AffairsPageModel;
 import com.admin.controller.affairs.model.DeleteAffairsModel;
+import com.admin.controller.affairs.model.UpdateAffairsModel;
 import com.admin.controller.affairs.param.AffairsPageParam;
+import com.admin.controller.affairs.param.UpdateAffairParam;
 import com.admin.controller.affairs.model.AffairsDetailsModel;
 import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.param.AddAffairsParam;
@@ -50,8 +52,6 @@ public class AffairsController {
     	return affairsProcess.getAffairsList(param);
     }
 	
-	
-	
 	/**
 	 * 添加时事
 	 * @param param
@@ -85,4 +85,14 @@ public class AffairsController {
 		return affairsProcess.deleteAffair(id);
 	}
 	
+	/**
+	 * 修改时事
+	 * @param
+	 * @return
+	 * */
+	@RequestMapping(value ="/update", method = RequestMethod.POST)
+	@ResponseBody
+	public UpdateAffairsModel updateAffair(@RequestBody UpdateAffairParam param) {
+		return affairsProcess.updateAffair(param);
+	}
 }

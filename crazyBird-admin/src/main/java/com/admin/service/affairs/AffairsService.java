@@ -18,4 +18,9 @@ public interface AffairsService {
 
 	AffairsDO getAffairsDetails(Long id);
 
+	ResponseDO<Long> update(AffairsDO update);
+
+	
+
+
 }

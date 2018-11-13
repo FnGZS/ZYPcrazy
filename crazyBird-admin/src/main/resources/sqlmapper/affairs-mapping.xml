@@ -46,6 +46,29 @@
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+   <insert id="addAffairs" parameterType="com.admin.dao.affairs.dataobject.AddAffairDO">
+	    insert into affairs (
+	    	title,
+	    	affairs_pic, 
+	    	content, 
+	    	typeId,
+	    	brows,
+	    	subordinate,
+	    	gmt_created,
+	    	gmt_modified
+	    )
+	    values 
+	    (
+	    	#{title,jdbcType=VARCHAR},
+	    	#{affairsPic,jdbcType=VARCHAR},
+	    	#{content,jdbcType=BLOB},
+	    	#{typeId,jdbcType=BIGINT},
+	    	1,
+	    	#{subordinate,jdbcType=VARCHAR},
+	    	NOW(),
+	    	NOW()
+		)
+  </insert>
   <update id="update" parameterType="com.admin.dao.affairs.dataobject.AffairsDO" >
     update affairs
     set title = #{title,jdbcType=VARCHAR},
