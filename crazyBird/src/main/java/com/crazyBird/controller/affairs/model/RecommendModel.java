@@ -7,6 +7,9 @@ public class RecommendModel extends AbstractFlagModel{
 	private Long id;
 	private String pic;
 	private String title;
+	private String year;
+	private String day;
+	private String minute;
 	
 	public Long getId() {
 		return id;
@@ -26,5 +29,24 @@ public class RecommendModel extends AbstractFlagModel{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getMinute() {
+		return minute;
+	}
+	public void setMinute(String minute) {
+		this.minute = minute;
+	}
+
 	
 }

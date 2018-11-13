@@ -161,6 +161,9 @@ public class AffairsProcess extends BaseProcess {
 			model.setId(recommend.getId());
 			model.setPic(recommend.getAffairsPic());
 			model.setTitle(recommend.getTitle());
+			model.setYear(recommend.getGmtCreated().substring(0, 4));
+			model.setDay(recommend.getGmtCreated().substring(5, 11));
+			model.setMinute(recommend.getGmtCreated().substring(11, 19));
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());

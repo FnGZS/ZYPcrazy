@@ -11,8 +11,10 @@ import com.admin.controller.affairs.model.AddAffairsModel;
 import com.admin.controller.affairs.model.AffairsItem;
 import com.admin.controller.affairs.model.AffairsPageModel;
 import com.admin.controller.affairs.model.DeleteAffairsModel;
+import com.admin.controller.affairs.model.UpdateAffairsModel;
 import com.admin.controller.affairs.param.AddAffairsParam;
 import com.admin.controller.affairs.param.AffairsPageParam;
+import com.admin.controller.affairs.param.UpdateAffairParam;
 import com.admin.controller.base.BaseProcess;
 import com.admin.dao.affairs.dataobject.AffairsDO;
 import com.admin.dao.affairs.dataobject.AffairsPO;
@@ -20,6 +22,7 @@ import com.admin.model.enums.HttpCodeEnum;
 import com.admin.service.affairs.AffairsService;
 import com.admin.service.base.ResponsePageQueryDO;
 import com.admin.utils.PageUtils;
+import com.admin.controller.affairs.model.AffairsDetailsModel;
 import com.admin.dao.affairs.dataobject.AddAffairDO;
 import com.admin.service.base.ResponseDO;
 import com.admin.utils.CollectionUtil;
@@ -105,6 +108,49 @@ public class AffairsProcess extends BaseProcess{
 		}
 		model.setMessage(response.getMessage());
 		model.setResult(response.getDataResult());
+		return model;
+	}
+
+	public AffairsDetailsModel getAffairsDetails(Long id) {
+		AffairsDetailsModel model = new AffairsDetailsModel();
+		AffairsDO detail = affairsService.getAffairsDetails(id);
+		if(detail!=null) {
+			AffairsItem affairs = new AffairsItem();
+			affairs.setId(detail.getId());
+			affairs.setTitle(detail.getTitle());
+			affairs.setAffairsPic(detail.getAffairsPic());
+			affairs.setContent(detail.getContent() == null ? "" : new String(detail.getContent()));
+			affairs.setTypeId(detail.getTypeId());
+			affairs.setBrows(detail.getBrows());
+			affairs.setSubordinate(detail.getSubordinate());
+			affairs.setYear(detail.getGmtCreated().substring(0, 4));
+			affairs.setDay(detail.getGmtCreated().substring(5, 11));
+			affairs.setMinute(detail.getGmtCreated().substring(11, 19));
+			model.setDetails(affairs);
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		model.setMessage("无此项");
+		return model;
+	}
+
+	public UpdateAffairsModel updateAffair(UpdateAffairParam param) {
+		UpdateAffairsModel model = new UpdateAffairsModel();
+		AffairsDO update = new AffairsDO();
+		update.setId(param.getId());
+		update.setTitle(param.getTitle());
+		update.setAffairsPic(param.getAffairsPic());
+		update.setContent(StringUtils.isNotBlank(param.getContent()) ? param.getContent().getBytes() : null);
+		update.setTypeId(param.getTypeId());
+		update.setSubordinate(param.getSubordinate());
+		ResponseDO<Long> response = affairsService.update(update);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("修改失败");
+			return model;
+		}		
+		model.setResult(response.getDataResult());
+		model.setMessage("修改成功");
 		return model;
 	}
 
