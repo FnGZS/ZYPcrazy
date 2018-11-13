@@ -106,7 +106,6 @@ public class VoteController {
 	public VoteActionDetailRankModel searchActionDeatil(@RequestBody VoteActionSearchDetailParam param) {
 		return voteProcess.selectActionDetailByName(param);
 	}
-
 	/**
 	 * 获取单个候选人信息
 	 */
@@ -115,7 +114,6 @@ public class VoteController {
 	public VoteActionCustomModel searchActionDeatilById(@PathVariable Long id) {
 		return voteProcess.searchActionDeatilById(id);
 	}
-	
 	/**
 	 * 获得活动详情排名
 	 * @param status
