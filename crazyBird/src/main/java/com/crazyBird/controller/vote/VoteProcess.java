@@ -318,11 +318,13 @@ public class VoteProcess extends BaseProcess {
 		for (VoteActionDetailDO tag : tags) {
 			if (tag != null) {
 				VoteActionDetailItem item = new VoteActionDetailItem();
+				item.setId(tag.getId());
 				item.setActionId(tag.getActionId());
 				item.setSerialId(tag.getSerialId());
 				item.setPeopleName(tag.getPeopleName());
 				item.setClassName(tag.getClassName());
 				item.setImageUrl(tag.getImageUrl());
+				item.setNum(tag.getNum());
 				detailItems.add(item);
 			}
 		}
