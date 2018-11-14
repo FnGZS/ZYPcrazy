@@ -8,26 +8,20 @@
 		<result column="serial_id" property="serialId" jdbcType="BIGINT" />
 		<result column="people_name" property="peopleName" jdbcType="VARCHAR" />
 		<result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
-		<result column="content" property="content" jdbcType="VARCHAR" />
-		<result column="branch" property="branch" jdbcType="VARCHAR" />
-		<result column="scientific" property="scientific" jdbcType="VARCHAR" />
-		<result column="political" property="political" jdbcType="VARCHAR" />
 		<result column="class" property="className" jdbcType="VARCHAR" />
-		<result column="post" property="post" jdbcType="VARCHAR" />
-		<result column="compete" property="compete" jdbcType="VARCHAR" />
-		<result column="honor" property="honor" jdbcType="VARCHAR" />
-		<result column="story" property="story" jdbcType="VARCHAR" />
-		<result column="recommend" property="recommend" jdbcType="VARCHAR" />
+		<result column="base_infor" property="baseInfor" jdbcType="VARCHAR" />
 		<result column="num" property="num" jdbcType="BIGINT" />
 	</resultMap>
-	<resultMap id="CustomMap" type="com.crazyBird.dao.vote.dataobject.VoteActionCustomDO">
+	<resultMap id="VoteCustomMap" type="com.crazyBird.dao.vote.dataobject.VoteActionCustomDO">
 		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="param" property="param" jdbcType="VARCHAR" />
-		<result column="value" property="value" jdbcType="VARCHAR" />	
+		<result column="base_infor" property="baseInfor" jdbcType="VARCHAR" />
+		<result column="people_name" property="peopleName" jdbcType="VARCHAR" />
+		<result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+		<result column="class" property="className" jdbcType="VARCHAR" />
+		<result column="detail" property="detail" jdbcType="VARCHAR" />	
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,action_id,serial_id,people_name,image_url,scientific,content,branch,political,class,post,compete,honor,story,
-		recommend,num
+		id,action_id,serial_id,base_infor,class,image_url,people_name,num
 	</sql>
 	<select id="getVoteActionDetail" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -52,8 +46,8 @@
 		from vote_action_detail
 		where action_id = #{actionId,jdbcType=BIGINT} and people_name LIKE CONCAT(CONCAT('%',#{peopleName,jdbcType=VARCHAR},'%'))
 	</select>
-	<select id="selectActionDetailById" parameterType="java.lang.Long" resultMap="CustomMap">
-	select id,param,value from vote_custom where id=#{id,jdbcType=BIGINT}
+	<select id="selectActionDetailById" parameterType="java.lang.Long" resultMap="VoteCustomMap">
+	select id,people_name,base_infor,image_url,class,detail from vote_action_detail where id=#{id,jdbcType=BIGINT}
 	</select>
 
 	<update id="BatchupdateVoteActionDetail"

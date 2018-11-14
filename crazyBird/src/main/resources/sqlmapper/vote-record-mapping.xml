@@ -70,7 +70,6 @@
 	ORDER BY vr.gmt_created desc 
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
-	
 	<select id="getRecordCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
 	select count(1) from vote_record where student_id = #{studentId,jdbcType=BIGINT}
 	</select>

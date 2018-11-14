@@ -242,8 +242,10 @@ public class VoteProcess extends BaseProcess {
 			model.setMessage("id为空");
 		}
 		model.setId(customDO.getId());
-		model.setParam(customDO.getParam());
-		model.setValue(customDO.getValue());
+		model.setPeopleName(customDO.getPeopleName());
+		model.setDetail(customDO.getDetail());
+		model.setClassName(customDO.getClassName());
+		model.setImageUrl(customDO.getImageUrl());
 		return model;
 	}
 	public VoteActionDetailRankModel selectActionDetailByName(VoteActionSearchDetailParam param) {
@@ -316,22 +318,13 @@ public class VoteProcess extends BaseProcess {
 		for (VoteActionDetailDO tag : tags) {
 			if (tag != null) {
 				VoteActionDetailItem item = new VoteActionDetailItem();
+				item.setId(tag.getId());
 				item.setActionId(tag.getActionId());
 				item.setSerialId(tag.getSerialId());
-				item.setBranch(tag.getBranch());
+				item.setPeopleName(tag.getPeopleName());
 				item.setClassName(tag.getClassName());
-				item.setCompete(tag.getCompete());
-				item.setContent(tag.getContent());
-				item.setHonor(tag.getHonor());
-				item.setScientific(tag.getScientific());
-				item.setId(tag.getId());
 				item.setImageUrl(tag.getImageUrl());
 				item.setNum(tag.getNum());
-				item.setPeopleName(tag.getPeopleName());
-				item.setPolitical(tag.getPolitical());
-				item.setPost(tag.getPost());
-				item.setRecommend(tag.getRecommend());
-				item.setStory(tag.getStory());			
 				detailItems.add(item);
 			}
 		}

@@ -1,27 +1,56 @@
 package com.crazyBird.controller.vote.model;
 
+import org.apache.lucene.util.StringHelper;
+
 import com.crazyBird.controller.base.AbstractFlagModel;
 
-public class VoteActionCustomModel extends AbstractFlagModel{
-		public Long getId() {
+public class VoteActionCustomModel extends AbstractFlagModel {
+
+	private Long id;
+	private String imageUrl;
+	private String className;
+	private String peopleName;
+	private String detail;
+
+	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getParam() {
-		return param;
+
+	public String getImageUrl() {
+		return imageUrl;
 	}
-	public void setParam(String param) {
-		this.param = param;
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	public String getValue() {
-		return value;
+
+	public String getClassName() {
+		return className;
 	}
-	public void setValue(String value) {
-		this.value = value;
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
-		private Long id;
-		private String param;
-		private String value;
+
+	public String getPeopleName() {
+		return peopleName;
+	}
+
+	public void setPeopleName(String peopleName) {
+		this.peopleName = peopleName;
+	}
+
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
 }
