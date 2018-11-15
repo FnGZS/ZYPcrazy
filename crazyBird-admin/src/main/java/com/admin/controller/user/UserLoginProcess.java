@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.admin.controller.base.BaseProcess;
+import com.admin.controller.user.model.AdminModel;
 import com.admin.controller.user.model.BindingModel;
 import com.admin.controller.user.model.LoginModel;
+import com.admin.controller.user.param.AdminParam;
 import com.admin.controller.user.param.BindingParam;
 import com.admin.controller.user.param.LoginParam;
 import com.admin.dao.user.UserDao;
+import com.admin.dao.user.dataobject.AdminDO;
 import com.admin.dao.user.dataobject.BindingDO;
 import com.admin.dao.user.dataobject.LoginDO;
 import com.admin.dao.user.dataobject.UserLoginDO;
@@ -80,6 +83,22 @@ public class UserLoginProcess extends BaseProcess{
 			model.setCode(responseDO.getCode());
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
+		return model;
+	}
+
+	public AdminModel adminLogin(AdminParam param) {
+		AdminModel model = new AdminModel();
+		AdminDO admin = new AdminDO();
+		admin.setAdminName(param.getAdminName());
+		admin.setPassword(param.getPassword());
+		ResponseDO<AdminDO> responseDO = userLoginService.adminLogin(admin);
+		if(!responseDO.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("登录失败");
+			return model;
+		}
+		model.setAdminUser(responseDO.getDataResult().getAdminUser());
+		model.setAdminName(responseDO.getDataResult().getAdminName());
 		return model;
 	}
 

@@ -12,5 +12,4 @@ public interface UserDao {
 	void updateBinding(BindingDO binding);
 
 
-
 }

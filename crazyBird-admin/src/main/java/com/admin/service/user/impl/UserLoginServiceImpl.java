@@ -4,8 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.admin.dao.user.AdminDao;
 import com.admin.dao.user.UserDao;
 import com.admin.dao.user.UserLoginDao;
+import com.admin.dao.user.dataobject.AdminDO;
 import com.admin.dao.user.dataobject.BindingDO;
 import com.admin.dao.user.dataobject.LoginDO;
 import com.admin.dao.user.dataobject.UserDO;
@@ -26,6 +28,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Autowired
 	private UserLoginDao userLoginDao;
 
+	@Autowired
+	private AdminDao adminDao;
 	
 	@Override
 	public ResponseDO<UserLoginDO> getUserLogin(String unionId) {
@@ -97,6 +101,18 @@ public class UserLoginServiceImpl implements UserLoginService {
 		if(isBinding == null) {
 			userDao.updateBinding(binding);
 			responseDO.setDataResult(isBinding);
+			return responseDO;
+		}
+		responseDO.setCode(ResponseCode.ERROR);
+		return responseDO;
+	}
+
+	@Override
+	public ResponseDO<AdminDO> adminLogin(AdminDO admin) {
+		ResponseDO<AdminDO> responseDO = new ResponseDO<AdminDO>();
+		AdminDO adminUser = adminDao.getAdmin(admin.getAdminName());
+		if(adminUser.getPassword().equals(admin.getPassword())) {
+			responseDO.setDataResult(adminUser);
 			return responseDO;
 		}
 		responseDO.setCode(ResponseCode.ERROR);
