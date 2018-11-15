@@ -1,6 +1,7 @@
 package com.admin.service.user;
 
 
+import com.admin.dao.user.dataobject.AdminDO;
 import com.admin.dao.user.dataobject.BindingDO;
 import com.admin.dao.user.dataobject.LoginDO;
 import com.admin.dao.user.dataobject.UserLoginDO;
@@ -16,6 +17,8 @@ public interface UserLoginService {
 	ResponseDO<UserLoginDO> userLogin(LoginDO wxUser);
 
 	ResponseDO<String> userBinding(BindingDO binding);
+
+	ResponseDO<AdminDO> adminLogin(AdminDO admin);
 
 //	ResponseDO<UserLoginDTO> doPlatLogin(PlatLoginPO platLoginPO);
 	

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.admin.controller.user.model.AdminModel;
 import com.admin.controller.user.model.BindingModel;
 import com.admin.controller.user.model.LoginModel;
+import com.admin.controller.user.param.AdminParam;
 import com.admin.controller.user.param.BindingParam;
 import com.admin.controller.user.param.LoginParam;
 
@@ -31,5 +33,11 @@ public class UserLoginController {
 	    @ResponseBody
 	    public BindingModel binding(@RequestBody BindingParam param) {
 			return userLoginProcess.binding(param);
+		}
+		
+		@RequestMapping(value = "/admin", method = RequestMethod.POST)
+	    @ResponseBody
+	    public AdminModel adminLogin(@RequestBody AdminParam param) {
+			return userLoginProcess.adminLogin(param);
 		}
 }
