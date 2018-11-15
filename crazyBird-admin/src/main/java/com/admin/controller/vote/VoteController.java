@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.admin.controller.base.SimpleFlagModel;
@@ -18,6 +19,7 @@ import com.admin.controller.vote.model.VoteActionRecordModel;
 import com.admin.controller.vote.param.VoteActionDetailParam;
 import com.admin.controller.vote.param.VoteActionParam;
 import com.admin.controller.vote.param.VoteActionStatusParam;
+import com.admin.controller.vote.param.VoteDetailByIdParam;
 import com.admin.controller.vote.param.VoteRecordParam;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
@@ -48,13 +50,13 @@ public class VoteController {
 	 * @param status
 	 * @return
 	 */
-	@RequestMapping(value = "/getAction/detail/{id}",method = RequestMethod.GET)
+	@RequestMapping(value = "/getAction/detail",method = RequestMethod.POST)
 	@ResponseBody
-	public VoteActionDetailListModel getActionDetail(@PathVariable Long id) {
-		return voteProcess.getActionDetailList(id);
+	public VoteActionDetailListModel getActionDetail(@RequestBody VoteDetailByIdParam param) {
+		return voteProcess.getActionDetailList(param);
 	}
 	/**
-	 * 获得进行中的三个热门活动
+	 * 获得推荐活动
 	 * @return
 	 */
 	@RequestMapping(value = "/getAction/hot",method = RequestMethod.GET)
@@ -73,7 +75,7 @@ public class VoteController {
 		return voteProcess.selectActionDetailByName(param);
 	}
 	/**
-	  *  获得活动详情排名
+	  *  获得某个活动的排名
 	 * @param id
 	 * @return
 	 */
@@ -87,11 +89,12 @@ public class VoteController {
 	 * @param param
 	 * @return
 	 */
-	@RequestMapping(value = "/user",method = RequestMethod.GET)
+	@RequestMapping(value = "/record",method = RequestMethod.GET)
 	@ResponseBody
 	public VoteActionRecordModel getVoteActionUserRecord(VoteActionRecordParam param) {
 		return voteProcess.getVoteActionRecord(param);	
 	}
+
 	/**
 	  * 添加活动
 	 * @param param
@@ -153,4 +156,7 @@ public class VoteController {
 	public SimpleFlagModel daleteVoteActionDetail(@PathVariable Long id) {
 		return voteProcess.deleteVoteActionDetail(id);
 	}
+	/**
+	 * 得到轮播图
+	 */
 }

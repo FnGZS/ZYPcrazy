@@ -3,6 +3,13 @@ package com.crazyBird.dao.vote.dataobject;
 public class VoteActionCustomDO {
 	private Long id;
 	private String baseInfor;
+	public Long getNum() {
+		return num;
+	}
+	public void setNum(Long num) {
+		this.num = num;
+	}
+	private Long num;
 	public String getImageUrl() {
 		return imageUrl;
 	}

@@ -19,6 +19,7 @@
 		<result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
 		<result column="class" property="className" jdbcType="VARCHAR" />
 		<result column="detail" property="detail" jdbcType="VARCHAR" />	
+		<result column="num" property="num" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id,action_id,serial_id,base_infor,class,image_url,people_name,num
@@ -47,7 +48,7 @@
 		where action_id = #{actionId,jdbcType=BIGINT} and people_name LIKE CONCAT(CONCAT('%',#{peopleName,jdbcType=VARCHAR},'%'))
 	</select>
 	<select id="selectActionDetailById" parameterType="java.lang.Long" resultMap="VoteCustomMap">
-	select id,people_name,base_infor,image_url,class,detail from vote_action_detail where id=#{id,jdbcType=BIGINT}
+	select id,people_name,base_infor,image_url,class,detail,num from vote_action_detail where id=#{id,jdbcType=BIGINT}
 	</select>
 
 	<update id="BatchupdateVoteActionDetail"

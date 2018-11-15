@@ -17,6 +17,7 @@ import com.admin.controller.vote.model.VoteActionDetailItem;
 import com.admin.controller.vote.model.VoteActionDetailListModel;
 import com.admin.controller.vote.model.VoteActionDetailModel;
 import com.admin.controller.vote.model.VoteActionDetailRankModel;
+import com.admin.controller.vote.model.VoteActionHotItem;
 import com.admin.controller.vote.model.VoteActionHotListModel;
 import com.admin.controller.vote.model.VoteActionItem;
 import com.admin.controller.vote.model.VoteActionListModel;
@@ -27,12 +28,14 @@ import com.admin.controller.vote.param.VoteActionDetailParam;
 import com.admin.controller.vote.param.VoteActionGetDetailParam;
 import com.admin.controller.vote.param.VoteActionParam;
 import com.admin.controller.vote.param.VoteActionStatusParam;
+import com.admin.controller.vote.param.VoteDetailByIdParam;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
 import com.admin.controller.vote.param.VoteRecordParam;
 import com.admin.dao.vote.dataobject.VoteActionDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailSearchDO;
+import com.admin.dao.vote.dataobject.VoteActionHotDTO;
 import com.admin.dao.vote.dataobject.VoteActionPO;
 import com.admin.dao.vote.dataobject.VoteActionRecordDTO;
 import com.admin.dao.vote.dataobject.VoteActionRecordPO;
@@ -52,11 +55,6 @@ public class VoteProcess {
 
 	public VoteActionListModel getActionList(VoteActionStatusParam param) {
 		VoteActionListModel model = new VoteActionListModel();
-		if (param.getStatus() == null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("没有此状态活动");
-			return model;
-		}
 		PageUtils.resetPageParam(param);
 		// List<VoteActionItem> actionItems = new ArrayList<>();
 		VoteActionPO po = new VoteActionPO();
@@ -113,68 +111,55 @@ public class VoteProcess {
 		return model;
 		
 	}
-	public VoteActionDetailListModel getActionDetailList(Long id) {
+	public VoteActionDetailListModel getActionDetailList(VoteDetailByIdParam param) {
 		VoteActionDetailListModel model = new VoteActionDetailListModel();
-		if (id == null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("参数为空");
-		}
-		VoteActionDO voteActionDO = voteService.getAction(id);
-		List<VoteActionDetailDO> tags = voteService.getActionDetailList(id);
+		
+		List<VoteActionDetailDO> tags = voteService.getActionDetailList(param.getId());
 		if (CollectionUtil.isEmpty(tags)) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("活动出错");
 			return model;
 		}
-		Long ms = null;
 		List<VoteActionDetailItem> detailItems = convertVoteActionDetail(tags);
-		model.setActionIntro(voteActionDO.getActionIntro());
-		model.setActionName(voteActionDO.getActionName());
-		model.setStartTime(DateUtil.formatDate(voteActionDO.getStartTime(), DateUtil.DATE_FORMAT_YMDHMS));
-		model.setEndTime(DateUtil.formatDate(voteActionDO.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
-		model.setHost(voteActionDO.getHost());
-		model.setActionImage(voteActionDO.getActionImage());
-		model.setVoteMax(voteActionDO.getVoteMax());
-		model.setVoteMin(voteActionDO.getVoteMin());
-		model.setId(voteActionDO.getId());
-		model.setStatus(voteActionDO.getStatus());
-		model.setTelephone(voteActionDO.getTelephone());
-		model.setVisitNum(voteActionDO.getVisitNum());
-		model.setVoteRuler(voteActionDO.getVoteRuler());
-		model.setVoteSum(voteActionDO.getVoteSum());
 		model.setVoteDetailList(detailItems);
-		if(voteActionDO.getStatus()==0) {
-			 ms = voteActionDO.getStartTime().getTime()-new Date().getTime();
-		}
-		if(voteActionDO.getStatus()==1) {
-			 ms = voteActionDO.getEndTime().getTime()-new Date().getTime();
-		}
-		if(voteActionDO.getStatus()==2){
-			 ms = (long) 0;
-		}
-		model.setTimeDiff(ms);
 		return model;
 	}
 
 	public VoteActionHotListModel getVoteActionHotList() {
 		VoteActionHotListModel model = new VoteActionHotListModel();
-		List<VoteActionDO> actionList = voteService.getVoteActionHotList();
-		if (CollectionUtil.isEmpty(actionList)) {
+		List<VoteActionHotDTO> tags = voteService.getVoteActionHotList();
+		if (CollectionUtil.isEmpty(tags)) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("暂无进行中的热门活动");
 			return model;
 		}
-		List<VoteActionItem> actionItems = convertVoteAction(actionList);
+		List<VoteActionHotItem> actionItems = new ArrayList<>();
+		for (VoteActionHotDTO tag : tags) {
+			VoteActionHotItem item = new VoteActionHotItem();
+			item.setId(tag.getReId());
+			item.setActionId(tag.getId());
+			item.setActionIntro(tag.getActionIntro());
+			item.setActionName(tag.getActionName());
+			item.setStartTime(DateUtil.formatDate(tag.getStartTime(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setEndTime(DateUtil.formatDate(tag.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setGmtModified(DateUtil.formatDate(tag.getGmtModified(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setActionImage(tag.getActionImage());
+			item.setHost(tag.getHost());
+			item.setStatus(tag.getStatus());
+			item.setTelephone(tag.getTelephone());
+			item.setVisitNum(tag.getVisitNum());
+			item.setVoteMin(tag.getVoteMin());
+			item.setVoteMax(tag.getVoteMax());
+			item.setVoteRuler(tag.getVoteRuler());
+			item.setVoteSum(tag.getVoteSum());
+			actionItems.add(item);
+		}
 		model.setVoteList(actionItems);
 		return model;
 	}
 	public VoteActionDetailRankModel selectActionDetailByName(VoteActionSearchDetailParam param) {
 		VoteActionDetailRankModel model= new VoteActionDetailRankModel();
-		if(StringUtils.isBlank(param.getPeopleName())||param.getActionId()==null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("参数错误");
-			return model;
-		}
 		VoteActionDetailSearchDO searchDO = new VoteActionDetailSearchDO();
 		
 		searchDO.setActionId(param.getActionId());
@@ -217,21 +202,11 @@ public class VoteProcess {
 		SimpleFlagModel model = new SimpleFlagModel();
 		VoteActionDetailDO detailDO = new VoteActionDetailDO();
 		detailDO.setActionId(param.getActionId());
-		detailDO.setBranch(param.getBranch());
 		detailDO.setClassName(param.getClassName());
-		detailDO.setCompete(param.getCompete());
-		detailDO.setContent(param.getContent());
-		detailDO.setHonor(param.getHonor());
 		detailDO.setImageUrl(param.getImageUrl());
 		detailDO.setNum(param.getNum());
+		detailDO.setDetail(param.getDetail());
 		detailDO.setPeopleName(param.getPeopleName());
-		detailDO.setPolitical(param.getPolitical());
-		detailDO.setPost(param.getPost());
-		detailDO.setRecommend(param.getRecommend());
-		detailDO.setScientific(param.getScientific());
-		detailDO.setSerialId(param.getSerialId());
-		detailDO.setStory(param.getStory());
-		
 		int count = voteService.insertVoteActionDetail(detailDO);
 		if(count<=0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
@@ -269,20 +244,12 @@ public class VoteProcess {
 		VoteActionDetailDO detailDO = new VoteActionDetailDO();
 		detailDO.setActionId(param.getActionId());
 		detailDO.setId(param.getId());
-		detailDO.setBranch(param.getBranch());
 		detailDO.setClassName(param.getClassName());
-		detailDO.setCompete(param.getCompete());
-		detailDO.setContent(param.getContent());
-		detailDO.setHonor(param.getHonor());
 		detailDO.setImageUrl(param.getImageUrl());
 		detailDO.setNum(param.getNum());
 		detailDO.setPeopleName(param.getPeopleName());
-		detailDO.setPolitical(param.getPolitical());
-		detailDO.setPost(param.getPost());
-		detailDO.setRecommend(param.getRecommend());
-		detailDO.setScientific(param.getScientific());
 		detailDO.setSerialId(param.getSerialId());
-		detailDO.setStory(param.getStory());
+
 		
 		int count = voteService.updateVoteActionDetail(detailDO);
 		if(count<=0) {
@@ -321,6 +288,8 @@ public class VoteProcess {
 				item.setActionName(tag.getActionName());
 				item.setStartTime(DateUtil.formatDate(tag.getStartTime(), DateUtil.DATE_FORMAT_YMDHMS));
 				item.setEndTime(DateUtil.formatDate(tag.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
+				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+				item.setGmtModified(DateUtil.formatDate(tag.getGmtModified(), DateUtil.DATE_FORMAT_YMDHMS));
 				item.setActionImage(tag.getActionImage());
 				item.setHost(tag.getHost());
 				item.setStatus(tag.getStatus());
@@ -342,22 +311,14 @@ public class VoteProcess {
 		for (VoteActionDetailDO tag : tags) {
 			if (tag != null) {
 				VoteActionDetailItem item = new VoteActionDetailItem();
+				item.setDetail(tag.getDetail());
+				item.setId(tag.getId());
 				item.setActionId(tag.getActionId());
 				item.setSerialId(tag.getSerialId());
-				item.setBranch(tag.getBranch());
+				item.setPeopleName(tag.getPeopleName());
 				item.setClassName(tag.getClassName());
-				item.setCompete(tag.getCompete());
-				item.setContent(tag.getContent());
-				item.setHonor(tag.getHonor());
-				item.setScientific(tag.getScientific());
-				item.setId(tag.getId());
 				item.setImageUrl(tag.getImageUrl());
 				item.setNum(tag.getNum());
-				item.setPeopleName(tag.getPeopleName());
-				item.setPolitical(tag.getPolitical());
-				item.setPost(tag.getPost());
-				item.setRecommend(tag.getRecommend());
-				item.setStory(tag.getStory());			
 				detailItems.add(item);
 			}
 		}
@@ -382,6 +343,7 @@ public class VoteProcess {
 				item.setVisitNum(tag.getVisitNum());
 				item.setVoteRuler(tag.getVoteRuler());
 				item.setVoteSum(tag.getVoteSum());
+				item.setDetail(tag.getDetail());
 				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 				recordItems.add(item);
 				}

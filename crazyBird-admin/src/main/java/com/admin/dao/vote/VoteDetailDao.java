@@ -10,7 +10,7 @@ import com.admin.dao.vote.dataobject.VoteActionDetailSearchDO;
 
 public interface VoteDetailDao {
 	//获取活动详情列表
-	List<VoteActionDetailDO> getVoteActionDetail(Long actionId);
+	List<VoteActionDetailDO> getVoteActionDetail(@Param ("actionId")Long actionId);
 	
 	//获取活动详情列表按票数排序
 	List<VoteActionDetailDO> getVoteActionDetailByRank(Long actionId);

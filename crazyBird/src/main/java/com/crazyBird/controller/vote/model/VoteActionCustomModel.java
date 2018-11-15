@@ -11,6 +11,15 @@ public class VoteActionCustomModel extends AbstractFlagModel {
 	private String className;
 	private String peopleName;
 	private String detail;
+	private Long num;
+
+	public Long getNum() {
+		return num;
+	}
+
+	public void setNum(Long num) {
+		this.num = num;
+	}
 
 	public Long getId() {
 		return id;

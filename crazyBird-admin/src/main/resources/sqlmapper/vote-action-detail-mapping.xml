@@ -8,28 +8,21 @@
 		<result column="serial_id" property="serialId" jdbcType="BIGINT" />
 		<result column="people_name" property="peopleName" jdbcType="VARCHAR" />
 		<result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
-		<result column="content" property="content" jdbcType="VARCHAR" />
-		<result column="branch" property="branch" jdbcType="VARCHAR" />
-		<result column="political" property="political" jdbcType="VARCHAR" />
 		<result column="class" property="className" jdbcType="VARCHAR" />
-		<result column="post" property="post" jdbcType="VARCHAR" />
-		<result column="compete" property="compete" jdbcType="VARCHAR" />
-		<result column="honor" property="honor" jdbcType="VARCHAR" />
-		<result column="scientific" property="scientific" jdbcType="VARCHAR" />
-		<result column="story" property="story" jdbcType="VARCHAR" />
-		<result column="recommend" property="recommend" jdbcType="VARCHAR" />
+		<result column="detail" property="detail" jdbcType="VARCHAR" />
 		<result column="num" property="num" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,action_id,serial_id,people_name,image_url,scientific,content,branch,political,class,post,compete,honor,story,
-		recommend,num
+		id,action_id,serial_id,people_name,image_url,class,detail,num
 	</sql>
 	<select id="getVoteActionDetail" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
 		from vote_action_detail
+		<if test="actionId != null">
 		where action_id = #{actionId,jdbcType=BIGINT}
+		</if>
 	</select>
 	
 	<select id="getVoteActionDetailByRank" resultMap="BaseResultMap"
@@ -45,7 +38,11 @@
 		select
 		<include refid="Base_Column_List" />
 		from vote_action_detail
-		where action_id = #{actionId,jdbcType=BIGINT} and people_name LIKE CONCAT(CONCAT('%',#{peopleName,jdbcType=VARCHAR},'%'))
+		where 	
+		people_name LIKE CONCAT(CONCAT('%',#{peopleName,jdbcType=VARCHAR},'%'))
+		<if test="actionId != null">
+		and action_id = #{actionId,jdbcType=BIGINT} 
+		</if>
 	</select>
 	<insert id="insertVoteActionDetail" parameterType="com.admin.dao.vote.dataobject.VoteActionDetailDO">
 	insert into vote_action_detail 
@@ -54,17 +51,9 @@
 	action_id,
 	serial_id,
 	people_name,
+	detail,
 	image_url,
-	content,
-	branch,
-	political,
 	class,
-	post,
-	scientific,
-	compete,
-	honor,
-	story,
-	recommend,
 	num
 	)
 	values
@@ -74,16 +63,8 @@
 	#{serialId,jdbcType=BIGINT},
 	#{peopleName,jdbcType=VARCHAR},
 	#{imageUrl,jdbcType=VARCHAR},
-	#{content,jdbcType=VARCHAR},
-	#{branch,jdbcType=VARCHAR},
-	#{political,jdbcType=VARCHAR},
 	#{className,jdbcType=VARCHAR},
-	#{post,jdbcType=VARCHAR},
-	#{scientific,jdbcType=VARCHAR},
-	#{compete,jdbcType=VARCHAR},
-	#{honor,jdbcType=VARCHAR},
-	#{story,jdbcType=VARCHAR},
-	#{recommend,jdbcType=VARCHAR},
+	#{detail,jdbcType=VARCHAR},
 	#{num,jdbcType=VARCHAR}
 	)
 	</insert>

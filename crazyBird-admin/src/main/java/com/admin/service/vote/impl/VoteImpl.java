@@ -12,6 +12,7 @@ import com.admin.dao.vote.VoteRecordDao;
 import com.admin.dao.vote.dataobject.VoteActionDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailSearchDO;
+import com.admin.dao.vote.dataobject.VoteActionHotDTO;
 import com.admin.dao.vote.dataobject.VoteActionPO;
 import com.admin.dao.vote.dataobject.VoteActionRecordDTO;
 import com.admin.dao.vote.dataobject.VoteActionRecordPO;
@@ -50,7 +51,6 @@ public class VoteImpl implements VoteService {
 	@Override
 	public List<VoteActionDetailDO> getActionDetailList(Long id) {
 		List<VoteActionDetailDO> detailList = voteDetailDao.getVoteActionDetail(id);
-		voteDao.updateVoteActionNum(id);
 		return detailList;
 	}
 	
@@ -66,7 +66,7 @@ public class VoteImpl implements VoteService {
 	}
 
 	@Override
-	public List<VoteActionDO> getVoteActionHotList() {
+	public List<VoteActionHotDTO> getVoteActionHotList() {
 		return voteDao.getVoteActionHotList();
 	}
 
@@ -91,7 +91,7 @@ public class VoteImpl implements VoteService {
 		}
 		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
 			if(po.getType()==1) {
-				recordList = voteRecordDao.getVoteActionRecord(po);
+				recordList = voteRecordDao.getVoteActionUserRecord(po);
 			}
 			if(po.getType()==2) {
 				recordList = voteRecordDao.getVoteActionRecord(po);

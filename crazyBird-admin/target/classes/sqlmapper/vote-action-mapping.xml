@@ -27,16 +27,60 @@
 			jdbcType="TIMESTAMP" />
 		<result column="end_time" property="endTime"
 			jdbcType="TIMESTAMP" />
+		<result column="gmt_created" property="gmtCreated"
+			jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmtModified"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="VoteHotMap"
+		type="com.admin.dao.vote.dataobject.VoteActionHotDTO">
+		<id column="id" property="reId" jdbcType="BIGINT" />
+		<result column="type" property="type"
+			jdbcType="INTEGER" />
+		<result column="action_id" property="id"
+			jdbcType="BIGINT" />
+		<result column="action_name" property="actionName"
+			jdbcType="VARCHAR" />
+		<result column="action_introduce" property="actionIntro"
+			jdbcType="VARCHAR" />
+		<result column="vote_ruler" property="voteRuler"
+			jdbcType="VARCHAR" />
+		<result column="host" property="host" jdbcType="VARCHAR" />
+		<result column="action_image" property="actionImage"
+			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone"
+			jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="visit_num" property="visitNum"
+			jdbcType="BIGINT" />
+		<result column="vote_max" property="voteMax"
+			jdbcType="INTEGER" />
+		<result column="vote_min" property="voteMin"
+			jdbcType="INTEGER" />
+		<result column="vote_sum" property="voteSum" jdbcType="BIGINT" />
+		<result column="start_time" property="startTime"
+			jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime"
+			jdbcType="TIMESTAMP" />
+		<result column="gmt_created" property="gmtCreated"
+			jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmtModified"
+			jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, action_name, action_introduce,vote_min,vote_max, vote_ruler, host, action_image,
-		telephone, status, visit_num,vote_sum, start_time, end_time
+		telephone, status, visit_num,vote_sum, start_time, end_time,gmt_created,gmt_modified
 	</sql>
 	<select id="getVoteActionlist" resultMap="BaseResultMap"
 		parameterType="com.admin.dao.vote.dataobject.VoteActionPO">
 		select
 		<include refid="Base_Column_List" />
-		from vote_action where `status`= #{status,jdbcType=INTEGER}
+		from vote_action 
+		<if test="status != null">
+		where 
+		`status`= #{status,jdbcType=INTEGER}
+		</if>
+		
 		order by start_time desc
 		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
@@ -44,7 +88,10 @@
 		parameterType="java.lang.Integer">
 		select
 		count(1)
-		from vote_action where `status`= #{status,jdbcType=INTEGER}
+		from vote_action 
+		<if test="status != null">
+		where `status`= #{status,jdbcType=INTEGER}
+		</if>
 	</select>
 	<select id="getVoteAction" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -52,12 +99,13 @@
 	<include refid="Base_Column_List" />
 		from vote_action where id=#{id,jdbcType=BIGINT}
 	</select>
-	<select id="getVoteActionHotList" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from vote_action where `status`= 1
-		order by visit_num desc
-		limit 0,3
+	<select id="getVoteActionHotList" resultMap="VoteHotMap">
+		select vr.id,vr.action_id,vr.type,va.action_name,va.action_image,va.action_introduce,va.end_time,
+		va.start_time,va.`status`,va.gmt_created,va.gmt_modified,va.`host`,va.telephone,va.visit_num,
+		va.vote_max,va.vote_min,va.vote_ruler,va.vote_sum 
+		from vote_recommend vr 
+		LEFT JOIN vote_action va on vr.action_id=va.id 
+		where va.id = vr.action_id
 	</select>
 	<update id="updateVoteActionNum" parameterType="java.lang.Long">
 		update vote_action set visit_num=visit_num+1

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.admin.dao.vote.dataobject.VoteActionDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailDO;
+import com.admin.dao.vote.dataobject.VoteActionHotDTO;
 import com.admin.dao.vote.dataobject.VoteActionPO;
 import com.admin.dao.vote.dataobject.VoteRecordDO;
 
@@ -15,7 +16,7 @@ public interface VoteDao {
 	VoteActionDO getVoteAction(Long id);
 	
 	//得到热门投票活动列表
-	List<VoteActionDO> getVoteActionHotList();
+	List<VoteActionHotDTO> getVoteActionHotList();
 	
 	//得到当前总票数
 	Long getVoteActionSum(Long id);

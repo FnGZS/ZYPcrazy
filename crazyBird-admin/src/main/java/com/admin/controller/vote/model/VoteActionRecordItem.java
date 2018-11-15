@@ -12,9 +12,15 @@ public class VoteActionRecordItem {
 	private String telephone;
 	private Integer status;
 	private Long visitNum;
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	private Long voteSum;
 	private String gmtCreated;
-
+	private  String detail;
 	private String startTime;
 	private String endTime;
 	public Long getId() {
