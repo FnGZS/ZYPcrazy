@@ -31,6 +31,7 @@ import com.admin.controller.vote.param.VoteActionStatusParam;
 import com.admin.controller.vote.param.VoteDetailByIdParam;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
+import com.admin.controller.vote.param.VoteActionSlideParam;
 import com.admin.controller.vote.param.VoteRecordParam;
 import com.admin.dao.vote.dataobject.VoteActionDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailDO;
@@ -47,6 +48,9 @@ import com.admin.service.vote.VoteService;
 import com.admin.utils.CollectionUtil;
 import com.admin.utils.DateUtil;
 import com.admin.utils.PageUtils;
+import com.admin.controller.vote.model.VoteActionSlideItem;
+import com.admin.controller.vote.model.VoteActionSlideModel;
+import com.admin.dao.vote.dataobject.VoteActionSlideDO;
 
 @Component
 public class VoteProcess {
@@ -204,6 +208,7 @@ public class VoteProcess {
 		detailDO.setActionId(param.getActionId());
 		detailDO.setClassName(param.getClassName());
 		detailDO.setImageUrl(param.getImageUrl());
+		detailDO.setSerialId(param.getSerialId());
 		detailDO.setNum(param.getNum());
 		detailDO.setDetail(param.getDetail());
 		detailDO.setPeopleName(param.getPeopleName());
@@ -276,6 +281,65 @@ public class VoteProcess {
 			model.setMessage("删除失败");
 		}
 		return model;
+	}
+	
+	public VoteActionSlideModel getVoteActionSlide() {
+		VoteActionSlideModel model = new VoteActionSlideModel();
+		List<VoteActionSlideDO> tags = voteService.getVoteActionSlide();
+		List<VoteActionSlideItem> items = new ArrayList<>();
+		for (VoteActionSlideDO tag: tags) {
+			VoteActionSlideItem item = new VoteActionSlideItem();
+			item.setId(tag.getId());
+			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setGmtModified(DateUtil.formatDate(tag.getGmtModified(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setActionId(String.valueOf(tag.getActionId()));
+			item.setPicUrl(tag.getPicUrl());
+			items.add(item);
+		}
+		model.setItems(items);
+		return model;
+		
+	}
+	public SimpleFlagModel addVoteActionSlide(VoteActionSlideParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionSlideDO slideDO = new VoteActionSlideDO();
+		slideDO.setActionId(param.getActionId());
+		slideDO.setPicUrl(param.getPicUrl());
+		slideDO.setId(param.getId());
+		int flag = voteService.addVoteActionSlide(slideDO);
+		if(flag<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+			return model;
+		}
+		return model;
+		
+	}
+	public SimpleFlagModel updateVoteActionSlide(VoteActionSlideParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		VoteActionSlideDO slideDO = new VoteActionSlideDO();
+		slideDO.setActionId(param.getActionId());
+		slideDO.setPicUrl(param.getPicUrl());
+		slideDO.setId(param.getId());
+		int flag = voteService.updateVoteActionSlide(slideDO);
+		if(flag<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("更新失败");
+			return model;
+		}
+		return model;
+		
+	}
+	public SimpleFlagModel deleteVoteActionSlide(Integer id) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		int flag = voteService.deleteVoteActionSlide(id);
+		if(flag<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("添加失败");
+			return model;
+		}
+		return model;
+		
 	}
 	private List<VoteActionItem> convertVoteAction(List<VoteActionDO> tags) {
 		List<VoteActionItem> actionItems = new ArrayList<>();

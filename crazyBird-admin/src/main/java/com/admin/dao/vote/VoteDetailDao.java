@@ -27,6 +27,6 @@ public interface VoteDetailDao {
 
 	int updateVoteActionDetail(VoteActionDetailDO detailDO);
 	
-	int daleteVoteActionDetail(Long id);
+	int deleteVoteActionDetail(Long id);
 	
 }

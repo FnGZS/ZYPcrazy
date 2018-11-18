@@ -21,8 +21,10 @@ import com.admin.controller.vote.param.VoteActionParam;
 import com.admin.controller.vote.param.VoteActionStatusParam;
 import com.admin.controller.vote.param.VoteDetailByIdParam;
 import com.admin.controller.vote.param.VoteRecordParam;
+import com.admin.controller.vote.model.VoteActionSlideModel;
 import com.admin.controller.vote.param.VoteActionRecordParam;
 import com.admin.controller.vote.param.VoteActionSearchDetailParam;
+import com.admin.controller.vote.param.VoteActionSlideParam;
 
 /**
  * 
@@ -123,7 +125,7 @@ public class VoteController {
 	@RequestMapping(value = "/action/update",method = RequestMethod.PUT)
 	@ResponseBody
 	public SimpleFlagModel updateVoteAction(@RequestBody VoteActionParam param) {
-		return null;
+		return voteProcess.updateVoteAction(param);
 	}
 	
 	/**
@@ -134,7 +136,7 @@ public class VoteController {
 	@RequestMapping(value = "/detail/update",method = RequestMethod.PUT)
 	@ResponseBody
 	public SimpleFlagModel updateVoteActionDetail(@RequestBody VoteActionDetailParam param) {
-		return null;
+		return voteProcess.updateVoteActionDetail(param);
 	}
 	/**
 	 * 删除活动
@@ -151,7 +153,7 @@ public class VoteController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/delete/detail/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/detail/delete/{id}",method = RequestMethod.DELETE)
 	@ResponseBody
 	public SimpleFlagModel daleteVoteActionDetail(@PathVariable Long id) {
 		return voteProcess.deleteVoteActionDetail(id);
@@ -159,4 +161,35 @@ public class VoteController {
 	/**
 	 * 得到轮播图
 	 */
+	@RequestMapping(value = "/slide/get",method = RequestMethod.GET)
+	@ResponseBody
+	public VoteActionSlideModel getVoteActionSlide() {
+		return voteProcess.getVoteActionSlide();	
+	}
+	/**
+	 * 修改轮播图
+	 */
+	@RequestMapping(value = "/slide/update",method = RequestMethod.PUT)
+	@ResponseBody
+	public SimpleFlagModel updateVoteActionSlide(@RequestBody VoteActionSlideParam param) {
+		return voteProcess.updateVoteActionSlide(param);	
+		
+	}
+	/**
+	 * 添加轮播图
+	 */
+	@RequestMapping(value = "/slide/add",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleFlagModel addVoteActionSlide(@RequestBody VoteActionSlideParam param) {
+		return voteProcess.addVoteActionSlide(param);	
+		
+	}
+	/**
+	 * 删除轮播图
+	 */
+	@RequestMapping(value = "/slide/delete/{id}",method = RequestMethod.DELETE)
+	@ResponseBody
+	public SimpleFlagModel deleteVoteActionSlide(@PathVariable Integer id) {
+		return voteProcess.deleteVoteActionSlide(id);	
+	}
 }

@@ -67,6 +67,19 @@
 		<result column="gmt_modified" property="gmtModified"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
+		<resultMap id="VoteActionSlideMap"
+		type="com.admin.dao.vote.dataobject.VoteActionSlideDO">
+		<result column="gmt_created" property="gmtCreated"
+			jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmtModified"
+			jdbcType="TIMESTAMP" />
+		<result column="id" property="id"
+			jdbcType="INTEGER" />
+		<result column="action_id" property="actionId"
+			jdbcType="BIGINT" />
+		<result column="picture" property="picUrl"
+			jdbcType="VARCHAR" />
+		</resultMap>
 	<sql id="Base_Column_List">
 		id, action_name, action_introduce,vote_min,vote_max, vote_ruler, host, action_image,
 		telephone, status, visit_num,vote_sum, start_time, end_time,gmt_created,gmt_modified
@@ -107,6 +120,10 @@
 		LEFT JOIN vote_action va on vr.action_id=va.id 
 		where va.id = vr.action_id
 	</select>
+
+	<select id="getVoteActionSlide" resultMap="VoteActionSlideMap" >
+		select id,gmt_created,gmt_modified, action_id,picture from vote_slide 
+	</select>
 	<update id="updateVoteActionNum" parameterType="java.lang.Long">
 		update vote_action set visit_num=visit_num+1
 		where id = #{id,jdbcType=BIGINT}
@@ -115,9 +132,88 @@
 		parameterType="com.admin.dao.vote.dataobject.VoteRecordDO">
 		update vote_action set vote_sum =(SELECT SUM(num) from vote_action_detail where action_id= #{actionId,jdbcType=BIGINT}) where id=#{actionId,jdbcType=BIGINT}
 	</update>
-	<update id="updateVoteAction" parameterType="com.admin.dao.vote.dataobject.VoteActionDO">
-
+	<update id="updateVoteActionSlide" parameterType="com.admin.dao.vote.dataobject.VoteActionSlideDO">
+	update vote_slide 
+	<set>
+	<if test="picUrl !=null">
+	action_id=#{actionId,jdbcType=BIGINT},
+	</if>
+	<if test="picUrl !=null">
+	picture=#{picUrl,jdbcType=VARCHAR},
+	</if>
+	
+	
+	gmt_created=now(),
+	gmt_modified=now()
+	</set>
+	where id= #{id,jdbcType=INTEGER}
 	</update>
+	<update id="updateVoteAction" parameterType="com.admin.dao.vote.dataobject.VoteActionDO">
+	update vote_action 
+	<set>
+	<if test="actionName != null">
+	action_name=#{actionName,jdbcType=VARCHAR},
+	</if>
+	<if test="actionIntro != null">
+		action_introduce=#{actionIntro,jdbcType=VARCHAR},
+	</if>
+	<if test="voteRuler != null">
+	vote_ruler=#{voteRuler,jdbcType=VARCHAR},
+	</if>
+	<if test="host != null">
+		host=#{host,jdbcType=VARCHAR},
+	</if>
+	<if test="actionImage != null">
+		action_image=#{actionImage,jdbcType=VARCHAR},
+	</if>
+	<if test="telephone != null">
+		telephone=#{telephone,jdbcType=VARCHAR},
+	</if>
+	<if test="status != null">
+		`status`=#{status,jdbcType=INTEGER},
+	</if>
+	<if test="visitNum != null">
+		visit_num=#{visitNum,jdbcType=BIGINT},
+	</if>
+	<if test="voteSum != null">
+		vote_sum=#{voteSum,jdbcType=BIGINT},
+	</if>
+	<if test="voteMax != null">
+		vote_max=#{voteMax,jdbcType=INTEGER},
+	</if>
+	<if test="voteMin != null">
+		vote_min=#{voteMin,jdbcType=INTEGER},
+	</if>
+	<if test="startTime != null">
+		start_time=#{startTime,jdbcType=TIMESTAMP},
+	</if>
+	<if test="endTime != null">
+		end_time=#{endTime,jdbcType=TIMESTAMP},
+	</if>
+	gmt_created=now(),
+	gmt_modified=now()
+	</set>
+	where id=#{id,jdbcType=BIGINT}
+	</update>
+	<insert  id="addVoteActionSlide" parameterType="com.admin.dao.vote.dataobject.VoteActionSlideDO">
+	insert into vote_slide
+	(
+	id,
+	picture,
+	gmt_created,
+	gmt_modified,
+	action_id
+	)
+	values
+	(
+	#{id,jdbcType=INTEGER},
+
+	#{picUrl,jdbcType=VARCHAR},
+	now(),
+	now(),
+	#{actionId,jdbcType=BIGINT}
+	)
+	</insert>
 	<insert id="insertVoteAction" parameterType="com.admin.dao.vote.dataobject.VoteActionDO">
 	insert into vote_action 
 	(
@@ -158,6 +254,10 @@
 	now()
 	)
 	</insert>
-	
-
+	<delete id="deleteVoteAction" parameterType="java.lang.Long">
+	delete from vote_action where id=#{id,jdbcType=BIGINT}
+	</delete>
+	<delete  id ="deleteVoteActionSlide" parameterType="java.lang.Integer" >
+	delete from vote_slide where id =#{id,jdbcType=INTEGER}
+	</delete>
 </mapper>

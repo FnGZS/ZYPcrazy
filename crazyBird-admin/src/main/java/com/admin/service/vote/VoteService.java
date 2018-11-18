@@ -13,6 +13,7 @@ import com.admin.dao.vote.dataobject.VoteActionRecordPO;
 import com.admin.dao.vote.dataobject.VoteRecordDO;
 import com.admin.service.base.ResponseDO;
 import com.admin.service.base.ResponsePageQueryDO;
+import com.admin.dao.vote.dataobject.VoteActionSlideDO;
 
 public interface VoteService {
 	ResponsePageQueryDO<List<VoteActionDO>> getVoteActionList(VoteActionPO po);
@@ -35,6 +36,16 @@ public interface VoteService {
 	
 	int deleteVoteAction(Long id);
 	
+	List<VoteActionSlideDO> getVoteActionSlide();
+	
 	int deleteVoteActionDetail(Long id);
+	
+	int updateVoteActionSlide(VoteActionSlideDO slideDO);
+	
+	int addVoteActionSlide(VoteActionSlideDO slideDO);
+	
+	int deleteVoteActionSlide(Integer id);
+	
+	
 	
 }
