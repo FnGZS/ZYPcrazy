@@ -20,6 +20,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/user/account/platform/login");
     	notVerifyUrlList.add("/user/binding");
     	notVerifyUrlList.add("/user/login");
+    	notVerifyUrlList.add("/user/sms");
     	notVerifyUrlList.add("/vote");
     	notVerifyUrlList.add("/affaris");
     	notVerifyUrlList.add("/opinion");

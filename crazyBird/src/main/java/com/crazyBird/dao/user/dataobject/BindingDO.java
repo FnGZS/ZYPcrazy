@@ -6,6 +6,7 @@ public class BindingDO {
 	private String password;
 	private String asToken;
 	private String userId;
+	private String phone;
 
 	public Long getId() {
 		return id;
@@ -47,4 +48,14 @@ public class BindingDO {
 		this.userId = userId;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	
 }

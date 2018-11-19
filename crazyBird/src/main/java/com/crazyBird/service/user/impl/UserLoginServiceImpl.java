@@ -3,11 +3,13 @@ package com.crazyBird.service.user.impl;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.dao.user.UserDao;
 import com.crazyBird.dao.user.UserLoginDao;
+import com.crazyBird.dao.user.VerificationDao;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
+import com.crazyBird.dao.user.dataobject.VerificationDO;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.user.UserLoginService;
 import com.crazyBird.utils.TokenUtils;
@@ -20,7 +22,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 	private UserDao userDao;
 	@Autowired
 	private UserLoginDao userLoginDao;
-
+	@Autowired
+	private VerificationDao verificationDao;
+	
 	@Override
 	public ResponseDO<UserLoginDO> getUserLogin(Long shoolNum) {
 		ResponseDO<UserLoginDO> responseDO = new ResponseDO<>();
@@ -102,6 +106,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 					bing.setSchoolNum(binding.getSchoolNum());
 					bing.setPassword(binding.getPassword());
 					bing.setUserId(user.getOpenId());
+					bing.setPhone(binding.getPhone());
 					userDao.updateBinding(bing);
 					userLoginDO.setAccessToken(TokenUtils.creatAesStr(binding.getSchoolNum()));
 					userLoginDO.setIsBound(Integer.valueOf(1));
@@ -115,5 +120,22 @@ public class UserLoginServiceImpl implements UserLoginService {
 			return responseDO;
 		}
 		return responseDO;
+	}
+
+	@Override
+	public void saveVerification(VerificationDO verification) {
+		verificationDao.saveVerCode(verification);
+	}
+
+	@Override
+	public ResponseDO<String> verifica(VerificationDO verification) {
+		ResponseDO<String> responseVer = new ResponseDO<String>();
+		VerificationDO verificationTure = verificationDao.seletVerification(verification.getPhone());
+		if(!verificationTure.getCode().equals(verification.getCode())) {
+			responseVer.setCode(ResponseCode.ERROR);
+			responseVer.setMessage("验证失败");
+			return responseVer;
+		}
+		return responseVer;
 	}
 }

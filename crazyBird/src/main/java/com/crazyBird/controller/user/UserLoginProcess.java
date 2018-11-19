@@ -1,14 +1,18 @@
 package com.crazyBird.controller.user;
 
 import com.crazyBird.service.base.ResponseCode;
+import com.aliyuncs.exceptions.ClientException;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.user.model.BindingModel;
 import com.crazyBird.controller.user.model.LoginModel;
+import com.crazyBird.controller.user.model.MessageModel;
 import com.crazyBird.controller.user.param.BindingParam;
 import com.crazyBird.controller.user.param.LoginParam;
+import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
+import com.crazyBird.dao.user.dataobject.VerificationDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.model.reqinfo.ReqHead;
 import com.crazyBird.model.reqinfo.ReqParam;
@@ -17,7 +21,10 @@ import com.crazyBird.service.user.UserLoginService;
 import com.crazyBird.service.user.dataobject.UserInfo;
 import com.crazyBird.service.weixin.WeixinAppService;
 import com.crazyBird.utils.Md5Utils;
+import com.crazyBird.utils.SMSUtils;
 import com.crazyBird.utils.TokenUtils;
+import com.crazyBird.utils.VerificationUtils;
+
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,11 +91,31 @@ public class UserLoginProcess extends BaseProcess {
 
 	public BindingModel binding(BindingParam param) {
 		BindingModel model = new BindingModel();
+		if(param.getPhone()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("手机号不能为空");
+			return model;
+		}
+		if(param.getCode()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("验证码不能为空");
+			return model;
+		}
+		VerificationDO verification = new VerificationDO();
+		verification.setPhone(param.getPhone());
+		verification.setCode(param.getCode());
+		ResponseDO<String> responseVer = userLoginService.verifica(verification);
+		if(!responseVer.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(responseVer.getMessage());
+			return model;
+		}
 		BindingDO binding = new BindingDO();
 		if (param != null) {
 			binding.setAsToken(getReqParam().getReqHead().getAccessToken());
 			binding.setSchoolNum(param.getSchoolNum());
 			binding.setPassword(param.getPassword());
+			binding.setPhone(param.getPhone());
 			ResponseDO<BindingDO> responseDO = userLoginService.userBinding(binding);
 			if (responseDO.isSuccess()) {
 				model.setResult(Integer.valueOf(1));
@@ -100,6 +127,29 @@ public class UserLoginProcess extends BaseProcess {
 		model.setResult(Integer.valueOf(2));
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("缺少必要参数");
+		return model;
+	}
+
+	public MessageModel smsget(MessageParam param) {
+		MessageModel model = new MessageModel();
+		String phone = param.getPhone();
+		String code = VerificationUtils.random();
+		String result ="success";
+		try {
+			result = SMSUtils.sendSms(phone,code);
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(result == "fail") {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("验证码发送失败");
+			return model;
+		}
+		VerificationDO verification = new VerificationDO();
+		verification.setPhone(phone);
+		verification.setCode(code);
+		userLoginService.saveVerification(verification);
 		return model;
 	}
 }

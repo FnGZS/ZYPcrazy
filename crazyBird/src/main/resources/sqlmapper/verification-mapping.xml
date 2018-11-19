@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.user.VerificationDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.user.dataobject.VerificationDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+</resultMap>
+  <sql id="Base_Column_List" >
+    id, code, phone
+  </sql>
+     <insert id="saveVerCode" parameterType="com.crazyBird.dao.user.dataobject.VerificationDO">
+	    insert into verification (
+	    	code, 
+	    	phone,
+	    	is_use,
+	    	gmt_created,
+	    	gmt_modified
+	    )
+	    values 
+	    (
+	    	#{code,jdbcType=VARCHAR},
+	    	#{phone,jdbcType=VARCHAR},
+	    	0,
+	    	NOW(),
+	    	NOW()
+		)
+  </insert>
+  <select id="seletVerification" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select 
+  <include refid="Base_Column_List" />
+  from verification
+  where phone = #{phone,jdbcType=VARCHAR}
+  order by id desc
+  limit 1
+  </select>
+</mapper>
