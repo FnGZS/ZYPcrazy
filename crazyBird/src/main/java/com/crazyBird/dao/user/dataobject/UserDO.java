@@ -5,6 +5,7 @@ public class UserDO {
 	private Long schoolNum;
 	private String password;
 	private String openId;
+	private String phone;
 	private Long isBinding;
 
 	public Integer getId() {
@@ -45,6 +46,14 @@ public class UserDO {
 
 	public void setIsBinding(Long isBinding) {
 		this.isBinding = isBinding;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

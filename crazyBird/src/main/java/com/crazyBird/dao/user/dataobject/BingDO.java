@@ -4,6 +4,7 @@ public class BingDO {
 	private Long schoolNum;
 	private String password;
 	private String userId;
+	private String phone;
 
 	public Long getSchoolNum() {
 		return schoolNum;
@@ -28,5 +29,15 @@ public class BingDO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
 
 }

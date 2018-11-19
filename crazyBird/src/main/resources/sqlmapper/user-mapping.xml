@@ -5,10 +5,11 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="school_num" property="schoolNum" jdbcType="BIGINT" />
     <result column="is_binding" property="isBinding" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, school_num, password, open_id, is_binding, gmt_created, gmt_modified
+    id, school_num, password, open_id, phone, is_binding, gmt_created, gmt_modified
   </sql>
   <select id="seletUser" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select 
@@ -33,6 +34,9 @@
       </if>
       <if test="userId != null">
       	open_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+      	phone = #{phone,jdbcType=VARCHAR},
       </if>
       	is_binding = 1
     </set>
