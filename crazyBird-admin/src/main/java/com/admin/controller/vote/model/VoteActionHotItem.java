@@ -1,11 +1,13 @@
-package com.admin.dao.vote.dataobject;
+package com.admin.controller.vote.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class VoteActionRecordDTO {
+public class VoteActionHotItem {
 	private Long id;
+
+	private Long actionId;
 	private String actionName;
 	private String actionImage;
 	private String actionIntro;
@@ -15,16 +17,43 @@ public class VoteActionRecordDTO {
 	private Integer status;
 	private Long visitNum;
 	private Long voteSum;
-	public String getDetail() {
-		return detail;
+	public Long getActionId() {
+		return actionId;
 	}
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setActionId(Long actionId) {
+		this.actionId = actionId;
 	}
-	private String detail;
-	private Date startTime;
-	private Date endTime;
-	private Date gmtCreated;
+	public Integer getVoteMin() {
+		return voteMin;
+	}
+	public void setVoteMin(Integer voteMin) {
+		this.voteMin = voteMin;
+	}
+	public Integer getVoteMax() {
+		return voteMax;
+	}
+	public void setVoteMax(Integer voteMax) {
+		this.voteMax = voteMax;
+	}
+	private Integer voteMin;
+	private Integer voteMax;
+	private String startTime;
+	private String endTime;
+	private String gmtCreated;
+	private String gmtModified;
+	public String getGmtModified() {
+		return gmtModified;
+	}
+	public void setGmtModified(String gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	public String getGmtCreated() {
+		return gmtCreated;
+	}
+	public void setGmtCreated(String gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -37,16 +66,16 @@ public class VoteActionRecordDTO {
 	public void setActionImage(String actionImage) {
 		this.actionImage = actionImage;
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	public String getActionName() {
@@ -98,11 +127,7 @@ public class VoteActionRecordDTO {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Date getGmtCreated() {
-		return gmtCreated;
-	}
-	public void setGmtCreated(Date gmtCreated) {
-		this.gmtCreated = gmtCreated;
-	}
 
+
+	
 }

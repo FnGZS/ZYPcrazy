@@ -242,6 +242,7 @@ public class VoteProcess extends BaseProcess {
 			model.setMessage("id为空");
 		}
 		model.setId(customDO.getId());
+		model.setNum(customDO.getNum());
 		model.setPeopleName(customDO.getPeopleName());
 		model.setDetail(customDO.getDetail());
 		model.setClassName(customDO.getClassName());

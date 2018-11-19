@@ -17,6 +17,20 @@ public class VoteActionDO {
 	private Integer voteMin;
 	private Date startTime;
 	private Date endTime;
+	private Date gmtCreated;
+	private Date gmtModified;
+	public Date getGmtCreated() {
+		return gmtCreated;
+	}
+	public void setGmtCreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 	public Long getId() {
 		return id;
 	}

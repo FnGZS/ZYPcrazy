@@ -12,9 +12,11 @@ import com.admin.dao.vote.VoteRecordDao;
 import com.admin.dao.vote.dataobject.VoteActionDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailDO;
 import com.admin.dao.vote.dataobject.VoteActionDetailSearchDO;
+import com.admin.dao.vote.dataobject.VoteActionHotDTO;
 import com.admin.dao.vote.dataobject.VoteActionPO;
 import com.admin.dao.vote.dataobject.VoteActionRecordDTO;
 import com.admin.dao.vote.dataobject.VoteActionRecordPO;
+import com.admin.dao.vote.dataobject.VoteActionSlideDO;
 import com.admin.dao.vote.dataobject.VoteRecordDO;
 import com.admin.service.base.ResponseCode;
 import com.admin.service.base.ResponseDO;
@@ -50,7 +52,6 @@ public class VoteImpl implements VoteService {
 	@Override
 	public List<VoteActionDetailDO> getActionDetailList(Long id) {
 		List<VoteActionDetailDO> detailList = voteDetailDao.getVoteActionDetail(id);
-		voteDao.updateVoteActionNum(id);
 		return detailList;
 	}
 	
@@ -66,7 +67,7 @@ public class VoteImpl implements VoteService {
 	}
 
 	@Override
-	public List<VoteActionDO> getVoteActionHotList() {
+	public List<VoteActionHotDTO> getVoteActionHotList() {
 		return voteDao.getVoteActionHotList();
 	}
 
@@ -91,7 +92,7 @@ public class VoteImpl implements VoteService {
 		}
 		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
 			if(po.getType()==1) {
-				recordList = voteRecordDao.getVoteActionRecord(po);
+				recordList = voteRecordDao.getVoteActionUserRecord(po);
 			}
 			if(po.getType()==2) {
 				recordList = voteRecordDao.getVoteActionRecord(po);
@@ -111,26 +112,46 @@ public class VoteImpl implements VoteService {
 	}
 	@Override
 	public int insertVoteActionDetail(VoteActionDetailDO detailDO) {
-		// TODO Auto-generated method stub
+
 		return voteDetailDao.insertVoteActionDetail(detailDO);
 	}
 	@Override
 	public int updateVoteAction(VoteActionDO actionDO) {
-		// TODO Auto-generated method stub
+		
 		return voteDao.updateVoteAction(actionDO);
 	}
 	@Override
 	public int updateVoteActionDetail(VoteActionDetailDO detailDO) {
-		// TODO Auto-generated method stub
+	
 		return voteDetailDao.updateVoteActionDetail(detailDO);
 	}
 	@Override
 	public int deleteVoteAction(Long id) {	
-		return voteDao.daleteVoteAction(id);
+		return voteDao.deleteVoteAction(id);
 	}
 	@Override
 	public int deleteVoteActionDetail(Long id) {
+		
+		return voteDetailDao.deleteVoteActionDetail(id);
+	}
+	@Override
+	public List<VoteActionSlideDO> getVoteActionSlide() {
+	
+		return voteDao.getVoteActionSlide();
+	}
+	@Override
+	public int addVoteActionSlide(VoteActionSlideDO slideDO) {
 		// TODO Auto-generated method stub
-		return voteDetailDao.daleteVoteActionDetail(id);
+		return voteDao.addVoteActionSlide(slideDO);
+	}
+	@Override
+	public int updateVoteActionSlide(VoteActionSlideDO slideDO) {
+		// TODO Auto-generated method stub
+		return voteDao.updateVoteActionSlide(slideDO);
+	}
+	@Override
+	public int deleteVoteActionSlide(Integer id) {
+		// TODO Auto-generated method stub
+		return voteDao.deleteVoteActionSlide(id);
 	}
 }

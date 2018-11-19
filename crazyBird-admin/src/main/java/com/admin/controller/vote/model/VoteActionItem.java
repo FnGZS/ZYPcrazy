@@ -31,6 +31,21 @@ public class VoteActionItem {
 	private Integer voteMax;
 	private String startTime;
 	private String endTime;
+	private String gmtCreated;
+	private String gmtModified;
+	public String getGmtModified() {
+		return gmtModified;
+	}
+	public void setGmtModified(String gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	public String getGmtCreated() {
+		return gmtCreated;
+	}
+	public void setGmtCreated(String gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
 	public Long getId() {
 		return id;
 	}

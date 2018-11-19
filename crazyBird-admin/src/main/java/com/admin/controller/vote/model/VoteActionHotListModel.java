@@ -6,13 +6,13 @@ import com.admin.controller.base.AbstractFlagModel;
 
 
 public class VoteActionHotListModel extends AbstractFlagModel{
-	private List<VoteActionItem> voteList;
+	private List<VoteActionHotItem> voteList;
 
-	public List<VoteActionItem> getVoteList() {
+	public List<VoteActionHotItem> getVoteList() {
 		return voteList;
 	}
 
-	public void setVoteList(List<VoteActionItem> voteList) {
+	public void setVoteList(List<VoteActionHotItem> voteList) {
 		this.voteList = voteList;
 	}
 }
