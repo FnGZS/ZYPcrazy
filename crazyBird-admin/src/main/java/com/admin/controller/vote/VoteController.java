@@ -47,6 +47,7 @@ public class VoteController {
 	public VoteActionListModel getActionList(@RequestBody VoteActionStatusParam param){
 		return voteProcess.getActionList(param);
 	}
+	
 	/**
 	 * 获得活动详情
 	 * @param status

@@ -60,7 +60,6 @@ public class VoteProcess {
 	public VoteActionListModel getActionList(VoteActionStatusParam param) {
 		VoteActionListModel model = new VoteActionListModel();
 		PageUtils.resetPageParam(param);
-		// List<VoteActionItem> actionItems = new ArrayList<>();
 		VoteActionPO po = new VoteActionPO();
 		po.setStatus(param.getStatus());
 		po.setPageIndex(param.getPageNo() - 1);

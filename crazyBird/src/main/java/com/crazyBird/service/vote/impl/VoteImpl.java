@@ -135,9 +135,6 @@ public class VoteImpl implements VoteService {
 			List<VoteActionRecordDTO> recordList = voteRecordDao.getVoteActionRecord(po);
 			response.setDataResult(recordList);
 			response.setCode(ResponseCode.SUCCESS);
-		} else {
-			response.setCode(ResponseCode.ERROR);
-			response.setMessage("无投票记录");
 		}
 		return response;
 	}
