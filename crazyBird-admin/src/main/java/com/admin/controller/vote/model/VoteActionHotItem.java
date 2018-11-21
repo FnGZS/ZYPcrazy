@@ -14,6 +14,13 @@ public class VoteActionHotItem {
 	private String voteRuler;
 	private String host;
 	private String telephone;
+	private Integer type;
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
 	private Integer status;
 	private Long visitNum;
 	private Long voteSum;
