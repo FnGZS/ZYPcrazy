@@ -50,6 +50,9 @@
 			<include refid="Base_Column_List" />
 		from vote_action where id=#{id,jdbcType=BIGINT}
 	</select>
+	<select id="checkTestType" resultType="java.lang.Integer">
+	select type from test
+	</select>
 	<select id="getVoteActionHotList" resultMap="BaseResultMap">
 	select va.id, va.action_image,va.vote_ruler,va.visit_num,va.vote_sum,va.vote_max,
 	va.vote_min,va.action_introduce,va.action_name,va.end_time,va.start_time,va.`host`,

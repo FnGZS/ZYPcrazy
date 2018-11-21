@@ -28,4 +28,5 @@ public interface VoteService {
 	public ResponsePageQueryDO<List<VoteActionRecordDTO>> getVoteActionRecord(VoteActionRecordPO po);
 	public List<VoteActionSlideDO> getVoteActionSlide();
 	VoteActionCustomDO selectActionDetailById(Long id);
+	Integer checkTestType();
 }

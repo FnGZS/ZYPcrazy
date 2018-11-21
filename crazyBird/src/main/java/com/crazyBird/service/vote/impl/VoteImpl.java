@@ -156,4 +156,9 @@ public class VoteImpl implements VoteService {
 		// TODO Auto-generated method stub
 		return voteDetailDao.selectActionDetailById(id);
 	}
+	@Override
+	public Integer checkTestType() {
+		// TODO Auto-generated method stub
+		return voteDao.checkTestType();
+	}
 }

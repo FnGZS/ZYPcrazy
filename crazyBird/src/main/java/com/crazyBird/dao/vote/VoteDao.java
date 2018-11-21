@@ -34,6 +34,8 @@ public interface VoteDao {
 	
 	//得到特别推荐活动
 	List<VoteActionDO> getVoteActionHot();
+	
+	Integer checkTestType();
 
 	
 }
