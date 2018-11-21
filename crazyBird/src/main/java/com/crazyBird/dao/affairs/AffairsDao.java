@@ -1,6 +1,5 @@
 package com.crazyBird.dao.affairs;
 
-import com.crazyBird.dao.affairs.dataobject.AddAffairDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.dao.affairs.dataobject.AffairsTypeDO;
@@ -12,7 +11,6 @@ public abstract interface AffairsDao {
 
 	List<AffairsDO> getAffairs(AffairsPO po);
 
-	void addAffairs(AddAffairDO affair);
 
 	AffairsDO getAffairsDetails(Long id);
 

@@ -1,12 +1,10 @@
 package com.crazyBird.controller.affairs;
 
-import com.crazyBird.controller.affairs.model.AddAffairsModel;
 import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
 import com.crazyBird.controller.affairs.model.BroadModel;
 import com.crazyBird.controller.affairs.model.RecommendModel;
-import com.crazyBird.controller.affairs.param.AddAffairsParam;
 import com.crazyBird.controller.affairs.param.AffairsPageParam;
 import java.io.UnsupportedEncodingException;
 import org.apache.commons.lang3.StringUtils;
@@ -59,17 +57,6 @@ public class AffairsController {
 	@ResponseBody
 	public AffairsDetailsModel getAffairsDetails(@PathVariable Long id) {
 		return affairsProcess.getAffairsDetails(id);
-	}
-	
-	/**
-	 * 添加时事
-	 * @param param
-	 * @return
-	 */
-	@RequestMapping(value ="/addAffairs", method = RequestMethod.POST)
-	@ResponseBody
-	public AddAffairsModel addAffair(@RequestBody AddAffairsParam param) {
-		return affairsProcess.addAffair(param);
 	}
 	
 	/**
