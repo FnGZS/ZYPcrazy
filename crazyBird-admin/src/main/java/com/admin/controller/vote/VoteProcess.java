@@ -149,6 +149,7 @@ public class VoteProcess {
 			item.setGmtModified(DateUtil.formatDate(tag.getGmtModified(), DateUtil.DATE_FORMAT_YMDHMS));
 			item.setActionImage(tag.getActionImage());
 			item.setHost(tag.getHost());
+			item.setType(tag.getType());
 			item.setStatus(tag.getStatus());
 			item.setTelephone(tag.getTelephone());
 			item.setVisitNum(tag.getVisitNum());
