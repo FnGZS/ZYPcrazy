@@ -1,5 +1,9 @@
 package com.crazyBird.controller.affairs;
-
+/**
+ * 时事
+ * @author zjw
+ *
+ */
 import com.crazyBird.controller.affairs.model.AffairsDetailsModel;
 import com.crazyBird.controller.affairs.model.AffairsPageModel;
 import com.crazyBird.controller.affairs.model.AffairsTypeModel;
