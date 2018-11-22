@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.vote.model.TestModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
 import com.crazyBird.controller.vote.model.VoteActionCustomModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
@@ -50,6 +51,12 @@ import com.mysql.fabric.xmlrpc.base.Param;
 public class VoteProcess extends BaseProcess {
 	@Autowired
 	private VoteService voteService;
+	public TestModel checkTestType() {
+		TestModel model = new TestModel();
+		int i =voteService.checkTestType();
+		model.setType(i);
+		return model;		
+	}
 	public VoteActionListModel getActionList(VoteActionParam param) {
 		VoteActionListModel model = new VoteActionListModel();
 		if (param.getStatus() == null) {

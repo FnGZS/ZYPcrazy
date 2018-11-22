@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.vote.model.TestModel;
 import com.crazyBird.controller.vote.model.VoteActionCheckRecordModel;
 import com.crazyBird.controller.vote.model.VoteActionCustomModel;
 import com.crazyBird.controller.vote.model.VoteActionDetailItem;
@@ -143,6 +144,14 @@ public class VoteController {
 	@ResponseBody
 	public VoteActionRecordModel getVoteActionRecord(VoteActionRecordParam param) {
 		return voteProcess.getVoteActionRecord(param);	
+	}
+	/**
+	 * 紧急接口
+	 */
+	@RequestMapping(value = "/test",method = RequestMethod.GET)
+	@ResponseBody
+	public TestModel checkTestType() {
+		return voteProcess.checkTestType();	
 	}
 	
 }

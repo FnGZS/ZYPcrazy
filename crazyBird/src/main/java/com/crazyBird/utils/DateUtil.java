@@ -28,6 +28,7 @@ public class DateUtil {
     public static final String DATE_FORMAT_YMDHM = "yyyy-MM-dd HH:mm";
     public static final String DATE_FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss";
     public static final String dtLong = "yyyyMMddHHmmss";
+    public static final String dtLongLong = "yyyyMMddHHmmssFFF";
 
     /**
      * 获取日期指定的格式的字符串
