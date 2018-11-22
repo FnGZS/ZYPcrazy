@@ -6,10 +6,12 @@
     <result column="school_num" property="schoolNum" jdbcType="BIGINT" />
     <result column="is_binding" property="isBinding" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, school_num, password, open_id, phone, is_binding, gmt_created, gmt_modified
+    id, school_num, password, open_id, phone, sex, headimgurl,  is_binding, gmt_created, gmt_modified
   </sql>
   <select id="seletUser" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select 
@@ -37,6 +39,12 @@
       </if>
       <if test="phone != null">
       	phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+      	sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+      	headimgurl = #{headimgurl,jdbcType=VARCHAR},
       </if>
       	is_binding = 1
     </set>

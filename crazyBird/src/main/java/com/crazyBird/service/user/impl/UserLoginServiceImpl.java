@@ -110,6 +110,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 					bing.setSchoolNum(binding.getSchoolNum());
 					bing.setPassword(binding.getPassword());
 					bing.setUserId(user.getOpenId());
+					bing.setSex(user.getSex());
+					bing.setHeadimgurl(user.getHeadimgurl());
 					bing.setPhone(binding.getPhone());
 					userDao.updateBinding(bing);
 					userLoginDO.setAccessToken(TokenUtils.creatAesStr(binding.getSchoolNum()));
