@@ -5,6 +5,8 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
     <result column="is_Bound" property="isBound" jdbcType="INTEGER" />
     <result column="sign_in_count" property="signInCount" jdbcType="INTEGER" />
@@ -12,7 +14,7 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, login_account, access_token, is_Bound, sign_in_count, gmt_created, gmt_modified
+    id, open_id, login_account, headimgurl, sex, access_token, is_Bound, sign_in_count, gmt_created, gmt_modified
   </sql>
   <select id="queryUserLogin" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -50,6 +52,8 @@
     (
     	open_id, 
     	login_account, 
+    	sex, 
+    	headimgurl,
     	access_token, 
     	is_Bound,
     	gmt_created, 
@@ -59,6 +63,8 @@
     (
     	#{openId,jdbcType=BIGINT}, 
     	#{loginAccount,jdbcType=VARCHAR}, 
+    	#{sex,jdbcType=INTEGER}, 
+    	#{headimgurl,jdbcType=VARCHAR}, 
     	#{accessToken,jdbcType=VARCHAR}, 
     	#{isBound,jdbcType=TINYINT}, 
     	NOW(),

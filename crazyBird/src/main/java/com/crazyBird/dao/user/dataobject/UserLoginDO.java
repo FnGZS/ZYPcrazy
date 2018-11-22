@@ -6,6 +6,8 @@ public class UserLoginDO {
 	private Long id;
 	private String openId;
 	private String loginAccount;
+	private String headimgurl;
+	private Integer sex;
 	private String accessToken;
 	private Integer signInCount;
 	private Integer isBound;
@@ -34,6 +36,22 @@ public class UserLoginDO {
 
 	public void setLoginAccount(String loginAccount) {
 		this.loginAccount = loginAccount;
+	}
+
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
 	}
 
 	public String getAccessToken() {

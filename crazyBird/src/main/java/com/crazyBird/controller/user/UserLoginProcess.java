@@ -69,6 +69,7 @@ public class UserLoginProcess extends BaseProcess {
 		wxUser.setHeadimgurl(headimgurl);
 		wxUser.setNickName(nickName);
 		wxUser.setOpenId(openId);
+		wxUser.setSex(sex);
 		ResponseDO<UserLoginDO> responseDO = userLoginService.userLogin(wxUser);
 		UserLoginDO login =  responseDO.getDataResult();
 		model.setAuthorization(login.getAccessToken());

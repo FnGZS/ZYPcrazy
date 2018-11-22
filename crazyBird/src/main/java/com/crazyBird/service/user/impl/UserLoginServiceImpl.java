@@ -54,6 +54,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 				userLoginDO = new UserLoginDO();
 				userLoginDO.setOpenId(wxUser.getOpenId());
 				userLoginDO.setLoginAccount(wxUser.getNickName());
+				userLoginDO.setHeadimgurl(wxUser.getHeadimgurl());
+				userLoginDO.setSex(wxUser.getSex());
 				userLoginDO.setAccessToken(TokenUtils.creatAesStr(user.getSchoolNum()));
 				userLoginDO.setIsBound(Integer.valueOf(1));
 				userLoginDao.insert(userLoginDO);
@@ -70,6 +72,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 			unbound.setOpenId(wxUser.getOpenId());
 			unbound.setAccessToken(wxUser.getOpenId());
 			unbound.setLoginAccount(wxUser.getNickName());
+			unbound.setHeadimgurl(wxUser.getHeadimgurl());
+			unbound.setSex(wxUser.getSex());
 			unbound.setIsBound(Integer.valueOf(2));
 			userLoginDao.insert(unbound);
 			responseDO.setMessage("未绑定学号");
