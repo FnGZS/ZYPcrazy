@@ -47,8 +47,7 @@ public class VoteImpl implements VoteService {
 			response.setDataResult(actionList);
 			response.setCode(ResponseCode.SUCCESS);
 		} else {
-			response.setCode(ResponseCode.ERROR);
-			response.setMessage("暂无该类活动");
+			response.setMessage("暂无更多活动");
 		}
 		return response;
 	}

@@ -99,12 +99,12 @@
        {
          Long shoolNum = TokenUtils.getIdFromAesStr(accessToken);
         if (shoolNum == null) {
-          throw new CertificateException("登录信息无效！请重新登录");
+          throw new CertificateException("登录信息无效！请重新登录1");
          }
         Object responeDO = this.userLoginService.getUserLogin(shoolNum);
          
          if ((!((ResponseDO)responeDO).isSuccess()) || (((ResponseDO)responeDO).getDataResult() == null)) {
-          throw new CertificateException("登录信息无效！请重新登录");
+          throw new CertificateException("登录信息无效！请重新登录2");
          }
          UserLoginDO userLoginDO = (UserLoginDO)((ResponseDO)responeDO).getDataResult();
          if (userLoginDO.getIsBound().intValue() == 2) {

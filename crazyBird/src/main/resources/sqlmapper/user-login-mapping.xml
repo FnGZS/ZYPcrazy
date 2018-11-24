@@ -37,6 +37,7 @@
   	<include refid="Base_Column_List" />
   	from user_login
   	where open_id = #{openId,jdbcType=VARCHAR}
+  	 order by gmt_created desc
   	limit 1
   </select>
   <select id="seletUserByAs" resultMap="BaseResultMap" parameterType="java.lang.String">

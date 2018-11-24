@@ -60,7 +60,7 @@ public class VoteProcess extends BaseProcess {
 	public VoteActionListModel getActionList(VoteActionParam param) {
 		VoteActionListModel model = new VoteActionListModel();
 		if (param.getStatus() == null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
+		
 			model.setMessage("没有此状态活动");
 			return model;
 		}
@@ -123,6 +123,7 @@ public class VoteProcess extends BaseProcess {
 		if (id == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("参数为空");
+			return model;
 		}
 		VoteActionDO voteActionDO = voteService.getAction(id);
 		List<VoteActionDetailDO> tags = voteService.getActionDetailList(id);
@@ -277,9 +278,12 @@ public class VoteProcess extends BaseProcess {
 	}
 	public VoteActionCheckRecordModel checkVoteRecord(VoteRecordParam param) {
 		VoteActionCheckRecordModel model = new VoteActionCheckRecordModel();  
-		if(param.getActionId()==null||param.getStudentId()==null){
-			model.setCode(HttpCodeEnum.ERROR.getCode());
+		if(param.getActionId()==null){
 			model.setMessage("参数错误");
+			return model;	
+		}
+		if(param.getStudentId()==null) {
+			model.setMessage("您还未绑定学号");
 			return model;	
 		}
 		VoteRecordDO recordDO = new VoteRecordDO();
