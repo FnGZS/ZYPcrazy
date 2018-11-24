@@ -48,7 +48,6 @@ public class UserLoginServiceImpl implements UserLoginService {
 	public ResponseDO<UserLoginDO> userLogin(LoginDO wxUser) {
 		ResponseDO<UserLoginDO> responseDO = new ResponseDO<>();
 		UserDO user = userDao.seletUser(wxUser.getOpenId());
-		System.out.println(wxUser.getOpenId());
 		if (user != null) {
 			UserLoginDO userLoginDO = userLoginDao.seletUserByOpenId(wxUser.getOpenId());
 			if (userLoginDO == null) {

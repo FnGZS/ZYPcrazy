@@ -7,6 +7,24 @@ public class UserDO {
 	private String openId;
 	private String phone;
 	private Long isBinding;
+	private Integer sex;
+	private String headimgurl;
+	
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
 
 	public Integer getId() {
 		return id;
