@@ -29,6 +29,8 @@ public class UrlRightConstant {
         
         loginVerifyUrlList.add("/user/account");
         loginVerifyUrlList.add("/message");
+        loginVerifyUrlList.add("/vote/record");
+        
         
         dataSignUrlList.add("/");
         
