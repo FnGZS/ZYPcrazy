@@ -25,11 +25,10 @@ import com.crazyBird.service.base.ResponseDO;
  public class WeixinAppService
  {
    private static final String USER_INFO_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
-   
-  // private static String APP_ID = "wxe39ca82b04cebded";
-  private static String APP_ID = "wx1b75aff38e9dad18";
-  //  private static String SECRET = "95673278ae2b2604e12206f823b4a31e";
-  private static String SECRET = "fef991718ea769444e3a09beee000668";
+
+   private static String APP_ID = "wxe39ca82b04cebded";
+   private static String SECRET = "95673278ae2b2604e12206f823b4a31e";
+
    private static CloseableHttpClient httpClient = null;
    
    private static CloseableHttpClient getHttpClient() {
