@@ -51,6 +51,15 @@ import com.mysql.fabric.xmlrpc.base.Param;
 public class VoteProcess extends BaseProcess {
 	@Autowired
 	private VoteService voteService;
+	
+	public SimpleFlagModel insertCode(String[] param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		for(int i = 0 ; i < param.length ; i++) {
+			System.out.println(param[i]);
+		}
+		return model;
+	}
+	
 	public TestModel checkTestType() {
 		TestModel model = new TestModel();
 		int i =voteService.checkTestType();
