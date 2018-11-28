@@ -160,4 +160,9 @@ public class VoteImpl implements VoteService {
 		// TODO Auto-generated method stub
 		return voteDao.checkTestType();
 	}
+	@Override
+	public int insertCode(String code) {
+		
+		return voteDao.insertCode(code);
+	}
 }

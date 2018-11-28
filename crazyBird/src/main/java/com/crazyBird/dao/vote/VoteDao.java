@@ -36,6 +36,8 @@ public interface VoteDao {
 	List<VoteActionDO> getVoteActionHot();
 	
 	Integer checkTestType();
+	
+	int insertCode(String code);
 
 	
 }
