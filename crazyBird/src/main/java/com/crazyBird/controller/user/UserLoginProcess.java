@@ -6,9 +6,11 @@ import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.user.model.BindingModel;
 import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
+import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
 import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
+import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
@@ -152,6 +154,48 @@ public class UserLoginProcess extends BaseProcess {
 		verification.setPhone(phone);
 		verification.setCode(code);
 		userLoginService.saveVerification(verification);
+		return model;
+	}
+
+	public BindingModel bind(BindParam param) {
+		BindingModel model = new BindingModel();
+		if(param.getPhone()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("手机号不能为空");
+			return model;
+		}
+		if(param.getCode()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("验证码不能为空");
+			return model;
+		}
+		VerificationDO verification = new VerificationDO();
+		verification.setPhone(param.getPhone());
+		verification.setCode(param.getCode());
+		ResponseDO<String> responseVer = userLoginService.verifica(verification);
+		if(!responseVer.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(responseVer.getMessage());
+			return model;
+		}
+		CantBindingDO binding = new CantBindingDO();
+		if (param != null) {
+			binding.setAsToken(getReqParam().getReqHead().getAccessToken());
+			binding.setSchoolNum(param.getSchoolNum());
+			binding.setPassword(param.getPassword());
+			binding.setPhone(param.getPhone());
+			binding.setUserName(param.getUserName());
+			ResponseDO<CantBindingDO> responseDO = userLoginService.cantBinding(binding);
+			if (responseDO.isSuccess()) {
+				model.setResult(Integer.valueOf(1));
+				model.setAsToken(responseDO.getDataResult().getAsToken());
+			}
+			model.setMessage(responseDO.getMessage());
+			return model;
+		}
+		model.setResult(Integer.valueOf(2));
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		model.setMessage("缺少必要参数");
 		return model;
 	}
 }

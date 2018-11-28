@@ -14,4 +14,6 @@ public abstract interface UserLoginDao {
 	UserLoginDO seletIsBinding(String paramString);
 
 	UserLoginDO seletUserByAs(String paramString);
+
+	UserLoginDO seletUserByName(String userName);
 }

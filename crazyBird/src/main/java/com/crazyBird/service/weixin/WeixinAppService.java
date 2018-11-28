@@ -26,8 +26,8 @@ import com.crazyBird.service.base.ResponseDO;
  {
    private static final String USER_INFO_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 
-   private static String APP_ID = "wxe39ca82b04cebded";
-   private static String SECRET = "95673278ae2b2604e12206f823b4a31e";
+   private static String APP_ID = "wx1b75aff38e9dad18";
+   private static String SECRET = "bba0804210d5eb2271e671f80159a790";
 
    private static CloseableHttpClient httpClient = null;
    
@@ -40,9 +40,6 @@ import com.crazyBird.service.base.ResponseDO;
    
    public static ResponseDO<UserInfo> getUserInfo(String platCode, Map<String, String> platUserInfoMap) {
 	 ResponseDO<UserInfo> result = new ResponseDO<>();
-	//String APP_ID = "wxe39ca82b04cebded";
-	//  String SECRET = "95673278ae2b2604e12206f823b4a31e";
-	// String USER_INFO_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 	 String url = String.format(USER_INFO_URL, APP_ID,SECRET,platCode);
      URI uri = URI.create(url);
      HttpGet get = new HttpGet(uri);

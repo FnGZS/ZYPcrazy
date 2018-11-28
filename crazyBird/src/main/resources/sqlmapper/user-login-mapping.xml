@@ -48,6 +48,14 @@
     order by id desc
   	limit 1
   </select>
+  <select id="seletUserByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	<include refid="Base_Column_List" />
+  	from user_login
+  	where login_account = #{userName,jdbcType=VARCHAR}
+  	 order by gmt_created desc
+  	limit 1
+  </select>
   <insert id="insert" parameterType="com.crazyBird.dao.user.dataobject.UserLoginDO" >
     insert into user_login 
     (

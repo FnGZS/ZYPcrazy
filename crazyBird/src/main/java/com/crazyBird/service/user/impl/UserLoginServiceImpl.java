@@ -1,6 +1,7 @@
 package com.crazyBird.service.user.impl;
 
 import com.crazyBird.service.base.ResponseCode;
+import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.UserDao;
 import com.crazyBird.dao.user.UserLoginDao;
 import com.crazyBird.dao.user.VerificationDao;
@@ -143,5 +144,51 @@ public class UserLoginServiceImpl implements UserLoginService {
 			return responseVer;
 		}
 		return responseVer;
+	}
+
+	@Override
+	public ResponseDO<CantBindingDO> cantBinding(CantBindingDO binding) {
+		ResponseDO<CantBindingDO> responseDO = new ResponseDO<>();
+		BingDO bing = new BingDO();
+		UserDO userBinding = userDao.seletUserBySnum(binding.getSchoolNum());
+		if(userBinding == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("无此学号");
+			return responseDO;
+		}
+		if (!userBinding.getPassword().equals(binding.getPassword())) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("密码错误");
+			return responseDO;
+		}
+		if (userBinding.getIsBinding().longValue() == 1L) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("学号未绑定");
+			return responseDO;
+		}
+		if ((userBinding != null) && (userBinding.getIsBinding().longValue() == 2L)) {
+			UserLoginDO userLoginDO = userLoginDao.seletUserByName(binding.getUserName());
+			if (userLoginDO.getAccessToken() != null) {
+				UserLoginDO user = userLoginDao.seletIsBinding(userLoginDO.getAccessToken());
+				if (user.getIsBound().intValue() == 2) {
+					bing.setSchoolNum(binding.getSchoolNum());
+					bing.setPassword(binding.getPassword());
+					bing.setUserId(user.getOpenId());
+					bing.setSex(user.getSex());
+					bing.setHeadimgurl(user.getHeadimgurl());
+					bing.setPhone(binding.getPhone());
+					userDao.updateBinding(bing);
+					userLoginDO.setAccessToken(TokenUtils.creatAesStr(binding.getSchoolNum()));
+					userLoginDO.setIsBound(Integer.valueOf(1));
+					binding.setAsToken(TokenUtils.creatAesStr(binding.getSchoolNum()));
+					userLoginDao.update(userLoginDO);
+					responseDO.setDataResult(binding);
+					responseDO.setMessage("绑定成功");
+					return responseDO;
+				}
+			}
+			return responseDO;
+		}
+		return responseDO;
 	}
 }
