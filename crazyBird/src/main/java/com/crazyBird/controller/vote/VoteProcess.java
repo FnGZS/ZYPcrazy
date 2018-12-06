@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,13 +53,7 @@ public class VoteProcess extends BaseProcess {
 	@Autowired
 	private VoteService voteService;
 	
-	public SimpleFlagModel insertCode(String[] param) {
-		SimpleFlagModel model = new SimpleFlagModel();
-		for(int i = 0 ; i < param.length ; i++) {
-			System.out.println(param[i]);
-		}
-		return model;
-	}
+	
 	
 	public TestModel checkTestType() {
 		TestModel model = new TestModel();

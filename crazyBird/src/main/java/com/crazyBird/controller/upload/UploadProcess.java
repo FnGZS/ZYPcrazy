@@ -36,7 +36,43 @@ public class UploadProcess {
       * 附件扩张名限制
      */
     protected String attachExtLimit = "jpg,jpeg,gif,png,bmp,xls,xlsx,pdf,silk,mp3,dat";
-    
+    public MultiPicUploadModel doUploadAvr(MultipartFile file, UploadPicParam uploadParam){
+		MultiPicUploadModel model = new MultiPicUploadModel();
+		if(file==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("文件上传失败，内容为空");
+			return model;
+		}
+		
+			if(!fileSizeValidate(file)) {
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("文件上传失败，大小超过限制");
+				return model;	
+			}
+			//检验文件类型
+			if(!picExtValidate(getExtName(file.getOriginalFilename()))) {
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("文件上传失败，文件格式错误");
+				return model;
+			}
+		
+		String picType=uploadParam.getPicType();
+		String url= null;
+		List<String> urlList = new ArrayList<>();
+		try {
+				url = fileUpload(file, picType);
+				urlList.add(url);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("上传失败");
+				return model ;
+			}
+		
+		model.setUrlList(urlList);
+		model.setMessage("上传成功");
+		return model;
+	}
 	public MultiPicUploadModel doUploadPic(MultipartFile[] files, UploadPicParam uploadParam){
 		MultiPicUploadModel model = new MultiPicUploadModel();
 		if(files==null||files.length==0) {

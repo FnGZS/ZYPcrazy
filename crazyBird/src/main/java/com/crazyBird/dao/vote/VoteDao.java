@@ -37,7 +37,7 @@ public interface VoteDao {
 	
 	Integer checkTestType();
 	
-	int insertCode(String code);
+	
 
 	
 }

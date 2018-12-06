@@ -43,4 +43,20 @@ public class UploadController {
 			@RequestParam(value = "files", required = false) MultipartFile[] files) throws UploadException, IOException {
 		return uploadProcess.doUploadPic(files, uploadParam);
 	}
+	/**
+	 * 图片上传单张
+	 * @param request
+	 * @param uploadParam
+	 * @param files
+	 * @return
+	 * @throws UploadException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/avatar", method=RequestMethod.POST)
+	@ResponseBody
+	public MultiPicUploadModel doUploadAvr(HttpServletRequest request, UploadPicParam uploadParam,
+			@RequestParam(value = "file", required = false) MultipartFile file) throws UploadException, IOException {
+		return uploadProcess.doUploadAvr(file, uploadParam);
+	}
+	
 }
