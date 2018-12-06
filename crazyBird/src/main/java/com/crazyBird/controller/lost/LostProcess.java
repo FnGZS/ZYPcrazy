@@ -77,7 +77,6 @@ public class LostProcess extends BaseProcess {
 		LostPageModel model = new LostPageModel();
 		PageUtils.resetPageParam(param);
 		LostPO po = new LostPO();
-
 		po.setPageIndex(param.getPageNo().intValue() - 1);
 		po.setPageSize(param.getPageSize().intValue());
 		po.setTypeId(param.getTypeId());
