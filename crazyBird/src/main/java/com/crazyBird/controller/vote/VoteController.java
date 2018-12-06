@@ -153,15 +153,6 @@ public class VoteController {
 	public TestModel checkTestType() {
 		return voteProcess.checkTestType();	
 	}
-	/**
-	 * 插入二维码
-	 */
-	@RequestMapping(value = "/insertCode",method = RequestMethod.POST)
-	@ResponseBody
-	public SimpleFlagModel insertCode(String[] param) {
-		return voteProcess.insertCode(param);	
-	}
-	
 	
 	
 }
