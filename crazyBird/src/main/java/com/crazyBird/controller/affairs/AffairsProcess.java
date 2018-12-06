@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AffairsProcess extends BaseProcess {
+	
 	@Autowired
 	private AffairsService affairsService;
 
