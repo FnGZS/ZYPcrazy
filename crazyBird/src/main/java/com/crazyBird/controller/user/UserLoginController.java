@@ -8,6 +8,7 @@
  import com.crazyBird.controller.user.model.BindingModel;
  import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
+import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
  import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
@@ -50,6 +51,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
    @ResponseBody
    public MessageModel smsget(@RequestBody MessageParam param) {
 	     return this.userLoginProcess.smsget(param);
+   }
+   
+   /**
+    * 无法绑定的绑定
+    * */
+   @RequestMapping(value={"/cantBind"}, method = RequestMethod.POST)
+   @ResponseBody
+   public BindingModel bind(@RequestBody BindParam param) {
+	   return userLoginProcess.bind(param);
    }
  }
 

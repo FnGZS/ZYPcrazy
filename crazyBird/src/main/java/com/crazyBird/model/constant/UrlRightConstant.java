@@ -21,6 +21,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/user/binding");
     	notVerifyUrlList.add("/user/login");
     	notVerifyUrlList.add("/user/sms");
+    	notVerifyUrlList.add("/user/cantBind");
     	notVerifyUrlList.add("/vote");
     	notVerifyUrlList.add("/affaris");
     	notVerifyUrlList.add("/opinion");
@@ -30,6 +31,7 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/user/account");
         loginVerifyUrlList.add("/message");
         loginVerifyUrlList.add("/vote/record");
+        loginVerifyUrlList.add("/upload");
         
         
         dataSignUrlList.add("/");

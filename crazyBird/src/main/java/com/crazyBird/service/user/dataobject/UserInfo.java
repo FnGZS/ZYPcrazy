@@ -1,5 +1,8 @@
 package com.crazyBird.service.user.dataobject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class UserInfo {
 	private String openId;
 
@@ -26,7 +29,14 @@ public class UserInfo {
 		this.headimgurl = headimgurl;
 	}
 	public String getNickName() {
-		return nickName;
+		String result = "";
+		try {
+			result = URLDecoder.decode(this.nickName,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
