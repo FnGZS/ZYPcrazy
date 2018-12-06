@@ -122,8 +122,8 @@ public class UploadProcess {
 	 */
 	private String fileUpload(MultipartFile file, String picType)throws Exception { 
 	
-	
-	  String fileName =picType+"_"+DateUtil.formatDate(new Date(), DateUtil.dtLongLong)+"."+file.getOriginalFilename().split("\\.")[1];
+	int length = file.getOriginalFilename().split("\\.").length;
+	  String fileName =picType+"_"+DateUtil.formatDate(new Date(), DateUtil.dtLongLong)+"."+file.getOriginalFilename().split("\\.")[length-1];
 	  //MultipartFile 类型文件不支持创建父目录，所以得用File类型
 	  File newfile = new File(filePath+picType+"/"+fileName);
 	  File fileParent = newfile.getParentFile();  
