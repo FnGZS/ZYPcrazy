@@ -7,7 +7,7 @@ public class LostPO extends PageQueryDO{
 	private Integer typeId;
 	private String key;
 	private Integer messageId;
-	private Long  publisher;
+	private Long publisher;
 	
 	
 	public Long getPublisher() {
