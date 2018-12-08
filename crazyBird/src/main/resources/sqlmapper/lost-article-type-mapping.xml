@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.lost.LostArticleTypeDao">
+	
+	<resultMap type="com.crazyBird.dao.lost.dataobject.LostTypeDO" id="LostTypeMap">
+		<id column="id" property="typeId" jdbcType="BIGINT"/>
+		<result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="LostArticleType">
+		id,type_name
+	</sql>
+	<select id="getLostType" resultMap="LostTypeMap">
+		select <include refid="LostArticleType"/>
+		from lost_article_type
+	</select>
+	
+	 
+</mapper>
