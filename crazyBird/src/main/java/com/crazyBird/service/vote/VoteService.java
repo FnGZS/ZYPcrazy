@@ -29,5 +29,5 @@ public interface VoteService {
 	public List<VoteActionSlideDO> getVoteActionSlide();
 	VoteActionCustomDO selectActionDetailById(Long id);
 	Integer checkTestType();
-	int insertCode(String code);
+
 }

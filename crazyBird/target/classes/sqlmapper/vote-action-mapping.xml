@@ -81,4 +81,5 @@
 		update vote_action set vote_sum =(SELECT SUM(num) from vote_action_detail where action_id= #{actionId,jdbcType=BIGINT}) where id=#{actionId,jdbcType=BIGINT}
 	</update>
 
+
 </mapper>
