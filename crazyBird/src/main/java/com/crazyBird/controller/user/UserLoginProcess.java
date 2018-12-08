@@ -3,6 +3,7 @@ package com.crazyBird.controller.user;
 import com.crazyBird.service.base.ResponseCode;
 import com.aliyuncs.exceptions.ClientException;
 import com.crazyBird.controller.base.BaseProcess;
+import com.crazyBird.controller.user.model.BackgroundModel;
 import com.crazyBird.controller.user.model.BindingModel;
 import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
@@ -11,6 +12,7 @@ import com.crazyBird.controller.user.param.BindingParam;
 import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
+import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
@@ -195,6 +197,13 @@ public class UserLoginProcess extends BaseProcess {
 		model.setResult(Integer.valueOf(2));
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("缺少必要参数");
+		return model;
+	}
+
+	public BackgroundModel getBackgroud() {
+		BackgroundModel model = new BackgroundModel();
+		BackgroundDO background = userLoginService.background();
+		model.setBackground(background.getBackground());
 		return model;
 	}
 }

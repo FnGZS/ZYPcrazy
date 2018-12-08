@@ -1,5 +1,6 @@
  package com.crazyBird.controller.user;
 
+import com.crazyBird.controller.user.model.BackgroundModel;
 /**
  * 登录
  * @author zjw
@@ -61,5 +62,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
    public BindingModel bind(@RequestBody BindParam param) {
 	   return userLoginProcess.bind(param);
    }
+   
+   /**
+    * 用户背景图
+    * */
+   @RequestMapping(value={"/background"}, method = RequestMethod.GET)
+   @ResponseBody
+   public BackgroundModel bind() {
+	   return userLoginProcess.getBackgroud();
+   }
+   
  }
 

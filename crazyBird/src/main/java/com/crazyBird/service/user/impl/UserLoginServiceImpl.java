@@ -2,9 +2,11 @@ package com.crazyBird.service.user.impl;
 
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
+import com.crazyBird.dao.user.UserBackgroudDao;
 import com.crazyBird.dao.user.UserDao;
 import com.crazyBird.dao.user.UserLoginDao;
 import com.crazyBird.dao.user.VerificationDao;
+import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
@@ -25,6 +27,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 	private UserLoginDao userLoginDao;
 	@Autowired
 	private VerificationDao verificationDao;
+	@Autowired
+	private UserBackgroudDao userBackgroudDao;
 	
 	@Override
 	public ResponseDO<UserLoginDO> getUserLogin(Long shoolNum) {
@@ -190,5 +194,10 @@ public class UserLoginServiceImpl implements UserLoginService {
 			return responseDO;
 		}
 		return responseDO;
+	}
+
+	@Override
+	public BackgroundDO background() {
+		return userBackgroudDao.getBackground();
 	}
 }
