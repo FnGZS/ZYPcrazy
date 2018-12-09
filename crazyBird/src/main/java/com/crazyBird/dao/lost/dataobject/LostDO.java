@@ -3,27 +3,32 @@ package com.crazyBird.dao.lost.dataobject;
 import java.sql.Date;
 
 public class LostDO {
+
 	private Integer id;
 	private String title;
 	private Integer publisher;
 	private String foundPic;
 	private String content;
-	private Integer latitude;
-	private Integer longitude;
+	private String contact;
+	private String address;
 	private Integer messageId;
 	private Integer typeId;
 	private Integer isExamine;
 	private Integer brow;
 	private Integer isSolve;
 	private String gmtCreated;
-
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public Integer getPublisher() {
 		return publisher;
 	}
@@ -41,6 +46,24 @@ public class LostDO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public Integer getMessageId() {
+		return messageId;
+	}
+	public void setMessageId(Integer messageId) {
+		this.messageId = messageId;
 	}
 	public Integer getTypeId() {
 		return typeId;
@@ -66,37 +89,13 @@ public class LostDO {
 	public void setIsSolve(Integer isSolve) {
 		this.isSolve = isSolve;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public Integer getLatitude() {
-		return latitude;
-	}
-	public void setLatitude(Integer latitude) {
-		this.latitude = latitude;
-	}
-	public Integer getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(Integer longitude) {
-		this.longitude = longitude;
-	}
-	public Integer getMessageId() {
-		return messageId;
-	}
-	public void setMessageId(Integer messageId) {
-		this.messageId = messageId;
-	}
 	public String getGmtCreated() {
 		return gmtCreated;
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
-
+	
+	
 	
 }

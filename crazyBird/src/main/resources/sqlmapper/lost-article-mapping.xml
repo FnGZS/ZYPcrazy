@@ -9,13 +9,13 @@
     	<result column="publisher" property="publisher" jdbcType="VARCHAR"/>
    		 <result column="found_pic" property="foundPic" jdbcType="VARCHAR"/>
    		 <result column="content" property="content"  jdbcType="VARCHAR"/>
-   		 <result column="latitude" property="latitude" jdbcType="BIGINT"/>
-   		 <result column="longitude" property="longitude" jdbcType="BIGINT"/>
+   		 <result column="address" property="address" jdbcType="VARCHAR"/>
    		 <result column="message_id" property="messageId" jdbcType="BIGINT"/>
     	<result column="type_id" property="typeId" jdbcType="BIGINT"/>
     	<result column="is_examine" property="isExamine" jdbcType="BIGINT"/>
     	<result column="brow" property="brow" jdbcType="BIGINT"/>
      	<result column="is_solve" property="isSolve" jdbcType="BIGINT"/>
+     	<result column="contact" property="contact" jdbcType="VARCHAR"/>
     	<result column="gmt_created" property="gmtCreated" jdbcType="VARCHAR"/>
 	</resultMap>
 
@@ -38,8 +38,8 @@
  	 </select>
  	 
  	 <sql id="LostList">
-		id,title,publisher,found_pic,content,latitude,
-		longitude,message_id,type_id,is_examine,brow,is_solve,gmt_created
+		id,title,publisher,found_pic,content,contact,address,
+		message_id,type_id,is_examine,brow,is_solve,gmt_created
 	</sql>
  	 <select id="getLost" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.lost.dataobject.LostPO">
   		select 
@@ -82,8 +82,8 @@
   </update>
   
   <sql id="LostInsert">
-		title,publisher,found_pic,content,latitude,
-		longitude,message_id,type_id,is_examine,brow,is_solve,gmt_created
+		title,publisher,found_pic,content,contact,address,
+		message_id,type_id,is_examine,brow,is_solve,gmt_created
 	</sql>
   <insert id="insert"  parameterType="com.crazyBird.dao.lost.dataobject.LostArticleDO">
   		insert into lost_article
@@ -96,8 +96,8 @@
   			#{publisher,jdbcType=BIGINT},
   			#{foundPic,jdbcType=VARCHAR},
   			#{content,jdbcType=VARCHAR},
-  			#{latitude,jdbcType=BIGINT},
-  			#{longitude,jdbcType=BIGINT},
+  			#{contact,jdbcType=VARCHAR},
+  			#{address,jdbcType=VARCHAR},
   			#{messageId,jdbcType=BIGINT},
   			#{typeId,jdbcType=BIGINT},
   			0,0,0,now()

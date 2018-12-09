@@ -1,13 +1,14 @@
 package com.crazyBird.controller.lost.param;
 
 public class LostInputParam {
+
 	private String title;
 	private String foundPic;
 	private String content;
-	private Integer typeId;
-	private Integer latitude;
-	private Integer longitude;
+	private String contact;
+	private String address;
 	private Integer messageId;
+	private Integer typeId;
 	public String getTitle() {
 		return title;
 	}
@@ -26,23 +27,17 @@ public class LostInputParam {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Integer getTypeId() {
-		return typeId;
+	public String getContact() {
+		return contact;
 	}
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
-	public Integer getLatitude() {
-		return latitude;
+	public String getAddress() {
+		return address;
 	}
-	public void setLatitude(Integer latitude) {
-		this.latitude = latitude;
-	}
-	public Integer getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(Integer longitude) {
-		this.longitude = longitude;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public Integer getMessageId() {
 		return messageId;
@@ -50,6 +45,11 @@ public class LostInputParam {
 	public void setMessageId(Integer messageId) {
 		this.messageId = messageId;
 	}
-	
+	public Integer getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
 	
 }

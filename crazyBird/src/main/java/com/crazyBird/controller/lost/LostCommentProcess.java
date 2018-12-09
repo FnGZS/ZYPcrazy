@@ -45,7 +45,6 @@ public class LostCommentProcess extends BaseProcess{
 			model.setMessage("登录状态无效");
 			return model;
 		}
-		
 		LostCommentDO DO=new LostCommentDO();
 		DO.setArticleId(param.getArticleId());
 		DO.setComment(param.getComment());

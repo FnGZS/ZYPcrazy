@@ -1,13 +1,14 @@
 package com.crazyBird.dao.lost.dataobject;
 
 public class LostArticleDO {
+
 	private Integer id;
 	private String title;
 	private Long publisher;
 	private String foundPic;
 	private String content;
-	private Integer latitude;
-	private Integer longitude;
+	private String contact;
+	private String address;
 	private Integer messageId;
 	private Integer typeId;
 	private Integer isExamine;
@@ -45,17 +46,17 @@ public class LostArticleDO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Integer getLatitude() {
-		return latitude;
+	public String getContact() {
+		return contact;
 	}
-	public void setLatitude(Integer latitude) {
-		this.latitude = latitude;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
-	public Integer getLongitude() {
-		return longitude;
+	public String getAddress() {
+		return address;
 	}
-	public void setLongitude(Integer longitude) {
-		this.longitude = longitude;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public Integer getMessageId() {
 		return messageId;
@@ -92,13 +93,6 @@ public class LostArticleDO {
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
-	}
-	@Override
-	public String toString() {
-		return "LostArticlePO [id=" + id + ", title=" + title + ", publisher=" + publisher + ", foundPic=" + foundPic
-				+ ", content=" + content + ", latitude=" + latitude + ", longitude=" + longitude + ", messageId="
-				+ messageId + ", typeId=" + typeId + ", isExamine=" + isExamine + ", brow=" + brow + ", isSolve="
-				+ isSolve + ", gmtCreated=" + gmtCreated + "]";
 	}
 	
 }

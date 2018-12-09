@@ -123,10 +123,10 @@ public class LostProcess extends BaseProcess {
 					item.setIsExamine(dataResults.getIsExamine());
 					item.setIsSolve(dataResults.getIsSolve());
 					item.setPublisher(dataResults.getPublisher());
-					item.setLatitude(dataResults.getLatitude());
-					item.setLongitude(dataResults.getLongitude());
+					item.setAddress(dataResults.getAddress());
 					item.setTitle(dataResults.getTitle());
 					item.setMessageId(dataResults.getMessageId());
+					item.setContact(dataResults.getContact());
 					items.add(item);
 				}
 			}
@@ -145,15 +145,14 @@ public class LostProcess extends BaseProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DO.setContent(param.getContent());
-		DO.setFoundPic(param.getFoundPic());
-		DO.setLatitude(param.getLatitude());
-		DO.setLongitude(param.getLongitude());
-		DO.setMessageId(param.getMessageId());
-		DO.setPublisher(shoolNum);
+		DO.setAddress(param.getAddress());
 		DO.setTitle(param.getTitle());
 		DO.setTypeId(param.getTypeId());
-
+		DO.setMessageId(param.getMessageId());
+		DO.setContact(param.getContact());
+		DO.setContent(param.getContent());
+		DO.setFoundPic(param.getFoundPic());
+		DO.setPublisher(shoolNum);
 		ResponseDO<LostDO> response=lostService.lostInput(DO);
 		if(!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
@@ -177,12 +176,12 @@ public class LostProcess extends BaseProcess {
 			item.setId(detail.getId());
 			item.setIsExamine(detail.getIsExamine());
 			item.setIsSolve(detail.getIsSolve());
-			item.setLatitude(detail.getLatitude());
-			item.setLongitude(detail.getLongitude());
+			item.setAddress(detail.getAddress());
 			item.setMessageId(detail.getMessageId());
 			item.setPublisher(detail.getPublisher());
 			item.setTitle(detail.getTitle());
 			item.setTypeId(detail.getTypeId());
+			item.setContact(detail.getContact());
 			model.setDetails(item);
 			return model;
 		}
