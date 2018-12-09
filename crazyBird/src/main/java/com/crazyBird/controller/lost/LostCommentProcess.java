@@ -1,5 +1,6 @@
 package com.crazyBird.controller.lost;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,16 +98,18 @@ public class LostCommentProcess extends BaseProcess{
 			ResponsePageQueryDO<List<LostReplyDO>> response=lostCommentService.getCommentItem(po);
 			
 			List<LostReplyDO> data=response.getDataResult();
-			for(LostReplyDO responsed:data) {
-				LostCommentListItem lcli=new LostCommentListItem();
-				lcli.setArticleId(responsed.getArticleId());
-				lcli.setComment(responsed.getComment());
-				lcli.setCommentId(responsed.getCommentId());
-				lcli.setGmtCreated(responsed.getGmtCreated());
-				lcli.setId(responsed.getId());
-				lcli.setReplyedId(responsed.getReplyedId());
-				lcli.setReplyId(responsed.getReplyId());
-				llcli.add(lcli);
+			if(data!=null) {
+				for(LostReplyDO responsed:data) {
+					LostCommentListItem lcli=new LostCommentListItem();
+					lcli.setArticleId(responsed.getArticleId());
+					lcli.setComment(responsed.getComment());
+					lcli.setCommentId(responsed.getCommentId());
+					lcli.setGmtCreated(responsed.getGmtCreated());
+					lcli.setId(responsed.getId());
+					lcli.setReplyedId(responsed.getReplyedId());
+					lcli.setReplyId(responsed.getReplyId());
+					llcli.add(lcli);
+				}
 			}
 			item.setItem(llcli);
 			item.setArticleId(dataResult.getArticleId());
