@@ -22,9 +22,11 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/user/login");
     	notVerifyUrlList.add("/user/sms");
     	notVerifyUrlList.add("/user/cantBind");
+    	notVerifyUrlList.add("/user/background");
     	notVerifyUrlList.add("/vote");
     	notVerifyUrlList.add("/affaris");
     	notVerifyUrlList.add("/opinion");
+    	notVerifyUrlList.add("/lost");
         
         loginNotNecessaryUrlList.add("/user/account/public");
         
@@ -32,6 +34,8 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/message");
         loginVerifyUrlList.add("/vote/record");
         loginVerifyUrlList.add("/upload");
+        loginVerifyUrlList.add("/lostInput");
+        loginVerifyUrlList.add("/lostDelete");
         
         
         dataSignUrlList.add("/");
