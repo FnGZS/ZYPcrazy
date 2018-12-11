@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.innovate.InnovateDao">
+	<resultMap id="BaseResultMap"
+		type="com.crazyBird.dao.innovate.dataobject.InnovateEnterpriseDO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="logo" property="logo"
+			jdbcType="VARCHAR" />
+		<result column="name" property="name"
+			jdbcType="VARCHAR" />
+		<result column="content" property="content"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="InnovateListMap"
+		type="com.crazyBird.dao.innovate.dataobject.InnovateEnterpriseListDO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="logo" property="logo"
+			jdbcType="VARCHAR" />
+	</resultMap>
+  <sql id="Base_Column_List" >
+    id, logo,name , content
+  </sql>
+  <select id="getInnovateEnterprise" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from innovate where id=#{id,jdbcType=INTEGER}
+  </select>
+   <select id="getInnovateEnterpriseList" resultMap="InnovateListMap">
+   select id,logo
+   from innovate
+   
+  </select>
+  <select id="getInnovateBackground" resultType="java.lang.String">
+  select background from innovate_background 
+  </select>
+  
+
+</mapper>
