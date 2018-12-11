@@ -8,5 +8,6 @@ import com.crazyBird.dao.innovate.dataobject.InnovateEnterpriseListDO;
 public interface InnovateDao {
 	List<InnovateEnterpriseListDO> getInnovateEnterpriseList();
 	InnovateEnterpriseDO getInnovateEnterprise(Integer id);
+	String getInnovateBackground();
 	
 }

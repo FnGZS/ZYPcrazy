@@ -30,6 +30,9 @@
    from innovate
    
   </select>
+  <select id="getInnovateBackground" resultType="java.lang.String">
+  select background from innovate_background 
+  </select>
   
 
 </mapper>

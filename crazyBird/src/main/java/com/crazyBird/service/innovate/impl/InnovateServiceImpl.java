@@ -24,5 +24,10 @@ public class InnovateServiceImpl implements InnovateService{
 
 		return innovateDao.getInnovateEnterprise(id);
 	}
+
+	@Override
+	public String getInnovateBackground() {
+		return innovateDao.getInnovateBackground();
+	}
 	
 }

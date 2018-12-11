@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.innovate.model.InnovateBackgroundModel;
 import com.crazyBird.controller.innovate.model.InnovateEnterpriseListModel;
 import com.crazyBird.controller.innovate.model.InnovateEnterpriseModel;
 /**
@@ -35,4 +36,14 @@ public class InnovateController {
 	public InnovateEnterpriseModel getInnovateEnterprise(@PathVariable Integer id) {
 		return innovateProcess.getInnovateEnterprise(id);
 	}
+	/**
+	 * 得到创业园首页背景图片
+	 */
+	@RequestMapping(value="/background",method = RequestMethod.GET)
+	@ResponseBody
+	public InnovateBackgroundModel  getInnovateBackground() {
+		return innovateProcess.getInnovateBackground();
+		
+	}
+	
 }

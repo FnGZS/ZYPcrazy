@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.crazyBird.controller.innovate.model.InnovateBackgroundModel;
 import com.crazyBird.controller.innovate.model.InnovateEnterpriseItem;
 import com.crazyBird.controller.innovate.model.InnovateEnterpriseListModel;
 import com.crazyBird.controller.innovate.model.InnovateEnterpriseModel;
@@ -39,6 +41,14 @@ public class InnovateProcess {
 		model.setName(innovateDO.getName());
 		model.setContent(innovateDO.getContent());
 		return model;
+	}
+	
+	public InnovateBackgroundModel  getInnovateBackground() {
+		InnovateBackgroundModel model = new InnovateBackgroundModel();
+		String background = innovateService.getInnovateBackground();
+		model.setBackground(background);
+		return model;
+		
 	}
 
 }
