@@ -42,8 +42,7 @@ public class InnovateController {
 	@RequestMapping(value="/background",method = RequestMethod.GET)
 	@ResponseBody
 	public InnovateBackgroundModel  getInnovateBackground() {
-		return innovateProcess.getInnovateBackground();
-		
+		return innovateProcess.getInnovateBackground();	
 	}
 	
 }
