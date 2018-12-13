@@ -126,6 +126,7 @@ public class LostProcess extends BaseProcess {
 					item.setPublisher(dataResults.getPublisher());
 					item.setAddress(dataResults.getAddress());
 					item.setTitle(dataResults.getTitle());
+					item.setTitlePic(dataResults.getTitlePic());
 					item.setMessageId(dataResults.getMessageId());
 					item.setContact(dataResults.getContact());
 					items.add(item);
@@ -184,6 +185,7 @@ public class LostProcess extends BaseProcess {
 			item.setTypeId(detail.getTypeId());
 			item.setTypeName(detail.getTypeName());
 			item.setContact(detail.getContact());
+			item.setTitlePic(detail.getTitlePic());
 			model.setDetails(item);
 			return model;
 		}

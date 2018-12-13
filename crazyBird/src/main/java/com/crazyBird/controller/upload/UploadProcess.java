@@ -18,7 +18,7 @@ public class UploadProcess {
 	/**
 	 * 访问图片地址的前缀
 	 */
-	 protected String path = "www.sxscott.com/crazyBirdimg/";
+	 protected String path = "https://www.sxscott.com/crazyBirdimg/";
 	 /**
 	  * 保存图片地址的前缀
 	  */
