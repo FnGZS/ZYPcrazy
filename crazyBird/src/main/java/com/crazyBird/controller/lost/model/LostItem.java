@@ -5,6 +5,7 @@ import java.sql.Date;
 public class LostItem {
 	private Integer id;
 	private String title;
+	private String titlePic;
 	private Integer publisher;
 	private String foundPic;
 	private String content;
@@ -12,6 +13,7 @@ public class LostItem {
 	private String address;
 	private Integer messageId;
 	private Integer typeId;
+	private String typeName;
 	private Integer isExamine;
 	private Integer brow;
 	private Integer isSolve;
@@ -27,6 +29,12 @@ public class LostItem {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getTitlePic() {
+		return titlePic;
+	}
+	public void setTitlePic(String titlePic) {
+		this.titlePic = titlePic;
 	}
 	public Integer getPublisher() {
 		return publisher;
@@ -69,6 +77,12 @@ public class LostItem {
 	}
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 	public Integer getIsExamine() {
 		return isExamine;

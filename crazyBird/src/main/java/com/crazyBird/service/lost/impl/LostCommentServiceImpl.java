@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.lost.LostArticleReplyDao;
 import com.crazyBird.dao.lost.LostArticleTypeDao;
 import com.crazyBird.dao.lost.dataobject.LostCommentDO;
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostReplyDO;
 import com.crazyBird.dao.lost.dataobject.LostReplyPO;
 import com.crazyBird.service.base.ResponseCode;
@@ -22,8 +22,8 @@ public class LostCommentServiceImpl implements LostCommentService{
 	private LostArticleReplyDao lostArticleReplyDao;
 	
 	@Override
-	public ResponseDO<LostDO> commentInput(LostCommentDO DO) {
-		ResponseDO<LostDO> response=new ResponseDO<>();
+	public ResponseDO<LostDTO> commentInput(LostCommentDO DO) {
+		ResponseDO<LostDTO> response=new ResponseDO<>();
 		int status=lostArticleReplyDao.replyInsert(DO);
 		if(status==1) {
 			response.setCode(ResponseCode.SUCCESS);

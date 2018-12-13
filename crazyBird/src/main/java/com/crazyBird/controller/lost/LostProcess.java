@@ -23,7 +23,7 @@ import com.crazyBird.controller.lost.param.LostPageParam;
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
 import com.crazyBird.dao.affairs.dataobject.AffairsPO;
 import com.crazyBird.dao.lost.dataobject.LostArticleDO;
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostPO;
 import com.crazyBird.dao.lost.dataobject.LostTypeDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -97,7 +97,7 @@ public class LostProcess extends BaseProcess {
 				return model;
 			}
 		}
-		ResponsePageQueryDO<List<LostDO>> response = lostService.getLostList(po);
+		ResponsePageQueryDO<List<LostDTO>> response = lostService.getLostList(po);
 		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setItems(convertDemands(response.getDataResult()));
@@ -108,10 +108,10 @@ public class LostProcess extends BaseProcess {
 		return model;
 	}
 
-	private List<LostItem> convertDemands(List<LostDO> dataResult) {
+	private List<LostItem> convertDemands(List<LostDTO> dataResult) {
 		List<LostItem> items = new ArrayList<>();
 		if(CollectionUtil.isNotEmpty(dataResult)) {
-			for(LostDO dataResults : dataResult) {
+			for(LostDTO dataResults : dataResult) {
 				if(dataResults != null) {
 					LostItem item = new LostItem();
 					item.setId(dataResults.getId());
@@ -119,6 +119,7 @@ public class LostProcess extends BaseProcess {
 					item.setContent(dataResults.getContent());
 					item.setFoundPic(dataResults.getFoundPic());
 					item.setTypeId(dataResults.getTypeId());
+					item.setTypeName(dataResults.getTypeName());
 					item.setGmtCreated(dataResults.getGmtCreated());
 					item.setIsExamine(dataResults.getIsExamine());
 					item.setIsSolve(dataResults.getIsSolve());
@@ -137,7 +138,6 @@ public class LostProcess extends BaseProcess {
 	public LostInputModel lostInput(LostInputParam param) {
 		LostInputModel model=new LostInputModel();
 		LostArticleDO DO=new LostArticleDO();
-
 		Long shoolNum = (long) 0;
 		try {
 			shoolNum = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
@@ -147,13 +147,14 @@ public class LostProcess extends BaseProcess {
 		}
 		DO.setAddress(param.getAddress());
 		DO.setTitle(param.getTitle());
+		DO.setTitlePic(param.getTitlePic());
 		DO.setTypeId(param.getTypeId());
 		DO.setMessageId(param.getMessageId());
 		DO.setContact(param.getContact());
 		DO.setContent(param.getContent());
 		DO.setFoundPic(param.getFoundPic());
 		DO.setPublisher(shoolNum);
-		ResponseDO<LostDO> response=lostService.lostInput(DO);
+		ResponseDO<LostDTO> response=lostService.lostInput(DO);
 		if(!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
@@ -166,7 +167,7 @@ public class LostProcess extends BaseProcess {
 
 	public LostDetailsModel getLostDetails(Long id) {
 		LostDetailsModel model = new LostDetailsModel();
-		LostDO detail = lostService.getLostDetails(id);
+		LostDTO detail = lostService.getLostDetails(id);
 		if(detail!=null) {
 			LostItem item=new LostItem();
 			item.setBrow(detail.getBrow());
@@ -181,6 +182,7 @@ public class LostProcess extends BaseProcess {
 			item.setPublisher(detail.getPublisher());
 			item.setTitle(detail.getTitle());
 			item.setTypeId(detail.getTypeId());
+			item.setTypeName(detail.getTypeName());
 			item.setContact(detail.getContact());
 			model.setDetails(item);
 			return model;
@@ -192,7 +194,7 @@ public class LostProcess extends BaseProcess {
 
 	public LostInputModel getLostDelete(Long id) {
 		LostInputModel model=new LostInputModel();
-		ResponseDO<LostDO> response=lostService.lostDelete(id);
+		ResponseDO<LostDTO> response=lostService.lostDelete(id);
 		if(!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());

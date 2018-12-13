@@ -14,7 +14,7 @@ import com.crazyBird.controller.lost.model.LostInputModel;
 import com.crazyBird.controller.lost.param.LostCommentPageParam;
 import com.crazyBird.controller.lost.param.LostCommentParam;
 import com.crazyBird.dao.lost.dataobject.LostCommentDO;
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostReplyDO;
 import com.crazyBird.dao.lost.dataobject.LostReplyPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -51,7 +51,7 @@ public class LostCommentProcess extends BaseProcess{
 		DO.setCommentId(param.getCommentId());
 		DO.setReplyedId(param.getReplyedId());
 		DO.setReplyId(param.getReplyId());
-		ResponseDO<LostDO> response=lostCommentService.commentInput(DO);
+		ResponseDO<LostDTO> response=lostCommentService.commentInput(DO);
 		if(!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());

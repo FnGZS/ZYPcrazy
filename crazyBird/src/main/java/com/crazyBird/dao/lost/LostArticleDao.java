@@ -3,20 +3,20 @@ package com.crazyBird.dao.lost;
 import java.util.List;
 
 import com.crazyBird.dao.lost.dataobject.LostArticleDO;
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostPO;
 
 public abstract interface LostArticleDao {
 
 	Integer getLostCount(LostPO po);
 
-	List<LostDO> getLost(LostPO po);
+	List<LostDTO> getLost(LostPO po);
 
-	LostDO getLostDetails(Long id);
+	LostDTO getLostDetails(Long id);
 
 	int insert(LostArticleDO DO);
 
-	void updateBrow(LostDO lost);
+	void updateBrow(LostDTO lost);
 
 	int delete(Long id);
 

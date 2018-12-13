@@ -11,7 +11,7 @@ import com.crazyBird.dao.lost.LostArticleTypeDao;
 import com.crazyBird.dao.lost.LostMessageDao;
 import com.crazyBird.dao.lost.dataobject.LostArticleDO;
 
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostPO;
 import com.crazyBird.dao.lost.dataobject.LostTypeDO;
 import com.crazyBird.service.base.ResponseCode;
@@ -39,12 +39,12 @@ public class LostServiceImpl implements LostService{
 	}
 
 	@Override
-	public ResponsePageQueryDO<List<LostDO>> getLostList(LostPO po) {
-		ResponsePageQueryDO<List<LostDO>> response = new ResponsePageQueryDO<>();
+	public ResponsePageQueryDO<List<LostDTO>> getLostList(LostPO po) {
+		ResponsePageQueryDO<List<LostDTO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
 		response.setTotal((Integer)lostArticleDao.getLostCount(po));
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
-			List<LostDO> dataResult = lostArticleDao.getLost(po);
+			List<LostDTO> dataResult = lostArticleDao.getLost(po);
 			response.setDataResult(dataResult);
 		}else {
 			response.setMessage("到底了");
@@ -53,15 +53,15 @@ public class LostServiceImpl implements LostService{
 	}
 
 	@Override
-	public LostDO getLostDetails(Long id) {
-		LostDO lost = lostArticleDao.getLostDetails(id);
+	public LostDTO getLostDetails(Long id) {
+		LostDTO lost = lostArticleDao.getLostDetails(id);
 		lostArticleDao.updateBrow(lost);
 		return lost;
 	}
 
 	@Override
-	public ResponseDO<LostDO> lostInput(LostArticleDO DO) {
-		ResponseDO<LostDO> response=new ResponseDO<>();
+	public ResponseDO<LostDTO> lostInput(LostArticleDO DO) {
+		ResponseDO<LostDTO> response=new ResponseDO<>();
 		int status=lostArticleDao.insert(DO);
 		if(status==1) {
 			response.setCode(ResponseCode.SUCCESS);
@@ -76,8 +76,8 @@ public class LostServiceImpl implements LostService{
 	
 
 	@Override
-	public ResponseDO<LostDO> lostDelete(Long id) {
-		ResponseDO<LostDO> response=new ResponseDO<>();
+	public ResponseDO<LostDTO> lostDelete(Long id) {
+		ResponseDO<LostDTO> response=new ResponseDO<>();
 		int status=lostArticleDao.delete(id);
 		if(status==1) {
 			response.setCode(ResponseCode.SUCCESS);

@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crazyBird.dao.lost.LostArticleDao">
-
-	
-	<resultMap id="BaseResultMap" type="com.crazyBird.dao.lost.dataobject.LostDO" >
+	<resultMap id="BaseResultMap" type="com.crazyBird.dao.lost.dataobject.LostDTO" >
     	<id column="id" property="id" jdbcType="BIGINT" />
     	<result column="title" property="title" jdbcType="VARCHAR"/>
+    	<result column="title_pic" property="titlePic" jdbcType="VARCHAR"/>
     	<result column="publisher" property="publisher" jdbcType="VARCHAR"/>
-   		 <result column="found_pic" property="foundPic" jdbcType="VARCHAR"/>
-   		 <result column="content" property="content"  jdbcType="VARCHAR"/>
-   		 <result column="address" property="address" jdbcType="VARCHAR"/>
-   		 <result column="message_id" property="messageId" jdbcType="BIGINT"/>
+   		<result column="found_pic" property="foundPic" jdbcType="VARCHAR"/>
+   		<result column="content" property="content"  jdbcType="VARCHAR"/>
+   		<result column="address" property="address" jdbcType="VARCHAR"/>
+   		<result column="message_id" property="messageId" jdbcType="BIGINT"/>
     	<result column="type_id" property="typeId" jdbcType="BIGINT"/>
+    	<result column="type_name" property="typeName" jdbcType="VARCHAR"/>
     	<result column="is_examine" property="isExamine" jdbcType="BIGINT"/>
     	<result column="brow" property="brow" jdbcType="BIGINT"/>
      	<result column="is_solve" property="isSolve" jdbcType="BIGINT"/>
      	<result column="contact" property="contact" jdbcType="VARCHAR"/>
     	<result column="gmt_created" property="gmtCreated" jdbcType="VARCHAR"/>
 	</resultMap>
-
+ <sql id="LostList">
+	id,title,title_pic,publisher,found_pic,content,contact,address,
+	message_id,type_id,is_examine,brow,is_solve,gmt_created
+ </sql>
+ <sql id="LostInsert">
+	title,publisher,found_pic,content,contact,address,
+	message_id,type_id,is_examine,brow,is_solve,gmt_created
+ </sql>
 	<select id="getLostCount" resultType="java.lang.Integer">
  		 select count(*)
 		 from lost_article
@@ -36,55 +43,42 @@
   			AND content LIKE CONCAT('%',#{key},'%')
   		</if>
  	 </select>
- 	 
- 	 <sql id="LostList">
-		id,title,publisher,found_pic,content,contact,address,
-		message_id,type_id,is_examine,brow,is_solve,gmt_created
-	</sql>
  	 <select id="getLost" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.lost.dataobject.LostPO">
   		select 
-  		<include refid="LostList" />
-  		from lost_article
-  		where id !=''
+  		la.id,la.title,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
+		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
+  		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
+  		where  la.id !=''
   		<if test="messageId != null">
-  			AND message_id = #{messageId,jdbcType=INTEGER}
+  			AND la.message_id = #{messageId,jdbcType=INTEGER}
   		</if>
   		<if test="publisher != null">
-  			AND publisher = #{publisher,jdbcType=INTEGER}
+  			AND la.publisher = #{publisher,jdbcType=INTEGER}
   		</if>
     	<if test="typeId != null">
-  			AND type_id = #{typeId,jdbcType=INTEGER}
+  			AND la.type_id = #{typeId,jdbcType=INTEGER}
   		</if>
   		<if test="key != null and key != ''">
-  			AND content LIKE CONCAT('%',#{key},'%')
-  			OR title LIKE CONCAT('%',#{key},'%')
+  			AND la.content LIKE CONCAT('%',#{key},'%')
+  			OR la.title LIKE CONCAT('%',#{key},'%')
   		</if>
   		order by id desc
   		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   	</select>
-  	
-  	
-  	<select id="getLostDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
- 		 select 
- 		 <include refid="LostList" />
-  		from lost_article
-  		where id = #{id,jdbcType=BIGINT}
-  		limit 1
-  	</select>
-  
- 
-  
-  <update id="updateBrow" parameterType="com.crazyBird.dao.lost.dataobject.LostDO" >
+  <select id="getLostDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+ 	select 
+ 	  	la.id,la.title,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
+		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
+  		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
+  	where id = #{id,jdbcType=BIGINT}
+  	limit 1
+  </select>
+  <update id="updateBrow" parameterType="com.crazyBird.dao.lost.dataobject.LostDTO" >
     update lost_article
     set 
     	brow = brow + 1 
     where  id = #{id,jdbcType=BIGINT}
   </update>
-  
-  <sql id="LostInsert">
-		title,publisher,found_pic,content,contact,address,
-		message_id,type_id,is_examine,brow,is_solve,gmt_created
-	</sql>
   <insert id="insert"  parameterType="com.crazyBird.dao.lost.dataobject.LostArticleDO">
   		insert into lost_article
   		(
@@ -93,6 +87,7 @@
   		value
   		(
   			#{title,jdbcType=VARCHAR},
+  			#{titlePic,jdbcType=VARCHAR},
   			#{publisher,jdbcType=BIGINT},
   			#{foundPic,jdbcType=VARCHAR},
   			#{content,jdbcType=VARCHAR},
@@ -100,10 +95,9 @@
   			#{address,jdbcType=VARCHAR},
   			#{messageId,jdbcType=BIGINT},
   			#{typeId,jdbcType=BIGINT},
-  			0,0,0,now()
+  			0,0,0,now(),now()
   		)
   </insert>
-  
   <delete id="delete" parameterType="java.lang.Long">
   		delete from lost_article where id=#{id,jdbcType=BIGINT}
   </delete>

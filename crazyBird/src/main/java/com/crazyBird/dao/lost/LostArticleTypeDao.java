@@ -3,7 +3,7 @@ package com.crazyBird.dao.lost;
 import java.util.List;
 
 import com.crazyBird.dao.affairs.dataobject.AffairsDO;
-import com.crazyBird.dao.lost.dataobject.LostDO;
+import com.crazyBird.dao.lost.dataobject.LostDTO;
 import com.crazyBird.dao.lost.dataobject.LostPO;
 import com.crazyBird.dao.lost.dataobject.LostTypeDO;
 
