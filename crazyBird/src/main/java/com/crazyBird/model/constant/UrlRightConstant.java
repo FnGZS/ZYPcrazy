@@ -29,6 +29,10 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/lost");
    
         
+    	
+    	
+    	
+    	
         loginNotNecessaryUrlList.add("/user/account/public");
         
         loginVerifyUrlList.add("/user/account");
