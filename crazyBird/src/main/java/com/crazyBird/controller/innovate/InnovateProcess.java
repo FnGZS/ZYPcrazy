@@ -40,6 +40,10 @@ public class InnovateProcess {
 		model.setLogo(innovateDO.getLogo());
 		model.setName(innovateDO.getName());
 		model.setContent(innovateDO.getContent());
+		model.setCodeImg(innovateDO.getCodeImg());
+		model.setPhone(innovateDO.getPhone());
+		model.setPostion(innovateDO.getPostion());
+		model.setTopImg(innovateDO.getTopImg());
 		return model;
 	}
 	

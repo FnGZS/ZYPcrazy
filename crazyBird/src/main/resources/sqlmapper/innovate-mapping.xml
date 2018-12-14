@@ -10,6 +10,15 @@
 			jdbcType="VARCHAR" />
 		<result column="content" property="content"
 			jdbcType="VARCHAR" />
+		<result column="top_img" property="topImg"
+			jdbcType="VARCHAR" />
+		<result column="postion" property="postion"
+			jdbcType="VARCHAR" />
+		<result column="phone" property="phone"
+			jdbcType="VARCHAR" />
+		<result column="code_img" property="codeImg"
+			jdbcType="VARCHAR" />
+		
 	</resultMap>
 	<resultMap id="InnovateListMap"
 		type="com.crazyBird.dao.innovate.dataobject.InnovateEnterpriseListDO">
@@ -18,7 +27,7 @@
 			jdbcType="VARCHAR" />
 	</resultMap>
   <sql id="Base_Column_List" >
-    id, logo,name , content
+    id, logo,name , content,postion,top_img,code_img,phone
   </sql>
   <select id="getInnovateEnterprise" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   select
