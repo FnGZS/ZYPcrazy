@@ -9,4 +9,5 @@ public interface InnovateService {
 	List<InnovateEnterpriseListDO> getInnovateEnterpriseList();
 	InnovateEnterpriseDO getInnovateEnterprise(Integer id);
 	String getInnovateBackground();
+	
 }
