@@ -1,6 +1,8 @@
 package com.crazyBird.controller.innovate.model;
 
-public class InnovateEnterpriseModel {
+import com.crazyBird.controller.base.AbstractFlagModel;
+
+public class InnovateEnterpriseModel extends AbstractFlagModel{
 	private Integer id;
 	private String logo;
 	private String name;

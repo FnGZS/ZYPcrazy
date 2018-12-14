@@ -23,8 +23,8 @@
 	message_id,type_id,is_examine,brow,is_solve,gmt_created
  </sql>
  <sql id="LostInsert">
-	title,publisher,found_pic,content,contact,address,
-	message_id,type_id,is_examine,brow,is_solve,gmt_created
+	title,title_pic,publisher,found_pic,content,contact,address,
+	message_id,type_id,is_examine,brow,is_solve,gmt_created,gmt_modified
  </sql>
 	<select id="getLostCount" resultType="java.lang.Integer">
  		 select count(*)
@@ -62,7 +62,7 @@
   			AND la.content LIKE CONCAT('%',#{key},'%')
   			OR la.title LIKE CONCAT('%',#{key},'%')
   		</if>
-  		order by id desc
+  		order by la.id desc
   		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   	</select>
   <select id="getLostDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
@@ -70,7 +70,7 @@
  	  	la.id,la.title,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
 		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
   		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
-  	where id = #{id,jdbcType=BIGINT}
+  	where la.id = #{id,jdbcType=BIGINT}
   	limit 1
   </select>
   <update id="updateBrow" parameterType="com.crazyBird.dao.lost.dataobject.LostDTO" >
