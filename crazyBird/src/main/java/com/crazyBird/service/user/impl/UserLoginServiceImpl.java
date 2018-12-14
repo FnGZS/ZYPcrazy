@@ -113,6 +113,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 				UserLoginDO user = userLoginDao.seletIsBinding(binding.getAsToken());
 				if (user.getIsBound().intValue() == 2) {
 					bing.setSchoolNum(binding.getSchoolNum());
+					bing.setUserName(user.getLoginAccount());
 					bing.setPassword(binding.getPassword());
 					bing.setUserId(user.getOpenId());
 					bing.setSex(user.getSex());
@@ -177,6 +178,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 				if (user.getIsBound().intValue() == 2) {
 					bing.setSchoolNum(binding.getSchoolNum());
 					bing.setPassword(binding.getPassword());
+					bing.setUserName(user.getLoginAccount());
 					bing.setUserId(user.getOpenId());
 					bing.setSex(user.getSex());
 					bing.setHeadimgurl(user.getHeadimgurl());
