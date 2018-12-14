@@ -28,6 +28,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/opinion");
     	notVerifyUrlList.add("/lost");
     	notVerifyUrlList.add("/innovate");
+
     	
         loginNotNecessaryUrlList.add("/user/account/public");
         

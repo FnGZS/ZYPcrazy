@@ -7,6 +7,10 @@ public class InnovateEnterpriseModel extends AbstractFlagModel{
 	private String logo;
 	private String name;
 	private String content;
+	private String topImg;
+	private String codeImg;
+	private String postion;
+	private String phone;
 	public Integer getId() {
 		return id;
 	}
@@ -31,5 +35,30 @@ public class InnovateEnterpriseModel extends AbstractFlagModel{
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getTopImg() {
+		return topImg;
+	}
+	public void setTopImg(String topImg) {
+		this.topImg = topImg;
+	}
+	public String getCodeImg() {
+		return codeImg;
+	}
+	public void setCodeImg(String codeImg) {
+		this.codeImg = codeImg;
+	}
+	public String getPostion() {
+		return postion;
+	}
+	public void setPostion(String postion) {
+		this.postion = postion;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 	
 }
