@@ -115,12 +115,15 @@ public class LostProcess extends BaseProcess {
 				if(dataResults != null) {
 					LostItem item = new LostItem();
 					item.setId(dataResults.getId());
+					item.setPersonal(dataResults.getPersonal());
 					item.setBrow(dataResults.getBrow());
 					item.setContent(dataResults.getContent());
 					item.setFoundPic(dataResults.getFoundPic());
 					item.setTypeId(dataResults.getTypeId());
 					item.setTypeName(dataResults.getTypeName());
-					item.setGmtCreated(dataResults.getGmtCreated());
+					item.setYear(dataResults.getGmtCreated().substring(0, 4));
+					item.setDay(dataResults.getGmtCreated().substring(5, 11));
+					item.setMinute(dataResults.getGmtCreated().substring(11, 19));
 					item.setIsExamine(dataResults.getIsExamine());
 					item.setIsSolve(dataResults.getIsSolve());
 					item.setPublisher(dataResults.getPublisher());
@@ -148,6 +151,7 @@ public class LostProcess extends BaseProcess {
 		}
 		DO.setAddress(param.getAddress());
 		DO.setTitle(param.getTitle());
+		DO.setPersonal(param.getPersonal());
 		DO.setTitlePic(param.getTitlePic());
 		DO.setTypeId(param.getTypeId());
 		DO.setMessageId(param.getMessageId());
@@ -174,7 +178,9 @@ public class LostProcess extends BaseProcess {
 			item.setBrow(detail.getBrow());
 			item.setContent(detail.getContent());
 			item.setFoundPic(detail.getFoundPic());
-			item.setGmtCreated(detail.getGmtCreated());
+			item.setYear(detail.getGmtCreated().substring(0, 4));
+			item.setDay(detail.getGmtCreated().substring(5, 11));
+			item.setMinute(detail.getGmtCreated().substring(11, 19));
 			item.setId(detail.getId());
 			item.setIsExamine(detail.getIsExamine());
 			item.setIsSolve(detail.getIsSolve());
@@ -182,6 +188,7 @@ public class LostProcess extends BaseProcess {
 			item.setMessageId(detail.getMessageId());
 			item.setPublisher(detail.getPublisher());
 			item.setTitle(detail.getTitle());
+			item.setPersonal(detail.getPersonal());
 			item.setTypeId(detail.getTypeId());
 			item.setTypeName(detail.getTypeName());
 			item.setContact(detail.getContact());

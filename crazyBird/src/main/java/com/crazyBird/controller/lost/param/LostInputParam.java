@@ -2,6 +2,7 @@ package com.crazyBird.controller.lost.param;
 
 public class LostInputParam {
 
+	private String personal;
 	private String title;
 	private String titlePic;
 	private String foundPic;
@@ -10,6 +11,13 @@ public class LostInputParam {
 	private String address;
 	private Integer messageId;
 	private Integer typeId;
+	
+	public String getPersonal() {
+		return personal;
+	}
+	public void setPersonal(String personal) {
+		this.personal = personal;
+	}
 	public String getTitle() {
 		return title;
 	}

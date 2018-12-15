@@ -6,6 +6,7 @@ public class LostDTO {
 
 	private Integer id;
 	private String title;
+	private String personal;
 	private String titlePic;
 	private Integer publisher;
 	private String foundPic;
@@ -30,6 +31,12 @@ public class LostDTO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getPersonal() {
+		return personal;
+	}
+	public void setPersonal(String personal) {
+		this.personal = personal;
 	}
 	public String getTitlePic() {
 		return titlePic;

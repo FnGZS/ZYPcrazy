@@ -3,6 +3,7 @@ package com.crazyBird.dao.lost.dataobject;
 public class LostArticleDO {
 
 	private Integer id;
+	private String personal;
 	private String title;
 	private String titlePic;
 	private Long publisher;
@@ -27,6 +28,12 @@ public class LostArticleDO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getPersonal() {
+		return personal;
+	}
+	public void setPersonal(String personal) {
+		this.personal = personal;
 	}
 	public String getTitlePic() {
 		return titlePic;

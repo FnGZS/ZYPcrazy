@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.crazyBird.dao.lost.dataobject.LostDTO" >
     	<id column="id" property="id" jdbcType="BIGINT" />
     	<result column="title" property="title" jdbcType="VARCHAR"/>
+    	<result column="personal" property="personal" jdbcType="VARCHAR"/>
     	<result column="title_pic" property="titlePic" jdbcType="VARCHAR"/>
     	<result column="publisher" property="publisher" jdbcType="VARCHAR"/>
    		<result column="found_pic" property="foundPic" jdbcType="VARCHAR"/>
@@ -19,11 +20,11 @@
     	<result column="gmt_created" property="gmtCreated" jdbcType="VARCHAR"/>
 	</resultMap>
  <sql id="LostList">
-	id,title,title_pic,publisher,found_pic,content,contact,address,
+	id,title,personal,title_pic,publisher,found_pic,content,contact,address,
 	message_id,type_id,is_examine,brow,is_solve,gmt_created
  </sql>
  <sql id="LostInsert">
-	title,title_pic,publisher,found_pic,content,contact,address,
+	title,personal,title_pic,publisher,found_pic,content,contact,address,
 	message_id,type_id,is_examine,brow,is_solve,gmt_created,gmt_modified
  </sql>
 	<select id="getLostCount" resultType="java.lang.Integer">
@@ -45,7 +46,7 @@
  	 </select>
  	 <select id="getLost" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.lost.dataobject.LostPO">
   		select 
-  		la.id,la.title,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
+  		la.id,la.title,la.personal,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
 		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
   		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
   		where  la.id !=''
@@ -67,7 +68,7 @@
   	</select>
   <select id="getLostDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
  	select 
- 	  	la.id,la.title,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
+ 	  	la.id,la.title,la.personal,la.title_pic,la.publisher,la.found_pic,la.content,la.contact,la.address,
 		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
   		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
   	where la.id = #{id,jdbcType=BIGINT}
@@ -87,6 +88,7 @@
   		value
   		(
   			#{title,jdbcType=VARCHAR},
+  			#{personal,jdbcType=VARCHAR},
   			#{titlePic,jdbcType=VARCHAR},
   			#{publisher,jdbcType=BIGINT},
   			#{foundPic,jdbcType=VARCHAR},
