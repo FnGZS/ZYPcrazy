@@ -123,7 +123,7 @@ public class LostProcess extends BaseProcess {
 					item.setTypeName(dataResults.getTypeName());
 					item.setYear(dataResults.getGmtCreated().substring(0, 4));
 					item.setDay(dataResults.getGmtCreated().substring(5, 11));
-					item.setMinute(dataResults.getGmtCreated().substring(11, 19));
+					item.setMinute(dataResults.getGmtCreated().substring(11, 16));
 					item.setIsExamine(dataResults.getIsExamine());
 					item.setIsSolve(dataResults.getIsSolve());
 					item.setPublisher(dataResults.getPublisher());
@@ -180,7 +180,7 @@ public class LostProcess extends BaseProcess {
 			item.setFoundPic(detail.getFoundPic());
 			item.setYear(detail.getGmtCreated().substring(0, 4));
 			item.setDay(detail.getGmtCreated().substring(5, 11));
-			item.setMinute(detail.getGmtCreated().substring(11, 19));
+			item.setMinute(detail.getGmtCreated().substring(11, 16));
 			item.setId(detail.getId());
 			item.setIsExamine(detail.getIsExamine());
 			item.setIsSolve(detail.getIsSolve());
