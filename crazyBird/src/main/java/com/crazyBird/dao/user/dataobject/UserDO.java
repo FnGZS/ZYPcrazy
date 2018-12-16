@@ -3,6 +3,7 @@ package com.crazyBird.dao.user.dataobject;
 public class UserDO {
 	private Integer id;
 	private Long schoolNum;
+	private String userName;
 	private String password;
 	private String openId;
 	private String phone;
@@ -24,6 +25,14 @@ public class UserDO {
 
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public Integer getId() {

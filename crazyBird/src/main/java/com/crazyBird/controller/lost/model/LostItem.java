@@ -5,6 +5,7 @@ import java.sql.Date;
 public class LostItem {
 	private Integer id;
 	private String title;
+	private String personal;
 	private String titlePic;
 	private Integer publisher;
 	private String foundPic;
@@ -17,7 +18,10 @@ public class LostItem {
 	private Integer isExamine;
 	private Integer brow;
 	private Integer isSolve;
-	private String gmtCreated;
+	
+	private String year;
+	private String day;
+	private String minute;
 	public Integer getId() {
 		return id;
 	}
@@ -29,6 +33,12 @@ public class LostItem {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getPersonal() {
+		return personal;
+	}
+	public void setPersonal(String personal) {
+		this.personal = personal;
 	}
 	public String getTitlePic() {
 		return titlePic;
@@ -102,11 +112,23 @@ public class LostItem {
 	public void setIsSolve(Integer isSolve) {
 		this.isSolve = isSolve;
 	}
-	public String getGmtCreated() {
-		return gmtCreated;
+	public String getYear() {
+		return year;
 	}
-	public void setGmtCreated(String gmtCreated) {
-		this.gmtCreated = gmtCreated;
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getMinute() {
+		return minute;
+	}
+	public void setMinute(String minute) {
+		this.minute = minute;
 	}
 
 }
