@@ -1,9 +1,8 @@
-package com.crazyBird.controller.secondary.param;
+package com.crazyBird.dao.secondary.dataobject;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-public class SecondaryGoodsParam {
+public class SecondaryGoodsDO {
 	private Long userId;
 	private String goodsTitle;
 	private String goodsContent;
@@ -72,5 +71,4 @@ public class SecondaryGoodsParam {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
@@ -26,5 +27,5 @@ public interface SecondaryService {
 	//我发布的商品
 	ResponsePageQueryDO<List<SecondaryGoodsDTO>> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
-	ResponseDO createSecondaryGoods(SecondaryGoodsDTO dto);
+	ResponseDO createSecondaryGoods(SecondaryGoodsDO goodsDO);
 }

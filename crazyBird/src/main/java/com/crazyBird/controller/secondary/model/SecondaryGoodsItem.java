@@ -17,8 +17,8 @@ public class SecondaryGoodsItem {
 	private String goodsType;
 	private String goodsWay;
 	private String tradingWay;
-	private BigDecimal price;
-	private Date gmtCreated;
+	private String price;
+	private	String  gmtCreated;
 	public Long getId() {
 		return id;
 	}
@@ -80,6 +80,15 @@ public class SecondaryGoodsItem {
 	public void setPostion(String postion) {
 		this.postion = postion;
 	}
+	
+	
+	
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
 	public String getGoodsType() {
 		return goodsType;
 	}
@@ -98,17 +107,13 @@ public class SecondaryGoodsItem {
 	public void setTradingWay(String tradingWay) {
 		this.tradingWay = tradingWay;
 	}
-	public BigDecimal getPrice() {
-		return price;
-	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	public Date getGmtCreated() {
+	public String getGmtCreated() {
 		return gmtCreated;
 	}
-	public void setGmtCreated(Date gmtCreated) {
+	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
+
+	
 	
 }

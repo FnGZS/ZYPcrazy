@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
@@ -84,7 +85,7 @@ public class SecondaryController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/goods/{id}",method=RequestMethod.GET)
-	public SecondaryGoodsModel getSecondaryGoods(@PathVariable Long id) {
+	public SecondaryGoodModel getSecondaryGoods(@PathVariable Long id) {
 		return secondaryProcess.getSecondaryGoods(id);
 		
 	}

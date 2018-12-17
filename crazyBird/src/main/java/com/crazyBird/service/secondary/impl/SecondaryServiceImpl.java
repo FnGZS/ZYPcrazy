@@ -9,6 +9,7 @@ import com.crazyBird.dao.secondary.SecondaryDao;
 import com.crazyBird.dao.secondary.SecondaryTypeDao;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
@@ -54,6 +55,7 @@ public class SecondaryServiceImpl implements SecondaryService{
 		response.setPageIndex(po.getPageIndex());
 		response.setPageSize(po.getPageSize());
 		response.setTotal(secondaryDao.getSecondaryGoodsCount(po.getGoodsType()));
+		System.out.println(response.getTotal());
 		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
 			List<SecondaryGoodsDTO> list = secondaryDao.getSecondaryGoodsList(po);
 			response.setDataResult(list);
@@ -104,9 +106,9 @@ public class SecondaryServiceImpl implements SecondaryService{
 	}
 
 	@Override
-	public ResponseDO createSecondaryGoods(SecondaryGoodsDTO dto) {
+	public ResponseDO createSecondaryGoods(SecondaryGoodsDO goodsDO) {
 		ResponseDO response = new ResponseDO<>();
-		int flag = secondaryDao.createSecondaryGoods(dto);
+		int flag = secondaryDao.createSecondaryGoods(goodsDO);
 		if(flag>0) {
 			response.setCode(ResponseCode.SUCCESS);
 			response.setMessage("添加成功");
