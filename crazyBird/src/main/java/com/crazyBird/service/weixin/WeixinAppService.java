@@ -5,12 +5,20 @@ import com.crazyBird.service.base.ResponseDO;
  import com.crazyBird.service.user.dataobject.UserInfo;
  import com.crazyBird.utils.AesUtils;
  import com.crazyBird.utils.JsonUtils;
- import java.io.BufferedReader;
+import com.lowagie.text.pdf.codec.Base64;
+
+import java.io.BufferedReader;
  import java.io.IOException;
  import java.io.InputStreamReader;
  import java.net.URI;
- import java.util.Map;
- import org.apache.commons.lang.StringUtils;
+import java.security.spec.AlgorithmParameterSpec;
+import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.lang.StringUtils;
  import org.apache.http.HttpEntity;
  import org.apache.http.HttpResponse;
  import org.apache.http.StatusLine;
@@ -85,6 +93,7 @@ import com.crazyBird.service.base.ResponseDO;
 				userInfo.setProvince((String) decryptedDataMap.get("province"));
 				userInfo.setCity((String) decryptedDataMap.get("city"));
 				userInfo.setSex((Integer) decryptedDataMap.get("gender"));
+				userInfo.setSessionKey(sessionkey);
 				if(StringUtils.isBlank(userInfo.getNickName()) || StringUtils.isBlank(userInfo.getOpenId())) {
 					result.setCode(ResponseCode.ERROR);
 					result.setMessage("微信小程序登录异常，返回信息不全");
@@ -103,6 +112,14 @@ import com.crazyBird.service.base.ResponseDO;
        result.setMessage(e.getMessage());
      }
      return result;
+   }
+   
+   public static String decrypt(byte[] key, byte[] iv, byte[] encData) throws Exception {
+	   AlgorithmParameterSpec ivSpec = new IvParameterSpec(iv);
+   	   Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	   SecretKeySpec keySpec = new SecretKeySpec(key, "AES");
+	   cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+	   return new String(cipher.doFinal(encData),"UTF-8");
    }
  }
 

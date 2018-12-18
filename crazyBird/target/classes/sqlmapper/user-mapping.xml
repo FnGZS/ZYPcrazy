@@ -29,6 +29,13 @@
   	where school_num = #{schoolNum,jdbcType=VARCHAR}
   	limit 1
   </select>
+  <select id="seletUserByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from user
+  	where phone = #{phone,jdbcType=VARCHAR}
+  	limit 1
+  </select>
   <update id="updateBinding" parameterType="com.crazyBird.dao.user.dataobject.BingDO" >
     update user
     <set >
@@ -53,5 +60,14 @@
       	is_binding = 1
     </set>
     where  school_num = #{schoolNum,jdbcType=BIGINT}
+  </update>
+  <update id="updateUser" parameterType="com.crazyBird.dao.user.dataobject.UserDO" >
+    update user
+    <set >
+      <if test="openId != null">
+      	openId = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

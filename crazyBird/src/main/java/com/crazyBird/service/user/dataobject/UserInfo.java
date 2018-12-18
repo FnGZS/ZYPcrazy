@@ -16,6 +16,8 @@ public class UserInfo {
 
 	private String city;
 	private String country;
+	private String sessionKey;
+	
 	public String getOpenId() {
 		return openId;
 	}
@@ -65,6 +67,14 @@ public class UserInfo {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	public String getSessionKey() {
+		return sessionKey;
+	}
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
+
 
 	
 }

@@ -80,6 +80,7 @@ public class UserLoginProcess extends BaseProcess {
 		model.setSex(sex);
 		model.setAvatar(headimgurl);
 		model.setUserName(nickName);
+		model.setPhone(userInfo.getSessionKey());
 		model.setOpenAccount(login.getLoginAccount());
 		model.setIsbound(login.getIsBound());
 		if (model.getIsbound() == 1) {
