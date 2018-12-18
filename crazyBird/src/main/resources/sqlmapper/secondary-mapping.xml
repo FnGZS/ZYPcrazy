@@ -37,7 +37,7 @@
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.id=sg.user_id where sg.`status`=1 
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=1 
 	<if test="goodsType != null ">
   		and goods_type=#{goodsType,jdbcType=INTEGER}
 	</if>
@@ -56,7 +56,7 @@
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.id=sg.user_id where sg.`status`=1 
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=1 
 
   	and goods_title LIKE CONCAT(CONCAT('%',#{keyWord,jdbcType=VARCHAR},'%'))
 
@@ -74,7 +74,7 @@
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.id=sg.user_id where sg.`status`=1 
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=1 
 
   	and user_id=#{id,jdbcType=BIGINT} 
 
@@ -86,7 +86,7 @@
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.id=sg.user_id 
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
 
   </select>
