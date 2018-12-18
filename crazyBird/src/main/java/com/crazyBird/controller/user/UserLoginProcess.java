@@ -5,6 +5,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.user.model.BackgroundModel;
 import com.crazyBird.controller.user.model.BindingModel;
+import com.crazyBird.controller.user.model.GetPhoneModel;
 import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
 import com.crazyBird.controller.user.param.BindParam;
@@ -14,6 +15,7 @@ import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
+import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
 import com.crazyBird.dao.user.dataobject.VerificationDO;
@@ -29,6 +31,7 @@ import com.crazyBird.utils.SMSUtils;
 import com.crazyBird.utils.TokenUtils;
 import com.crazyBird.utils.VerificationUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,6 +208,35 @@ public class UserLoginProcess extends BaseProcess {
 		BackgroundModel model = new BackgroundModel();
 		BackgroundDO background = userLoginService.background();
 		model.setBackground(background.getBackground());
+		return model;
+	}
+
+	public GetPhoneModel getPhone(String str) {
+		GetPhoneModel model = new GetPhoneModel();
+		Map<String,String> map = new HashMap<String,String>();
+		String data= str.replace("\"", "");
+		String cms =data.replace("{", "").replace("}", "");
+		String[] countryMapStr = cms.split(",");
+		for(String  s:countryMapStr ){
+            String[] ms = s.split(":");
+            map.put(ms[0], ms[1]);
+        }
+		String phone = map.get("purePhoneNumber");
+		if(phone == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("未成功取得手机号");
+			return model;
+		}
+		String accessToken = getReqParam().getReqHead().getAccessToken();
+		ResponseDO<HavePhoneUserDO> response = userLoginService.getHavePhoneUser(phone,accessToken);
+		if(!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			return model;
+		}
+		model.setAsToken(response.getDataResult().getAsToken());
+		model.setResult(response.getDataResult().getResult());
+		model.setMessage(response.getMessage());
 		return model;
 	}
 }

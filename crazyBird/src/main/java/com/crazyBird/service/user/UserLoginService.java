@@ -3,6 +3,7 @@ package com.crazyBird.service.user;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
+import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
 import com.crazyBird.dao.user.dataobject.VerificationDO;
@@ -22,4 +23,6 @@ public abstract interface UserLoginService {
 	ResponseDO<CantBindingDO> cantBinding(CantBindingDO binding);
 
 	BackgroundDO background();
+
+	ResponseDO<HavePhoneUserDO> getHavePhoneUser(String phone, String accessToken);
 }

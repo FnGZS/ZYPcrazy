@@ -7,7 +7,8 @@ import com.crazyBird.controller.user.model.BackgroundModel;
  *
  */
  import com.crazyBird.controller.user.model.BindingModel;
- import com.crazyBird.controller.user.model.LoginModel;
+import com.crazyBird.controller.user.model.GetPhoneModel;
+import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
 import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
@@ -85,8 +86,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 	* @return
 	* @throws Exception 
     * */
-   @RequestMapping(value = "deciphering", method = RequestMethod.GET)
-	public @ResponseBody String deciphering(String encrypdata,String ivdata, String sessionkey,HttpServletRequest request) {
+   @RequestMapping(value = "/deciphering", method = RequestMethod.GET)
+   @ResponseBody
+	public GetPhoneModel deciphering(String encrypdata,String ivdata, String sessionkey,HttpServletRequest request) {
 		byte[] encrypData = Base64.decode(encrypdata);
 		byte[] ivData = Base64.decode(ivdata);
 		byte[] sessionKey = Base64.decode(sessionkey);
@@ -97,7 +99,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return str;
+		return userLoginProcess.getPhone(str);
    	}
    
  

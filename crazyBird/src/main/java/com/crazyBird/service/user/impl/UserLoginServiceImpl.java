@@ -9,6 +9,7 @@ import com.crazyBird.dao.user.VerificationDao;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
+import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
@@ -201,5 +202,30 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Override
 	public BackgroundDO background() {
 		return userBackgroudDao.getBackground();
+	}
+
+	@Override
+	public ResponseDO<HavePhoneUserDO> getHavePhoneUser(String phone,String accessToken) {
+		ResponseDO<HavePhoneUserDO> response = new ResponseDO<>();
+		UserLoginDO userLoginDO = userLoginDao.seletUserByAs(accessToken);
+		UserDO havePhoneUser = userDao.seletUserByPhone(phone);
+		if(havePhoneUser.getIsBinding() == 1) {
+			havePhoneUser.setOpenId(userLoginDO.getOpenId());
+			havePhoneUser.setUserName(userLoginDO.getLoginAccount());
+			userDao.updateUser(havePhoneUser);
+			userLoginDO.setOpenId(havePhoneUser.getOpenId());
+			userLoginDO.setAccessToken(TokenUtils.creatAesStr(havePhoneUser.getSchoolNum()));
+			userLoginDO.setIsBound(Integer.valueOf(1));
+			userLoginDao.update(userLoginDO);
+			HavePhoneUserDO havePhone = new HavePhoneUserDO();
+			havePhone.setAsToken(userLoginDO.getAccessToken());
+			havePhone.setResult(1);
+			response.setDataResult(havePhone);
+			response.setMessage("成功");
+			return response;
+		}
+		response.setCode(ResponseCode.ERROR);
+		response.setMessage("错误");
+		return response;
 	}
 }
