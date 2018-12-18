@@ -123,13 +123,13 @@ public class SecondaryProcess {
 		
 	}
 
-	public SecondaryGoodModel getSecondaryGoods( Long id) {
+	public SecondaryGoodModel getSecondaryGoods(Long id) {
 		SecondaryGoodModel model = new SecondaryGoodModel();
 		if(id==null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("id不能为空");
 		}
-
+		secondaryService.createSecondaryViews(id);
 		List<SecondaryGoodsDTO> list = secondaryService.getSecondaryGoods(id);
 		model.setList(convertSecondaryGoods(list));
 		return model;	

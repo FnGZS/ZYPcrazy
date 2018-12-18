@@ -90,6 +90,9 @@
 	where sg.id=#{id,jdbcType=BIGINT} 
 
   </select>
+  <update id="createSecondaryViews" parameterType="java.lang.Long">
+  	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
+  </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
   insert into secondary_goods 
   (

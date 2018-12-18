@@ -121,4 +121,9 @@ public class SecondaryServiceImpl implements SecondaryService{
 		return response;
 	}
 
+	@Override
+	public void createSecondaryViews(Long id) {
+		secondaryDao.createSecondaryViews(id);
+	}
+
 }

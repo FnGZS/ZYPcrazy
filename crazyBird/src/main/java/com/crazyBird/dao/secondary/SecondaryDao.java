@@ -24,6 +24,8 @@ public interface SecondaryDao {
 	List<SecondaryGoodsDTO> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
 	int createSecondaryGoods(SecondaryGoodsDO goodsDO);
+	void createSecondaryViews(Long id);
+	
 	
 	
 }

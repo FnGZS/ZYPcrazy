@@ -28,4 +28,6 @@ public interface SecondaryService {
 	ResponsePageQueryDO<List<SecondaryGoodsDTO>> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
 	ResponseDO createSecondaryGoods(SecondaryGoodsDO goodsDO);
+	
+	void createSecondaryViews(Long id);
 }
