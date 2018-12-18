@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.secondary.SecondaryTypeDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="field" property="field" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="SecondarySlideMap" type="com.crazyBird.dao.secondary.dataobject.SecondarySlideDO" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="slide_img" property="slideImg" jdbcType="VARCHAR" />
+</resultMap>
+  <sql id="Base_Column_List" >
+   id,field
+  </sql>
+  <select id="getSecondaryType" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from secondary_type
+  </select>
+  <select id="getSecondaryWay" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from secondary_way
+  </select>
+  <select id="getSecondaryTradingWay" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from secondary_trading_way
+  </select>
+   <select id="getSecondarySlide" resultMap="SecondarySlideMap">
+  	select 
+  	id,slide_img 
+  	from secondary_slide
+  </select>
+  
+</mapper>
