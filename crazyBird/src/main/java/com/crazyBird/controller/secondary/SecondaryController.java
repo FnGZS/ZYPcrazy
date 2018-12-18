@@ -31,6 +31,7 @@ import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 public class SecondaryController {
 	@Autowired
 	private SecondaryProcess secondaryProcess;
+	
 	/**
 	 * 得到二手市场首页轮播图
 	 */
@@ -99,7 +100,7 @@ public class SecondaryController {
 	@RequestMapping(value="/user",method=RequestMethod.GET)
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		return secondaryProcess.getSecondaryGoodsByUser(param);
-		
+	
 	}
 	
 	/**

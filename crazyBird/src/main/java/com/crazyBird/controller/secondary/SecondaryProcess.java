@@ -1,6 +1,7 @@
 package com.crazyBird.controller.secondary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -217,6 +218,7 @@ public class SecondaryProcess {
 	}
 	
 	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){
+		
 		List<SecondaryGoodsCommentItem> list = new ArrayList<>();
 		List<SecondaryGoodsReplyItem> items = new ArrayList<>();
 		if(CollectionUtils.isNotEmpty(tags)) {
@@ -264,7 +266,7 @@ public class SecondaryProcess {
 			SecondaryGoodsItem item = new SecondaryGoodsItem();
 			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 			item.setGoodsContent(tag.getGoodsContent());
-			item.setGoodsImag(tag.getGoodsImag());
+			item.setGoodsImg(tag.getGoodsImag());
 			//item.setGoodsNum(tag.getGoodsNum());
 			item.setGoodsTitle(tag.getGoodsTitle());
 			item.setGoodsType(tag.getGoodsType());

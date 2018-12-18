@@ -12,7 +12,7 @@ public class SecondaryGoodsItem {
 	private String headImgUrl;
 	private String goodsTitle;
 	private String goodsContent;
-	private String goodsImag;
+	private String goodsImg;
 	private String postion;
 	private String goodsType;
 	private String goodsWay;
@@ -68,11 +68,14 @@ public class SecondaryGoodsItem {
 	public void setGoodsContent(String goodsContent) {
 		this.goodsContent = goodsContent;
 	}
-	public String getGoodsImag() {
-		return goodsImag;
+
+
+
+	public String getGoodsImg() {
+		return goodsImg;
 	}
-	public void setGoodsImag(String goodsImag) {
-		this.goodsImag = goodsImag;
+	public void setGoodsImg(String goodsImg) {
+		this.goodsImg = goodsImg;
 	}
 	public String getPostion() {
 		return postion;

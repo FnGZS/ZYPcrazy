@@ -57,7 +57,7 @@ public class SecondaryServiceImpl implements SecondaryService{
 		response.setPageIndex(po.getPageIndex());
 		response.setPageSize(po.getPageSize());
 		response.setTotal(secondaryDao.getSecondaryGoodsCount(po.getGoodsType()));
-		System.out.println(response.getTotal());
+
 		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
 			List<SecondaryGoodsDTO> list = secondaryDao.getSecondaryGoodsList(po);
 			response.setDataResult(list);
