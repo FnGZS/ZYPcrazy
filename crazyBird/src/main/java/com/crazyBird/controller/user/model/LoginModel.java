@@ -11,6 +11,7 @@ public class LoginModel extends AbstractFlagModel {
 	private Long userId;
 	private String openAccount;
 	private Integer isbound;
+	private String phone;
 	public String getUserName() {
 		return userName;
 	}
@@ -58,6 +59,12 @@ public class LoginModel extends AbstractFlagModel {
 	}
 	public void setIsbound(Integer isbound) {
 		this.isbound = isbound;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	

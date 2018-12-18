@@ -12,4 +12,8 @@ public abstract interface UserDao {
 	 void updateBinding(BingDO paramBingDO);
 
 	 UserDO seletUserBySnum(Long paramLong);
+
+	UserDO seletUserByPhone(String phone);
+
+	void updateUser(UserDO phoneUser);
 }

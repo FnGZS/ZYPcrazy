@@ -13,6 +13,10 @@ import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
  import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
+import com.crazyBird.service.weixin.WeixinAppService;
+import com.lowagie.text.pdf.codec.Base64;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.stereotype.Controller;
@@ -72,5 +76,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 	   return userLoginProcess.getBackgroud();
    }
    
+   /**
+    * 解密并且获取用户手机号码
+	* @param encrypdata
+	* @param ivdata
+	* @param sessionkey
+	* @param request
+	* @return
+	* @throws Exception 
+    * */
+   @RequestMapping(value = "deciphering", method = RequestMethod.GET)
+	public @ResponseBody String deciphering(String encrypdata,String ivdata, String sessionkey,HttpServletRequest request) {
+		byte[] encrypData = Base64.decode(encrypdata);
+		byte[] ivData = Base64.decode(ivdata);
+		byte[] sessionKey = Base64.decode(sessionkey);
+		String str="";
+		try {
+			str = WeixinAppService.decrypt(sessionKey,ivData,encrypData);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+   	}
+   
+ 
  }
-
