@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
+import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
+import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 
@@ -29,6 +31,7 @@ import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 public class SecondaryController {
 	@Autowired
 	private SecondaryProcess secondaryProcess;
+	
 	/**
 	 * 得到二手市场首页轮播图
 	 */
@@ -97,7 +100,7 @@ public class SecondaryController {
 	@RequestMapping(value="/user",method=RequestMethod.GET)
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		return secondaryProcess.getSecondaryGoodsByUser(param);
-		
+	
 	}
 	
 	/**
@@ -109,7 +112,12 @@ public class SecondaryController {
 		return secondaryProcess.createSecondaryGoods(param);
 	}
 	/**
-	 * 
+	 * 得到对应商品的评论回复
 	 */
+	@ResponseBody
+	@RequestMapping(value="/comments",method=RequestMethod.GET)
+	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
+		return secondaryProcess.getSecondaryGoodsComments(param);
+	}
 	
 }

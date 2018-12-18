@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
@@ -24,8 +26,15 @@ public interface SecondaryDao {
 	List<SecondaryGoodsDTO> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
 	int createSecondaryGoods(SecondaryGoodsDO goodsDO);
+	
 	void createSecondaryViews(Long id);
 	
+	//得到评论
+	int getSecondaryGoodsCommentCount(Long id);
+	
+	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsComment(SecondaryGoodsCommentsPO po);
+	//得到回复
+	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
 	
 	
 }

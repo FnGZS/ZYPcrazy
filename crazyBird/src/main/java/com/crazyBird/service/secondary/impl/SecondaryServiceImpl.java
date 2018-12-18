@@ -9,6 +9,8 @@ import com.crazyBird.dao.secondary.SecondaryDao;
 import com.crazyBird.dao.secondary.SecondaryTypeDao;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
@@ -55,7 +57,7 @@ public class SecondaryServiceImpl implements SecondaryService{
 		response.setPageIndex(po.getPageIndex());
 		response.setPageSize(po.getPageSize());
 		response.setTotal(secondaryDao.getSecondaryGoodsCount(po.getGoodsType()));
-		System.out.println(response.getTotal());
+
 		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
 			List<SecondaryGoodsDTO> list = secondaryDao.getSecondaryGoodsList(po);
 			response.setDataResult(list);
@@ -124,6 +126,28 @@ public class SecondaryServiceImpl implements SecondaryService{
 	@Override
 	public void createSecondaryViews(Long id) {
 		secondaryDao.createSecondaryViews(id);
+	}
+
+	@Override
+	public ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> getSecondaryGoodsComment(SecondaryGoodsCommentsPO po) {
+		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response= new ResponsePageQueryDO<>();
+		response.setPageIndex(po.getPageIndex());
+		response.setPageSize(po.getPageSize());
+		response.setTotal(secondaryDao.getSecondaryGoodsCommentCount(po.getId()));
+		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
+			List<SecondaryGoodsCommentsDTO> list = secondaryDao.getSecondaryGoodsComment(po);
+			response.setDataResult(list);
+			response.setCode(ResponseCode.SUCCESS);
+		} else {
+			response.setMessage("到底了");
+		}
+		return response;
+	}
+
+	@Override
+	public List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId) {
+		
+		return secondaryDao.getSecondaryGoodsReply(commentsId);
 	}
 
 }
