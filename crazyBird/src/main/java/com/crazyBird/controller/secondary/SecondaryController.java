@@ -108,6 +108,8 @@ public class SecondaryController {
 	public SimpleFlagModel createSecondaryGoods(@RequestBody SecondaryGoodsParam param) {
 		return secondaryProcess.createSecondaryGoods(param);
 	}
-	
+	/**
+	 * 
+	 */
 	
 }
