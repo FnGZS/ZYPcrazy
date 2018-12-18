@@ -8,21 +8,28 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
+import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentItem;
+import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsItem;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
+import com.crazyBird.controller.secondary.model.SecondaryGoodsReplyItem;
 import com.crazyBird.controller.secondary.model.SecondarySlideItem;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeItem;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
+import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
@@ -184,6 +191,60 @@ public class SecondaryProcess {
 		}
 		return model;
 		
+	}
+	
+	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
+		SecondaryGoodsCommentsModel model = new SecondaryGoodsCommentsModel();
+		if(param.getId()==null ) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("id不能为空");
+		}
+		PageUtils.resetPageParam(param);
+		SecondaryGoodsCommentsPO po = new SecondaryGoodsCommentsPO();
+		po.setPageIndex(param.getPageNo() - 1);
+		po.setPageSize(param.getPageSize());
+		po.setId(param.getId());
+		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response = secondaryService.getSecondaryGoodsComment(po);
+		if(response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());
+			model.setList(convertSecondaryComments(response.getDataResult()));
+		}
+		else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+		}
+		return model;
+	}
+	
+	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){
+		List<SecondaryGoodsCommentItem> list = new ArrayList<>();
+		List<SecondaryGoodsReplyItem> items = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(tags)) {
+			for (SecondaryGoodsCommentsDTO tag : tags) {
+				SecondaryGoodsCommentItem item = new SecondaryGoodsCommentItem();
+				item.setCommentName(tag.getReplyName());
+				item.setContent(tag.getContent());
+				item.setGmtCreated(tag.getGmtCreated());
+				item.setHeadImgUrl(tag.getHeadImgUrl());
+				item.setId(tag.getId());
+				item.setSchoolNum(tag.getSchoolNum());
+				List<SecondaryGoodsCommentsDTO> dtos = secondaryService.getSecondaryGoodsReply(tag.getId());
+				for (SecondaryGoodsCommentsDTO dto : dtos) {
+					SecondaryGoodsReplyItem replyItem = new SecondaryGoodsReplyItem();
+					replyItem.setContent(dto.getContent());
+					replyItem.setGmtCreated(dto.getGmtCreated());
+					replyItem.setHeadImgUrl(dto.getHeadImgUrl());
+					replyItem.setReplyName(dto.getReplyName());
+					replyItem.setReplyedName(dto.getReplyedName());
+					replyItem.setSchoolNum(dto.getSchoolNum());
+					items.add(replyItem);
+				}
+				item.setItems(items);
+				list.add(item);
+			}
+		}
+		return list;
+			
 	}
 	private  List<SecondaryTypeItem> convertSecondaryType(List<SecondaryTypeDO> tags){
 		List<SecondaryTypeItem> items = new ArrayList<>();

@@ -19,6 +19,17 @@
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
     
 </resultMap>
+<resultMap id="SecondaryGoodsCommentsDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="school_num" property="schoolNum" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+	<result column="reply_name" property="replyName" jdbcType="VARCHAR" />
+	<result column="replyed_name" property="replyedName" jdbcType="VARCHAR" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    
+</resultMap>
   <sql id="Base_Column_List" >
    id,field
   </sql>
@@ -26,9 +37,8 @@
   	select 
 	count(1)
   	from secondary_goods 
-	<if test="goodsType != null and goodsType != ''">
-  			where 		 goods_type=#{goodsType,jdbcType=INTEGER}
-
+	<if test="goodsType != null and goodsType != 0">
+  			where 	 goods_type=#{goodsType,jdbcType=INTEGER}
   	</if>
   	
   </select>
@@ -38,7 +48,7 @@
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
 	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=1 
-	<if test="goodsType != null ">
+	<if test="goodsType != null and goodsType != 0">
   		and goods_type=#{goodsType,jdbcType=INTEGER}
 	</if>
 	order by gmt_created desc
@@ -81,7 +91,7 @@
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
-  	   <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
+  <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
 	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
@@ -89,6 +99,22 @@
 	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
 
+  </select>
+  <select id="getSecondaryGoodsCommentCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  select count(1) from secondary_comments where comments_id is null
+  </select>
+  <select id="getSecondaryGoodsComment" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO" resultMap="SecondaryGoodsCommentsDTOMap">
+  select sc.id ,sc.content,sc.gmt_created,u.headimgurl,u.school_num,u.user_name as reply_name
+  from secondary_comments as sc
+  LEFT JOIN `user` as u on u.school_num=sc.reply_id
+  where sc.id=#{id,jdbcType=BIGINT} and u.school_num=sc.reply_id ORDER BY gmt_created desc  limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+    <select id="getSecondaryGoodsReply" parameterType="java.lang.Long" resultMap="SecondaryGoodsCommentsDTOMap">
+  	select sc.id ,sc.content,sc.gmt_created,u.headimgurl,u.school_num,u.user_name as reply_name ,us.user_name as replyed_name
+	from secondary_comments as sc
+	LEFT JOIN `user` as u on u.school_num=sc.reply_id
+	LEFT JOIN `user` as us on us.school_num=sc.replyed_id
+	where sc.comments_id=#{commentsId,jdbcType=BIGINT} order by gmt_created desc
   </select>
   <update id="createSecondaryViews" parameterType="java.lang.Long">
   	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
