@@ -35,7 +35,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/secondary/search");
     	notVerifyUrlList.add("/secondary/list");
     	notVerifyUrlList.add("/secondary/goods");
-    	notVerifyUrlList.add("/secondary");
+    	notVerifyUrlList.add("/secondary/comments");
 
     	
         loginNotNecessaryUrlList.add("/user/account/public");
@@ -46,7 +46,7 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/upload");
         loginVerifyUrlList.add("/lost/lostInput");
         loginVerifyUrlList.add("/lost/lostDelete");
-       // loginVerifyUrlList.add("/secondary");
+        loginVerifyUrlList.add("/secondary");
         
         
         dataSignUrlList.add("/");
