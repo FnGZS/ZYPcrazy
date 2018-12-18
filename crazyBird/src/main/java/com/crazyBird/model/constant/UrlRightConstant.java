@@ -23,6 +23,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/user/sms");
     	notVerifyUrlList.add("/user/cantBind");
     	notVerifyUrlList.add("/user/background");
+    	notVerifyUrlList.add("/user/deciphering");
     	notVerifyUrlList.add("/vote");
     	notVerifyUrlList.add("/affaris");
     	notVerifyUrlList.add("/opinion");
