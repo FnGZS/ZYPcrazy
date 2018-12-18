@@ -9,6 +9,7 @@ import com.crazyBird.dao.secondary.SecondaryDao;
 import com.crazyBird.dao.secondary.SecondaryTypeDao;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
@@ -148,6 +149,18 @@ public class SecondaryServiceImpl implements SecondaryService{
 	public List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId) {
 		
 		return secondaryDao.getSecondaryGoodsReply(commentsId);
+	}
+
+	@Override
+	public int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto) {
+
+		return secondaryDao.createSecondaryGoodsComment(dto);
+	}
+
+	@Override
+	public int createSecondaryGoodsReply(SecondaryGoodsCommentDO dto) {
+
+		return secondaryDao.createSecondaryGoodsComment(dto);
 	}
 
 }

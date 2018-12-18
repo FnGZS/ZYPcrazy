@@ -1,15 +1,13 @@
 package com.crazyBird.controller.secondary;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
@@ -24,11 +22,13 @@ import com.crazyBird.controller.secondary.model.SecondaryTypeItem;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
+import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
@@ -215,6 +215,39 @@ public class SecondaryProcess {
 			model.setMessage(response.getMessage());
 		}
 		return model;
+	}
+	
+	public SimpleFlagModel createSecondaryGoodsComment(SecondaryGoodsCommentParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		SecondaryGoodsCommentDO commentDO = new SecondaryGoodsCommentDO();
+		commentDO.setGoodsId(param.getGoodsId());
+		commentDO.setContent(param.getContent());
+		commentDO.setReplyId(param.getUserId());
+		int i =secondaryService.createSecondaryGoodsComment(commentDO);
+		if(i<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("评论失败");
+			return model;
+		}
+		return model;
+	}
+
+	public SimpleFlagModel createSecondaryGoodsReply(SecondaryGoodsCommentParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		SecondaryGoodsCommentDO commentDO = new SecondaryGoodsCommentDO();
+		commentDO.setGoodsId(param.getGoodsId());
+		commentDO.setContent(param.getContent());
+		commentDO.setReplyId(param.getUserId());
+		commentDO.setCommentsId(param.getId());
+		commentDO.setReplyedId(param.getReplyedId());
+		int i =secondaryService.createSecondaryGoodsReply(commentDO);
+		if(i<=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("回复失败");
+			return model;
+		}
+		return model;
+		
 	}
 	
 	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){

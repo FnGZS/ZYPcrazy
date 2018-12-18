@@ -16,6 +16,7 @@ import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
+import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
@@ -118,6 +119,22 @@ public class SecondaryController {
 	@RequestMapping(value="/comments",method=RequestMethod.GET)
 	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
 		return secondaryProcess.getSecondaryGoodsComments(param);
+	}
+	/**
+	 * 评论
+	 */
+	@ResponseBody
+	@RequestMapping(value="/comment",method=RequestMethod.POST)
+	public SimpleFlagModel createSecondaryGoodsComment(@RequestBody SecondaryGoodsCommentParam param) {
+		return secondaryProcess.createSecondaryGoodsComment(param);
+	}
+	/**
+	 * 回复
+	 */
+	@ResponseBody
+	@RequestMapping(value="/reply",method=RequestMethod.POST)
+	public SimpleFlagModel createSecondaryGoodsReply(@RequestBody SecondaryGoodsCommentParam param) {
+		return secondaryProcess.createSecondaryGoodsReply(param);
 	}
 	
 }

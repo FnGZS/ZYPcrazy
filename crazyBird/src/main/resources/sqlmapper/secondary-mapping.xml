@@ -157,5 +157,31 @@
   )
   
   </insert>
+  <insert id="createSecondaryGoodsComment" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO">
+  insert into secondary_comments 
+  (
+  	id,
+  	goods_id,
+  	comments_id,
+  	reply_id,
+  	replyed_id,
+  	content,
+  	gmt_created,
+  	gmt_modified 	
+  )
+  value
+  (
+  #{id,jdbcType=BIGINT},
+  #{goodsId,jdbcType=BIGINT},
+  #{commentsId,jdbcType=BIGINT},
+  #{replyId,jdbcType=BIGINT},
+  #{replyedId,jdbcType=BIGINT},
+  #{content,jdbcType=VARCHAR},
+  NOW(),
+  NOW()
+  )
+  
+  </insert>
+ 
   
 </mapper>
