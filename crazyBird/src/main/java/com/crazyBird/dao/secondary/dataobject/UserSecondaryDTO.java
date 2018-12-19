@@ -3,14 +3,12 @@ package com.crazyBird.dao.secondary.dataobject;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SellSecondaryDTO {
+public class UserSecondaryDTO {
 
 	private Long id;
 	private Long userId;
 	private Integer views;
 	private Integer goodsNum;
-	private String userName;
-	private String headImgUrl;
 	private String goodsTitle;
 	private String goodsContent;
 	private String goodsImag;
@@ -19,6 +17,7 @@ public class SellSecondaryDTO {
 	private String goodsWay;
 	private String tradingWay;
 	private BigDecimal price;
+	private BigDecimal realPrice;
 	private Date gmtCreated;
 	public Long getId() {
 		return id;
@@ -43,18 +42,6 @@ public class SellSecondaryDTO {
 	}
 	public void setGoodsNum(Integer goodsNum) {
 		this.goodsNum = goodsNum;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getHeadImgUrl() {
-		return headImgUrl;
-	}
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = headImgUrl;
 	}
 	public String getGoodsTitle() {
 		return goodsTitle;
@@ -103,6 +90,12 @@ public class SellSecondaryDTO {
 	}
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+	public BigDecimal getRealPrice() {
+		return realPrice;
+	}
+	public void setRealPrice(BigDecimal realPrice) {
+		this.realPrice = realPrice;
 	}
 	public Date getGmtCreated() {
 		return gmtCreated;

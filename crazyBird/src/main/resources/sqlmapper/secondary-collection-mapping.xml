@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.secondary.SecondaryCollectionDao">
+<resultMap id="BaseResult" type="com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+    <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImag" jdbcType="VARCHAR" />
+    <result column="postion" property="postion" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
+    <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
+    <result column="goods_price" property="price" jdbcType="DECIMAL" />
+    <result column="price" property="realPrice" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+ <sql id="collection">
+	goods_id,user_id,gmt_created,gmt_modified
+ </sql>
+ <select id="getCollectionSecondaryCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
+  	select 
+	count(1)
+  	from secondary_collection where user_id = #{userId,jdbcType=BIGINT}
+ </select>
+ <select id="getCollectionSecondaryList" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
+  select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
+  sg.goods_price,sg.postion,sg.views,sw.field as goods_way,
+  stw.field as trading_way ,st.field as goods_type, sg.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_collection as sc on sg.id=sc.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	where sc.user_id = #{userId,jdbcType=BIGINT}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+ </select>
+ <insert id="collectionSecondary"  parameterType="com.crazyBird.dao.secondary.dataobject.CollectionDO">
+  		insert into secondary_collection
+  		(
+  			<include refid="collection" />
+  		)
+  		value
+  		(
+  			#{goodsId,jdbcType=BIGINT},
+  			#{userId,jdbcType=BIGINT},
+  			now(),now()
+  		)
+ </insert>
+</mapper>

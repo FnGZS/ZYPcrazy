@@ -1,13 +1,11 @@
 package com.crazyBird.controller.secondary.model;
 
-public class SellSecondaryItem {
+public class UserSecondaryItem {
 
 	private Long id;
 	private Long userId;
 	private Integer views;
 	private Integer goodsNum;
-	private String userName;
-	private String headImgUrl;
 	private String goodsTitle;
 	private String goodsContent;
 	private String goodsImag;
@@ -40,18 +38,6 @@ public class SellSecondaryItem {
 	}
 	public void setGoodsNum(Integer goodsNum) {
 		this.goodsNum = goodsNum;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getHeadImgUrl() {
-		return headImgUrl;
-	}
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = headImgUrl;
 	}
 	public String getGoodsTitle() {
 		return goodsTitle;

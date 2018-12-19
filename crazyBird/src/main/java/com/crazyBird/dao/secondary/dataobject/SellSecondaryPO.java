@@ -4,14 +4,25 @@ import com.crazyBird.service.base.PageQueryDO;
 
 public class SellSecondaryPO extends PageQueryDO{
 
-	private Long userId;
+	private Integer status;
+	private Long sellId;
 
-	public Long getUserId() {
-		return userId;
+
+
+	public Long getSellId() {
+		return sellId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setSellId(Long sellId) {
+		this.sellId = sellId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 

@@ -7,13 +7,13 @@ import com.crazyBird.controller.base.AbstractPageFlagModel;
 
 public class SellSecondaryListModel extends AbstractPageFlagModel{
 
-	private List<SellSecondaryItem> tags;
+	private List<UserSecondaryItem> tags;
 
-	public List<SellSecondaryItem> getTags() {
+	public List<UserSecondaryItem> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<SellSecondaryItem> tags) {
+	public void setTags(List<UserSecondaryItem> tags) {
 		this.tags = tags;
 	}
 	

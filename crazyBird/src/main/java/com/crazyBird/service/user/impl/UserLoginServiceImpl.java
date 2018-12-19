@@ -55,6 +55,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 		ResponseDO<UserLoginDO> responseDO = new ResponseDO<>();
 		UserDO user = userDao.seletUser(wxUser.getOpenId());
 		if (user != null) {
+			//已绑定
 			UserLoginDO userLoginDO = userLoginDao.seletUserByOpenId(wxUser.getOpenId());
 			if (userLoginDO == null) {
 				userLoginDO = new UserLoginDO();
@@ -68,9 +69,16 @@ public class UserLoginServiceImpl implements UserLoginService {
 			} else {
 				userLoginDO = new UserLoginDO();
 				userLoginDO.setOpenId(wxUser.getOpenId());
+				userLoginDO.setLoginAccount(wxUser.getNickName());
+				userLoginDO.setHeadimgurl(wxUser.getHeadimgurl());
+				userLoginDO.setSex(wxUser.getSex());
 				userLoginDO.setAccessToken(TokenUtils.creatAesStr(user.getSchoolNum()));
 				userLoginDO.setIsBound(Integer.valueOf(1));
 				userLoginDao.update(userLoginDO);
+				user.setUserName(wxUser.getNickName());
+				user.setHeadimgurl(wxUser.getHeadimgurl());
+				user.setSex(wxUser.getSex());
+				userDao.updateUser(user);
 			}
 			responseDO.setDataResult(userLoginDO);
 		} else {
@@ -209,9 +217,16 @@ public class UserLoginServiceImpl implements UserLoginService {
 		ResponseDO<HavePhoneUserDO> response = new ResponseDO<>();
 		UserLoginDO userLoginDO = userLoginDao.seletUserByAs(accessToken);
 		UserDO havePhoneUser = userDao.seletUserByPhone(phone);
+		if(havePhoneUser == null) {
+			response.setCode(ResponseCode.ERROR);
+			response.setMessage("错误");
+			return response;
+		}
 		if(havePhoneUser.getIsBinding() == 1) {
 			havePhoneUser.setOpenId(userLoginDO.getOpenId());
 			havePhoneUser.setUserName(userLoginDO.getLoginAccount());
+			havePhoneUser.setHeadimgurl(userLoginDO.getHeadimgurl());
+			havePhoneUser.setSex(userLoginDO.getSex());
 			userDao.updateUser(havePhoneUser);
 			userLoginDO.setOpenId(havePhoneUser.getOpenId());
 			userLoginDO.setAccessToken(TokenUtils.creatAesStr(havePhoneUser.getSchoolNum()));
