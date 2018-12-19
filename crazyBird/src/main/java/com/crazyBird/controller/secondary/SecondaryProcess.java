@@ -180,6 +180,7 @@ public class SecondaryProcess {
 		goodsDO.setGoodsWay(param.getGoodsWay());
 		goodsDO.setPostion(param.getPostion());
 		goodsDO.setPrice(param.getPrice());
+		goodsDO.setOldPrice(param.getOldPrice());
 		goodsDO.setTradingWay(param.getTradingWay());
 		goodsDO.setUserId(param.getUserId());
 		ResponseDO responseDO = secondaryService.createSecondaryGoods(goodsDO);
@@ -308,6 +309,7 @@ public class SecondaryProcess {
 			item.setId(tag.getId());
 			item.setPostion(tag.getPostion());
 			item.setPrice(String.valueOf(tag.getPrice()));
+			item.setOldPrice(String.valueOf(tag.getOldPrice()));
 			item.setTradingWay(tag.getTradingWay());
 			item.setUserId(tag.getUserId());
 			item.setUserName(tag.getUserName());

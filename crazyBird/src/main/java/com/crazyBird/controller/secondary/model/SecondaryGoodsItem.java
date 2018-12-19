@@ -18,6 +18,7 @@ public class SecondaryGoodsItem {
 	private String goodsWay;
 	private String tradingWay;
 	private String price;
+	private String oldPrice;
 	private	String  gmtCreated;
 	public Long getId() {
 		return id;
@@ -26,6 +27,12 @@ public class SecondaryGoodsItem {
 		this.id = id;
 	}
 
+	public String getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(String oldPrice) {
+		this.oldPrice = oldPrice;
+	}
 	public Long getUserId() {
 		return userId;
 	}

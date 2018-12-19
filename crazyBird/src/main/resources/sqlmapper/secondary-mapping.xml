@@ -16,8 +16,8 @@
     <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
     <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
     <result column="goods_price" property="price" jdbcType="DECIMAL" />
+    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
-    
 </resultMap>
 <resultMap id="SecondaryGoodsCommentsDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO" >
     <result column="id" property="id" jdbcType="BIGINT" />
@@ -43,7 +43,7 @@
   	
   </select>
    <select id="getSecondaryGoodsList" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
@@ -62,7 +62,7 @@
   	from secondary_goods where goods_title LIKE CONCAT(CONCAT('%',#{keyWord,jdbcType=VARCHAR},'%'))
   </select>
    <select id="searchSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
@@ -80,7 +80,7 @@
   	from secondary_goods where user_id=#{userId,jdbcType=BIGINT} 
   </select>
 	<select id="getSecondaryGoodsByUser" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
@@ -92,7 +92,7 @@
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
   <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
@@ -135,6 +135,7 @@
   	trading_way,
   	 `status`,
   	goods_price,
+  	goods_old_price,
   	gmt_created,
   	gmt_modified		
   )
@@ -152,6 +153,7 @@
   	#{tradingWay,jdbcType=INTEGER},
   	0,
   	#{price,jdbcType=DECIMAL},
+  	#{oldPrice,jdbcType=DECIMAL},
   	now(),
   	now()
   )

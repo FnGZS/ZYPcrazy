@@ -13,6 +13,7 @@ public class SecondaryGoodsParam {
 	private Integer goodsWay;
 	private Integer tradingWay;
 	private BigDecimal price;
+	private BigDecimal oldPrice;
 
 
 	public Long getUserId() {
@@ -39,6 +40,13 @@ public class SecondaryGoodsParam {
 	}
 	public void setGoodsImag(String goodsImag) {
 		this.goodsImag = goodsImag;
+	}
+	
+	public BigDecimal getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(BigDecimal oldPrice) {
+		this.oldPrice = oldPrice;
 	}
 	public String getPostion() {
 		return postion;
