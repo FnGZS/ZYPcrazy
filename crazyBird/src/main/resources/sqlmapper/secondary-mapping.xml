@@ -107,7 +107,7 @@
   select sc.id ,sc.content,sc.gmt_created,u.headimgurl,u.school_num,u.user_name as reply_name
   from secondary_comments as sc
   LEFT JOIN `user` as u on u.school_num=sc.reply_id
-  where sc.id=#{id,jdbcType=BIGINT} and u.school_num=sc.reply_id ORDER BY gmt_created desc  limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  where sc.goods_id=#{id,jdbcType=BIGINT} and sc.comments_id IS null ORDER BY gmt_created desc  limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
     <select id="getSecondaryGoodsReply" parameterType="java.lang.Long" resultMap="SecondaryGoodsCommentsDTOMap">
   	select sc.id ,sc.content,sc.gmt_created,u.headimgurl,u.school_num,u.user_name as reply_name ,us.user_name as replyed_name
