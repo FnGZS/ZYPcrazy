@@ -18,6 +18,7 @@ public class SecondaryGoodsDTO {
 	private String goodsWay;
 	private String tradingWay;
 	private BigDecimal price;
+	private BigDecimal oldPrice;
 	private Date gmtCreated;
 	public Long getId() {
 		return id;
@@ -37,6 +38,13 @@ public class SecondaryGoodsDTO {
 	}
 	public void setViews(Integer views) {
 		this.views = views;
+	}
+	
+	public BigDecimal getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(BigDecimal oldPrice) {
+		this.oldPrice = oldPrice;
 	}
 	public Integer getGoodsNum() {
 		return goodsNum;

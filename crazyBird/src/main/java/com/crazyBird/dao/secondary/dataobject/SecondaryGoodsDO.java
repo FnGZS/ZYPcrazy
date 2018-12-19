@@ -12,7 +12,7 @@ public class SecondaryGoodsDO {
 	private Integer goodsWay;
 	private Integer tradingWay;
 	private BigDecimal price;
-
+	private BigDecimal oldPrice;
 
 	public Long getUserId() {
 		return userId;
@@ -46,7 +46,13 @@ public class SecondaryGoodsDO {
 		this.postion = postion;
 	}
 
-
+	
+	public BigDecimal getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(BigDecimal oldPrice) {
+		this.oldPrice = oldPrice;
+	}
 	public Integer getGoodsType() {
 		return goodsType;
 	}
