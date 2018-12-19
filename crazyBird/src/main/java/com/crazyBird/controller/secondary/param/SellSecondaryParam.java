@@ -4,14 +4,15 @@ import com.crazyBird.controller.base.AbstractPageParam;
 
 public class SellSecondaryParam extends AbstractPageParam{
 
-	private Long userId;
+	private Integer status;
 
-	public Long getUserId() {
-		return userId;
+
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 

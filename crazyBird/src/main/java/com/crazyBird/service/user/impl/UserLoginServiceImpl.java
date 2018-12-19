@@ -209,6 +209,11 @@ public class UserLoginServiceImpl implements UserLoginService {
 		ResponseDO<HavePhoneUserDO> response = new ResponseDO<>();
 		UserLoginDO userLoginDO = userLoginDao.seletUserByAs(accessToken);
 		UserDO havePhoneUser = userDao.seletUserByPhone(phone);
+		if(havePhoneUser == null) {
+			response.setCode(ResponseCode.ERROR);
+			response.setMessage("错误");
+			return response;
+		}
 		if(havePhoneUser.getIsBinding() == 1) {
 			havePhoneUser.setOpenId(userLoginDO.getOpenId());
 			havePhoneUser.setUserName(userLoginDO.getLoginAccount());
