@@ -34,6 +34,7 @@ public interface SecondaryDao {
 	int getSecondaryGoodsCommentCount(Long id);
 	
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsComment(SecondaryGoodsCommentsPO po);
+	int getSecondaryGoodsCommentsNum(Long id);
 	//得到回复
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
 	//评论

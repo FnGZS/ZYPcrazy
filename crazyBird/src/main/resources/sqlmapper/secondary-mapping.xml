@@ -101,7 +101,10 @@
 
   </select>
   <select id="getSecondaryGoodsCommentCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
-  select count(1) from secondary_comments where comments_id is null
+  select count(1) from secondary_comments where comments_id is null and goods_id=#{id,jdbcType=BIGINT}
+  </select>
+    <select id="getSecondaryGoodsCommentsNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  select count(1) from secondary_comments where goods_id=#{id,jdbcType=BIGINT}
   </select>
   <select id="getSecondaryGoodsComment" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO" resultMap="SecondaryGoodsCommentsDTOMap">
   select sc.id ,sc.content,sc.gmt_created,u.headimgurl,u.school_num,u.user_name as reply_name

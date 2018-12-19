@@ -34,7 +34,7 @@ public interface SecondaryService {
 	
 	void createSecondaryViews(Long id);
 	
-	
+	int getSecondaryGoodsCommentsNum(Long id);
 	//得到评论
 	ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> getSecondaryGoodsComment(SecondaryGoodsCommentsPO po);
 	//得到回复

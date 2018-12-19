@@ -206,6 +206,8 @@ public class SecondaryProcess {
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		po.setId(param.getId());
+		int count = secondaryService.getSecondaryGoodsCommentsNum(param.getId());
+		model.setCommentsNum(count);
 		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response = secondaryService.getSecondaryGoodsComment(po);
 		if(response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
