@@ -163,4 +163,10 @@ public class SecondaryServiceImpl implements SecondaryService{
 		return secondaryDao.createSecondaryGoodsComment(dto);
 	}
 
+	@Override
+	public int getSecondaryGoodsCommentsNum(Long id) {
+
+		return secondaryDao.getSecondaryGoodsCommentsNum(id);
+	}
+
 }

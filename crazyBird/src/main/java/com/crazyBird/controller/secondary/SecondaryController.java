@@ -101,7 +101,6 @@ public class SecondaryController {
 	@RequestMapping(value="/user",method=RequestMethod.GET)
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		return secondaryProcess.getSecondaryGoodsByUser(param);
-	
 	}
 	
 	/**

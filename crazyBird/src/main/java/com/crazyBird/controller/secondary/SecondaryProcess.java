@@ -206,6 +206,8 @@ public class SecondaryProcess {
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		po.setId(param.getId());
+		int count = secondaryService.getSecondaryGoodsCommentsNum(param.getId());
+		model.setCommentsNum(count);
 		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response = secondaryService.getSecondaryGoodsComment(po);
 		if(response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
@@ -254,13 +256,13 @@ public class SecondaryProcess {
 	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){
 		
 		List<SecondaryGoodsCommentItem> list = new ArrayList<>();
-		List<SecondaryGoodsReplyItem> items = new ArrayList<>();
 		if(CollectionUtils.isNotEmpty(tags)) {
 			for (SecondaryGoodsCommentsDTO tag : tags) {
+				List<SecondaryGoodsReplyItem> items = new ArrayList<>();
 				SecondaryGoodsCommentItem item = new SecondaryGoodsCommentItem();
 				item.setCommentName(tag.getReplyName());
 				item.setContent(tag.getContent());
-				item.setGmtCreated(tag.getGmtCreated());
+				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 				item.setHeadImgUrl(tag.getHeadImgUrl());
 				item.setId(tag.getId());
 				item.setSchoolNum(tag.getSchoolNum());
@@ -268,7 +270,7 @@ public class SecondaryProcess {
 				for (SecondaryGoodsCommentsDTO dto : dtos) {
 					SecondaryGoodsReplyItem replyItem = new SecondaryGoodsReplyItem();
 					replyItem.setContent(dto.getContent());
-					replyItem.setGmtCreated(dto.getGmtCreated());
+					replyItem.setGmtCreated(DateUtil.formatDate(dto.getGmtCreated(),DateUtil.DATE_FORMAT_YMDHMS));
 					replyItem.setHeadImgUrl(dto.getHeadImgUrl());
 					replyItem.setReplyName(dto.getReplyName());
 					replyItem.setReplyedName(dto.getReplyedName());
