@@ -14,4 +14,7 @@ public interface SecondaryCollectionDao {
 
 	int getCollectionSecondaryCount(CollectionSecondaryListPO po);
 
+	CollectionDO isCollection(CollectionDO collection);
+
+
 }

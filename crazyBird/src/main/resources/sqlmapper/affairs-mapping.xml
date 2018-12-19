@@ -21,7 +21,7 @@
   where id = #{typeId,jdbcType=BIGINT}
   limit 1
   </select>
-  <select id="getAffairsCount" resultType="java.lang.Integer">
+  <select id="getAffairsCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.affairs.dataobject.AffairsPO">
   select count(*)
   from affairs
   where id !=""

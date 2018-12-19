@@ -92,6 +92,21 @@ public class UserSecondaryServiceImpl implements UserSecondaryService{
 		}
 		return response;
 	}
+	@Override
+	public ResponseDO<String> isCollection(CollectionDO collection) {
+		ResponseDO<String> responseDO = new ResponseDO<>();
+		if(collection.getUserId() == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			return responseDO;
+		}
+		CollectionDO newCollection = secondaryCollectionDao.isCollection(collection);
+		if(newCollection == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			return responseDO;
+		}
+		responseDO.setMessage("已想要");
+		return responseDO;
+	}
 	
 
 }

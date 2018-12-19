@@ -20,4 +20,6 @@ public interface UserSecondaryService {
 
 	ResponsePageQueryDO<List<UserSecondaryDTO>> getCollectionSecondaryList(CollectionSecondaryListPO po);
 
+	ResponseDO<String> isCollection(CollectionDO collection);
+
 }
