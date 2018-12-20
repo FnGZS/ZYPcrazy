@@ -1,6 +1,5 @@
 package com.crazyBird.service.weixin;
 
-import com.aliyuncs.http.HttpRequest;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
@@ -8,14 +7,15 @@ import com.crazyBird.service.user.dataobject.OrderInfo;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.user.dataobject.UserInfo;
 import com.crazyBird.utils.AesUtils;
+import com.crazyBird.utils.ArithUtils;
 import com.crazyBird.utils.DateUtil;
-import com.crazyBird.utils.IPUtils;
 import com.crazyBird.utils.JsonUtils;
 import com.crazyBird.utils.RandomUtil;
 import com.crazyBird.utils.SignatureUtils;
-import com.lowagie.text.pdf.codec.Base64;
+import com.crazyBird.utils.XmlToMapUtils;
+
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
@@ -30,7 +30,6 @@ import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -144,8 +143,12 @@ public class WeixinAppService {
 	 */
 	public static ResponseDO<OrderResponseInfo> wxPay(UserPayParam param, String ip,String orederId) {
 		ResponseDO<OrderResponseInfo> result = new ResponseDO<>();
-		int fee = (int)Long.parseLong(param.getFee())*100;//将钱 转换成 分
-		
+		//将钱 转换成 分
+		double times = 100.00;
+		double cost=param.getFee();
+		double sum = ArithUtils.mul(cost,times);
+		int fee = (int)sum;
+		System.out.println(fee);
 		OrderInfo orderInfo = new OrderInfo();
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		String platCode=param.getPlatCode();
@@ -167,7 +170,7 @@ public class WeixinAppService {
 			orderInfo.setBody("测试");
 			//测试订单号
 			orderInfo.setOut_trade_no(orederId);
-			orderInfo.setTotal_fee(1);
+			orderInfo.setTotal_fee(fee);
 			orderInfo.setSpbill_create_ip(ip);//ip
 			orderInfo.setNotify_url(NOTIFY_URL);
 			orderInfo.setTrade_type(TRADE_TYPE);
@@ -194,7 +197,7 @@ public class WeixinAppService {
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
 				}
-				Map<String, Object> resultMap = JsonUtils.getMap4Json(sb.toString().trim());
+				Map<String, Object> resultMap = XmlToMapUtils.getResult(sb.toString().trim());
 				String returnCode =(String)resultMap.get("return_code"); 
 				if(returnCode=="SUCCESS"||returnCode.equals("SUCCESS")) {
 					OrderResponseInfo info =new OrderResponseInfo();

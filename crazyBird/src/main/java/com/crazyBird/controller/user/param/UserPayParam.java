@@ -1,15 +1,16 @@
 package com.crazyBird.controller.user.param;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import com.crazyBird.validate.annotation.RequireAnno;
-import com.ibm.icu.math.BigDecimal;
+
 
 public class UserPayParam {
 	@RequireAnno
 	private String platCode;
 	private Map<String, String> platUserInfoMap;
-	private String fee;
+	private double fee;
 
 	public String getPlatCode() {
 		return this.platCode;
@@ -25,11 +26,13 @@ public class UserPayParam {
 
 	
 
-	public String getFee() {
+	
+
+	public double getFee() {
 		return fee;
 	}
 
-	public void setFee(String fee) {
+	public void setFee(double fee) {
 		this.fee = fee;
 	}
 
