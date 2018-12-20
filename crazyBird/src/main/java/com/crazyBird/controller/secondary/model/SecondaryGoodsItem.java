@@ -18,6 +18,7 @@ public class SecondaryGoodsItem {
 	private String goodsWay;
 	private String tradingWay;
 	private String price;
+	private Integer status;
 	private String oldPrice;
 	private	String  gmtCreated;
 	public Long getId() {
@@ -50,6 +51,13 @@ public class SecondaryGoodsItem {
 	}
 	public void setGoodsNum(Integer goodsNum) {
 		this.goodsNum = goodsNum;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public String getUserName() {
 		return userName;
