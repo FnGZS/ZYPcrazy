@@ -170,7 +170,7 @@ public class WeixinAppService {
 			orderInfo.setBody("测试");
 			//测试订单号
 			orderInfo.setOut_trade_no(orederId);
-			orderInfo.setTotal_fee(1);
+			orderInfo.setTotal_fee(fee);
 			orderInfo.setSpbill_create_ip(ip);//ip
 			orderInfo.setNotify_url(NOTIFY_URL);
 			orderInfo.setTrade_type(TRADE_TYPE);
