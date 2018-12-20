@@ -6,10 +6,13 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderParam;
+import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.secondary.SecondaryOrderService;
+import com.crazyBird.service.user.dataobject.OrderResponseInfo;
+import com.crazyBird.service.weixin.WeixinAppService;
 import com.crazyBird.utils.OrderUtils;
 import com.crazyBird.utils.TokenUtils;
 
@@ -48,6 +51,19 @@ public class SecondaryOrderProcess extends BaseProcess{
 			model.setMessage(response.getMessage());
 			return model;
 		}
+		UserPayParam payParam = new UserPayParam();
+		payParam.setPlatCode(param.getPlatCode());
+		payParam.setPlatUserInfoMap(param.getPlatUserInfoMap());
+		payParam.setFee(param.getFee());
+		String ip = getReqParam().getIp();
+		String orederId = order.getOrderId();
+		ResponseDO<OrderResponseInfo> responsePay = WeixinAppService.wxPay(payParam, ip, orederId);
+		if (!responsePay.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			return model;
+		}
+		model.setOrderInfo(responsePay.getDataResult());
 		model.setMessage(response.getMessage());
 		return model;
 	}
