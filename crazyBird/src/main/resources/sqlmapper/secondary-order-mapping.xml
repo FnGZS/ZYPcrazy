@@ -17,23 +17,11 @@
     <result column="price" property="realPrice" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
-<resultMap id="SecondaryGoodsDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO" >
+<resultMap id="GoodsExistDOMap" type="com.crazyBird.dao.secondary.dataobject.GoodsExistDO" >
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="views" property="views" jdbcType="INTEGER" />
-    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
-    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
-    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
-    <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
-    <result column="goods_img" property="goodsImag" jdbcType="VARCHAR" />
-    <result column="postion" property="postion" jdbcType="VARCHAR" />
-    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
-    <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
-    <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
-    <result column="goods_price" property="price" jdbcType="DECIMAL" />
-    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
-    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="BIGINT" />
 </resultMap>
 <sql id="BaseOrder">
 	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
@@ -44,7 +32,7 @@
   	from secondary_goods where user_id = #{sellId,jdbcType=BIGINT} and status = #{status,jdbcType=INTEGER}
   </select>
   <select id="getSellSecondaryByUser" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
-select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
+  select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
   sg.goods_price,sg.postion,sg.views,sw.field as goods_way,
   stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg
@@ -74,12 +62,10 @@ select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
-   <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+   <select id="getSecondaryGoods" resultMap="GoodsExistDOMap" parameterType="java.lang.Long">
+	select sg.id,sg.status ,u.user_name,sg.user_id
 	from secondary_goods as sg 
-	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
-	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
   </select>
   <insert id="createOrder"  parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
@@ -101,5 +87,5 @@ select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_
   			#{receiveAddress,jdbcType=VARCHAR},
   			now(),now()
   		)
- </insert>
+  </insert>
 </mapper>
