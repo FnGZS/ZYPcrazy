@@ -145,9 +145,8 @@ public class WeixinAppService {
 		ResponseDO<OrderResponseInfo> result = new ResponseDO<>();
 		//将钱 转换成 分
 		double times = 100.00;
-		double cost =Double.parseDouble(param.getFee());
+		double cost=param.getFee();
 		double sum = ArithUtils.mul(cost,times);
-
 		int fee = (int)sum;
 		System.out.println(fee);
 		OrderInfo orderInfo = new OrderInfo();
