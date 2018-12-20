@@ -14,6 +14,7 @@ import com.crazyBird.controller.secondary.model.IsCollectionModel;
 import com.crazyBird.controller.secondary.model.PurchaseSecondaryListModel;
 import com.crazyBird.controller.secondary.model.UserSecondaryItem;
 import com.crazyBird.controller.secondary.model.SellSecondaryListModel;
+import com.crazyBird.controller.secondary.param.CollectionListParam;
 import com.crazyBird.controller.secondary.param.CollectionParam;
 import com.crazyBird.controller.secondary.param.CollectionSecondaryParam;
 import com.crazyBird.controller.secondary.param.PurchaseSecondaryParam;
@@ -98,12 +99,15 @@ public class SecondaryUserProcess extends BaseProcess{
 					item.setGoodsNum(tag.getGoodsNum());
 					item.setGoodsTitle(tag.getGoodsTitle());
 					item.setGoodsContent(tag.getGoodsContent());
-					item.setGoodsImag(tag.getGoodsImag());
+					item.setGoodsImg(tag.getGoodsImg());
 					item.setGoodsType(tag.getGoodsType());
 					item.setPostion(tag.getPostion());
 					item.setGoodsWay(tag.getGoodsWay());
 					item.setTradingWay(tag.getTradingWay());
 					item.setPrice(String.valueOf(tag.getPrice()));
+					item.setOldPrice(String.valueOf(tag.getOldPrice()));
+					item.setUserName(tag.getUserName());
+					item.setHeadImgUrl(tag.getHeadImgUrl());
 					item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 					lists.add(item);
 				}
@@ -132,7 +136,7 @@ public class SecondaryUserProcess extends BaseProcess{
 		return model;
 	}
 
-	public CollectionSecondaryListModel collectionList(CollectionParam param) {
+	public CollectionSecondaryListModel collectionList(CollectionListParam param) {
 		CollectionSecondaryListModel model = new CollectionSecondaryListModel();
 		CollectionSecondaryListPO po = new CollectionSecondaryListPO();
 		try {
@@ -141,6 +145,7 @@ public class SecondaryUserProcess extends BaseProcess{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		po.setStatus(param.getStatus());
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		ResponsePageQueryDO<List<UserSecondaryDTO>> response = userSecondaryService.getCollectionSecondaryList(po);

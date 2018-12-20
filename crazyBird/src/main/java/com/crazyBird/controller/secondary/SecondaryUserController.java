@@ -18,6 +18,7 @@ import com.crazyBird.controller.secondary.model.CollectionSecondaryModel;
 import com.crazyBird.controller.secondary.model.IsCollectionModel;
 import com.crazyBird.controller.secondary.model.PurchaseSecondaryListModel;
 import com.crazyBird.controller.secondary.model.SellSecondaryListModel;
+import com.crazyBird.controller.secondary.param.CollectionListParam;
 import com.crazyBird.controller.secondary.param.CollectionParam;
 import com.crazyBird.controller.secondary.param.CollectionSecondaryParam;
 import com.crazyBird.controller.secondary.param.PurchaseSecondaryParam;
@@ -66,7 +67,7 @@ public class SecondaryUserController {
 	 * */
 	@ResponseBody
 	@RequestMapping(value="/collectionList",method=RequestMethod.GET)
-	public CollectionSecondaryListModel collectionSecondaryList(CollectionParam param) {
+	public CollectionSecondaryListModel collectionSecondaryList(CollectionListParam param) {
 		return secondaryUserProcess.collectionList(param);
 	}
 	

@@ -6,15 +6,17 @@
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
     <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
     <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
-    <result column="goods_img" property="goodsImag" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
     <result column="postion" property="postion" jdbcType="VARCHAR" />
     <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
     <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
     <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
     <result column="goods_price" property="price" jdbcType="DECIMAL" />
-    <result column="price" property="realPrice" jdbcType="DECIMAL" />
+    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
 <resultMap id="collectionResult" type="com.crazyBird.dao.secondary.dataobject.CollectionDO" >
@@ -27,18 +29,22 @@
  <select id="getCollectionSecondaryCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
   	select 
 	count(*)
-  	from secondary_collection where user_id = #{userId,jdbcType=BIGINT}
+  	from  secondary_goods as sg
+	LEFT JOIN secondary_collection as sc on sg.id=sc.goods_id
+	where sc.user_id = #{userId,jdbcType=BIGINT} and sg.status = #{status,jdbcType=INTEGER}
  </select>
  <select id="getCollectionSecondaryList" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
-  select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
-  sg.goods_price,sg.postion,sg.views,sw.field as goods_way,
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
+  sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way,
   stw.field as trading_way ,st.field as goods_type, sg.gmt_created
 	from secondary_goods as sg
 	LEFT JOIN secondary_collection as sc on sg.id=sc.goods_id
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
 	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
-	where sc.user_id = #{userId,jdbcType=BIGINT}
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where sc.user_id = #{userId,jdbcType=BIGINT} 
+	and sg.status = #{status,jdbcType=INTEGER}
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
  </select>
