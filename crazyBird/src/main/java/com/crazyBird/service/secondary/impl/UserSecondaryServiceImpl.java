@@ -70,7 +70,14 @@ public class UserSecondaryServiceImpl implements UserSecondaryService{
 			responseDO.setCode(ResponseCode.ERROR);
 			return responseDO;
 		}
+		CollectionDO newCollection = secondaryCollectionDao.isCollection(collection);
+		if(newCollection != null) {
+			secondaryCollectionDao.delete(newCollection.getId());
+			responseDO.setMessage("取消想要");
+			return responseDO;
+		}
 		secondaryCollectionDao.collectionSecondary(collection);
+		responseDO.setMessage("想要成功");
 		return responseDO;
 	}
 	@Override
@@ -106,6 +113,10 @@ public class UserSecondaryServiceImpl implements UserSecondaryService{
 		}
 		responseDO.setMessage("已想要");
 		return responseDO;
+	}
+	@Override
+	public Integer getCollectionNum(Long goodsId) {
+		return secondaryCollectionDao.seletCountByCollection(goodsId);
 	}
 	
 

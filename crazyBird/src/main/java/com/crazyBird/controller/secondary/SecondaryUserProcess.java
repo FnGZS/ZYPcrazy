@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.BaseProcess;
+import com.crazyBird.controller.secondary.model.CollectionQuantityModel;
 import com.crazyBird.controller.secondary.model.CollectionSecondaryListModel;
 import com.crazyBird.controller.secondary.model.CollectionSecondaryModel;
 import com.crazyBird.controller.secondary.model.IsCollectionModel;
@@ -123,7 +124,7 @@ public class SecondaryUserProcess extends BaseProcess{
 		collection.setGoodsId(param.getGoodsId());
 		ResponseDO<String> responseDO = userSecondaryService.collection(collection);
 		if (responseDO.isSuccess()) {
-			model.setMessage("想要成功");
+			model.setMessage(responseDO.getMessage());
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
@@ -168,8 +169,14 @@ public class SecondaryUserProcess extends BaseProcess{
 			model.setMessage(responseDO.getMessage());
 			return model;
 		}
-		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("未想要");
+		return model;
+	}
+
+	public CollectionQuantityModel collectionNum(Long goodsId) {
+		CollectionQuantityModel model = new CollectionQuantityModel();
+		Integer quantity = userSecondaryService.getCollectionNum(goodsId);
+		model.setQuantity(quantity);
 		return model;
 	}
 	

@@ -22,4 +22,6 @@ public interface UserSecondaryService {
 
 	ResponseDO<String> isCollection(CollectionDO collection);
 
+	Integer getCollectionNum(Long goodsId);
+
 }
