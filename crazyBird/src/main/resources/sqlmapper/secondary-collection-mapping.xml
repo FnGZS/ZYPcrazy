@@ -17,12 +17,16 @@
     <result column="price" property="realPrice" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
+<resultMap id="collectionResult" type="com.crazyBird.dao.secondary.dataobject.CollectionDO" >
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+</resultMap>
  <sql id="collection">
 	goods_id,user_id,gmt_created,gmt_modified
  </sql>
  <select id="getCollectionSecondaryCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
   	select 
-	count(1)
+	count(*)
   	from secondary_collection where user_id = #{userId,jdbcType=BIGINT}
  </select>
  <select id="getCollectionSecondaryList" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionSecondaryListPO">
@@ -38,6 +42,17 @@
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
  </select>
+ <select id="isCollection" resultMap="collectionResult" parameterType="com.crazyBird.dao.secondary.dataobject.CollectionDO">
+  	select 
+	id,goods_id,user_id
+  	from secondary_collection 
+  	where goods_id = #{goodsId,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+ </select>
+ <select id="seletCountByCollection" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select 
+	count(*)
+  	from secondary_collection where goods_id = #{goodsId,jdbcType=BIGINT}
+ </select>
  <insert id="collectionSecondary"  parameterType="com.crazyBird.dao.secondary.dataobject.CollectionDO">
   		insert into secondary_collection
   		(
@@ -50,4 +65,8 @@
   			now(),now()
   		)
  </insert>
+ <delete id="delete" parameterType="java.lang.Long">
+  	delete from secondary_collection
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
 </mapper>

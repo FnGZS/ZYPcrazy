@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.secondary.model.CollectionQuantityModel;
 import com.crazyBird.controller.secondary.model.CollectionSecondaryListModel;
 import com.crazyBird.controller.secondary.model.CollectionSecondaryModel;
+import com.crazyBird.controller.secondary.model.IsCollectionModel;
 import com.crazyBird.controller.secondary.model.PurchaseSecondaryListModel;
 import com.crazyBird.controller.secondary.model.SellSecondaryListModel;
 import com.crazyBird.controller.secondary.param.CollectionParam;
@@ -67,4 +69,23 @@ public class SecondaryUserController {
 	public CollectionSecondaryListModel collectionSecondaryList(CollectionParam param) {
 		return secondaryUserProcess.collectionList(param);
 	}
+	
+	/**
+	 * 是否收藏
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/isCollection",method=RequestMethod.GET)
+	public IsCollectionModel isCollection(CollectionParam param) {
+		return secondaryUserProcess.isCollection(param);
+	}
+	
+	/**
+	 * 收藏数量
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/quantity",method=RequestMethod.GET)
+	public CollectionQuantityModel CollectionQuantity(Long goodsId) {
+		return secondaryUserProcess.collectionNum(goodsId);
+	}
+	
 }

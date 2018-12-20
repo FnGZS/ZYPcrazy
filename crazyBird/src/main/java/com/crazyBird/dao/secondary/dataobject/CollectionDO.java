@@ -2,6 +2,7 @@ package com.crazyBird.dao.secondary.dataobject;
 
 public class CollectionDO {
 
+	private Long id;
 	private Long goodsId;
 	private Long userId;
 	public Long getGoodsId() {
@@ -15,6 +16,12 @@ public class CollectionDO {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }
