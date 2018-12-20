@@ -17,6 +17,27 @@
     <result column="price" property="realPrice" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
+<resultMap id="SecondaryGoodsDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+    <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImag" jdbcType="VARCHAR" />
+    <result column="postion" property="postion" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
+    <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
+    <result column="goods_price" property="price" jdbcType="DECIMAL" />
+    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+<sql id="BaseOrder">
+	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
+ </sql>
 <select id="getSellSecondaryCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
   	select 
 	count(1)
@@ -53,4 +74,32 @@ select sg.id , sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+   <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
+	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	from secondary_goods as sg 
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id 
+	where sg.id=#{id,jdbcType=BIGINT} 
+  </select>
+  <insert id="createOrder"  parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+  		insert into secondary_order
+  		(
+  			<include refid="BaseOrder" />
+  		)
+  		value
+  		(
+  			#{orderId,jdbcType=VARCHAR},
+  			#{goodsId,jdbcType=BIGINT},
+  			#{userId,jdbcType=BIGINT},
+  			#{price,jdbcType=DECIMAL},
+  			1,
+  			#{sellerId,jdbcType=BIGINT},
+  			#{seller,jdbcType=VARCHAR},
+  			#{consignee,jdbcType=VARCHAR},
+  			#{receivePhone,jdbcType=VARCHAR},
+  			#{receiveAddress,jdbcType=VARCHAR},
+  			now(),now()
+  		)
+ </insert>
 </mapper>
