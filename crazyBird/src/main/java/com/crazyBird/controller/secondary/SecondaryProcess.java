@@ -314,6 +314,7 @@ public class SecondaryProcess {
 			item.setOldPrice(String.valueOf(tag.getOldPrice()));
 			item.setTradingWay(tag.getTradingWay());
 			item.setUserId(tag.getUserId());
+			item.setStatus(tag.getStatus());
 			item.setUserName(tag.getUserName());
 			item.setViews(tag.getViews());
 			list.add(item);
