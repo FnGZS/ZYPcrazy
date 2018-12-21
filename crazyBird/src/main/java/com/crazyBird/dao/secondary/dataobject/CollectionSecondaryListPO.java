@@ -5,6 +5,7 @@ import com.crazyBird.service.base.PageQueryDO;
 public class CollectionSecondaryListPO extends PageQueryDO{
 
 	private Long userId;
+	private Integer status;
 
 	public Long getUserId() {
 		return userId;
@@ -12,6 +13,14 @@ public class CollectionSecondaryListPO extends PageQueryDO{
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

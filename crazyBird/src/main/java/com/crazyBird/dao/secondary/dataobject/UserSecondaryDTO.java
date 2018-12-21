@@ -9,15 +9,17 @@ public class UserSecondaryDTO {
 	private Long userId;
 	private Integer views;
 	private Integer goodsNum;
+	private String userName;
+	private String headImgUrl;
 	private String goodsTitle;
 	private String goodsContent;
-	private String goodsImag;
+	private String goodsImg;
 	private String postion;
 	private String goodsType;
 	private String goodsWay;
 	private String tradingWay;
 	private BigDecimal price;
-	private BigDecimal realPrice;
+	private BigDecimal oldPrice;
 	private Date gmtCreated;
 	public Long getId() {
 		return id;
@@ -55,11 +57,11 @@ public class UserSecondaryDTO {
 	public void setGoodsContent(String goodsContent) {
 		this.goodsContent = goodsContent;
 	}
-	public String getGoodsImag() {
-		return goodsImag;
+	public String getGoodsImg() {
+		return goodsImg;
 	}
-	public void setGoodsImag(String goodsImag) {
-		this.goodsImag = goodsImag;
+	public void setGoodsImg(String goodsImg) {
+		this.goodsImg = goodsImg;
 	}
 	public String getPostion() {
 		return postion;
@@ -91,16 +93,28 @@ public class UserSecondaryDTO {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	public BigDecimal getRealPrice() {
-		return realPrice;
-	}
-	public void setRealPrice(BigDecimal realPrice) {
-		this.realPrice = realPrice;
-	}
 	public Date getGmtCreated() {
 		return gmtCreated;
 	}
 	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+	public BigDecimal getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(BigDecimal oldPrice) {
+		this.oldPrice = oldPrice;
 	}
 }
