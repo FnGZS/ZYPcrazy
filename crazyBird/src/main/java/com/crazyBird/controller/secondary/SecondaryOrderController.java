@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
+import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
+import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
 
 /**
@@ -29,5 +32,23 @@ public class SecondaryOrderController {
 	@RequestMapping(value="/create",method=RequestMethod.POST)
 	public SecondaryOrderModel createSecondaryOrder(@RequestBody OrderParam param){
 		return secondaryOrderProcess.getCreateOrder(param);
+	}
+	
+	/**
+	 * 订单列表
+	 * **/
+	@ResponseBody
+	@RequestMapping(value="/orderList",method=RequestMethod.GET)
+	public SecondaryOrderListModel secondaryOrderList(OrderListParam param){
+		return secondaryOrderProcess.getOrderList(param);
+	}
+	
+	/**
+	 * 删除订单
+	 * **/
+	@ResponseBody
+	@RequestMapping(value="/orderDelete",method=RequestMethod.GET)
+	public SecondaryOrderDeleteModel deleteSecondaryOrder(Long id){
+		return secondaryOrderProcess.deleteSecondaryOrder(id);
 	}
 }

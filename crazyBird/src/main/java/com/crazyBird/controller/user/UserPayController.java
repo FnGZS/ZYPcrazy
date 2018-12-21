@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.UserPayModel;
+import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.utils.ArithUtils;
 import com.crazyBird.utils.XmlToMapUtils;
@@ -31,14 +32,14 @@ public class UserPayController {
 	@Autowired
 	private UserPayProcess payProcess;
 	/**
-	 * 充值
+	 * 重新支付订单
 	 * @param param
 	 * @return
 	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping(value="/recharge", method = RequestMethod.POST)
 	@ResponseBody
-	public UserPayModel userPay(@RequestBody UserPayParam param) throws IllegalAccessException {
+	public UserPayModel userPay(@RequestBody UserAgainPayParam param) throws IllegalAccessException {
 		return payProcess.userPay(param);
 	}
 	/**

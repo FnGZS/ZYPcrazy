@@ -48,8 +48,6 @@ public class WeixinAppService {
 	private static final String USER_INFO_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 	// 微信统一下单地址
 	private static final String PAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-	// 支付成功后的服务器回调url
-	private static final String NOTIFY_URL = "https://www.sxscott.com/crazyBird/pay/callback";
 	// 
 	private static final String TRADE_TYPE = "JSAPI";
 	// 商户支付密钥
@@ -141,7 +139,7 @@ public class WeixinAppService {
 	 * @param orederId
 	 * @return
 	 */
-	public static ResponseDO<OrderResponseInfo> wxPay(UserPayParam param, String ip,String orederId) {
+	public static ResponseDO<OrderResponseInfo> wxPay(UserPayParam param, String ip, String orederId ,String notifyUrl) {
 		ResponseDO<OrderResponseInfo> result = new ResponseDO<>();
 		//将钱 转换成 分
 		double times = 100.00;
@@ -172,7 +170,7 @@ public class WeixinAppService {
 			orderInfo.setOut_trade_no(orederId);
 			orderInfo.setTotal_fee(fee);
 			orderInfo.setSpbill_create_ip(ip);//ip
-			orderInfo.setNotify_url(NOTIFY_URL);
+			orderInfo.setNotify_url(notifyUrl);
 			orderInfo.setTrade_type(TRADE_TYPE);
 			orderInfo.setOpenid(openid);
 			orderInfo.setSign_type("MD5");
