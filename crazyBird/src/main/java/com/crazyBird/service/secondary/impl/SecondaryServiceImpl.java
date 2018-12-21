@@ -9,6 +9,7 @@ import com.crazyBird.dao.secondary.SecondaryDao;
 import com.crazyBird.dao.secondary.SecondaryTypeDao;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommetsMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -190,6 +191,40 @@ public class SecondaryServiceImpl implements SecondaryService{
 	public int updateSecondaryComments(SecondaryCommentViewDO viewDO) {
 		
 		return secondaryDao.updateSecondaryComments(viewDO);
+	}
+
+	@Override
+	public int deleteSecondaryGoods(Long id) {
+	
+		return secondaryDao.deleteSecondaryGoods(id);
+	}
+
+	@Override
+	public int getNewCommentCount(Long id) {
+
+		return secondaryDao.getNewCommentCount(id);
+	}
+
+	@Override
+	public int getNewSecondaryViolationCount(Long id) {
+
+		return secondaryDao.getNewSecondaryViolationCount(id);
+	}
+
+	@Override
+	public ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> getCommentMessage(SecondaryGoodsCommentsPO po) {
+		 ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> response = new ResponsePageQueryDO<>();
+			response.setPageIndex(po.getPageIndex());
+			response.setPageSize(po.getPageSize());
+			response.setTotal(secondaryDao.getCommentMessageCount(po.getId()));
+			if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
+				List<SecondaryCommetsMessageDTO> list = secondaryDao.getCommentMessage(po);
+				response.setDataResult(list);
+				response.setCode(ResponseCode.SUCCESS);
+			} else {
+				response.setMessage("到底了");
+			}
+		return response;
 	}
 
 }

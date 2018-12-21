@@ -31,6 +31,15 @@
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
     
 </resultMap>
+<resultMap id="SecondaryCommetsMessageDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryCommetsMessageDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+	<result column="user_name" property="replyName" jdbcType="VARCHAR" />
+	<result column="is_view" property="isView" jdbcType="INTEGER" />
+	<result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
 <resultMap id="UserAddressDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO" >
 	 <result column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
@@ -163,13 +172,33 @@
 	LEFT JOIN `user` as us on us.school_num=sc.replyed_id
 	where sc.comments_id=#{commentsId,jdbcType=BIGINT} order by gmt_created desc
   </select>
+  <select id ="getNewCommentCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(1) from secondary_comments where replyed_id=#{id,jdbcType=BIGINT} and is_view = 0
+  </select>
+  <select id ="getNewSecondaryViolationCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(1) from secondary_goods_violation where user_id=#{id,jdbcType=BIGINT} and is_view = 0
+  </select>
+  <select id="getCommentMessageCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  select count(1) from secondary_comments where replyed_id=#{id,jdbcType=BIGINT}
+  </select>
+  <select id="getCommentMessage" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO" resultMap="SecondaryCommetsMessageDTOMap">
+  select sc.id ,sc.goods_id,sc.is_view,u.headimgurl,u.user_name,sc.content,sc.gmt_created from secondary_comments as sc LEFT JOIN `user` as u  on u.school_num=sc.reply_id 
+  where replyed_id = #{id,jdbcType=BIGINT} 
+  order by sc.gmt_created desc 
+  limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+
   <update id="createSecondaryViews" parameterType="java.lang.Long">
   	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
   </update>
   <update id="updateSecondaryComments" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO">
   	update secondary_comments set is_view = 1
   	 where goods_id=#{goodsId,jdbcType=BIGINT} and replyed_id=#{userId,jdbcType=BIGINT}
-  
+  </update>
+  <update id="deleteSecondaryGoods" parameterType="java.lang.Long">
+  	update secondary_goods set 
+  	`status`= 4
+  	where id=#{id,jdbcType=BIGINT}
   </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
   insert into secondary_goods 

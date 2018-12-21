@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.SecondaryCommetsMessageModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
+import com.crazyBird.controller.secondary.model.SecondaryMessageNumModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.model.SecondaryUserAddressModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
+import com.crazyBird.controller.secondary.param.SecondaryCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
@@ -98,6 +101,12 @@ public class SecondaryController {
 	/**
 	 * 删除商品（更改商品状态）
 	 */
+	@ResponseBody
+	@RequestMapping(value="/goods/delete/{id}",method=RequestMethod.PUT)
+	public SimpleFlagModel deleteSecondaryGoods(@PathVariable Long id) {
+		return secondaryProcess.deleteSecondaryGoods(id);
+		
+	}
 	
 	/**
 	 * 我发布的商品
@@ -125,8 +134,32 @@ public class SecondaryController {
 		return secondaryProcess.getSecondaryGoodsComments(param);
 	}
 	/**
-	 * 获取用户未读回复
+	 * 获取用户未读的评论回复
+	 *
 	 */
+	@ResponseBody
+	@RequestMapping(value="/commentMessage",method=RequestMethod.GET)
+	public SecondaryCommetsMessageModel getCommentMessage(SecondaryCommetsParam param){
+		return secondaryProcess.getCommentMessage(param);
+		
+	}
+	
+	/**
+	 * 获取系统通知消息
+	 */
+	/**
+	 * 获取审核未通过信息
+	 * 
+	 */
+	
+	/**
+	 * 获取用户未读信息的数量                 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/message/{id}",method=RequestMethod.GET)
+	public SecondaryMessageNumModel getSecondaryGoodsCommentsCount(@PathVariable Long id) {
+		return secondaryProcess.getSecondaryGoodsCommentsCount(id);
+	}
 	/**
 	 * 评论
 	 */

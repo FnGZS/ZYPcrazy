@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommetsMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -33,7 +34,7 @@ public interface SecondaryService {
 	ResponsePageQueryDO<List<SecondaryGoodsDTO>> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
 	ResponseDO createSecondaryGoods(SecondaryGoodsDO goodsDO);
-	
+	int deleteSecondaryGoods(Long id);
 	void createSecondaryViews(Long id);
 	
 	int getSecondaryGoodsCommentsNum(Long id);
@@ -49,4 +50,7 @@ public interface SecondaryService {
 	int updateUserAddress(SecondaryUserAddressDO addressDO);
 	int addUserAddress(SecondaryUserAddressDO addressDO);
 	List<SecondaryUserAddressDO> getUserAddress(Long userId);
+	int getNewCommentCount(Long id);
+	int getNewSecondaryViolationCount(Long id);
+	ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> getCommentMessage(SecondaryGoodsCommentsPO po);
 }

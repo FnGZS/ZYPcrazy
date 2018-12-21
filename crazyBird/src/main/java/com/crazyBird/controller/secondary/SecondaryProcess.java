@@ -11,12 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.SecondaryCommetsMessageItem;
+import com.crazyBird.controller.secondary.model.SecondaryCommetsMessageModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentItem;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsItem;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsReplyItem;
+import com.crazyBird.controller.secondary.model.SecondaryMessageNumItem;
+import com.crazyBird.controller.secondary.model.SecondaryMessageNumModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideItem;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeItem;
@@ -24,6 +28,7 @@ import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
 import com.crazyBird.controller.secondary.model.SecondaryUserAddressItem;
 import com.crazyBird.controller.secondary.model.SecondaryUserAddressModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
+import com.crazyBird.controller.secondary.param.SecondaryCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
@@ -32,6 +37,7 @@ import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 import com.crazyBird.controller.secondary.param.SecondaryUserAddressParam;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommetsMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -48,12 +54,14 @@ import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.secondary.SecondaryService;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.PageUtils;
+import com.ibm.icu.text.StringPrep;
 
 @Component
 public class SecondaryProcess {
 	@Autowired
 	private SecondaryService secondaryService;
-	public SecondarySlideModel getSecondarySlide(){
+
+	public SecondarySlideModel getSecondarySlide() {
 		SecondarySlideModel model = new SecondarySlideModel();
 		List<SecondarySlideItem> items = new ArrayList<>();
 		List<SecondarySlideDO> tags = secondaryService.getSecondarySlide();
@@ -66,28 +74,31 @@ public class SecondaryProcess {
 		model.setList(items);
 		return model;
 	}
-	public SecondaryTypeModel getSecondaryType(){
+
+	public SecondaryTypeModel getSecondaryType() {
 		SecondaryTypeModel model = new SecondaryTypeModel();
-		List<SecondaryTypeDO> tags =secondaryService.getSecondaryType();
+		List<SecondaryTypeDO> tags = secondaryService.getSecondaryType();
 		model.setList(convertSecondaryType(tags));
 		return model;
 	}
-	public SecondaryTypeModel getSecondaryTradingWay(){
+
+	public SecondaryTypeModel getSecondaryTradingWay() {
 		SecondaryTypeModel model = new SecondaryTypeModel();
-		List<SecondaryTypeDO> tags =secondaryService.getSecondaryTradingWay();
+		List<SecondaryTypeDO> tags = secondaryService.getSecondaryTradingWay();
 		model.setList(convertSecondaryType(tags));
 		return model;
 	}
-	public SecondaryTypeModel getSecondaryWay(){
+
+	public SecondaryTypeModel getSecondaryWay() {
 		SecondaryTypeModel model = new SecondaryTypeModel();
-		List<SecondaryTypeDO> tags =secondaryService.getSecondaryWay();
+		List<SecondaryTypeDO> tags = secondaryService.getSecondaryWay();
 		model.setList(convertSecondaryType(tags));
 		return model;
 	}
 
 	public SecondaryGoodsModel searchSecondaryGoods(SearchSecondaryListParam param) {
 		SecondaryGoodsModel model = new SecondaryGoodsModel();
-		if(StringUtils.isBlank(param.getKeyWord())) {
+		if (StringUtils.isBlank(param.getKeyWord())) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("关键字不能为空");
 			return model;
@@ -98,58 +109,56 @@ public class SecondaryProcess {
 		po.setPageSize(param.getPageSize());
 		po.setKeyWord(param.getKeyWord());
 		ResponsePageQueryDO<List<SecondaryGoodsDTO>> response = secondaryService.searchSecondaryGoods(po);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setList(convertSecondaryGoods(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
-		
+
 		return model;
-		
+
 	}
 
 	public SecondaryGoodsModel getSecondaryGoodsList(SecondaryGoodsListParam param) {
 		SecondaryGoodsModel model = new SecondaryGoodsModel();
-		/*if(param.getGoodsType()==null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("类型不能为空");
-			return model;
-		}*/
+		/*
+		 * if(param.getGoodsType()==null) { model.setCode(HttpCodeEnum.ERROR.getCode());
+		 * model.setMessage("类型不能为空"); return model; }
+		 */
 		PageUtils.resetPageParam(param);
 		SecondaryGoodsPO po = new SecondaryGoodsPO();
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		po.setGoodsType(param.getGoodsType());
 		ResponsePageQueryDO<List<SecondaryGoodsDTO>> response = secondaryService.getSecondaryGoodsList(po);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setList(convertSecondaryGoods(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
-		
+
 		return model;
-		
+
 	}
 
 	public SecondaryGoodModel getSecondaryGoods(Long id) {
 		SecondaryGoodModel model = new SecondaryGoodModel();
-		if(id==null) {
+		if (id == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("id不能为空");
 		}
 		secondaryService.createSecondaryViews(id);
 		List<SecondaryGoodsDTO> list = secondaryService.getSecondaryGoods(id);
 		model.setList(convertSecondaryGoods(list));
-		return model;	
+		return model;
 	}
+
 	public SimpleFlagModel updatetUserAddress(SecondaryUserAddressParam param) {
-		SimpleFlagModel model =new SimpleFlagModel();
+		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryUserAddressDO addressDO = new SecondaryUserAddressDO();
 		addressDO.setAddress(param.getAddress());
 		addressDO.setId(param.getId());
@@ -160,8 +169,9 @@ public class SecondaryProcess {
 		secondaryService.updateUserAddress(addressDO);
 		return model;
 	}
+
 	public SimpleFlagModel addUserAddress(SecondaryUserAddressParam param) {
-		SimpleFlagModel model =new SimpleFlagModel();
+		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryUserAddressDO addressDO = new SecondaryUserAddressDO();
 		addressDO.setAddress(param.getAddress());
 		addressDO.setUserId(param.getUserId());
@@ -174,7 +184,7 @@ public class SecondaryProcess {
 
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		SecondaryGoodsModel model = new SecondaryGoodsModel();
-		if(param.getId()==null) {
+		if (param.getId() == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("id不能为空");
 			return model;
@@ -185,21 +195,59 @@ public class SecondaryProcess {
 		po.setPageSize(param.getPageSize());
 		po.setId(param.getId());
 		ResponsePageQueryDO<List<SecondaryGoodsDTO>> response = secondaryService.getSecondaryGoodsByUser(po);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setList(convertSecondaryGoods(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
 		return model;
-		
+
 	}
-	
+
+	public SecondaryMessageNumModel getSecondaryGoodsCommentsCount(Long id) {
+		SecondaryMessageNumModel model = new SecondaryMessageNumModel();
+		int count1 = secondaryService.getNewCommentCount(id);
+		
+		int count2 = secondaryService.getNewSecondaryViolationCount(id);
+		System.out.println( count1+"-"+count2);
+		List<SecondaryMessageNumItem> items = new ArrayList<>();
+		List<Integer> num = new ArrayList<>();
+		num.add(count1);
+		num.add(count2);
+		for (Integer integer : num) {
+			SecondaryMessageNumItem item = new SecondaryMessageNumItem();
+			item.setNum(integer);
+			items.add(item);
+		}
+
+		model.setList(items);
+		model.setSum(count1 + count2);
+
+		return model;
+
+	}
+
+	public SimpleFlagModel deleteSecondaryGoods(Long id) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		if (id == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("id不能为空");
+			return model;
+		}
+		int flag = secondaryService.deleteSecondaryGoods(id);
+		if (flag <= 0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("删除失败");
+			return model;
+		}
+		return model;
+
+	}
 
 	public SimpleFlagModel createSecondaryGoods(SecondaryGoodsParam param) {
-		SimpleFlagModel model  = new SimpleFlagModel();
+		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryGoodsDO goodsDO = new SecondaryGoodsDO();
 		goodsDO.setGoodsContent(param.getGoodsContent());
 		goodsDO.setGoodsImag(param.getGoodsImag());
@@ -212,21 +260,37 @@ public class SecondaryProcess {
 		goodsDO.setTradingWay(param.getTradingWay());
 		goodsDO.setUserId(param.getUserId());
 		ResponseDO responseDO = secondaryService.createSecondaryGoods(goodsDO);
-		if(responseDO.isSuccess()) {
+		if (responseDO.isSuccess()) {
 			model.setMessage("发布成功");
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("发布失败");
 		}
 		return model;
-		
+
 	}
-	
+	public SecondaryCommetsMessageModel getCommentMessage(SecondaryCommetsParam param){
+		SecondaryCommetsMessageModel model = new SecondaryCommetsMessageModel();
+		SecondaryGoodsCommentsPO po = new SecondaryGoodsCommentsPO();
+		PageUtils.resetPageParam(param);
+		po.setPageIndex(param.getPageNo() - 1);
+		po.setPageSize(param.getPageSize());
+		po.setId(param.getUserId());
+		 ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> response = secondaryService.getCommentMessage(po);
+		 if (response.isSuccess()) {
+			 PageUtils.setPageModel(model, param, response.getTotal());
+			model.setList(convertCommentMessage(response.getDataResult()));
+		 }
+		 else {
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage(response.getMessage());
+		}
+		return model;	
+	}
 	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
 		SecondaryCommentViewDO viewDO = new SecondaryCommentViewDO();
 		SecondaryGoodsCommentsModel model = new SecondaryGoodsCommentsModel();
-		if(param.getId()==null || param.getUserId()==null) {
+		if (param.getId() == null || param.getUserId() == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("参数不能为空");
 			return model;
@@ -242,17 +306,16 @@ public class SecondaryProcess {
 		model.setCommentsNum(count);
 		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response = secondaryService.getSecondaryGoodsComment(po);
 		secondaryService.updateSecondaryComments(viewDO);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setList(convertSecondaryComments(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
 		return model;
 	}
-	
+
 	public SimpleFlagModel createSecondaryGoodsComment(SecondaryGoodsCommentParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryGoodsCommentDO commentDO = new SecondaryGoodsCommentDO();
@@ -260,8 +323,8 @@ public class SecondaryProcess {
 		commentDO.setContent(param.getContent());
 		commentDO.setReplyId(param.getUserId());
 		commentDO.setReplyedId(param.getReplyedId());
-		int i =secondaryService.createSecondaryGoodsComment(commentDO);
-		if(i<=0) {
+		int i = secondaryService.createSecondaryGoodsComment(commentDO);
+		if (i <= 0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("评论失败");
 			return model;
@@ -277,18 +340,19 @@ public class SecondaryProcess {
 		commentDO.setReplyId(param.getUserId());
 		commentDO.setCommentsId(param.getId());
 		commentDO.setReplyedId(param.getReplyedId());
-		int i =secondaryService.createSecondaryGoodsReply(commentDO);
-		if(i<=0) {
+		int i = secondaryService.createSecondaryGoodsReply(commentDO);
+		if (i <= 0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("回复失败");
 			return model;
 		}
 		return model;
-		
+
 	}
+
 	public SecondaryUserAddressModel getUserAddress(Long id) {
 		SecondaryUserAddressModel model = new SecondaryUserAddressModel();
-		if(id==null) {
+		if (id == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("用户id不能为空");
 			return model;
@@ -296,7 +360,7 @@ public class SecondaryProcess {
 
 		List<SecondaryUserAddressDO> tags = secondaryService.getUserAddress(id);
 		List<SecondaryUserAddressItem> items = new ArrayList<>();
-		if(CollectionUtils.isNotEmpty(tags)) {	
+		if (CollectionUtils.isNotEmpty(tags)) {
 			for (SecondaryUserAddressDO tag : tags) {
 				SecondaryUserAddressItem item = new SecondaryUserAddressItem();
 				item.setAddress(tag.getAddress());
@@ -307,13 +371,14 @@ public class SecondaryProcess {
 			}
 		}
 		model.setList(items);
-	
+
 		return model;
 	}
-	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){
-		
+
+	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags) {
+
 		List<SecondaryGoodsCommentItem> list = new ArrayList<>();
-		if(CollectionUtils.isNotEmpty(tags)) {
+		if (CollectionUtils.isNotEmpty(tags)) {
 			for (SecondaryGoodsCommentsDTO tag : tags) {
 				List<SecondaryGoodsReplyItem> items = new ArrayList<>();
 				SecondaryGoodsCommentItem item = new SecondaryGoodsCommentItem();
@@ -327,7 +392,7 @@ public class SecondaryProcess {
 				for (SecondaryGoodsCommentsDTO dto : dtos) {
 					SecondaryGoodsReplyItem replyItem = new SecondaryGoodsReplyItem();
 					replyItem.setContent(dto.getContent());
-					replyItem.setGmtCreated(DateUtil.formatDate(dto.getGmtCreated(),DateUtil.DATE_FORMAT_YMDHMS));
+					replyItem.setGmtCreated(DateUtil.formatDate(dto.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 					replyItem.setHeadImgUrl(dto.getHeadImgUrl());
 					replyItem.setReplyName(dto.getReplyName());
 					replyItem.setReplyedName(dto.getReplyedName());
@@ -339,9 +404,10 @@ public class SecondaryProcess {
 			}
 		}
 		return list;
-			
+
 	}
-	private  List<SecondaryTypeItem> convertSecondaryType(List<SecondaryTypeDO> tags){
+
+	private List<SecondaryTypeItem> convertSecondaryType(List<SecondaryTypeDO> tags) {
 		List<SecondaryTypeItem> items = new ArrayList<>();
 		for (SecondaryTypeDO tag : tags) {
 			SecondaryTypeItem item = new SecondaryTypeItem();
@@ -349,37 +415,54 @@ public class SecondaryProcess {
 			item.setField(tag.getField());
 			items.add(item);
 		}
-		return items;		
+		return items;
 	}
-	private List<SecondaryGoodsItem> convertSecondaryGoods(List<SecondaryGoodsDTO> tags){
-		List<SecondaryGoodsItem> list = new ArrayList<>();
-		if(!CollectionUtils.isEmpty(tags)){
-		for (SecondaryGoodsDTO tag : tags) {
-			
-			SecondaryGoodsItem item = new SecondaryGoodsItem();
-			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
-			item.setGoodsContent(tag.getGoodsContent());
-			item.setGoodsImg(tag.getGoodsImag());
-			//item.setGoodsNum(tag.getGoodsNum());
-			item.setGoodsTitle(tag.getGoodsTitle());
-			item.setGoodsType(tag.getGoodsType());
-			item.setGoodsWay(tag.getGoodsWay());
-			item.setHeadImgUrl(tag.getHeadImgUrl());
-			item.setId(tag.getId());
-			item.setPostion(tag.getPostion());
-			item.setPrice(String.valueOf(tag.getPrice()));
-			item.setOldPrice(String.valueOf(tag.getOldPrice()));
-			item.setTradingWay(tag.getTradingWay());
-			item.setUserId(tag.getUserId());
-			item.setStatus(tag.getStatus());
-			item.setUserName(tag.getUserName());
-			item.setViews(tag.getViews());
-			list.add(item);
-			
+	private List<SecondaryCommetsMessageItem> convertCommentMessage(List<SecondaryCommetsMessageDTO> tags){
+		List<SecondaryCommetsMessageItem> items = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(tags)) {
+			for (SecondaryCommetsMessageDTO tag : tags) {
+				SecondaryCommetsMessageItem item = new SecondaryCommetsMessageItem();
+				item.setContent(tag.getContent());
+				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+				item.setGoodsId(tag.getGoodsId());
+				item.setHeadImgUrl(tag.getHeadImgUrl());
+				item.setId(tag.getId());
+				item.setIsView(tag.getIsView());
+				item.setReplyName(tag.getReplyName());
+				items.add(item);
+			}
 		}
+		return items;
+		
+	}
+	private List<SecondaryGoodsItem> convertSecondaryGoods(List<SecondaryGoodsDTO> tags) {
+		List<SecondaryGoodsItem> list = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(tags)) {
+			for (SecondaryGoodsDTO tag : tags) {
+
+				SecondaryGoodsItem item = new SecondaryGoodsItem();
+				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+				item.setGoodsContent(tag.getGoodsContent());
+				item.setGoodsImg(tag.getGoodsImag());
+				// item.setGoodsNum(tag.getGoodsNum());
+				item.setGoodsTitle(tag.getGoodsTitle());
+				item.setGoodsType(tag.getGoodsType());
+				item.setGoodsWay(tag.getGoodsWay());
+				item.setHeadImgUrl(tag.getHeadImgUrl());
+				item.setId(tag.getId());
+				item.setPostion(tag.getPostion());
+				item.setPrice(String.valueOf(tag.getPrice()));
+				item.setOldPrice(String.valueOf(tag.getOldPrice()));
+				item.setTradingWay(tag.getTradingWay());
+				item.setUserId(tag.getUserId());
+				item.setStatus(tag.getStatus());
+				item.setUserName(tag.getUserName());
+				item.setViews(tag.getViews());
+				list.add(item);
+
+			}
 		}
 		return list;
 	}
 
-	
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommetsMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -30,6 +31,7 @@ public interface SecondaryDao {
 	//发布商品
 	int createSecondaryGoods(SecondaryGoodsDO goodsDO);
 	// 删除商品（更改商品状态）
+	int deleteSecondaryGoods(Long id);
 	
 	void createSecondaryViews(Long id);
 	
@@ -52,6 +54,19 @@ public interface SecondaryDao {
 	int updateUserAddress(SecondaryUserAddressDO addressDO);
 	
 	int addUserAddress(SecondaryUserAddressDO addressDO);
+	
+	int getNewCommentCount(Long id);
+	
+	int getNewSecondaryViolationCount(Long id);
+	int getCommentMessageCount(Long id);
+	List<SecondaryCommetsMessageDTO> getCommentMessage(SecondaryGoodsCommentsPO po);
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
