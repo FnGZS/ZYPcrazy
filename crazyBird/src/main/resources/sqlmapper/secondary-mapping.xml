@@ -137,13 +137,12 @@
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
   <select id="getSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="java.lang.Long">
-	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
+	select sg.id ,u.user_name,u.headimgurl,sg.`status`,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
 	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
-
   </select>
   <select id="getSecondaryGoodsCommentCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
   select count(1) from secondary_comments where comments_id is null and goods_id=#{id,jdbcType=BIGINT}
@@ -166,6 +165,11 @@
   </select>
   <update id="createSecondaryViews" parameterType="java.lang.Long">
   	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSecondaryComments" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO">
+  	update secondary_comments set is_view = 1
+  	 where goods_id=#{goodsId,jdbcType=BIGINT} and replyed_id=#{userId,jdbcType=BIGINT}
+  
   </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
   insert into secondary_goods 
