@@ -14,12 +14,14 @@ import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
+import com.crazyBird.controller.secondary.model.SecondaryUserAddressModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
+import com.crazyBird.controller.secondary.param.SecondaryUserAddressParam;
 
 
 /**
@@ -135,5 +137,28 @@ public class SecondaryController {
 	public SimpleFlagModel createSecondaryGoodsReply(@RequestBody SecondaryGoodsCommentParam param) {
 		return secondaryProcess.createSecondaryGoodsReply(param);
 	}
-	
+	/**
+	 * 得到用户地址列表
+	 */
+	@ResponseBody
+	@RequestMapping(value="/userAddress/{id}",method=RequestMethod.GET)
+	public SecondaryUserAddressModel getUserAddress(@PathVariable Long id) {
+		return secondaryProcess.getUserAddress(id);
+	}
+	/**
+	 * 修改用户地址
+	 */
+	@ResponseBody
+	@RequestMapping(value="/userAddress/update",method=RequestMethod.PUT)
+	public SimpleFlagModel updatetUserAddress(@RequestBody SecondaryUserAddressParam param) {
+		return secondaryProcess.updatetUserAddress(param);
+	}
+	/**
+	 * 添加用户地址
+	 */
+	@ResponseBody
+	@RequestMapping(value="/userAddress/add",method=RequestMethod.POST)
+	public SimpleFlagModel addUserAddress(@RequestBody SecondaryUserAddressParam param) {
+		return secondaryProcess.addUserAddress(param);
+	}
 }

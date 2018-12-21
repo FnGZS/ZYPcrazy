@@ -17,6 +17,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
 import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
@@ -167,6 +168,22 @@ public class SecondaryServiceImpl implements SecondaryService{
 	public int getSecondaryGoodsCommentsNum(Long id) {
 
 		return secondaryDao.getSecondaryGoodsCommentsNum(id);
+	}
+
+	@Override
+	public List<SecondaryUserAddressDO> getUserAddress(Long userId) {
+		return secondaryDao.getUserAddress(userId);
+	}
+
+	@Override
+	public int updateUserAddress(SecondaryUserAddressDO addressDO) {
+		return secondaryDao.updateUserAddress(addressDO);
+	}
+
+	@Override
+	public int addUserAddress(SecondaryUserAddressDO addressDO) {
+		// TODO Auto-generated method stub
+		return secondaryDao.addUserAddress(addressDO);
 	}
 
 }

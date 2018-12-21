@@ -74,6 +74,7 @@ public class UserPayController {
            	
         	
         	//业务逻辑 保存微信支付记录
+        	
         	boolean flag = payProcess.wxNotify(resultMap);
         	if(flag) {
         	resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"

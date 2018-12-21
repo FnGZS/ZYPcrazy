@@ -31,6 +31,14 @@
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
     
 </resultMap>
+<resultMap id="UserAddressDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO" >
+	 <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+	<result column="address" property="address" jdbcType="VARCHAR" />
+</resultMap>
   <sql id="Base_Column_List" >
    id,field
   </sql>
@@ -54,14 +62,50 @@
 	</if>
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
-  </select>
-  
+  	</select>
+	<select id="getUserAddress" parameterType="java.lang.Long" resultMap="UserAddressDOMap">
+		select * from secondary_address where user_id=#{userId,jdbcType=BIGINT}
+	</select>
   
    <select id="searchSecondaryGoodsCount" resultType="java.lang.Integer" parameterType="java.lang.String">
   	select 
 	count(1)
   	from secondary_goods where goods_title LIKE CONCAT(CONCAT('%',#{keyWord,jdbcType=VARCHAR},'%'))
   </select>
+  <update id = "updateUserAddress" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO">
+  update secondary_address set 
+  <if test="name !=null">
+  name=#{name,jdbcType=VARCHAR},
+  </if>
+  <if test="userId !=null">
+  user_id=#{userId,jdbcType=BIGINT},
+  </if>
+  <if test="telephone !=null">
+  telephone=#{telephone,jdbcType=VARCHAR},
+  </if>
+  <if test="address !=null">
+  	address=#{address,jdbcType=VARCHAR}
+  </if>
+  where id=#{id,jdbcType=BIGINT}
+  </update>
+  
+  <insert id = "addUserAddress" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO">
+ insert into secondary_address (
+  id,
+  user_id,
+  telephone,
+  address,
+  name
+ )
+ values
+ (
+  #{id,jdbcType=BIGINT},
+  #{userId,jdbcType=BIGINT},
+  #{telephone,jdbcType=VARCHAR},
+  #{address,jdbcType=VARCHAR},
+  #{name,jdbcType=VARCHAR}
+ )
+  </insert>
    <select id="searchSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO">
 	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 

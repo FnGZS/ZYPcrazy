@@ -12,6 +12,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
 
@@ -44,4 +45,7 @@ public interface SecondaryService {
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
 	//回复
 	int createSecondaryGoodsReply(SecondaryGoodsCommentDO dto);
+	int updateUserAddress(SecondaryUserAddressDO addressDO);
+	int addUserAddress(SecondaryUserAddressDO addressDO);
+	List<SecondaryUserAddressDO> getUserAddress(Long userId);
 }

@@ -7,7 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
@@ -20,12 +21,15 @@ import com.crazyBird.controller.secondary.model.SecondarySlideItem;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeItem;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
+import com.crazyBird.controller.secondary.model.SecondaryUserAddressItem;
+import com.crazyBird.controller.secondary.model.SecondaryUserAddressModel;
 import com.crazyBird.controller.secondary.param.SearchSecondaryListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsByUserListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsCommentParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsGetCommetsParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
+import com.crazyBird.controller.secondary.param.SecondaryUserAddressParam;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
@@ -36,6 +40,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -142,7 +147,29 @@ public class SecondaryProcess {
 		model.setList(convertSecondaryGoods(list));
 		return model;	
 	}
-	
+	public SimpleFlagModel updatetUserAddress(SecondaryUserAddressParam param) {
+		SimpleFlagModel model =new SimpleFlagModel();
+		SecondaryUserAddressDO addressDO = new SecondaryUserAddressDO();
+		addressDO.setAddress(param.getAddress());
+		addressDO.setId(param.getId());
+		addressDO.setUserId(param.getUserId());
+		addressDO.setTelephone(param.getTelephone());
+		addressDO.setName(param.getName());
+		addressDO.setAddress(param.getAddress());
+		secondaryService.updateUserAddress(addressDO);
+		return model;
+	}
+	public SimpleFlagModel addUserAddress(SecondaryUserAddressParam param) {
+		SimpleFlagModel model =new SimpleFlagModel();
+		SecondaryUserAddressDO addressDO = new SecondaryUserAddressDO();
+		addressDO.setAddress(param.getAddress());
+		addressDO.setUserId(param.getUserId());
+		addressDO.setTelephone(param.getTelephone());
+		addressDO.setName(param.getName());
+		addressDO.setAddress(param.getAddress());
+		secondaryService.addUserAddress(addressDO);
+		return model;
+	}
 
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		SecondaryGoodsModel model = new SecondaryGoodsModel();
@@ -252,7 +279,30 @@ public class SecondaryProcess {
 		return model;
 		
 	}
+	public SecondaryUserAddressModel getUserAddress(Long id) {
+		SecondaryUserAddressModel model = new SecondaryUserAddressModel();
+		if(id==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("用户id不能为空");
+			return model;
+		}
+
+		List<SecondaryUserAddressDO> tags = secondaryService.getUserAddress(id);
+		List<SecondaryUserAddressItem> items = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(tags)) {	
+			for (SecondaryUserAddressDO tag : tags) {
+				SecondaryUserAddressItem item = new SecondaryUserAddressItem();
+				item.setAddress(tag.getAddress());
+				item.setId(tag.getId());
+				item.setName(tag.getName());
+				item.setTelephone(tag.getTelephone());
+				items.add(item);
+			}
+		}
+		model.setList(items);
 	
+		return model;
+	}
 	private List<SecondaryGoodsCommentItem> convertSecondaryComments(List<SecondaryGoodsCommentsDTO> tags){
 		
 		List<SecondaryGoodsCommentItem> list = new ArrayList<>();
