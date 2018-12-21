@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
 import com.crazyBird.dao.secondary.dataobject.PurchasePO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO;
 import com.crazyBird.dao.secondary.dataobject.SellSecondaryPO;
 
@@ -23,5 +26,11 @@ public interface SecondaryOrderDao {
 	boolean createOrder(SecondaryOrderDO order);
 
 	GoodsExistDO getSecondaryGoods(Long goodsId);
+
+	int getOrderListCount(SecondaryOrderListPO po);
+
+	List<SecondaryOrderDTO> getOrderList(SecondaryOrderListPO po);
+
+	boolean updateOrder(DeleteSecondaryOrderDO deleteOrder);
 
 }

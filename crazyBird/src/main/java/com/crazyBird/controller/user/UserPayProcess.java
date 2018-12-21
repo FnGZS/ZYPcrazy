@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.UserPayModel;
+import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -33,9 +34,12 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 
 @Component
 public class UserPayProcess extends BaseProcess{
+	// 支付成功后的服务器回调url
+	private static final String NOTIFY_URL = "https://www.sxscott.com/crazyBird/pay/wxNotify";
+	
 	@Autowired 
 	private UserPayService	payService;
-	public UserPayModel userPay(UserPayParam param) throws IllegalAccessException {
+	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
 		/*	TestInfo test = new TestInfo();
@@ -72,8 +76,12 @@ public class UserPayProcess extends BaseProcess{
 				model.setMessage("微信交易异常，缺少必要参数");
 				return model;
 			}
-			String orederId=RandomUtil.getRandomNumString(21)+DateUtil.formatDate(new Date(), DateUtil.dtLong);
-			result=WeixinAppService.wxPay(param, ip, orederId);
+			String orderId=param.getOrderId();
+			UserPayParam userPay = new UserPayParam();
+			userPay.setFee(param.getFee());
+			userPay.setPlatCode(param.getPlatCode());
+			userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
+			result=WeixinAppService.wxPay(userPay, ip, orderId,NOTIFY_URL);
 			if(!result.isSuccess()) {
 				model.setCode(HttpCodeEnum.ERROR.getCode());
 				model.setMessage(result.getMessage());
