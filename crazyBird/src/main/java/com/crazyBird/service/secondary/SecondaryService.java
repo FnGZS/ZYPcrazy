@@ -3,6 +3,7 @@ package com.crazyBird.service.secondary;
 import java.util.List;
 
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -40,7 +41,7 @@ public interface SecondaryService {
 	ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> getSecondaryGoodsComment(SecondaryGoodsCommentsPO po);
 	//得到回复
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
-	
+	int updateSecondaryComments(SecondaryCommentViewDO viewDO);
 	//评论
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
 	//回复

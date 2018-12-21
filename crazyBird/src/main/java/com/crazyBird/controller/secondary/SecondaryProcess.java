@@ -31,6 +31,7 @@ import com.crazyBird.controller.secondary.param.SecondaryGoodsListParam;
 import com.crazyBird.controller.secondary.param.SecondaryGoodsParam;
 import com.crazyBird.controller.secondary.param.SecondaryUserAddressParam;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -223,11 +224,15 @@ public class SecondaryProcess {
 	}
 	
 	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
+		SecondaryCommentViewDO viewDO = new SecondaryCommentViewDO();
 		SecondaryGoodsCommentsModel model = new SecondaryGoodsCommentsModel();
-		if(param.getId()==null ) {
+		if(param.getId()==null || param.getUserId()==null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("id不能为空");
+			model.setMessage("参数不能为空");
+			return model;
 		}
+		viewDO.setGoodsId(param.getId());
+		viewDO.setUserId(param.getUserId());
 		PageUtils.resetPageParam(param);
 		SecondaryGoodsCommentsPO po = new SecondaryGoodsCommentsPO();
 		po.setPageIndex(param.getPageNo() - 1);
@@ -236,6 +241,7 @@ public class SecondaryProcess {
 		int count = secondaryService.getSecondaryGoodsCommentsNum(param.getId());
 		model.setCommentsNum(count);
 		ResponsePageQueryDO<List<SecondaryGoodsCommentsDTO>> response = secondaryService.getSecondaryGoodsComment(po);
+		secondaryService.updateSecondaryComments(viewDO);
 		if(response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setList(convertSecondaryComments(response.getDataResult()));

@@ -95,6 +95,9 @@ public class SecondaryController {
 		return secondaryProcess.getSecondaryGoods(id);
 		
 	}
+	/**
+	 * 删除商品（更改商品状态）
+	 */
 	
 	/**
 	 * 我发布的商品
@@ -121,6 +124,9 @@ public class SecondaryController {
 	public SecondaryGoodsCommentsModel getSecondaryGoodsComments(SecondaryGoodsGetCommetsParam param) {
 		return secondaryProcess.getSecondaryGoodsComments(param);
 	}
+	/**
+	 * 获取用户未读回复
+	 */
 	/**
 	 * 评论
 	 */

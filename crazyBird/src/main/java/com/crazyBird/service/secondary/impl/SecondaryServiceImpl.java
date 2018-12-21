@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.secondary.SecondaryDao;
 import com.crazyBird.dao.secondary.SecondaryTypeDao;
 import com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsDTO;
@@ -18,7 +19,6 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
-import com.crazyBird.dao.vote.dataobject.VoteActionDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -182,8 +182,14 @@ public class SecondaryServiceImpl implements SecondaryService{
 
 	@Override
 	public int addUserAddress(SecondaryUserAddressDO addressDO) {
-		// TODO Auto-generated method stub
+
 		return secondaryDao.addUserAddress(addressDO);
+	}
+
+	@Override
+	public int updateSecondaryComments(SecondaryCommentViewDO viewDO) {
+		
+		return secondaryDao.updateSecondaryComments(viewDO);
 	}
 
 }
