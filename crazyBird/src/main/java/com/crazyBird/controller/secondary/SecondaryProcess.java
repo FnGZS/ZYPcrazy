@@ -253,6 +253,7 @@ public class SecondaryProcess {
 		commentDO.setGoodsId(param.getGoodsId());
 		commentDO.setContent(param.getContent());
 		commentDO.setReplyId(param.getUserId());
+		commentDO.setReplyedId(param.getReplyedId());
 		int i =secondaryService.createSecondaryGoodsComment(commentDO);
 		if(i<=0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
