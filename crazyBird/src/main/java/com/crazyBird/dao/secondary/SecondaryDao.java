@@ -26,7 +26,7 @@ public interface SecondaryDao {
 	int searchSecondaryGoodsCount(String keyWord);
 	List<SecondaryGoodsDTO> searchSecondaryGoods(SearchSecondaryGoodsPO po);
 	//我发布的商品
-	int getSecondaryGoodsCountByUser(Long userId);
+	int getSecondaryGoodsCountByUser(SecondaryGoodsByUserPO po);
 	List<SecondaryGoodsDTO> getSecondaryGoodsByUser(SecondaryGoodsByUserPO po);
 	//发布商品
 	int createSecondaryGoods(SecondaryGoodsDO goodsDO);

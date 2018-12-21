@@ -128,17 +128,17 @@
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
   
-  <select id="getSecondaryGoodsCountByUser" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  <select id="getSecondaryGoodsCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO">
     select 
 	count(1)
-  	from secondary_goods where user_id=#{userId,jdbcType=BIGINT} 
+  	from secondary_goods where user_id=#{id,jdbcType=BIGINT} and `status`=#{status,jdbcType=INTEGER}
   </select>
 	<select id="getSecondaryGoodsByUser" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsByUserPO">
 	select sg.id ,u.user_name,u.headimgurl,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way ,stw.field as trading_way ,st.field as goods_type, sg.gmt_created 
 	from secondary_goods as sg 
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
 	LEFT JOIN secondary_type as st on st.id=sg.goods_type
-	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=1 
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way LEFT JOIN `user` as u ON u.school_num=sg.user_id where sg.`status`=#{status,jdbcType=INTEGER} 
 
   	and user_id=#{id,jdbcType=BIGINT} 
 

@@ -193,6 +193,7 @@ public class SecondaryProcess {
 		SecondaryGoodsByUserPO po = new SecondaryGoodsByUserPO();
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
+		po.setStatus(param.getStatus());
 		po.setId(param.getId());
 		ResponsePageQueryDO<List<SecondaryGoodsDTO>> response = secondaryService.getSecondaryGoodsByUser(po);
 		if (response.isSuccess()) {
