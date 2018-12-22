@@ -86,6 +86,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 
 	public SecondaryOrderListModel getOrderList(OrderListParam param) {
 		SecondaryOrderListModel model = new SecondaryOrderListModel();
+		PageUtils.resetPageParam(param);
 		SecondaryOrderListPO po = new SecondaryOrderListPO();
 		try {
 			po.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));

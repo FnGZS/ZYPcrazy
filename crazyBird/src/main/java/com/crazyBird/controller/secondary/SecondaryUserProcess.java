@@ -67,6 +67,7 @@ public class SecondaryUserProcess extends BaseProcess{
 
 	public PurchaseSecondaryListModel getPurchase(PurchaseSecondaryParam param) {
 		PurchaseSecondaryListModel model = new PurchaseSecondaryListModel();
+		PageUtils.resetPageParam(param);
 		PurchasePO po = new PurchasePO();
 		try {
 			po.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
@@ -138,6 +139,7 @@ public class SecondaryUserProcess extends BaseProcess{
 
 	public CollectionSecondaryListModel collectionList(CollectionListParam param) {
 		CollectionSecondaryListModel model = new CollectionSecondaryListModel();
+		PageUtils.resetPageParam(param);
 		CollectionSecondaryListPO po = new CollectionSecondaryListPO();
 		try {
 			po.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
