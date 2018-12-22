@@ -102,8 +102,11 @@ public class UserPayProcess extends BaseProcess{
 	}
 	
 	public boolean wxNotify( Map<String, Object> resultMap) {
-	
-	
+		payService.updateSecondaryOrder((String)resultMap.get("out_trade_no"));
+		int count=payService.checkWxPayOrder((String)resultMap.get("transaction_id"));
+		if(count>0) {
+			return true;
+		}
 		UserWxPayOrderDO orderDO = new UserWxPayOrderDO();
 		orderDO.setAppid((String)resultMap.get("appid"));
 		orderDO.setMch_id((String)resultMap.get("mch_id"));
@@ -119,8 +122,9 @@ public class UserPayProcess extends BaseProcess{
 		orderDO.setOut_trade_no((String)resultMap.get("out_trade_no"));
 		orderDO.setGmt_created(DateUtil.getStringToDate((String)resultMap.get("time_end"), DateUtil.dtLong));
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String)resultMap.get("time_end"), DateUtil.dtLong));
-		
+	
 		int flag = payService.insertOrder(orderDO);
+		
 		if(flag<=0) {
 			return false;
 		}

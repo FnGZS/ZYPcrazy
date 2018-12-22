@@ -15,5 +15,15 @@ public class UserPayServiceImpl implements UserPayService{
 		// TODO Auto-generated method stub
 		return orderDao.insertOrder(orderDO);
 	}
+	@Override
+	public int checkWxPayOrder(String transaction_id) {
+		// TODO Auto-generated method stub
+		return orderDao.checkWxPayOrder(transaction_id);
+	}
+	@Override
+	public int updateSecondaryOrder(String out_trade_no) {
+		// TODO Auto-generated method stub
+		return orderDao.updateSecondaryOrder(out_trade_no);
+	}
 
 }

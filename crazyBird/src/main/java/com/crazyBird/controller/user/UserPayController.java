@@ -18,12 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.UserPayModel;
 import com.crazyBird.controller.user.param.UserAgainPayParam;
-import com.crazyBird.controller.user.param.UserPayParam;
-import com.crazyBird.utils.ArithUtils;
 import com.crazyBird.utils.XmlToMapUtils;
 
 @Controller
@@ -72,9 +68,10 @@ public class UserPayController {
     	    //校验签名
         	Map<String, Object> checkMap= new HashMap<>();
         	
-           	
+           
         	
-        	//业务逻辑 保存微信支付记录
+        	
+        	//	/变更订单状态 业务逻辑 保存微信支付记录
         	
         	boolean flag = payProcess.wxNotify(resultMap);
         	if(flag) {
