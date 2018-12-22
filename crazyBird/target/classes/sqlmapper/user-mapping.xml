@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.crazyBird.dao.user.dataobject.UserDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="school_num" property="schoolNum" jdbcType="BIGINT" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="is_binding" property="isBinding" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />

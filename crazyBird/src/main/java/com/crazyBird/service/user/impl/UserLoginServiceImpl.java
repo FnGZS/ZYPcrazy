@@ -111,12 +111,12 @@ public class UserLoginServiceImpl implements UserLoginService {
 			responseDO.setMessage("密码错误");
 			return responseDO;
 		}
-		if (userBinding.getIsBinding().longValue() == 1L) {
+		if (userBinding.getIsBinding().equals("1") == true) {
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage("学号未绑定");
 			return responseDO;
 		}
-		if ((userBinding != null) && (userBinding.getIsBinding().longValue() == 2L)) {
+		if ((userBinding != null) && (userBinding.getIsBinding().equals("2") == true)) {
 			UserLoginDO userLoginDO = userLoginDao.seletUserByAs(binding.getAsToken());
 			if (binding.getAsToken() != null) {
 				UserLoginDO user = userLoginDao.seletIsBinding(binding.getAsToken());
@@ -175,12 +175,12 @@ public class UserLoginServiceImpl implements UserLoginService {
 			responseDO.setMessage("密码错误");
 			return responseDO;
 		}
-		if (userBinding.getIsBinding().longValue() == 1L) {
+		if (userBinding.getIsBinding().equals("1") == true) {
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage("学号未绑定");
 			return responseDO;
 		}
-		if ((userBinding != null) && (userBinding.getIsBinding().longValue() == 2L)) {
+		if ((userBinding != null) && (userBinding.getIsBinding().equals("2") == true)) {
 			UserLoginDO userLoginDO = userLoginDao.seletUserByName(binding.getUserName());
 			if (userLoginDO.getAccessToken() != null) {
 				UserLoginDO user = userLoginDao.seletIsBinding(userLoginDO.getAccessToken());
@@ -222,7 +222,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 			response.setMessage("错误");
 			return response;
 		}
-		if(havePhoneUser.getIsBinding() == 1) {
+		if(havePhoneUser.getIsBinding().equals("1") == true) {
 			havePhoneUser.setOpenId(userLoginDO.getOpenId());
 			havePhoneUser.setUserName(userLoginDO.getLoginAccount());
 			havePhoneUser.setHeadimgurl(userLoginDO.getHeadimgurl());
