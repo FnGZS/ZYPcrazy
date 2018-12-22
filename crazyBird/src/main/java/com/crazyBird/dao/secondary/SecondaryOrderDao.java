@@ -32,5 +32,7 @@ public interface SecondaryOrderDao {
 	List<SecondaryOrderDTO> getOrderList(SecondaryOrderListPO po);
 
 	boolean updateOrder(DeleteSecondaryOrderDO deleteOrder);
+	
+	int updateSecondaryOrder(String out_trade_no);
 
 }
