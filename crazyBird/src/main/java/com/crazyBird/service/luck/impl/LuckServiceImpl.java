@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.dao.luck.LuckDrawDao;
+import com.crazyBird.dao.luck.LuckPrizeDao;
 import com.crazyBird.dao.luck.LuckActorDao;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDO;
-import com.crazyBird.dao.luck.dataobject.LuckListDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
 import com.crazyBird.dao.luck.dataobject.LuckLuckPartakeDO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -24,14 +25,16 @@ public class LuckServiceImpl implements LuckService{
 	private LuckDrawDao luckDrawDao;
 	@Autowired
 	private LuckActorDao luckActorDao;
+	@Autowired
+	private LuckPrizeDao luckPrizeDao;
 
 	@Override
-	public ResponsePageQueryDO<List<LuckListDO>> getLuckList(LuckListPO po) {
-		ResponsePageQueryDO<List<LuckListDO>> response = new ResponsePageQueryDO<>();
+	public ResponsePageQueryDO<List<LuckDetailsDO>> getLuckList(LuckListPO po) {
+		ResponsePageQueryDO<List<LuckDetailsDO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
 		response.setTotal((Integer)luckDrawDao.getLuckListCount(po));
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
-			List<LuckListDO> dataResult = luckDrawDao.getLuckList(po);
+			List<LuckDetailsDO> dataResult = luckDrawDao.getLuckList(po);
 			response.setDataResult(dataResult);
 		}else {
 			response.setMessage("到底了");
@@ -70,5 +73,10 @@ public class LuckServiceImpl implements LuckService{
 	@Override
 	public LuckDetailsDO getLuckDetails(Long luckId) {
 		return luckDrawDao.getLuckDetails(luckId);
+	}
+
+	@Override
+	public List<LuckPrizeDO> getLuckPrize(Long luckId) {
+		return null;
 	}
 }

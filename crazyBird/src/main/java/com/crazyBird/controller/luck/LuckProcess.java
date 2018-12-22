@@ -17,10 +17,10 @@ import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDO;
-import com.crazyBird.dao.luck.dataobject.LuckListDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
 import com.crazyBird.dao.luck.dataobject.LuckLuckPartakeDO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -43,7 +43,7 @@ public class LuckProcess {
 		po.setPageIndex(param.getPageNo().intValue() - 1);
 		po.setPageSize(param.getPageSize().intValue());
 		po.setStatus(param.getStatus());
-		ResponsePageQueryDO<List<LuckListDO>> response = luckService.getLuckList(po);
+		ResponsePageQueryDO<List<LuckDetailsDO>> response = luckService.getLuckList(po);
 		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setItems(convertLuckList(response.getDataResult()));
@@ -135,10 +135,10 @@ public class LuckProcess {
 		
 	}
 	
-	private List<LuckListItem> convertLuckList (List<LuckListDO> dataResults){
+	private List<LuckListItem> convertLuckList (List<LuckDetailsDO> dataResults){
 		List<LuckListItem> items = new ArrayList<>();
 		if(CollectionUtil.isNotEmpty(dataResults)) {
-			for(LuckListDO dataResult : dataResults) {
+			for(LuckDetailsDO dataResult : dataResults) {
 				if(dataResult != null) {
 					LuckListItem item = new LuckListItem();
 					item.setId(dataResult.getId());
@@ -162,6 +162,16 @@ public class LuckProcess {
 		LuckDetailsModel model = new LuckDetailsModel();
 		LuckDetailsDO details = luckService.getLuckDetails(luckId);
 		if(details != null) {
+			model.setId(details.getId());
+			model.setUserId(details.getUserId());
+			model.setLuckName(details.getLuckName());
+			model.setLuckPic(details.getLuckPic());
+			model.setExplain(details.getExplain());
+			model.setLotteryTime(details.getLotteryTime());
+			model.setStatus(details.getStatus());
+			model.setMode(details.getMode());
+			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			List<LuckPrizeDO> prize = luckService.getLuckPrize(luckId);
 			
 		}
 		return model;
