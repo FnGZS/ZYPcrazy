@@ -10,6 +10,7 @@ public class UserDO {
 	private Long isBinding;
 	private Integer sex;
 	private String headimgurl;
+
 	
 	public String getHeadimgurl() {
 		return headimgurl;
@@ -50,7 +51,6 @@ public class UserDO {
 	public void setSchoolNum(Long schoolNum) {
 		this.schoolNum = schoolNum;
 	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -83,4 +83,5 @@ public class UserDO {
 		this.phone = phone;
 	}
 
+	
 }
