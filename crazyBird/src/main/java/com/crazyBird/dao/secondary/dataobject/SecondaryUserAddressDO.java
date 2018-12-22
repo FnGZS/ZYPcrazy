@@ -6,6 +6,14 @@ public class SecondaryUserAddressDO {
 	private String name;
 	private String telephone;
 	private String address;
+	private Integer isDefault;
+	
+	public Integer getIsDefault() {
+		return isDefault;
+	}
+	public void setIsDefault(Integer isDefault) {
+		this.isDefault = isDefault;
+	}
 	public Long getId() {
 		return id;
 	}
