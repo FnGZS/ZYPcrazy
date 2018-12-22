@@ -17,6 +17,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
@@ -225,6 +226,30 @@ public class SecondaryServiceImpl implements SecondaryService{
 				response.setMessage("到底了");
 			}
 		return response;
+	}
+
+	@Override
+	public int setUserAddress(Long userId) {
+
+		return secondaryDao.setUserAddress(userId);
+	}
+
+	@Override
+	public List<SecondaryMessageDTO> getSecondaryMessage(Long userId) {
+		
+		return secondaryDao.getSecondaryMessage(userId);
+	}
+
+	@Override
+	public void updateSecondaryMessage(Long id) {
+		secondaryDao.updateSecondaryMessage(id);
+		
+	}
+
+	@Override
+	public SecondaryMessageDTO getSecondaryMessageDetail(Long id) {
+		
+		return secondaryDao.getSecondaryMessageDetail(id);
 	}
 
 }

@@ -44,9 +44,17 @@
 	 <result column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-
+ 	<result column="is_default" property="isDefault" jdbcType="INTEGER" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
 	<result column="address" property="address" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="SecondaryMessageDTOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryMessageDTO" >
+	 <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+ 	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="is_view" property="isView" jdbcType="INTEGER" />
+	<result column="message" property="message" jdbcType="VARCHAR" />
+	  <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
   <sql id="Base_Column_List" >
    id,field
@@ -73,7 +81,7 @@
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   	</select>
 	<select id="getUserAddress" parameterType="java.lang.Long" resultMap="UserAddressDOMap">
-		select * from secondary_address where user_id=#{userId,jdbcType=BIGINT}
+		select id,user_id,name,telephone,address,is_default from secondary_address where user_id=#{userId,jdbcType=BIGINT}
 	</select>
   
    <select id="searchSecondaryGoodsCount" resultType="java.lang.Integer" parameterType="java.lang.String">
@@ -81,6 +89,7 @@
 	count(1)
   	from secondary_goods where goods_title LIKE CONCAT(CONCAT('%',#{keyWord,jdbcType=VARCHAR},'%'))
   </select>
+ 
   <update id = "updateUserAddress" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO">
   update secondary_address set 
   <if test="name !=null">
@@ -93,18 +102,27 @@
   telephone=#{telephone,jdbcType=VARCHAR},
   </if>
   <if test="address !=null">
-  	address=#{address,jdbcType=VARCHAR}
+  	address=#{address,jdbcType=VARCHAR},
+  </if>
+   <if test="isDefault !=null">
+  	is_default=#{isDefault,jdbcType=INTEGER}
   </if>
   where id=#{id,jdbcType=BIGINT}
   </update>
-  
+  <update id="setUserAddress" parameterType="java.lang.Long">
+   update secondary_address set is_default = 0
+   where user_id=#{userId,jdbcType=BIGINT}
+  </update>
   <insert id = "addUserAddress" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO">
  insert into secondary_address (
   id,
   user_id,
   telephone,
   address,
-  name
+  is_default,
+  name,
+  gmt_created,
+  gmt_modified
  )
  values
  (
@@ -112,7 +130,10 @@
   #{userId,jdbcType=BIGINT},
   #{telephone,jdbcType=VARCHAR},
   #{address,jdbcType=VARCHAR},
-  #{name,jdbcType=VARCHAR}
+  #{isDefault,jdbcType=INTEGER},
+  #{name,jdbcType=VARCHAR},
+  now(),
+  now()
  )
   </insert>
    <select id="searchSecondaryGoods" resultMap="SecondaryGoodsDTOMap" parameterType="com.crazyBird.dao.secondary.dataobject.SearchSecondaryGoodsPO">
@@ -187,7 +208,23 @@
   order by sc.gmt_created desc 
   limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
-
+  <select id="getSecondaryMessageDetail" parameterType="java.lang.Long" resultMap="SecondaryMessageDTOMap">
+  select sv.id,sg.goods_title,nt.title,nt.message,sv.is_view,sv.gmt_created 
+  from secondary_goods_violation as sv 
+  LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id 
+  LEFT JOIN notice_template as nt  on nt.id=sv.notice 
+  where sv.id=#{id,jdbcType=BIGINT}
+  </select>
+    <select id="getSecondaryMessage" parameterType="java.lang.Long" resultMap="SecondaryMessageDTOMap">
+  select sv.id,sg.goods_title,nt.title,nt.message,sv.is_view,sv.gmt_created 
+  from secondary_goods_violation as sv 
+  LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id 
+  LEFT JOIN notice_template as nt  on nt.id=sv.notice 
+  where sv.user_id=#{userId,jdbcType=BIGINT}
+  </select>
+  <update id="updateSecondaryMessage" parameterType="java.lang.Long">
+  update secondary_goods_violation set is_view=1 where id=#{id,jdbcType=BIGINT}
+  </update>
   <update id="createSecondaryViews" parameterType="java.lang.Long">
   	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
   </update>

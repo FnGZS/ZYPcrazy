@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.user.UserWxPayOrderDao">
+<select id="checkWxPayOrder" parameterType="java.lang.String" resultMap="java.lang.Integer">
+select count(1) from order where transaction_id = =#{transaction_id,jdbcType=VARCHAR}
+</select>
+<insert id="insertOrder" parameterType="com.crazyBird.dao.user.dataobject.UserWxPayOrderDO">
+	insert into order 
+	(
+	id,
+	appid,
+	mch_id,
+	nonce_str,
+	sign,
+	result_code,
+	openid,
+	trade_type,
+	bank_type,
+	total_fee,
+	cash_fee,
+	transaction_id,
+	out_trade_no,
+	gmt_created,
+	gmt_modified
+	)
+	values
+	(
+	#{id,jdbcType=BIGINT},
+	#{appid,jdbcType=VARCHAR},
+	#{mch_id,jdbcType=VARCHAR},
+	#{nonce_str,jdbcType=VARCHAR},
+	#{sign,jdbcType=VARCHAR},
+	#{result_code,jdbcType=VARCHAR},
+	#{openid,jdbcType=VARCHAR},
+	#{trade_type,jdbcType=VARCHAR},
+	#{total_fee,jdbcType=INTEGER},
+	#{cash_fee,jdbcType=INTEGER},
+	#{transaction_id,jdbcType=VARCHAR},
+	#{out_trade_no,jdbcType=VARCHAR},
+	#{gmt_created,jdbcType=TIMESTAMP},
+	#{gmt_modified,jdbcType=TIMESTAMP}
+	)
+</insert>
+</mapper>

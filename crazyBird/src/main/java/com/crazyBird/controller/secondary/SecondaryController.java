@@ -13,6 +13,8 @@ import com.crazyBird.controller.secondary.model.SecondaryCommetsMessageModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
+import com.crazyBird.controller.secondary.model.SecondaryMessageDetailModel;
+import com.crazyBird.controller.secondary.model.SecondaryMessageModel;
 import com.crazyBird.controller.secondary.model.SecondaryMessageNumModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideModel;
 import com.crazyBird.controller.secondary.model.SecondaryTypeModel;
@@ -145,13 +147,23 @@ public class SecondaryController {
 	}
 	
 	/**
-	 * 获取系统通知消息
+	 * 查看审核详细信息
 	 */
+	@ResponseBody
+	@RequestMapping(value="/violationDetail/{id}",method=RequestMethod.GET)
+	public SecondaryMessageDetailModel getSecondaryMessageDetail(@PathVariable Long id) {
+		return secondaryProcess.getSecondaryMessageDetail(id);
+		
+	}
 	/**
 	 * 获取审核未通过信息
 	 * 
 	 */
-	
+	@ResponseBody
+	@RequestMapping(value="/violationMessage/{id}",method=RequestMethod.GET)
+	public SecondaryMessageModel getSecondaryMessage(@PathVariable Long id) {	
+		return secondaryProcess.getSecondaryMessage(id);
+	}
 	/**
 	 * 获取用户未读信息的数量                 
 	 */
@@ -200,4 +212,5 @@ public class SecondaryController {
 	public SimpleFlagModel addUserAddress(@RequestBody SecondaryUserAddressParam param) {
 		return secondaryProcess.addUserAddress(param);
 	}
+
 }

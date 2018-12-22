@@ -7,8 +7,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryCommetsMessageItem;
@@ -19,6 +17,9 @@ import com.crazyBird.controller.secondary.model.SecondaryGoodsCommentsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsItem;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsModel;
 import com.crazyBird.controller.secondary.model.SecondaryGoodsReplyItem;
+import com.crazyBird.controller.secondary.model.SecondaryMessageDetailModel;
+import com.crazyBird.controller.secondary.model.SecondaryMessageItem;
+import com.crazyBird.controller.secondary.model.SecondaryMessageModel;
 import com.crazyBird.controller.secondary.model.SecondaryMessageNumItem;
 import com.crazyBird.controller.secondary.model.SecondaryMessageNumModel;
 import com.crazyBird.controller.secondary.model.SecondarySlideItem;
@@ -45,6 +46,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsPO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryMessageDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondarySlideDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryTypeDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryUserAddressDO;
@@ -156,7 +158,7 @@ public class SecondaryProcess {
 		model.setList(convertSecondaryGoods(list));
 		return model;
 	}
-
+	
 	public SimpleFlagModel updatetUserAddress(SecondaryUserAddressParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryUserAddressDO addressDO = new SecondaryUserAddressDO();
@@ -166,6 +168,10 @@ public class SecondaryProcess {
 		addressDO.setTelephone(param.getTelephone());
 		addressDO.setName(param.getName());
 		addressDO.setAddress(param.getAddress());
+		addressDO.setIsDefault(param.getIsDefault());
+		if(param.getIsDefault()==1) {
+			secondaryService.setUserAddress(param.getUserId());
+		}
 		secondaryService.updateUserAddress(addressDO);
 		return model;
 	}
@@ -178,6 +184,10 @@ public class SecondaryProcess {
 		addressDO.setTelephone(param.getTelephone());
 		addressDO.setName(param.getName());
 		addressDO.setAddress(param.getAddress());
+		addressDO.setIsDefault(param.getIsDefault());
+		if(param.getIsDefault()==1) {
+			secondaryService.setUserAddress(param.getUserId());
+		}
 		secondaryService.addUserAddress(addressDO);
 		return model;
 	}
@@ -316,7 +326,7 @@ public class SecondaryProcess {
 		}
 		return model;
 	}
-
+	
 	public SimpleFlagModel createSecondaryGoodsComment(SecondaryGoodsCommentParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		SecondaryGoodsCommentDO commentDO = new SecondaryGoodsCommentDO();
@@ -350,7 +360,46 @@ public class SecondaryProcess {
 		return model;
 
 	}
-
+	public SecondaryMessageDetailModel getSecondaryMessageDetail(Long id) {
+		SecondaryMessageDetailModel model = new SecondaryMessageDetailModel();
+		secondaryService.updateSecondaryMessage(id);
+	
+		SecondaryMessageDTO dto=secondaryService.getSecondaryMessageDetail(id);
+		if(dto==null) {
+			return model;
+		}
+		model.setGmtCreated(DateUtil.formatDate(dto.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+		model.setGoodsTitle(dto.getGoodsTitle());
+		model.setIsView(dto.getIsView());
+		model.setMessage(dto.getIsView());
+		model.setTitle(dto.getTitle());
+		model.setId(dto.getId());
+		
+		return model;
+		
+	}
+	public SecondaryMessageModel getSecondaryMessage(Long id) {
+		SecondaryMessageModel model = new SecondaryMessageModel();
+		if(id==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setCode("参数为空");
+			return model;
+		}
+		List<SecondaryMessageItem> items = new ArrayList<>();
+		List<SecondaryMessageDTO> tags = secondaryService.getSecondaryMessage(id);
+		for (SecondaryMessageDTO tag : tags) {
+			SecondaryMessageItem item = new SecondaryMessageItem();
+			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			item.setGoodsTitle(tag.getGoodsTitle());
+			item.setIsView(tag.getIsView());
+			item.setMessage(tag.getIsView());
+			item.setTitle(tag.getTitle());
+			item.setId(tag.getId());
+			items.add(item);
+		}
+		model.setList(items);
+		return model;
+	}
 	public SecondaryUserAddressModel getUserAddress(Long id) {
 		SecondaryUserAddressModel model = new SecondaryUserAddressModel();
 		if (id == null) {
@@ -361,16 +410,26 @@ public class SecondaryProcess {
 
 		List<SecondaryUserAddressDO> tags = secondaryService.getUserAddress(id);
 		List<SecondaryUserAddressItem> items = new ArrayList<>();
+		int count =0;
+		int flag=0;
 		if (CollectionUtils.isNotEmpty(tags)) {
 			for (SecondaryUserAddressDO tag : tags) {
+				count=count+1;
 				SecondaryUserAddressItem item = new SecondaryUserAddressItem();
 				item.setAddress(tag.getAddress());
 				item.setId(tag.getId());
 				item.setName(tag.getName());
 				item.setTelephone(tag.getTelephone());
+				item.setIsDefault(tag.getIsDefault());
+				if(tag.getIsDefault()==1) {
+					flag = count-1;
+				}
 				items.add(item);
 			}
 		}
+		SecondaryUserAddressItem itemTop = items.get(flag);
+		items.remove(flag);
+		items.add(0,itemTop);
 		model.setList(items);
 
 		return model;
