@@ -34,4 +34,16 @@
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+  
+  <select id="getLuckDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from luck_draw
+  	where is_examine = 1
+    <if test="status != null">
+  		AND status = #{status,jdbcType=INTEGER}
+  	</if>
+  	order by id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.luck.LuckActorDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckWinnersDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="INTEGER" />
+    <result column="price_id" property="priceId" jdbcType="BIGINT" />
+    <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getLuckWinnersCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
+  select count(*)
+  from luck_actor
+  where la.id = #{luckId,jdbcType=BIGINT}
+  AND la.is_winning = 1
+  </select>
+  <select id="getLuckWinners" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	lp.id as price_id,lp.luck_prize,lp.num,lp.luck_pic,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
+  	LEFT JOIN luck_prize as lp on la.prize_id=lp.id
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.id = #{luckId,jdbcType=BIGINT}
+  	AND la.is_winning = 1
+  	order by id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+</mapper>
