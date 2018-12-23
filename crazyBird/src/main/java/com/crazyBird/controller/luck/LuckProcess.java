@@ -263,6 +263,7 @@ public class LuckProcess {
 		luckDraw.setLuckName(param.getLuckName());
 		luckDraw.setLuckPic(param.getLuckPic());
 		luckDraw.setLuckExplain(param.getLuckExplain());
+		luckDraw.setLotteryTime(param.getLotteryTime());
 		luckDraw.setLuckPrizeExplain(param.getLuckPrizeExplain());
 		luckDraw.setLuckMode(param.getLuckMode());
 		ResponseDO<String> response = luckService.AddLuck(luckDraw);
