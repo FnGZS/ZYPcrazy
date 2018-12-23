@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
@@ -51,4 +52,13 @@ public class SecondaryOrderController {
 	public SecondaryOrderDeleteModel deleteSecondaryOrder(Long id){
 		return secondaryOrderProcess.deleteSecondaryOrder(id);
 	}
+	/**
+	 * 确认收货
+	 */
+	@ResponseBody
+	@RequestMapping(value="/orderAccept",method=RequestMethod.PUT)
+	public SimpleFlagModel updateSecondaryOrderAccept(String orderId) {
+		return secondaryOrderProcess.updateSecondaryOrderAccept(orderId);	
+	}
+	
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.BaseProcess;
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderItem;
 import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
@@ -162,6 +163,20 @@ public class SecondaryOrderProcess extends BaseProcess{
 			return model;
 		}
 		model.setMessage(response.getMessage());
+		return model;
+	}
+	
+	public SimpleFlagModel 	updateSecondaryOrderAccept(String orderId) {
+		 SimpleFlagModel model = new SimpleFlagModel();
+		 if(orderId==null) {
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("参数为空");
+				return model;
+		 }
+		 int count = secondaryOrderService.updateSecondaryOrderAccept(orderId);
+		 if(count>0) {
+				model.setMessage("更新成功");
+		 }
 		return model;
 	}
 }

@@ -91,4 +91,17 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 		
 		return updateSecondaryOrderRefund(out_trade_no);
 	}
+
+
+	@Override
+	public int checkSecondaryOrder(String out_trade_no) {
+		return checkSecondaryOrder(out_trade_no);
+	}
+
+
+	@Override
+	public int updateSecondaryOrderAccept(String orderId) {
+		
+		return updateSecondaryOrderAccept(orderId);
+	}
 }

@@ -123,7 +123,10 @@ public class UserPayProcess extends BaseProcess{
 	}
 	
 	public boolean wxNotify( Map<String, Object> resultMap) {
+		int secondaryFlag=payService.checkSecondaryOrder((String)resultMap.get("out_trade_no"));
+		if(secondaryFlag==0) {
 		payService.updateSecondaryOrder((String)resultMap.get("out_trade_no"));
+		}
 		int count=payService.checkWxPayOrder((String)resultMap.get("transaction_id"));
 		if(count>0) {
 			return true;
