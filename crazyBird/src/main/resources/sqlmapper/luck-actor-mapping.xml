@@ -13,11 +13,19 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
 </resultMap>
+<resultMap id="PartakeResultMap" type="com.crazyBird.dao.luck.dataobject.LuckPartakeDTO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
 <select id="getLuckWinnersCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
   select count(*)
   from luck_actor
-  where la.id = #{luckId,jdbcType=BIGINT}
-  AND la.is_winning = 1
+  where luck_id = #{luckId,jdbcType=BIGINT}
+  AND is_winning = 1
   </select>
   <select id="getLuckWinners" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
   	select 
@@ -30,6 +38,22 @@
   	LEFT JOIN `user` as u ON u.school_num=la.user_id
   	where la.id = #{luckId,jdbcType=BIGINT}
   	AND la.is_winning = 1
+  	order by id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getLuckPartakeCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckPartakePO">
+  select count(*)
+  from luck_actor
+  where luck_id = #{luckId,jdbcType=BIGINT}
+  </select>
+  <select id="getLuckPartake" resultMap="PartakeResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckPartakePO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.id = #{luckId,jdbcType=BIGINT}
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>

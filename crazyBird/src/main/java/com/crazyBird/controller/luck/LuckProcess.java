@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.luck.model.AddLuckModel;
 import com.crazyBird.controller.luck.model.AddPrizeModel;
+import com.crazyBird.controller.luck.model.LuckAdvertisementModel;
 import com.crazyBird.controller.luck.model.LuckDetailsModel;
 import com.crazyBird.controller.luck.model.LuckIsPartModel;
 import com.crazyBird.controller.luck.model.LuckListItem;
@@ -273,6 +274,12 @@ public class LuckProcess {
 			return model;
 		}
 		model.setMessage(response.getMessage());
+		return model;
+	}
+
+	public LuckAdvertisementModel Advertisement() {
+		LuckAdvertisementModel model = new LuckAdvertisementModel();
+		
 		return model;
 	}
 
