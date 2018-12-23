@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.luck.model.AddLuckModel;
 import com.crazyBird.controller.luck.model.AddPrizeModel;
+import com.crazyBird.controller.luck.model.LuckAdvertisementModel;
 import com.crazyBird.controller.luck.model.LuckDetailsModel;
 import com.crazyBird.controller.luck.model.LuckIsPartModel;
 import com.crazyBird.controller.luck.model.LuckListModel;
@@ -104,5 +105,12 @@ public class LuckController {
 	public AddLuckModel AddLuck(@RequestBody AddLuckParam param) {
 		return luckProcess.AddLuck(param);
 	}
-	
+	/**
+	 * 广告
+	 * */
+	@RequestMapping(value ="/advertisement", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckAdvertisementModel Advertisement() {
+		return luckProcess.Advertisement();
+	}
 }
