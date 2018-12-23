@@ -4,7 +4,6 @@ public class OrderInfo {
 	private String appid;
 	private String mch_id;
 	private String nonce_str;
-	private String sign;
 	private String sign_type;
 	private String body;
 	private String out_trade_no;
@@ -13,6 +12,7 @@ public class OrderInfo {
 	private String notify_url;
 	private String trade_type;
 	private String openid;
+	private String sign;
 	public String getAppid() {
 		return appid;
 	}
