@@ -18,5 +18,9 @@ public interface SecondaryOrderService {
 	ResponseDO<String> deleteSecondaryOrder(DeleteSecondaryOrderDO deleteOrder);
 	
 	int updateSecondaryOrderRefund(String out_trade_no);
+	
+	int checkSecondaryOrder(String out_trade_no);
+	
+	int updateSecondaryOrderAccept(String orderId);
 
 }

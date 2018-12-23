@@ -32,5 +32,10 @@ public class UserPayServiceImpl implements UserPayService{
 	public int insertRefundOrder(UserRefundDO refundDO) {
 		return orderDao.insertRefundOrder(refundDO);
 	}
+	@Override
+	public int checkSecondaryOrder(String orderId) {
+		
+		return secondaryOrderDao.checkSecondaryOrder(orderId);
+	}
 
 }

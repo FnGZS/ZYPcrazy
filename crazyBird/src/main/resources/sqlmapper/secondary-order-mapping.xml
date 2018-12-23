@@ -104,6 +104,9 @@
 	count(1)
   	from secondary_order where user_id = #{userId,jdbcType=BIGINT} and order_state = #{orderStatus,jdbcType=INTEGER}
   </select>
+  <select id="checkSecondaryOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(1) from secondary_order where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state = 1
+  </select>
   <select id="getOrderList" resultMap="OrderDTOResult" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
   select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
   sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
@@ -145,9 +148,12 @@
     where  id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
   </update>
   <update id ="updateSecondaryOrder" parameterType="java.lang.String">
-  update secondary_order set order_state = 1 where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+  update secondary_order set order_state = 1 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
   </update>
   <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
   update secondary_order set order_state = 4 where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
+  </update>
+  <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
+    update secondary_order set order_state = 2 where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
   </update>
 </mapper>

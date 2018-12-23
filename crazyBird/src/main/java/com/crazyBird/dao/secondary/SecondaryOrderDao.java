@@ -33,8 +33,13 @@ public interface SecondaryOrderDao {
 
 	boolean updateOrder(DeleteSecondaryOrderDO deleteOrder);
 	
+	int checkSecondaryOrder(String out_trade_no);
+	
 	int updateSecondaryOrder(String out_trade_no);
 	
 	int updateSecondaryOrderRefund(String out_trade_no);
+	
+	int updateSecondaryOrderAccept(String orderId);
+
 
 }
