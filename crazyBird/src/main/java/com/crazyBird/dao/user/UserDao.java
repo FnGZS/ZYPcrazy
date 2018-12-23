@@ -1,5 +1,7 @@
 package com.crazyBird.dao.user;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.UserDO;
@@ -11,7 +13,7 @@ public abstract interface UserDao {
 
 	 void updateBinding(BingDO paramBingDO);
 
-	 UserDO seletUserBySnum(Long paramLong);
+	 UserDO seletUserBySnum(@Param("schoolNum") Long paramLong);
 
 	UserDO seletUserByPhone(String phone);
 

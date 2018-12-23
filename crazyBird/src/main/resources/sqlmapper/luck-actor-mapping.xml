@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crazyBird.dao.luck.LuckActorDao">
-<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckWinnersDO" >
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckWinnersDTO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="luck_id" property="luckId" jdbcType="BIGINT" />
@@ -32,5 +32,14 @@
   	AND la.is_winning = 1
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="seletPart" resultType="com.crazyBird.dao.luck.dataobject.LuckPartakeDTO" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
+  	AND la.user_id = #{userId,jdbcType=BIGINT}
   </select>
 </mapper>

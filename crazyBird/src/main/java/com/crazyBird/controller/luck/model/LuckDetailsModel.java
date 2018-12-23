@@ -2,7 +2,9 @@ package com.crazyBird.controller.luck.model;
 
 import java.util.List;
 
-public class LuckDetailsModel {
+import com.crazyBird.controller.base.AbstractFlagModel;
+
+public class LuckDetailsModel extends AbstractFlagModel{
 
 	private Long id;
 	private Long userId;
@@ -10,9 +12,13 @@ public class LuckDetailsModel {
 	private String luckPic;
 	private String explain;
 	private String lotteryTime;
+	private String prizeExplain;
 	private Integer status;
 	private Integer mode;
 	private String gmtCreated;
+	private String userName;
+	private String headImgUrl;
+	
 	private List<LuckPrizeItems> items;
 	
 	public Long getId() {
@@ -68,5 +74,29 @@ public class LuckDetailsModel {
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+	public List<LuckPrizeItems> getItems() {
+		return items;
+	}
+	public void setItems(List<LuckPrizeItems> items) {
+		this.items = items;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+	public String getPrizeExplain() {
+		return prizeExplain;
+	}
+	public void setPrizeExplain(String prizeExplain) {
+		this.prizeExplain = prizeExplain;
 	}
 }

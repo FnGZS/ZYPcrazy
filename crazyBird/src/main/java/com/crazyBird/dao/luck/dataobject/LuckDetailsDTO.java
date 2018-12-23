@@ -2,7 +2,7 @@ package com.crazyBird.dao.luck.dataobject;
 
 import java.util.Date;
 
-public class LuckDetailsDO {
+public class LuckDetailsDTO {
 
 	private Long id;
 	private Long userId;
@@ -10,9 +10,12 @@ public class LuckDetailsDO {
 	private String luckPic;
 	private String explain;
 	private String lotteryTime;
+	private String prizeExplain;
 	private Integer status;
 	private Integer mode;
 	private Date gmtCreated;
+	private String userName;
+	private String headImgUrl;
 	public Long getId() {
 		return id;
 	}
@@ -66,6 +69,24 @@ public class LuckDetailsDO {
 	}
 	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+	public String getPrizeExplain() {
+		return prizeExplain;
+	}
+	public void setPrizeExplain(String prizeExplain) {
+		this.prizeExplain = prizeExplain;
 	}
 	
 	

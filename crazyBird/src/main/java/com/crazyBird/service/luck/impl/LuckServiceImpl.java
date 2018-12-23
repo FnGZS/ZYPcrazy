@@ -8,13 +8,17 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.luck.LuckDrawDao;
 import com.crazyBird.dao.luck.LuckPrizeDao;
 import com.crazyBird.dao.luck.LuckActorDao;
-import com.crazyBird.dao.luck.dataobject.LuckDetailsDO;
+import com.crazyBird.dao.luck.dataobject.IsPartDO;
+import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
+import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
-import com.crazyBird.dao.luck.dataobject.LuckLuckPartakeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
-import com.crazyBird.dao.luck.dataobject.LuckWinnersDO;
+import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
+import com.crazyBird.service.base.ResponseCode;
+import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.luck.LuckService;
 
@@ -29,12 +33,12 @@ public class LuckServiceImpl implements LuckService{
 	private LuckPrizeDao luckPrizeDao;
 
 	@Override
-	public ResponsePageQueryDO<List<LuckDetailsDO>> getLuckList(LuckListPO po) {
-		ResponsePageQueryDO<List<LuckDetailsDO>> response = new ResponsePageQueryDO<>();
+	public ResponsePageQueryDO<List<LuckDetailsDTO>> getLuckList(LuckListPO po) {
+		ResponsePageQueryDO<List<LuckDetailsDTO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
 		response.setTotal((Integer)luckDrawDao.getLuckListCount(po));
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
-			List<LuckDetailsDO> dataResult = luckDrawDao.getLuckList(po);
+			List<LuckDetailsDTO> dataResult = luckDrawDao.getLuckList(po);
 			response.setDataResult(dataResult);
 		}else {
 			response.setMessage("到底了");
@@ -43,12 +47,12 @@ public class LuckServiceImpl implements LuckService{
 	}
 
 	@Override
-	public ResponsePageQueryDO<List<LuckWinnersDO>> getLuckWinners(LuckWinnersPO po) {
-		ResponsePageQueryDO<List<LuckWinnersDO>> response = new ResponsePageQueryDO<>();
+	public ResponsePageQueryDO<List<LuckWinnersDTO>> getLuckWinners(LuckWinnersPO po) {
+		ResponsePageQueryDO<List<LuckWinnersDTO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
 		response.setTotal((Integer)luckActorDao.getLuckWinnersCount(po));
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
-			List<LuckWinnersDO> dataResult = luckActorDao.getLuckWinners(po);
+			List<LuckWinnersDTO> dataResult = luckActorDao.getLuckWinners(po);
 			response.setDataResult(dataResult);
 		}else {
 			response.setMessage("到底了");
@@ -57,12 +61,12 @@ public class LuckServiceImpl implements LuckService{
 	}
 
 	@Override
-	public ResponsePageQueryDO<List<LuckLuckPartakeDO>> getLuckPartake(LuckPartakePO po) {
-		ResponsePageQueryDO<List<LuckLuckPartakeDO>> response = new ResponsePageQueryDO<>();
+	public ResponsePageQueryDO<List<LuckPartakeDTO>> getLuckPartake(LuckPartakePO po) {
+		ResponsePageQueryDO<List<LuckPartakeDTO>> response = new ResponsePageQueryDO<>();
 		response.setPageSize(po.getPageSize());
 		response.setTotal((Integer)luckActorDao.getLuckPartakeCount(po));
 		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
-			List<LuckLuckPartakeDO> dataResult = luckActorDao.getLuckPartake(po);
+			List<LuckPartakeDTO> dataResult = luckActorDao.getLuckPartake(po);
 			response.setDataResult(dataResult);
 		}else {
 			response.setMessage("到底了");
@@ -71,12 +75,48 @@ public class LuckServiceImpl implements LuckService{
 	}
 
 	@Override
-	public LuckDetailsDO getLuckDetails(Long luckId) {
+	public LuckDetailsDTO getLuckDetails(Long luckId) {
 		return luckDrawDao.getLuckDetails(luckId);
 	}
 
 	@Override
 	public List<LuckPrizeDO> getLuckPrize(Long luckId) {
-		return null;
+		return luckPrizeDao.getLuckPrize(luckId);
+	}
+
+	@Override
+	public ResponseDO<String> isPart(IsPartDO isPart) {
+		ResponseDO<String> response = new ResponseDO<String>();
+		LuckPartakeDTO luckPart = luckActorDao.seletPart(isPart);
+		if(luckPart!=null) {
+			response.setMessage("已参与");
+			return response;
+		}
+		response.setMessage("未参与");
+		return response;
+	}
+
+	@Override
+	public ResponseDO<String> addPrize(LuckPrizeDO luckPrize) {
+		ResponseDO<String> response = new ResponseDO<String>();
+		if(luckPrizeDao.addPrize(luckPrize)) {
+			response.setMessage("添加成功");
+			return response;
+		}
+		response.setCode(ResponseCode.ERROR);
+		response.setMessage("添加失败");
+		return response;
+	}
+
+	@Override
+	public ResponseDO<String> AddLuck(LuckDrawDO luckDraw) {
+		ResponseDO<String> response = new ResponseDO<String>();
+		if(luckDrawDao.addLuck(luckDraw)) {
+			response.setMessage("添加成功");
+			return response;
+		}
+		response.setCode(ResponseCode.ERROR);
+		response.setMessage("添加失败");
+		return response;
 	}
 }

@@ -1,23 +1,12 @@
-package com.crazyBird.dao.luck.dataobject;
+package com.crazyBird.controller.luck.param;
 
-import java.util.Date;
+public class LuckPrizeParam {
 
-public class LuckPrizeDO {
-
-	private Long id;
 	private String luckPrize;
 	private String num;
 	private Long luckDrawId;
 	private String luckPic;
 	private String sponsor;
-	private Date  gmtCreated;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getLuckPrize() {
 		return luckPrize;
 	}
@@ -35,12 +24,6 @@ public class LuckPrizeDO {
 	}
 	public void setLuckDrawId(Long luckDrawId) {
 		this.luckDrawId = luckDrawId;
-	}
-	public Date getGmtCreated() {
-		return gmtCreated;
-	}
-	public void setGmtCreated(Date gmtCreated) {
-		this.gmtCreated = gmtCreated;
 	}
 	public String getLuckPic() {
 		return luckPic;

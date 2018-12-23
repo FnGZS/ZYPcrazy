@@ -1,6 +1,7 @@
 package com.crazyBird.controller.luck.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class LuckListItem {
 
@@ -13,6 +14,18 @@ public class LuckListItem {
 	private Integer status;
 	private Integer mode;
 	private String gmtCreated;
+	private String userName;
+	private String headImgUrl;
+	
+	private List<LuckPrizeItems> items;
+	
+	public List<LuckPrizeItems> getItems() {
+		return items;
+	}
+	public void setItems(List<LuckPrizeItems> items) {
+		this.items = items;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,5 +79,17 @@ public class LuckListItem {
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
 	}
 }
