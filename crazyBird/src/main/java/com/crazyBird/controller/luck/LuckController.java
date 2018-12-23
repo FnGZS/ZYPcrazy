@@ -1,17 +1,28 @@
 package com.crazyBird.controller.luck;
-
+/**
+ * 
+ * @author zjw
+ * 
+ */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.luck.model.AddLuckModel;
+import com.crazyBird.controller.luck.model.AddPrizeModel;
 import com.crazyBird.controller.luck.model.LuckDetailsModel;
+import com.crazyBird.controller.luck.model.LuckIsPartModel;
 import com.crazyBird.controller.luck.model.LuckListModel;
 import com.crazyBird.controller.luck.model.LuckPartakeModel;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
+import com.crazyBird.controller.luck.param.AddLuckParam;
+import com.crazyBird.controller.luck.param.IsPartParam;
 import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
+import com.crazyBird.controller.luck.param.LuckPrizeParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
 
 @Controller
@@ -65,6 +76,33 @@ public class LuckController {
 		return luckProcess.getLuckDetails(luckId);
 	}
 	
+	/**
+	 * 是否已参加
+	 * @param param
+	 * @return
+	 * **/
+	@RequestMapping(value ="/isPart", method = RequestMethod.POST)
+	@ResponseBody
+	public LuckIsPartModel getIsPart(@RequestBody IsPartParam param) {
+		return luckProcess.getIsPart(param);
+	}
 	
+	/**
+	 * 添加奖品
+	 * **/
+	@RequestMapping(value ="/addPrize", method = RequestMethod.POST)
+	@ResponseBody
+	public AddPrizeModel AddPrize(@RequestBody LuckPrizeParam param) {
+		return luckProcess.AddPrize(param);
+	}
+	
+	/**
+	 * 添加抽奖
+	 * **/
+	@RequestMapping(value ="/addLuck", method = RequestMethod.POST)
+	@ResponseBody
+	public AddLuckModel AddLuck(@RequestBody AddLuckParam param) {
+		return luckProcess.AddLuck(param);
+	}
 	
 }

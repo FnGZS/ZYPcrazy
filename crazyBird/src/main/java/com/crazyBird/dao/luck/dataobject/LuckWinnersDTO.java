@@ -1,11 +1,15 @@
 package com.crazyBird.dao.luck.dataobject;
 
-public class LuckLuckPartakeDO {
+public class LuckWinnersDTO {
 
 	private Long id;
 	private Long userId;
 	private Long luckId;
 	private Integer isWinning;
+	private Long priceId;
+	private String luckPrize;
+	private String num;
+	private String luckPic;
 	private String userName;
 	private String headImgUrl;
 	public Long getId() {
@@ -32,6 +36,30 @@ public class LuckLuckPartakeDO {
 	public void setIsWinning(Integer isWinning) {
 		this.isWinning = isWinning;
 	}
+	public Long getPriceId() {
+		return priceId;
+	}
+	public void setPriceId(Long priceId) {
+		this.priceId = priceId;
+	}
+	public String getLuckPrize() {
+		return luckPrize;
+	}
+	public void setLuckPrize(String luckPrize) {
+		this.luckPrize = luckPrize;
+	}
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
+	public String getLuckPic() {
+		return luckPic;
+	}
+	public void setLuckPic(String luckPic) {
+		this.luckPic = luckPic;
+	}
 	public String getUserName() {
 		return userName;
 	}
@@ -44,5 +72,6 @@ public class LuckLuckPartakeDO {
 	public void setHeadImgUrl(String headImgUrl) {
 		this.headImgUrl = headImgUrl;
 	}
+	
 	
 }

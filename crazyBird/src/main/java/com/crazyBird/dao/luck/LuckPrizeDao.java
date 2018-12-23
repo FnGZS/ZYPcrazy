@@ -10,4 +10,6 @@ public abstract interface LuckPrizeDao {
 
 	List<LuckPrizeDO> getLuckPrize(@Param("luckId") Long luckId);
 
+	boolean addPrize(LuckPrizeDO luckPrize);
+
 }
