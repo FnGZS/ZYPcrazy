@@ -6,6 +6,7 @@ public class GetPhoneModel extends AbstractFlagModel{
 	 private Integer result;
 	 private String phone;
 	 private String asToken;
+	 
 	public Integer getResult() {
 		return result;
 	}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.luck.LuckDrawDao;
 import com.crazyBird.dao.luck.LuckPrizeDao;
 import com.crazyBird.dao.luck.LuckActorDao;
+import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
@@ -118,5 +119,11 @@ public class LuckServiceImpl implements LuckService{
 		response.setCode(ResponseCode.ERROR);
 		response.setMessage("添加失败");
 		return response;
+	}
+
+	@Override
+	public List<AdvertisementDO> getAdvertisement() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

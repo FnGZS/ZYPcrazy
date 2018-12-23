@@ -2,6 +2,7 @@ package com.crazyBird.service.luck;
 
 import java.util.List;
 
+import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
@@ -32,5 +33,7 @@ public abstract interface LuckService {
 	ResponseDO<String> addPrize(LuckPrizeDO luckPrize);
 
 	ResponseDO<String> AddLuck(LuckDrawDO luckDraw);
+
+	List<AdvertisementDO> getAdvertisement();
 
 }

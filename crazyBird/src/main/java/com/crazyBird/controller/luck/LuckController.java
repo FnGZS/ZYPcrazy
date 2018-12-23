@@ -113,4 +113,22 @@ public class LuckController {
 	public LuckAdvertisementModel Advertisement() {
 		return luckProcess.Advertisement();
 	}
+	
+	/**
+	 * 我发布的抽奖
+	 * */
+	
+	
+	/**
+	 * 我参与的抽奖
+	 * */
+	
+	/**
+	 * 我中奖的记录
+	 * **/
+	
+	/**
+	 * 抽奖
+	 * */
+	
 }
