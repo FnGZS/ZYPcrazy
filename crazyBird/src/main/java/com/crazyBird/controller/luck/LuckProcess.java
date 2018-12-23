@@ -24,6 +24,7 @@ import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckPrizeParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
+import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
@@ -279,7 +280,7 @@ public class LuckProcess {
 
 	public LuckAdvertisementModel Advertisement() {
 		LuckAdvertisementModel model = new LuckAdvertisementModel();
-		
+		List<AdvertisementDO> advertisement = luckService.getAdvertisement();
 		return model;
 	}
 
