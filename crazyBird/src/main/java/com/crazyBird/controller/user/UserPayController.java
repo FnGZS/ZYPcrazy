@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.UserPayModel;
 import com.crazyBird.controller.user.param.UserAgainPayParam;
+import com.crazyBird.controller.user.param.UserRefundParam;
+import com.crazyBird.service.user.dataobject.RefundInfo;
 import com.crazyBird.utils.XmlToMapUtils;
 
 @Controller
@@ -37,6 +41,15 @@ public class UserPayController {
 	@ResponseBody
 	public UserPayModel userPay(@RequestBody UserAgainPayParam param) throws IllegalAccessException {
 		return payProcess.userPay(param);
+	}
+	/**
+	 *二手退款
+	 */
+	@RequestMapping(value="/refund", method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleFlagModel secondaryRefund(@RequestBody UserRefundParam param) {
+		
+		return payProcess.secondaryRefund(param);
 	}
 	/**
 	 * 支付回调

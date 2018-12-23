@@ -16,5 +16,7 @@ public interface SecondaryOrderService {
 	ResponsePageQueryDO<List<SecondaryOrderDTO>> getOrderList(SecondaryOrderListPO po);
 
 	ResponseDO<String> deleteSecondaryOrder(DeleteSecondaryOrderDO deleteOrder);
+	
+	int updateSecondaryOrderRefund(String out_trade_no);
 
 }

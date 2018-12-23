@@ -293,6 +293,7 @@ public class WeixinAppService {
 				refundDO.setTotal_fee((Integer) map.get("total_fee"));
 				refundDO.setCash_fee((Integer) map.get("cash_fee"));
 				result.setDataResult(refundDO);
+				
 			}
 			else {
 				result.setCode(ResponseCode.ERROR);

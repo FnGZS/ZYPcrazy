@@ -84,4 +84,11 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 		response.setMessage("删除失败");
 		return response;
 	}
+
+
+	@Override
+	public int updateSecondaryOrderRefund(String out_trade_no) {
+		
+		return updateSecondaryOrderRefund(out_trade_no);
+	}
 }

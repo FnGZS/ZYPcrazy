@@ -145,6 +145,9 @@
     where  id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
   </update>
   <update id ="updateSecondaryOrder" parameterType="java.lang.String">
-  update secondary_order set order_state = 1 where order_id=#{out_trade_no,jdbcType=VARCHAR}
+  update secondary_order set order_state = 1 where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+  </update>
+  <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
+  update secondary_order set order_state = 4 where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
   </update>
 </mapper>

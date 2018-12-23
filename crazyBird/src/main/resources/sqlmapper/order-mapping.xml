@@ -41,4 +41,42 @@ select count(1) from order where transaction_id =#{transaction_id,jdbcType=VARCH
 	#{gmt_modified,jdbcType=TIMESTAMP}
 	)
 </insert>
+
+<insert id="insertRefundOrder" parameterType="com.crazyBird.dao.user.dataobject.UserRefundDO">
+	insert into order 
+	(
+	id,
+	appid,
+	mch_id,
+	nonce_str,
+	sign,
+	transaction_id,
+	out_trade_no,
+	out_refund_no,
+	refund_id,
+	refund_fee,
+	total_fee,
+	cash_fee,
+	gmt_created,
+	gmt_modified
+	)
+	values
+	(
+	#{id,jdbcType=BIGINT},
+	#{appid,jdbcType=VARCHAR},
+	#{mch_id,jdbcType=VARCHAR},
+	#{nonce_str,jdbcType=VARCHAR},
+	#{sign,jdbcType=VARCHAR},
+	#{transaction_id,jdbcType=VARCHAR},
+	#{out_trade_no,jdbcType=VARCHAR},
+	#{out_refund_no,jdbcType=VARCHAR},
+	#{refund_id,jdbcType=VARCHAR},
+	#{refund_fee,jdbcType=INTEGER},
+	#{total_fee,jdbcType=INTEGER},
+	#{cash_fee,jdbcType=INTEGER},
+	now(),
+	now()
+	)
+</insert>
+
 </mapper>

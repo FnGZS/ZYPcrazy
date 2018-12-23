@@ -16,10 +16,13 @@ import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.UserPayModel;
 import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserPayParam;
+import com.crazyBird.controller.user.param.UserRefundParam;
+import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.service.secondary.SecondaryOrderService;
 import com.crazyBird.service.user.UserPayService;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.user.dataobject.TestInfo;
@@ -39,6 +42,8 @@ public class UserPayProcess extends BaseProcess{
 	
 	@Autowired 
 	private UserPayService	payService;
+	@Autowired 
+	private SecondaryOrderService secondaryOrderService;
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
@@ -96,9 +101,25 @@ public class UserPayProcess extends BaseProcess{
 		} else {
 			result = null;
 		}
-
+		
 		return model;
 		
+	}
+	public SimpleFlagModel secondaryRefund(UserRefundParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		ResponseDO<UserRefundDO> response=WeixinAppService.refund(param);
+		if(!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			return model;
+		}
+		
+		int flag1=payService.insertRefundOrder(response.getDataResult());
+		int flag2=secondaryOrderService.updateSecondaryOrderRefund(response.getDataResult().getOut_trade_no());
+		if(flag1<=0||flag2<=0) {
+			model.setMessage("退款成功但更新或插入本地数据时出错");
+		}
+		return model;
 	}
 	
 	public boolean wxNotify( Map<String, Object> resultMap) {
