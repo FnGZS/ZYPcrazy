@@ -57,6 +57,8 @@ public interface SecondaryDao {
 	
 	int addUserAddress(SecondaryUserAddressDO addressDO);
 	
+	int deleteUserAddress(Long id);
+	
 	int getNewCommentCount(Long id);
 	
 	int getNewSecondaryViolationCount(Long id);
@@ -66,6 +68,17 @@ public interface SecondaryDao {
 	List<SecondaryMessageDTO> getSecondaryMessage(Long userId);
 	SecondaryMessageDTO getSecondaryMessageDetail(Long id);
 	void updateSecondaryMessage(Long id);
+	//更新商品状态 （被买）
+	int updateSecondaryGoodsPay(Long id);
+	
+	//更新商品状态 （审核未通过）
+	int updateSecondaryGoodsViolation(Long id);
+	//更新商品状态 （在卖）
+	int updateSecondaryGoodsOnline(Long id);
+	//获得订单号对应的商品id
+	Long getSecondaryGoodsId(String orderId);
+	
+	
 	
 	
 	

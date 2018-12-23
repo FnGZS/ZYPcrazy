@@ -52,10 +52,20 @@ public interface SecondaryService {
 	int addUserAddress(SecondaryUserAddressDO addressDO);
 	List<SecondaryUserAddressDO> getUserAddress(Long userId);
 	int setUserAddress(Long userId);
+	int deleteUserAddress(Long id);
 	int getNewCommentCount(Long id);
 	int getNewSecondaryViolationCount(Long id);
 	ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> getCommentMessage(SecondaryGoodsCommentsPO po);
 	List<SecondaryMessageDTO> getSecondaryMessage(Long userId);
 	void updateSecondaryMessage(Long id);
 	SecondaryMessageDTO getSecondaryMessageDetail(Long id);
+	//更新商品状态 （被买）
+	int updateSecondaryGoodsPay(Long id);
+	
+	//更新商品状态 （审核未通过）
+	int updateSecondaryGoodsViolation(Long id);
+	//更新商品状态 （在卖）
+	int updateSecondaryGoodsOnline(Long id);
+	//获得订单号对应的商品id
+	Long getSecondaryGoodsId(String orderId);
 }

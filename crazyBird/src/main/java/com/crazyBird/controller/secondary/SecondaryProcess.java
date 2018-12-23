@@ -400,6 +400,17 @@ public class SecondaryProcess {
 		model.setList(items);
 		return model;
 	}
+	public SimpleFlagModel deleteUserAddress (Long id) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		if (id == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("id不能为空");
+			return model;
+		}
+		secondaryService.deleteUserAddress(id);
+		return model;
+		
+	}
 	public SecondaryUserAddressModel getUserAddress(Long id) {
 		SecondaryUserAddressModel model = new SecondaryUserAddressModel();
 		if (id == null) {

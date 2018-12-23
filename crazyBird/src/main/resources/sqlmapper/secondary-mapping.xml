@@ -234,7 +234,17 @@
   </update>
   <update id="deleteSecondaryGoods" parameterType="java.lang.Long">
   	update secondary_goods set 
-  	`status`= 4
+  	`status`= 4 and gmt_modified=now()
+  	where id=#{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSecondaryGoodsViolation" parameterType="java.lang.Long">
+    	update secondary_goods set 
+  	`status`= 2 and gmt_modified=now()
+  	where id=#{id,jdbcType=BIGINT}
+  </update>
+   <update id="pdateSecondaryGoodsOnline" parameterType="java.lang.Long">
+     	update secondary_goods set 
+  	`status`= 3 and gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
@@ -302,6 +312,8 @@
   )
   
   </insert>
- 
+ <delete id ="deleteUserAddress" parameterType="java.lang.Long">
+ delete from secondary_address where id=#{id,jdbcType=BIGINT}
+ </delete>
   
 </mapper>

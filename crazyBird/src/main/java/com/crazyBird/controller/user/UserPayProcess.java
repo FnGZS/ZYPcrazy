@@ -23,6 +23,7 @@ import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.secondary.SecondaryOrderService;
+import com.crazyBird.service.secondary.SecondaryService;
 import com.crazyBird.service.user.UserPayService;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.user.dataobject.TestInfo;
@@ -44,6 +45,8 @@ public class UserPayProcess extends BaseProcess{
 	private UserPayService	payService;
 	@Autowired 
 	private SecondaryOrderService secondaryOrderService;
+	@Autowired 
+	private SecondaryService secondaryService;
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
@@ -119,6 +122,8 @@ public class UserPayProcess extends BaseProcess{
 		if(flag1<=0||flag2<=0) {
 			model.setMessage("退款成功但更新或插入本地数据时出错");
 		}
+		Long id = secondaryService.getSecondaryGoodsId(response.getDataResult().getOut_trade_no());
+		secondaryService.updateSecondaryGoodsOnline(id);
 		return model;
 	}
 	
@@ -148,7 +153,8 @@ public class UserPayProcess extends BaseProcess{
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String)resultMap.get("time_end"), DateUtil.dtLong));
 	
 		int flag = payService.insertOrder(orderDO);
-		
+		Long id = secondaryService.getSecondaryGoodsId((String)resultMap.get("out_trade_no"));
+		secondaryService.updateSecondaryGoodsPay(id);
 		if(flag<=0) {
 			return false;
 		}
