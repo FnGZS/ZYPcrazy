@@ -18,6 +18,7 @@ import com.crazyBird.controller.luck.model.LuckPartakeItems;
 import com.crazyBird.controller.luck.model.LuckPartakeModel;
 import com.crazyBird.controller.luck.model.LuckPrizeItems;
 import com.crazyBird.controller.luck.model.LuckPrizeModel;
+import com.crazyBird.controller.luck.model.LuckRandomModel;
 import com.crazyBird.controller.luck.model.LuckWinnersItems;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
@@ -337,13 +338,38 @@ public class LuckProcess {
 					item.setSponsor(prize.getSponsor());
 					item.setNum(prize.getNum());
 					item.setLuckDrawId(prize.getLuckDrawId());
-					item.setGmtCreated(prize.getGmtCreated());
+					item.setGmtCreated(DateUtil.formatDate(prize.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 					items.add(item);
 				}
 			}
 		}
 		return items;
 		
+	}
+
+	public LuckDetailsModel contentByPrize(Long prizeId) {
+		LuckDetailsModel model = new LuckDetailsModel();
+		LuckDetailsDTO details = luckService.getDetailsByPrize(prizeId);
+		if(details != null) {
+			model.setId(details.getId());
+			model.setUserId(details.getUserId());
+			model.setLuckName(details.getLuckName());
+			model.setLuckPic(details.getLuckPic());
+			model.setExplain(details.getExplain());
+			model.setLotteryTime(details.getLotteryTime());
+			model.setStatus(details.getStatus());
+			model.setMode(details.getMode());
+			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			List<LuckPrizeDO> prizes = luckService.getLuckPrize(prizeId);
+			model.setItems(convertPrizeList(prizes));
+		}
+		return model;
+	}
+
+	public LuckRandomModel random() {
+		LuckRandomModel model = new LuckRandomModel();
+		
+		return model;
 	}
 
 

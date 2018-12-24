@@ -10,7 +10,7 @@ public class LuckPrizeItems {
 	private String luckPic;
 	private Long luckDrawId;
 	private String sponsor;
-	private Date  gmtCreated;
+	private String  gmtCreated;
 	public Long getId() {
 		return id;
 	}
@@ -35,12 +35,6 @@ public class LuckPrizeItems {
 	public void setLuckDrawId(Long luckDrawId) {
 		this.luckDrawId = luckDrawId;
 	}
-	public Date getGmtCreated() {
-		return gmtCreated;
-	}
-	public void setGmtCreated(Date gmtCreated) {
-		this.gmtCreated = gmtCreated;
-	}
 	public String getLuckPic() {
 		return luckPic;
 	}
@@ -52,6 +46,12 @@ public class LuckPrizeItems {
 	}
 	public void setSponsor(String sponsor) {
 		this.sponsor = sponsor;
+	}
+	public String getGmtCreated() {
+		return gmtCreated;
+	}
+	public void setGmtCreated(String gmtCreated) {
+		this.gmtCreated = gmtCreated;
 	}
 	
 }

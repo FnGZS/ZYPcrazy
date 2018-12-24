@@ -173,4 +173,9 @@ public class LuckServiceImpl implements LuckService{
 		}
 		return response;
 	}
+
+	@Override
+	public LuckDetailsDTO getDetailsByPrize(Long prizeId) {
+		return luckDrawDao.getDetailsByPrize(prizeId);
+	}
 }
