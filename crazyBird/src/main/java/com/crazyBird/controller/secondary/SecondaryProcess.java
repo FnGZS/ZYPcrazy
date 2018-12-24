@@ -437,11 +437,13 @@ public class SecondaryProcess {
 				}
 				items.add(item);
 			}
+			SecondaryUserAddressItem itemTop = items.get(flag);
+			items.remove(flag);
+			items.add(0,itemTop);
+			model.setList(items);
 		}
-		SecondaryUserAddressItem itemTop = items.get(flag);
-		items.remove(flag);
-		items.add(0,itemTop);
-		model.setList(items);
+
+	
 
 		return model;
 	}
