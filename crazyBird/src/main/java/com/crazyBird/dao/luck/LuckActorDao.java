@@ -3,8 +3,12 @@ package com.crazyBird.dao.luck;
 import java.util.List;
 
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
+import com.crazyBird.dao.luck.dataobject.JoinListPO;
+import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 
@@ -18,5 +22,13 @@ public abstract interface LuckActorDao {
 	List<LuckPartakeDTO> getLuckPartake(LuckPartakePO po);
 
 	LuckPartakeDTO seletPart(IsPartDO isPart);
+
+	Integer getJoinListCount(JoinListPO po);
+
+	List<LuckDetailsDTO> getJoinList(JoinListPO po);
+	
+	Integer getAwardListCount(LuckPrizePO po);
+
+	List<LuckPrizeDO> getAwardList(LuckPrizePO po);
 
 }

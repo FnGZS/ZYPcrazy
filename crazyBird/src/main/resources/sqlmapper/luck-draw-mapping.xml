@@ -68,4 +68,21 @@
   			now(),now()
   		)
  </insert>
+ <select id="getDeleaseCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.DeleasePO">
+  select count(*)
+  from luck_draw
+  where is_examine = 1
+    AND user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="getDelease" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.DeleasePO">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id
+  	where ld.is_examine = 1
+     AND ld.user_id = #{userId,jdbcType=BIGINT}
+  	order by ld.id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
 </mapper>

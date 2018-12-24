@@ -1,6 +1,6 @@
-package com.crazyBird.dao.luck.dataobject;
+package com.crazyBird.controller.luck.model;
 
-public class AdvertisementDO {
+public class LuckAdvertisementItem {
 	private Long id;
 	private String pic;
 

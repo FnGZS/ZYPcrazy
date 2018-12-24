@@ -18,9 +18,13 @@ import com.crazyBird.controller.luck.model.LuckDetailsModel;
 import com.crazyBird.controller.luck.model.LuckIsPartModel;
 import com.crazyBird.controller.luck.model.LuckListModel;
 import com.crazyBird.controller.luck.model.LuckPartakeModel;
+import com.crazyBird.controller.luck.model.LuckPrizeModel;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
+import com.crazyBird.controller.luck.param.AwardParam;
+import com.crazyBird.controller.luck.param.DeleaseParam;
 import com.crazyBird.controller.luck.param.IsPartParam;
+import com.crazyBird.controller.luck.param.JoinListParam;
 import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckPrizeParam;
@@ -117,16 +121,29 @@ public class LuckController {
 	/**
 	 * 我发布的抽奖
 	 * */
-	
+	@RequestMapping(value ="/delease", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckListModel delease(DeleaseParam param) {
+		return luckProcess.delease(param);
+	}
 	
 	/**
 	 * 我参与的抽奖
 	 * */
+	@RequestMapping(value ="/joinList", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckListModel joinList(JoinListParam param) {
+		return luckProcess.getJoinList(param);
+	}
 	
 	/**
 	 * 我中奖的记录
 	 * **/
-	
+	@RequestMapping(value ="/award", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckPrizeModel awardList(AwardParam param) {
+		return luckProcess.awardList(param);
+	}
 	/**
 	 * 抽奖
 	 * */

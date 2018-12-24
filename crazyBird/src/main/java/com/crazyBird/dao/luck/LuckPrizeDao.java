@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
 
 public abstract interface LuckPrizeDao {
 
