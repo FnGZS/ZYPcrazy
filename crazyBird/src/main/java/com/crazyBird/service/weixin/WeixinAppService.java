@@ -59,9 +59,9 @@ public class WeixinAppService {
 	// 支付类型
 	private static final String TRADE_TYPE = "JSAPI";
 	// 商户支付密钥
-	private static String KEY = "wx201411101639507cbf6ffd8b0779950874";
+	private static String KEY = "15C66348E401C7BB7598BF238FB79FA3";
 	// 商户号
-	private static String MCH_ID = "10000100";
+	private static String MCH_ID = "1521726561";
 	private static String APP_ID = "wx070db500b5e5740f";
 	private static String SECRET = "d22b361c01e467afd5a55418a04ecb78";// 企业版
 	// private static String APP_ID = "wx1b75aff38e9dad18";

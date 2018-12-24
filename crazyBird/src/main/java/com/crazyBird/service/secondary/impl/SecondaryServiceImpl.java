@@ -252,4 +252,34 @@ public class SecondaryServiceImpl implements SecondaryService{
 		return secondaryDao.getSecondaryMessageDetail(id);
 	}
 
+	@Override
+	public int deleteUserAddress(Long id) {
+
+		return secondaryDao.deleteUserAddress(id);
+	}
+
+	@Override
+	public int updateSecondaryGoodsPay(Long id) {
+
+		return secondaryDao.updateSecondaryGoodsPay(id);
+	}
+
+	@Override
+	public int updateSecondaryGoodsViolation(Long id) {
+
+		return secondaryDao.updateSecondaryGoodsViolation(id);
+	}
+
+	@Override
+	public int updateSecondaryGoodsOnline(Long id) {
+
+		return secondaryDao.updateSecondaryGoodsOnline(id);
+	}
+
+	@Override
+	public Long getSecondaryGoodsId(String orderId) {
+		// TODO Auto-generated method stub
+		return secondaryDao.getSecondaryGoodsId(orderId);
+	}
+
 }

@@ -212,5 +212,13 @@ public class SecondaryController {
 	public SimpleFlagModel addUserAddress(@RequestBody SecondaryUserAddressParam param) {
 		return secondaryProcess.addUserAddress(param);
 	}
-
+	/**
+	 * 删除用户地址
+	 */
+	@ResponseBody
+	@RequestMapping(value="/userAddress/delete/{id}",method=RequestMethod.DELETE)
+	public SimpleFlagModel deleteUserAddress (@PathVariable Long id) {
+		return secondaryProcess.deleteUserAddress(id);
+		
+	}
 }
