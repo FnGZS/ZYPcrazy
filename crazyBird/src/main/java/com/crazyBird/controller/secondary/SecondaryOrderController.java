@@ -2,17 +2,21 @@ package com.crazyBird.controller.secondary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.SecondaryCapitalModel;
+import com.crazyBird.controller.secondary.model.SecondaryCashModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
+import com.crazyBird.controller.secondary.param.SecondaryCashParam;
 
 /**
  * 二手市场
@@ -59,6 +63,23 @@ public class SecondaryOrderController {
 	@RequestMapping(value="/orderAccept",method=RequestMethod.PUT)
 	public SimpleFlagModel updateSecondaryOrderAccept(String orderId) {
 		return secondaryOrderProcess.updateSecondaryOrderAccept(orderId);	
+	}
+	/**
+	 * 获取资金信息
+	 * **/
+	@ResponseBody
+	@RequestMapping(value = "/getSecondaryCapital/{id}",method = RequestMethod.GET)
+	public SecondaryCapitalModel getSecondaryCapital(@PathVariable Long id) {
+		return secondaryOrderProcess.getSecondaryCapital(id);
+	}
+	
+	/**
+	 * 提现
+	 * **/
+	@ResponseBody
+	@RequestMapping(value = "/cash",method = RequestMethod.POST)
+	public SecondaryCashModel setSecondaryCash(@RequestBody SecondaryCashParam param) {
+		return secondaryOrderProcess.setSecondaryCash(param);
 	}
 	
 }

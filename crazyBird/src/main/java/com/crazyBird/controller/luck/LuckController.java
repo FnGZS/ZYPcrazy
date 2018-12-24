@@ -144,6 +144,7 @@ public class LuckController {
 	public LuckPrizeModel awardList(AwardParam param) {
 		return luckProcess.awardList(param);
 	}
+	
 	/**
 	 * 抽奖
 	 * */

@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
 import com.crazyBird.dao.secondary.dataobject.PurchasePO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
@@ -40,6 +42,10 @@ public interface SecondaryOrderDao {
 	int updateSecondaryOrderRefund(String out_trade_no);
 	
 	int updateSecondaryOrderAccept(String orderId);
+
+	SecondaryCapitalDO getSecondaryCapital(Long userId);
+
+	boolean setSecondaryCash(SecondaryCashDO input);
 
 
 }
