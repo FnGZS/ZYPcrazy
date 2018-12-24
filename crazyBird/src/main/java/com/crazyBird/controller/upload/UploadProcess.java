@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.utils.DateUtil;
+import com.crazyBird.utils.RandomUtil;
 import com.crazyBird.controller.upload.model.MultiPicUploadModel;
 import com.crazyBird.controller.upload.param.UploadPicParam;
 @Component
@@ -121,9 +123,9 @@ public class UploadProcess {
 	 * @throws Exception
 	 */
 	private String fileUpload(MultipartFile file, String picType)throws Exception { 
-	
+	String random = RandomUtil.getRandomNumString(8);
 	int length = file.getOriginalFilename().split("\\.").length;
-	  String fileName =picType+"_"+DateUtil.formatDate(new Date(), DateUtil.dtLongLong)+"."+file.getOriginalFilename().split("\\.")[length-1];
+	  String fileName =picType+"_"+DateUtil.formatDate(new Date(), DateUtil.dtLongLong)+"_"+random+"."+file.getOriginalFilename().split("\\.")[length-1];
 	  //MultipartFile 类型文件不支持创建父目录，所以得用File类型
 	  File newfile = new File(filePath+picType+"/"+fileName);
 	  File fileParent = newfile.getParentFile();  
