@@ -65,6 +65,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 				userLoginDO.setSex(wxUser.getSex());
 				userLoginDO.setAccessToken(TokenUtils.creatAesStr(user.getSchoolNum()));
 				userLoginDO.setIsBound(Integer.valueOf(1));
+				userLoginDO.setUnionId(wxUser.getUnionId());
 				userLoginDao.insert(userLoginDO);
 			} else {
 				userLoginDO = new UserLoginDO();
@@ -74,6 +75,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 				userLoginDO.setSex(wxUser.getSex());
 				userLoginDO.setAccessToken(TokenUtils.creatAesStr(user.getSchoolNum()));
 				userLoginDO.setIsBound(Integer.valueOf(1));
+				userLoginDO.setUnionId(wxUser.getUnionId());
 				userLoginDao.update(userLoginDO);
 				user.setUserName(wxUser.getNickName());
 				user.setHeadimgurl(wxUser.getHeadimgurl());
@@ -88,6 +90,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 			unbound.setLoginAccount(wxUser.getNickName());
 			unbound.setHeadimgurl(wxUser.getHeadimgurl());
 			unbound.setSex(wxUser.getSex());
+			unbound.setUnionId(wxUser.getUnionId());
 			unbound.setIsBound(Integer.valueOf(2));
 			userLoginDao.insert(unbound);
 			responseDO.setMessage("未绑定学号");
@@ -218,8 +221,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 		UserLoginDO userLoginDO = userLoginDao.seletUserByAs(accessToken);
 		UserDO havePhoneUser = userDao.seletUserByPhone(phone);
 		if(havePhoneUser == null) {
-			response.setCode(ResponseCode.ERROR);
-			response.setMessage("错误");
+			userLoginDO.setTelephone(phone);
+			userLoginDao.update(userLoginDO);
+			response.setMessage("未曾在平台上绑定过学号");
 			return response;
 		}
 		if(havePhoneUser.getIsBinding().equals("1") == true) {
@@ -230,6 +234,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 			userDao.updateUser(havePhoneUser);
 			userLoginDO.setOpenId(havePhoneUser.getOpenId());
 			userLoginDO.setAccessToken(TokenUtils.creatAesStr(havePhoneUser.getSchoolNum()));
+			userLoginDO.setTelephone(phone);
 			userLoginDO.setIsBound(Integer.valueOf(1));
 			userLoginDao.update(userLoginDO);
 			HavePhoneUserDO havePhone = new HavePhoneUserDO();

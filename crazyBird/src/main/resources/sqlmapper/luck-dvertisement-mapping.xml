@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.luck.LuckAdvertisementDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.AdvertisementDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="advertisement_pic" property="pic" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+   id,advertisement_pic
+ </sql>
+ <select id="getAdvertisement" resultMap="BaseResultMap" >
+  select 
+	<include refid="Base_Column_List" />
+  from luck_advertisement
+ </select>
+</mapper>

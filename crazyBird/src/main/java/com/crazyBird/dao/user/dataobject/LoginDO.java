@@ -5,6 +5,7 @@ public class LoginDO {
 	private String headimgurl;
 	private String nickName;
 	private Integer sex;
+	private String unionId;
 	public String getOpenId() {
 		return openId;
 	}
@@ -28,6 +29,12 @@ public class LoginDO {
 	}
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+	public String getUnionId() {
+		return unionId;
+	}
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
 	}
 
 

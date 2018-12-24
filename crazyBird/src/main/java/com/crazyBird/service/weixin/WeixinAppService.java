@@ -119,6 +119,7 @@ public class WeixinAppService {
 				userInfo.setProvince((String) decryptedDataMap.get("province"));
 				userInfo.setCity((String) decryptedDataMap.get("city"));
 				userInfo.setSex((Integer) decryptedDataMap.get("gender"));
+				userInfo.setUnionId((String) decryptedDataMap.get("unionId"));
 				userInfo.setSessionKey(sessionkey);
 				if (StringUtils.isBlank(userInfo.getNickName()) || StringUtils.isBlank(userInfo.getOpenId())) {
 					result.setCode(ResponseCode.ERROR);

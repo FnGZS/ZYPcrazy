@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.luck.model.AddLuckModel;
 import com.crazyBird.controller.luck.model.AddPrizeModel;
+import com.crazyBird.controller.luck.model.LuckAdvertisementItem;
 import com.crazyBird.controller.luck.model.LuckAdvertisementModel;
 import com.crazyBird.controller.luck.model.LuckDetailsModel;
 import com.crazyBird.controller.luck.model.LuckIsPartModel;
@@ -16,22 +17,29 @@ import com.crazyBird.controller.luck.model.LuckListModel;
 import com.crazyBird.controller.luck.model.LuckPartakeItems;
 import com.crazyBird.controller.luck.model.LuckPartakeModel;
 import com.crazyBird.controller.luck.model.LuckPrizeItems;
+import com.crazyBird.controller.luck.model.LuckPrizeModel;
 import com.crazyBird.controller.luck.model.LuckWinnersItems;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
+import com.crazyBird.controller.luck.param.AwardParam;
+import com.crazyBird.controller.luck.param.DeleaseParam;
 import com.crazyBird.controller.luck.param.IsPartParam;
+import com.crazyBird.controller.luck.param.JoinListParam;
 import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckPrizeParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
 import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
+import com.crazyBird.dao.luck.dataobject.DeleasePO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
+import com.crazyBird.dao.luck.dataobject.JoinListPO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -165,23 +173,7 @@ public class LuckProcess {
 					item.setUserName(dataResult.getUserName());
 					item.setHeadImgUrl(dataResult.getHeadImgUrl());
 					List<LuckPrizeDO> prizes = luckService.getLuckPrize(dataResult.getId());
-					List<LuckPrizeItems> prizeiItems = new ArrayList<>();
-					if(CollectionUtil.isNotEmpty(prizes)) {
-						for(LuckPrizeDO prize:prizes) {
-							if(prize!=null) {
-								LuckPrizeItems prizeiItem = new LuckPrizeItems();
-								prizeiItem.setId(prize.getId());
-								prizeiItem.setLuckPrize(prize.getLuckPrize());
-								prizeiItem.setLuckPic(prize.getLuckPic());
-								prizeiItem.setSponsor(prize.getSponsor());
-								prizeiItem.setNum(prize.getNum());
-								prizeiItem.setLuckDrawId(prize.getLuckDrawId());
-								prizeiItem.setGmtCreated(prize.getGmtCreated());
-								prizeiItems.add(prizeiItem);
-							}
-						}
-					}
-					item.setItems(prizeiItems);
+					item.setItems(convertPrizeList(prizes));
 					items.add(item);
 				}
 			}
@@ -204,23 +196,7 @@ public class LuckProcess {
 			model.setMode(details.getMode());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 			List<LuckPrizeDO> prizes = luckService.getLuckPrize(luckId);
-			List<LuckPrizeItems> items = new ArrayList<>();
-			if(CollectionUtil.isNotEmpty(prizes)) {
-				for(LuckPrizeDO prize:prizes) {
-					if(prize!=null) {
-						LuckPrizeItems item = new LuckPrizeItems();
-						item.setId(prize.getId());
-						item.setLuckPrize(prize.getLuckPrize());
-						item.setLuckPic(prize.getLuckPic());
-						item.setSponsor(prize.getSponsor());
-						item.setNum(prize.getNum());
-						item.setLuckDrawId(prize.getLuckDrawId());
-						item.setGmtCreated(prize.getGmtCreated());
-						items.add(item);
-					}
-				}
-			}
-			model.setItems(items);
+			model.setItems(convertPrizeList(prizes));
 		}
 		return model;
 	}
@@ -280,9 +256,96 @@ public class LuckProcess {
 
 	public LuckAdvertisementModel Advertisement() {
 		LuckAdvertisementModel model = new LuckAdvertisementModel();
-		List<AdvertisementDO> advertisement = luckService.getAdvertisement();
+		List<AdvertisementDO> advertisements = luckService.getAdvertisement();
+		List<LuckAdvertisementItem> items = new ArrayList<>();
+		if(CollectionUtil.isNotEmpty(advertisements)) {
+			for(AdvertisementDO advertisement:advertisements) {
+				if(advertisement!=null) {
+					LuckAdvertisementItem item = new LuckAdvertisementItem();
+					item.setId(advertisement.getId());
+					item.setPic(advertisement.getPic());
+					items.add(item);
+				}
+			}
+		}
+		model.setItems(items);
 		return model;
 	}
+
+	public LuckListModel delease(DeleaseParam param) {
+		LuckListModel model = new LuckListModel();
+		PageUtils.resetPageParam(param);
+		DeleasePO po = new DeleasePO();
+		po.setPageIndex(param.getPageNo().intValue() - 1);
+		po.setPageSize(param.getPageSize().intValue());
+		po.setUserId(param.getUserId());
+		ResponsePageQueryDO<List<LuckDetailsDTO>> response = luckService.delease(po);
+		if (response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());
+			model.setItems(convertLuckList(response.getDataResult()));
+		} else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+		}
+		model.setMessage(response.getMessage());
+		return model;
+	}
+
+	public LuckListModel getJoinList(JoinListParam param) {
+		LuckListModel model = new LuckListModel();
+		PageUtils.resetPageParam(param);
+		JoinListPO po = new JoinListPO();
+		po.setPageIndex(param.getPageNo().intValue() - 1);
+		po.setPageSize(param.getPageSize().intValue());
+		po.setUserId(param.getUserId());
+		ResponsePageQueryDO<List<LuckDetailsDTO>> response = luckService.getJoinList(po);
+		if (response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());
+			model.setItems(convertLuckList(response.getDataResult()));
+		} else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+		}
+		model.setMessage(response.getMessage());
+		return model;
+	}
+
+	public LuckPrizeModel awardList(AwardParam param) {
+		LuckPrizeModel model = new LuckPrizeModel();
+		PageUtils.resetPageParam(param);
+		LuckPrizePO po = new LuckPrizePO();
+		po.setPageIndex(param.getPageNo().intValue() - 1);
+		po.setPageSize(param.getPageSize().intValue());
+		po.setUserId(param.getUserId());
+		ResponsePageQueryDO<List<LuckPrizeDO>> response = luckService.awardList(po);
+		if (response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());
+			model.setItems(convertPrizeList(response.getDataResult()));
+		} else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+		}
+		model.setMessage(response.getMessage());
+		return model;
+	}
+	private List<LuckPrizeItems> convertPrizeList (List<LuckPrizeDO> prizes){
+		List<LuckPrizeItems> items = new ArrayList<>();
+		if(CollectionUtil.isNotEmpty(prizes)) {
+			for(LuckPrizeDO prize:prizes) {
+				if(prize!=null) {
+					LuckPrizeItems item = new LuckPrizeItems();
+					item.setId(prize.getId());
+					item.setLuckPrize(prize.getLuckPrize());
+					item.setLuckPic(prize.getLuckPic());
+					item.setSponsor(prize.getSponsor());
+					item.setNum(prize.getNum());
+					item.setLuckDrawId(prize.getLuckDrawId());
+					item.setGmtCreated(prize.getGmtCreated());
+					items.add(item);
+				}
+			}
+		}
+		return items;
+		
+	}
+
 
 
 }

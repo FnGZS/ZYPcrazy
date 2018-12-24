@@ -3,14 +3,16 @@ package com.crazyBird.service.luck;
 import java.util.List;
 
 import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
+import com.crazyBird.dao.luck.dataobject.DeleasePO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
+import com.crazyBird.dao.luck.dataobject.JoinListPO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
-import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.service.base.ResponseDO;
@@ -35,5 +37,11 @@ public abstract interface LuckService {
 	ResponseDO<String> AddLuck(LuckDrawDO luckDraw);
 
 	List<AdvertisementDO> getAdvertisement();
+
+	ResponsePageQueryDO<List<LuckDetailsDTO>> delease(DeleasePO po);
+
+	ResponsePageQueryDO<List<LuckDetailsDTO>> getJoinList(JoinListPO po);
+
+	ResponsePageQueryDO<List<LuckPrizeDO>> awardList(LuckPrizePO po);
 
 }

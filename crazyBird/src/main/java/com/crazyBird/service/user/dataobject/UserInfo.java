@@ -17,7 +17,14 @@ public class UserInfo {
 	private String city;
 	private String country;
 	private String sessionKey;
+	private String unionId;
 	
+	public String getUnionId() {
+		return unionId;
+	}
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
 	public String getOpenId() {
 		return openId;
 	}

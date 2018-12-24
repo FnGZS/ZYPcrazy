@@ -8,14 +8,20 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.SecondaryCapitalItem;
+import com.crazyBird.controller.secondary.model.SecondaryCapitalModel;
+import com.crazyBird.controller.secondary.model.SecondaryCashModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderItem;
 import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
+import com.crazyBird.controller.secondary.param.SecondaryCashParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
@@ -179,4 +185,38 @@ public class SecondaryOrderProcess extends BaseProcess{
 		 }
 		return model;
 	}
+	
+	public SecondaryCapitalModel getSecondaryCapital(Long id) {
+		SecondaryCapitalModel model = new SecondaryCapitalModel();
+		SecondaryCapitalDO DO = secondaryOrderService.getSecondaryCapital(id);
+		if(DO != null) {
+			SecondaryCapitalItem item = new SecondaryCapitalItem();
+			item.setRemainder(DO.getRemainder());
+			item.setId(DO.getId());
+			item.setUserId(DO.getUserId());
+			model.setList(item);
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
+		return model;
+	}
+
+	public SecondaryCashModel setSecondaryCash(SecondaryCashParam param) {
+		SecondaryCashModel model = new SecondaryCashModel();
+		SecondaryCashDO input = new SecondaryCashDO();
+		input.setUserId(param.getUserId());
+		input.setAccount(param.getAccount());
+		input.setCash(param.getCash());
+		ResponseDO<SecondaryCashDO> response = secondaryOrderService.setSecondaryCash(input);
+		if(!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+		}
+		else {
+			model.setCode(HttpCodeEnum.SUCCESS.getCode());
+			model.setMessage(response.getMessage());
+		}	
+		return model;
+	}
+	
 }

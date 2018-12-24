@@ -7,15 +7,19 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.dao.luck.LuckDrawDao;
 import com.crazyBird.dao.luck.LuckPrizeDao;
+import com.crazyBird.dao.luck.LuckAdvertisementDao;
 import com.crazyBird.dao.luck.LuckActorDao;
 import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
+import com.crazyBird.dao.luck.dataobject.DeleasePO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
+import com.crazyBird.dao.luck.dataobject.JoinListPO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
+import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.service.base.ResponseCode;
@@ -32,6 +36,8 @@ public class LuckServiceImpl implements LuckService{
 	private LuckActorDao luckActorDao;
 	@Autowired
 	private LuckPrizeDao luckPrizeDao;
+	@Autowired
+	private LuckAdvertisementDao luckAdvertisementDao;
 
 	@Override
 	public ResponsePageQueryDO<List<LuckDetailsDTO>> getLuckList(LuckListPO po) {
@@ -123,7 +129,48 @@ public class LuckServiceImpl implements LuckService{
 
 	@Override
 	public List<AdvertisementDO> getAdvertisement() {
-		// TODO Auto-generated method stub
-		return null;
+		return luckAdvertisementDao.getAdvertisement();
+	}
+
+	@Override
+	public ResponsePageQueryDO<List<LuckDetailsDTO>> delease(DeleasePO po) {
+		ResponsePageQueryDO<List<LuckDetailsDTO>> response = new ResponsePageQueryDO<>();
+		response.setPageSize(po.getPageSize());
+		response.setTotal((Integer)luckDrawDao.getDeleaseCount(po));
+		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
+			List<LuckDetailsDTO> dataResult = luckDrawDao.getDelease(po);
+			response.setDataResult(dataResult);
+		}else {
+			response.setMessage("到底了");
+		}
+		return response;
+	}
+
+	@Override
+	public ResponsePageQueryDO<List<LuckDetailsDTO>> getJoinList(JoinListPO po) {
+		ResponsePageQueryDO<List<LuckDetailsDTO>> response = new ResponsePageQueryDO<>();
+		response.setPageSize(po.getPageSize());
+		response.setTotal((Integer)luckActorDao.getJoinListCount(po));
+		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
+			List<LuckDetailsDTO> dataResult = luckActorDao.getJoinList(po);
+			response.setDataResult(dataResult);
+		}else {
+			response.setMessage("到底了");
+		}
+		return response;
+	}
+
+	@Override
+	public ResponsePageQueryDO<List<LuckPrizeDO>> awardList(LuckPrizePO po) {
+		ResponsePageQueryDO<List<LuckPrizeDO>> response = new ResponsePageQueryDO<>();
+		response.setPageSize(po.getPageSize());
+		response.setTotal((Integer)luckActorDao.getAwardListCount(po));
+		if ((response.getTotal() > 0) && (response.getTotalPage() > po.getPageIndex())) {
+			List<LuckPrizeDO> dataResult = luckActorDao.getAwardList(po);
+			response.setDataResult(dataResult);
+		}else {
+			response.setMessage("到底了");
+		}
+		return response;
 	}
 }

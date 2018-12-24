@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
+import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
@@ -103,5 +105,30 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 	public int updateSecondaryOrderAccept(String orderId) {
 		
 		return updateSecondaryOrderAccept(orderId);
+	}
+	@Override
+	public SecondaryCapitalDO getSecondaryCapital(Long id) {
+		return secondaryOrderDao.getSecondaryCapital(id);
+	}
+
+
+	@Override
+	public ResponseDO<SecondaryCashDO> setSecondaryCash(SecondaryCashDO input) {
+		ResponseDO<SecondaryCashDO> response = new ResponseDO<>();
+		SecondaryCapitalDO capital = secondaryOrderDao.getSecondaryCapital(input.getUserId());
+		if(capital.getRemainder().compareTo(input.getCash()) < 0) {
+			response.setCode(ResponseCode.ERROR);
+			response.setMessage("提现失败，余额不足");
+			return response;
+		}
+		if(secondaryOrderDao.setSecondaryCash(input)) {
+			response.setCode(ResponseCode.SUCCESS);
+			response.setMessage("提现已申请，请耐心等待");
+		}
+		else {
+			response.setCode(ResponseCode.ERROR);
+			response.setMessage("提现失败");
+		}
+		return response;
 	}
 }

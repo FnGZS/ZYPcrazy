@@ -52,6 +52,23 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="BIGINT" />
 </resultMap>
+
+<resultMap id="CapitalDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="remainder" property="remainder" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+</resultMap>
+<resultMap id="CashDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryCashDO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+</resultMap>
+
 <sql id="BaseOrder">
 	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
  </sql>
@@ -156,4 +173,20 @@
   <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
     update secondary_order set order_state = 2 and gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
   </update>
+  <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
+  	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <insert id = "setSecondaryCash" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCashDO">
+    		insert into cash_order
+  		(
+  			user_id,account,cash,gmt_created,gmt_modified
+  		)
+  		value
+  		(
+  			#{userId,jdbcType=BIGINT},
+  			#{account,jdbcType=VARCHAR},
+  			#{cash,jdbcType=DECIMAL},
+  			now(),now()
+  		)
+  </insert>
 </mapper>

@@ -7,12 +7,32 @@ public class UserLoginDO {
 	private String openId;
 	private String loginAccount;
 	private String headimgurl;
+	private String unionId;
+	private String telephone;
 	private Integer sex;
 	private String accessToken;
 	private Integer signInCount;
 	private Integer isBound;
 	private Date gmtCreated;
 	private Date gmtModified;
+
+
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
 
 	public Long getId() {
 		return id;
