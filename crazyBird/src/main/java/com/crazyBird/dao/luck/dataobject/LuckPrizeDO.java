@@ -6,12 +6,18 @@ public class LuckPrizeDO {
 
 	private Long id;
 	private String luckPrize;
-	private String num;
+	private Integer num;
 	private Long luckDrawId;
 	private String luckPic;
 	private String sponsor;
 	private Date  gmtCreated;
 	
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -23,12 +29,6 @@ public class LuckPrizeDO {
 	}
 	public void setLuckPrize(String luckPrize) {
 		this.luckPrize = luckPrize;
-	}
-	public String getNum() {
-		return num;
-	}
-	public void setNum(String num) {
-		this.num = num;
 	}
 	public Long getLuckDrawId() {
 		return luckDrawId;

@@ -8,7 +8,7 @@
     <result column="is_winning" property="isWinning" jdbcType="INTEGER" />
     <result column="price_id" property="priceId" jdbcType="BIGINT" />
     <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
-    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
     <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
     <result column="luck_name" property="luckName" jdbcType="VARCHAR" />
     <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
     <result column="luck_explain" property="explain" jdbcType="VARCHAR" />
-    <result column="lottery_time" property="lotteryTime" jdbcType="VARCHAR" />
+    <result column="lottery_time" property="lotteryTime" jdbcType="TIMESTAMP" />
     <result column="luck_prize_explain" property="prizeExplain" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="luck_mode" property="mode" jdbcType="INTEGER" />
@@ -38,12 +38,20 @@
 <resultMap id="PrizeResultMap" type="com.crazyBird.dao.luck.dataobject.LuckPrizeDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
-    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
     <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
     <result column="sponsor" property="sponsor" jdbcType="VARCHAR" />
     <result column="luck_draw_id" property="luckDrawId" jdbcType="BIGINT" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
+<resultMap id="RandomResultMap" type="com.crazyBird.dao.luck.dataobject.LuckActorDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="VARCHAR" />
+    <result column="prize_id" property="prizeId" jdbcType="BIGINT" />
+</resultMap>
+
 <select id="getLuckWinnersCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
   select count(*)
   from luck_actor
@@ -122,4 +130,22 @@
   	order by lp.luck_draw_id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+  <select id="getLuckRandom" resultMap="RandomResultMap" parameterType="java.lang.Long">
+  select 
+  	t1.id,t1.user_id,t1.luck_id,t1.is_winning,t1.prize_id
+  FROM `luck_actor` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `luck_actor`)-(SELECT MIN(id) FROM `luck_actor`))+(SELECT MIN(id) FROM `luck_actor`)) AS id) AS t2 
+  WHERE t1.id >= t2.id 
+  AND is_winning = 2
+  limit 1
+  </select>
+  <update id="updateActor" parameterType="com.crazyBird.dao.luck.dataobject.LuckActorDO" >
+    update user_login
+    set is_winning = #{isWinning,jdbcType=INTEGER},
+    	prize_id = #{prizeId,jdbcType=BIGINT},
+		sign_in_count = sign_in_count + 1,
+		gmt_modified = NOW()
+    where id = #{id,jdbcType=BIGINT}
+    order by id desc
+    limit 1
+  </update>
 </mapper>

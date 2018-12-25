@@ -46,4 +46,8 @@ public abstract interface LuckService {
 
 	LuckDetailsDTO getDetailsByPrize(Long prizeId);
 
+	ResponseDO<String> autoLottery();
+
+	ResponseDO<String> manualLottery(Long luckId);
+
 }

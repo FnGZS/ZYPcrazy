@@ -29,6 +29,7 @@ import com.crazyBird.controller.luck.param.JoinListParam;
 import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckPrizeParam;
+import com.crazyBird.controller.luck.param.LuckRandomParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
 import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
 import com.crazyBird.dao.luck.dataobject.DeleasePO;
@@ -41,6 +42,7 @@ import com.crazyBird.dao.luck.dataobject.LuckPartakeDTO;
 import com.crazyBird.dao.luck.dataobject.LuckPartakePO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizeDO;
 import com.crazyBird.dao.luck.dataobject.LuckPrizePO;
+import com.crazyBird.dao.luck.dataobject.LuckRandomDO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersDTO;
 import com.crazyBird.dao.luck.dataobject.LuckWinnersPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
@@ -167,7 +169,7 @@ public class LuckProcess {
 					item.setLuckName(dataResult.getLuckName());
 					item.setLuckPic(dataResult.getLuckPic());
 					item.setExplain(dataResult.getExplain());
-					item.setLotteryTime(dataResult.getLotteryTime());
+					item.setLotteryTime(DateUtil.formatDate(dataResult.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
 					item.setStatus(dataResult.getStatus());
 					item.setMode(dataResult.getMode());
 					item.setGmtCreated(DateUtil.formatDate(dataResult.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -192,7 +194,7 @@ public class LuckProcess {
 			model.setLuckName(details.getLuckName());
 			model.setLuckPic(details.getLuckPic());
 			model.setExplain(details.getExplain());
-			model.setLotteryTime(details.getLotteryTime());
+			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
 			model.setStatus(details.getStatus());
 			model.setMode(details.getMode());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -242,7 +244,7 @@ public class LuckProcess {
 		luckDraw.setLuckName(param.getLuckName());
 		luckDraw.setLuckPic(param.getLuckPic());
 		luckDraw.setLuckExplain(param.getLuckExplain());
-		luckDraw.setLotteryTime(param.getLotteryTime());
+		luckDraw.setLotteryTime(DateUtil.getStringToDate(DateUtil.DATE_FORMAT_YMDHMS ,param.getLotteryTime()));
 		luckDraw.setLuckPrizeExplain(param.getLuckPrizeExplain());
 		luckDraw.setLuckMode(param.getLuckMode());
 		ResponseDO<String> response = luckService.AddLuck(luckDraw);
@@ -356,7 +358,7 @@ public class LuckProcess {
 			model.setLuckName(details.getLuckName());
 			model.setLuckPic(details.getLuckPic());
 			model.setExplain(details.getExplain());
-			model.setLotteryTime(details.getLotteryTime());
+			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
 			model.setStatus(details.getStatus());
 			model.setMode(details.getMode());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -366,9 +368,27 @@ public class LuckProcess {
 		return model;
 	}
 
-	public LuckRandomModel random() {
+	public LuckRandomModel random(LuckRandomParam param) {
 		LuckRandomModel model = new LuckRandomModel();
-		
+		if(param.getMode().longValue()==1) {
+			ResponseDO<String> autoResponse = luckService.autoLottery();
+			if(!autoResponse.isSuccess()) {
+				model.setCode(autoResponse.getCode());
+				model.setMessage(autoResponse.getMessage());
+				return model;
+			}
+			model.setMessage(autoResponse.getMessage());
+			return model;
+		}
+		LuckRandomDO random = new LuckRandomDO();
+		random.setLuckId(param.getLuckId());
+		ResponseDO<String> manualResponse = luckService.manualLottery(random.getLuckId());
+		if(!manualResponse.isSuccess()) {
+			model.setCode(manualResponse.getCode());
+			model.setMessage(manualResponse.getMessage());
+			return model;
+		}
+		model.setMessage(manualResponse.getMessage());
 		return model;
 	}
 

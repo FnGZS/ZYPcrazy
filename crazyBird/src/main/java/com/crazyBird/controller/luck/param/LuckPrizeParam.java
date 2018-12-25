@@ -3,7 +3,7 @@ package com.crazyBird.controller.luck.param;
 public class LuckPrizeParam {
 
 	private String luckPrize;
-	private String num;
+	private Integer num;
 	private Long luckDrawId;
 	private String luckPic;
 	private String sponsor;
@@ -13,10 +13,10 @@ public class LuckPrizeParam {
 	public void setLuckPrize(String luckPrize) {
 		this.luckPrize = luckPrize;
 	}
-	public String getNum() {
+	public Integer getNum() {
 		return num;
 	}
-	public void setNum(String num) {
+	public void setNum(Integer num) {
 		this.num = num;
 	}
 	public Long getLuckDrawId() {

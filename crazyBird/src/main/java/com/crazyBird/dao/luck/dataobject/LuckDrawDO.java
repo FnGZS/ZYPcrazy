@@ -1,12 +1,14 @@
 package com.crazyBird.dao.luck.dataobject;
 
+import java.util.Date;
+
 public class LuckDrawDO {
 
 	private Long userId;
 	private String luckName;
 	private String luckPic;
 	private String luckExplain;
-	private String lotteryTime;
+	private Date lotteryTime;
 	private String luckPrizeExplain;
 	private Integer luckMode;
 	public Long getUserId() {
@@ -33,10 +35,10 @@ public class LuckDrawDO {
 	public void setLuckExplain(String luckExplain) {
 		this.luckExplain = luckExplain;
 	}
-	public String getLotteryTime() {
+	public Date getLotteryTime() {
 		return lotteryTime;
 	}
-	public void setLotteryTime(String lotteryTime) {
+	public void setLotteryTime(Date lotteryTime) {
 		this.lotteryTime = lotteryTime;
 	}
 	public String getLuckPrizeExplain() {

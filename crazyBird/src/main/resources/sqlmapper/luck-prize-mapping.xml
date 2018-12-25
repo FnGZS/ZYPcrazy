@@ -4,7 +4,7 @@
 <resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckPrizeDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
-    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
     <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
     <result column="sponsor" property="sponsor" jdbcType="VARCHAR" />
     <result column="luck_draw_id" property="luckDrawId" jdbcType="BIGINT" />
@@ -37,4 +37,9 @@
   			now(),now()
   		)
  </insert>
+ <select id="getPrizeNum" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select count(*)
+  from luck_prize
+  where luck_draw_id = #{luckId,jdbcType=BIGINT}
+  </select>
 </mapper>

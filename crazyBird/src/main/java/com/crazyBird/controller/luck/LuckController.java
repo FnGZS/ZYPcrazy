@@ -29,6 +29,7 @@ import com.crazyBird.controller.luck.param.JoinListParam;
 import com.crazyBird.controller.luck.param.LuckListPageParam;
 import com.crazyBird.controller.luck.param.LuckPartakePageParam;
 import com.crazyBird.controller.luck.param.LuckPrizeParam;
+import com.crazyBird.controller.luck.param.LuckRandomParam;
 import com.crazyBird.controller.luck.param.LuckWinnersPageParam;
 
 @Controller
@@ -160,7 +161,7 @@ public class LuckController {
 	 * */
 	@RequestMapping(value ="/random", method = RequestMethod.GET)
 	@ResponseBody
-	public LuckRandomModel random() {
-		return luckProcess.random();
+	public LuckRandomModel random(LuckRandomParam param) {
+		return luckProcess.random(param);
 	}
 }

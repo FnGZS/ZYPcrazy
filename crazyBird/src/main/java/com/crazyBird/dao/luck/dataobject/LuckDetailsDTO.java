@@ -9,7 +9,7 @@ public class LuckDetailsDTO {
 	private String luckName;
 	private String luckPic;
 	private String explain;
-	private String lotteryTime;
+	private Date lotteryTime;
 	private String prizeExplain;
 	private Integer status;
 	private Integer mode;
@@ -46,10 +46,10 @@ public class LuckDetailsDTO {
 	public void setExplain(String explain) {
 		this.explain = explain;
 	}
-	public String getLotteryTime() {
+	public Date getLotteryTime() {
 		return lotteryTime;
 	}
-	public void setLotteryTime(String lotteryTime) {
+	public void setLotteryTime(Date lotteryTime) {
 		this.lotteryTime = lotteryTime;
 	}
 	public Integer getStatus() {
