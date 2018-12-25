@@ -19,6 +19,7 @@ import com.crazyBird.controller.luck.model.LuckIsPartModel;
 import com.crazyBird.controller.luck.model.LuckListModel;
 import com.crazyBird.controller.luck.model.LuckPartakeModel;
 import com.crazyBird.controller.luck.model.LuckPrizeModel;
+import com.crazyBird.controller.luck.model.LuckRandomModel;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
 import com.crazyBird.controller.luck.param.AwardParam;
@@ -146,7 +147,20 @@ public class LuckController {
 	}
 	
 	/**
+	 * 根据物品id查询抽奖详情
+	 * */
+	@RequestMapping(value ="/contentByPrize", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckDetailsModel contentByPrize(Long prizeId) {
+		return luckProcess.contentByPrize(prizeId);
+	}
+
+	/**
 	 * 抽奖
 	 * */
-	
+	@RequestMapping(value ="/random", method = RequestMethod.GET)
+	@ResponseBody
+	public LuckRandomModel random() {
+		return luckProcess.random();
+	}
 }

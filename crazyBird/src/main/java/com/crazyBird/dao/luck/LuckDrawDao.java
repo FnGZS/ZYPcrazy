@@ -23,5 +23,7 @@ public abstract interface LuckDrawDao {
 
 	List<LuckDetailsDTO> getDelease(DeleasePO po);
 
+	LuckDetailsDTO getDetailsByPrize(@Param("prizeId") Long prizeId);
+
 	
 }

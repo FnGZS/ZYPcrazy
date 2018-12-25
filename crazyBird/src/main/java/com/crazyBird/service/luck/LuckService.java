@@ -44,4 +44,6 @@ public abstract interface LuckService {
 
 	ResponsePageQueryDO<List<LuckPrizeDO>> awardList(LuckPrizePO po);
 
+	LuckDetailsDTO getDetailsByPrize(Long prizeId);
+
 }

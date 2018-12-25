@@ -85,4 +85,14 @@
   	order by ld.id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+   <select id="getDetailsByPrize" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id 
+  	LEFT JOIN luck_prize as lp ON ld.id=lp.luck_draw_id
+  	where ld.is_examine = 1
+  	AND lp.id = #{prizeId,jdbcType=INTEGER}
+  </select>
 </mapper>
