@@ -1,21 +1,14 @@
-package com.crazyBird.dao.live.dataobject;
+package com.crazyBird.controller.live.model;
 
-import java.util.Date;
+import com.crazyBird.controller.base.AbstractFlagModel;
 
-public class LiveDO {
+public class LivePlayUrlDetailModel extends AbstractFlagModel{
 	private Integer id;
 	private String title;
 	private Integer status;
 	private String playUrl;
-	private Date endTime;
+	private String endTime;
 	private String streamId;
-	
-	public String getStreamId() {
-		return streamId;
-	}
-	public void setStreamId(String streamId) {
-		this.streamId = streamId;
-	}
 	public Integer getId() {
 		return id;
 	}
@@ -40,13 +33,16 @@ public class LiveDO {
 	public void setPlayUrl(String playUrl) {
 		this.playUrl = playUrl;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	
-	
+	public String getStreamId() {
+		return streamId;
+	}
+	public void setStreamId(String streamId) {
+		this.streamId = streamId;
+	}
 }

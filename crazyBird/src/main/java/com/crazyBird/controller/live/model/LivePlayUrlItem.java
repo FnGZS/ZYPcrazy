@@ -8,6 +8,7 @@ public class LivePlayUrlItem {
 	private Integer status;
 	private String playUrl;
 	private String endTime;
+	private String streamId;
 	public Integer getId() {
 		return id;
 	}
@@ -37,6 +38,12 @@ public class LivePlayUrlItem {
 	}
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+	public String getStreamId() {
+		return streamId;
+	}
+	public void setStreamId(String streamId) {
+		this.streamId = streamId;
 	}
 	
 	

@@ -1,21 +1,17 @@
 package com.crazyBird.controller.live;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.live.model.LivePlayUrlDetailModel;
 import com.crazyBird.controller.live.model.LivePlayUrlModel;
-import com.crazyBird.controller.live.param.PushUrlParam;
-import com.crazyBird.service.live.LiveService;
-import com.crazyBird.utils.DateUtil;
-import com.crazyBird.utils.LiveUtils;
+
 
 /**
  * 
@@ -47,6 +43,12 @@ public class LiveController {
 	public LivePlayUrlModel getPlayUrl() {
 		
 		return liveProcess.getPlayUrl();	
+	}
+	@RequestMapping(value="/getPlayUrl/{id}",method = RequestMethod.GET)
+	@ResponseBody
+	public LivePlayUrlDetailModel getPlayUrl(@PathVariable Integer id) {
+		
+		return liveProcess.getPlayUrlDetail(id);
 	}
 	
 }

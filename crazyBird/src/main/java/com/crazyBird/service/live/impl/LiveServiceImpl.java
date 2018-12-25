@@ -18,5 +18,12 @@ public class LiveServiceImpl implements LiveService{
 		
 		return liveDao.getPlayList();
 	}
+
+
+	@Override
+	public LiveDO getPlayUrl(Integer id) {
+		// TODO Auto-generated method stub
+		return liveDao.getPlayUrl(id);
+	}
 	
 }

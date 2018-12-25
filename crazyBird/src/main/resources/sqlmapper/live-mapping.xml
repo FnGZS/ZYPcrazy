@@ -6,6 +6,8 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="title" property="title"
 			jdbcType="VARCHAR" />
+			<result column="stream_id" property="streamId"
+			jdbcType="VARCHAR" />
 		<result column="status" property="status"
 			jdbcType="INTEGER" />
 		<result column="play_url" property="playUrl"
@@ -14,19 +16,18 @@
 			jdbcType="TIMESTAMP" />
 		
 	</resultMap>
-	<resultMap id="InnovateListMap"
-		type="com.crazyBird.dao.innovate.dataobject.InnovateEnterpriseListDO">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="logo" property="logo"
-			jdbcType="VARCHAR" />
-	</resultMap>
   <sql id="Base_Column_List" >
-    id, title,`status` ,play_url,end_time
+    id, title,`status`, stream_id,play_url,end_time
   </sql>
 <select id="getPlayList" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List"/>
 	from live where `status`=1 order by gmt_created desc
+</select>
+<select id="getPlayUrl" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	select 
+	<include refid="Base_Column_List"/>
+	from live where id=#{id,jdbcType=INTEGER}
 </select>
   
 
