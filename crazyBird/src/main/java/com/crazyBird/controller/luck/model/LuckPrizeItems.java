@@ -6,7 +6,7 @@ public class LuckPrizeItems {
 
 	private Long id;
 	private String luckPrize;
-	private String num;
+	private Integer num;
 	private String luckPic;
 	private Long luckDrawId;
 	private String sponsor;
@@ -23,10 +23,10 @@ public class LuckPrizeItems {
 	public void setLuckPrize(String luckPrize) {
 		this.luckPrize = luckPrize;
 	}
-	public String getNum() {
+	public Integer getNum() {
 		return num;
 	}
-	public void setNum(String num) {
+	public void setNum(Integer num) {
 		this.num = num;
 	}
 	public Long getLuckDrawId() {

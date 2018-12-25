@@ -8,7 +8,7 @@ public class LuckWinnersDTO {
 	private Integer isWinning;
 	private Long priceId;
 	private String luckPrize;
-	private String num;
+	private Integer num;
 	private String luckPic;
 	private String userName;
 	private String headImgUrl;
@@ -48,10 +48,10 @@ public class LuckWinnersDTO {
 	public void setLuckPrize(String luckPrize) {
 		this.luckPrize = luckPrize;
 	}
-	public String getNum() {
+	public Integer getNum() {
 		return num;
 	}
-	public void setNum(String num) {
+	public void setNum(Integer num) {
 		this.num = num;
 	}
 	public String getLuckPic() {

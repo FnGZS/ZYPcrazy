@@ -7,7 +7,7 @@
     <result column="luck_name" property="luckName" jdbcType="VARCHAR" />
     <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
     <result column="luck_explain" property="explain" jdbcType="VARCHAR" />
-    <result column="lottery_time" property="lotteryTime" jdbcType="VARCHAR" />
+    <result column="lottery_time" property="lotteryTime" jdbcType="TIMESTAMP" />
     <result column="luck_prize_explain" property="prizeExplain" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="luck_mode" property="mode" jdbcType="INTEGER" />

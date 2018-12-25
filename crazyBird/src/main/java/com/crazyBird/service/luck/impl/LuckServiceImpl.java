@@ -13,6 +13,7 @@ import com.crazyBird.dao.luck.dataobject.AdvertisementDO;
 import com.crazyBird.dao.luck.dataobject.DeleasePO;
 import com.crazyBird.dao.luck.dataobject.IsPartDO;
 import com.crazyBird.dao.luck.dataobject.JoinListPO;
+import com.crazyBird.dao.luck.dataobject.LuckActorDO;
 import com.crazyBird.dao.luck.dataobject.LuckDetailsDTO;
 import com.crazyBird.dao.luck.dataobject.LuckDrawDO;
 import com.crazyBird.dao.luck.dataobject.LuckListPO;
@@ -178,4 +179,33 @@ public class LuckServiceImpl implements LuckService{
 	public LuckDetailsDTO getDetailsByPrize(Long prizeId) {
 		return luckDrawDao.getDetailsByPrize(prizeId);
 	}
+
+	@Override
+	public ResponseDO<String> autoLottery() {
+		ResponseDO<String> response = new  ResponseDO<String>();
+		return response;
+	}
+
+	@Override
+	public ResponseDO<String> manualLottery(Long luckId) {
+		ResponseDO<String> response = new  ResponseDO<String>();
+		List<LuckPrizeDO> luckPrizes = luckPrizeDao.getLuckPrize(luckId);
+		for(LuckPrizeDO luckPrize:luckPrizes) {
+			for(Integer i=0;i<luckPrize.getNum();i++) {
+				LuckActorDO random = luckActorDao.getLuckRandom(luckId);
+				random.setPrizeId(luckPrize.getId());
+				random.setIsWinning(1);
+				if(luckActorDao.updateActor(random)) {
+					response.setCode(ResponseCode.ERROR);
+					response.setMessage("抽奖失败");
+					return response;
+				}
+			}
+			
+		}
+		response.setMessage("抽奖成功");
+		return response;
+	}
+
+
 }
