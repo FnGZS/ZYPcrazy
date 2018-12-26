@@ -10,8 +10,15 @@ public class LoginModel extends AbstractFlagModel {
 	private Integer sex;
 	private Long userId;
 	private String openAccount;
+	private String phone;
 	private Integer isbound;
 	private String sessionKey;
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getUserName() {
 		return userName;
 	}

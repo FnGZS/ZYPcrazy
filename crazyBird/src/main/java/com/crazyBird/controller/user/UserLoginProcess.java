@@ -87,6 +87,7 @@ public class UserLoginProcess extends BaseProcess {
 		model.setUserName(nickName);
 		model.setSessionKey(userInfo.getSessionKey());
 		model.setOpenAccount(login.getLoginAccount());
+		model.setPhone(login.getTelephone());
 		model.setIsbound(login.getIsBound());
 		if (model.getIsbound() == 1) {
 			try {
@@ -239,6 +240,7 @@ public class UserLoginProcess extends BaseProcess {
 		model.setAsToken(response.getDataResult().getAsToken());
 		model.setResult(response.getDataResult().getResult());
 		model.setMessage(response.getMessage());
+		model.setPhone(phone);
 		return model;
 	}
 }
