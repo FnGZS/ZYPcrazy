@@ -87,6 +87,7 @@ public class UserLoginProcess extends BaseProcess {
 		model.setUserName(nickName);
 		model.setSessionKey(userInfo.getSessionKey());
 		model.setOpenAccount(login.getLoginAccount());
+		model.setPhone(login.getTelephone());
 		model.setIsbound(login.getIsBound());
 		if (model.getIsbound() == 1) {
 			try {
