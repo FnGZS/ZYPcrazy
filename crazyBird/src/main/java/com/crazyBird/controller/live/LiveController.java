@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.live.model.LivePlayUrlDetailModel;
 import com.crazyBird.controller.live.model.LivePlayUrlModel;
 
@@ -50,5 +51,12 @@ public class LiveController {
 		
 		return liveProcess.getPlayUrlDetail(id);
 	}
+	@RequestMapping(value="/getPlayStatic",method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleFlagModel getPlayStatic() {
+		
+		return liveProcess.getPlayStatic();
+	}
+	
 	
 }

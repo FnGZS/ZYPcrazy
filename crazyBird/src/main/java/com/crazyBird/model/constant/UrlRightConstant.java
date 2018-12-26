@@ -38,7 +38,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/secondary/goods");
     	notVerifyUrlList.add("/secondary/comments");
     	notVerifyUrlList.add("/secondary/quantity");
-    	notVerifyUrlList.add("/live/getPush");
+    	notVerifyUrlList.add("/live");
 
     	
         loginNotNecessaryUrlList.add("/user/account/public");

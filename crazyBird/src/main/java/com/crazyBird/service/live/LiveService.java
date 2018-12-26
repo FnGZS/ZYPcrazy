@@ -7,4 +7,6 @@ import com.crazyBird.dao.live.dataobject.LiveDO;
 public interface LiveService {
 	List<LiveDO> getPlayList();
 	LiveDO getPlayUrl(Integer id);
+	void liveStatistical();
+
 }
