@@ -240,6 +240,7 @@ public class UserLoginProcess extends BaseProcess {
 		model.setAsToken(response.getDataResult().getAsToken());
 		model.setResult(response.getDataResult().getResult());
 		model.setMessage(response.getMessage());
+		model.setPhone(phone);
 		return model;
 	}
 }
