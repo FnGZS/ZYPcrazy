@@ -58,7 +58,6 @@ public class UserLoginServiceImpl implements UserLoginService {
 			//已绑定
 			UserLoginDO userLoginDO = userLoginDao.seletUserByOpenId(wxUser.getOpenId());
 			if (userLoginDO == null) {
-				userLoginDO = new UserLoginDO();
 				userLoginDO.setOpenId(wxUser.getOpenId());
 				userLoginDO.setLoginAccount(wxUser.getNickName());
 				userLoginDO.setHeadimgurl(wxUser.getHeadimgurl());
@@ -68,7 +67,6 @@ public class UserLoginServiceImpl implements UserLoginService {
 				userLoginDO.setUnionId(wxUser.getUnionId());
 				userLoginDao.insert(userLoginDO);
 			} else {
-				userLoginDO = new UserLoginDO();
 				userLoginDO.setOpenId(wxUser.getOpenId());
 				userLoginDO.setLoginAccount(wxUser.getNickName());
 				userLoginDO.setHeadimgurl(wxUser.getHeadimgurl());

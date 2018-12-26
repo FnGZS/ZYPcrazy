@@ -16,7 +16,7 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, login_account, headimgurl, union_id, telephone sex, access_token, is_Bound, sign_in_count, gmt_created, gmt_modified
+    id, open_id, login_account, headimgurl, union_id, telephone, sex, access_token, is_Bound, sign_in_count, gmt_created, gmt_modified
   </sql>
   <select id="queryUserLogin" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
