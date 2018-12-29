@@ -169,7 +169,7 @@ public class LuckProcess {
 					item.setLuckName(dataResult.getLuckName());
 					item.setLuckPic(dataResult.getLuckPic());
 					item.setExplain(dataResult.getExplain());
-					item.setLotteryTime(DateUtil.formatDate(dataResult.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
+					item.setLotteryTime(DateUtil.formatDate(dataResult.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHM));
 					item.setStatus(dataResult.getStatus());
 					item.setMode(dataResult.getMode());
 					item.setGmtCreated(DateUtil.formatDate(dataResult.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -194,7 +194,7 @@ public class LuckProcess {
 			model.setLuckName(details.getLuckName());
 			model.setLuckPic(details.getLuckPic());
 			model.setExplain(details.getExplain());
-			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
+			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHM));
 			model.setStatus(details.getStatus());
 			model.setMode(details.getMode());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -244,7 +244,7 @@ public class LuckProcess {
 		luckDraw.setLuckName(param.getLuckName());
 		luckDraw.setLuckPic(param.getLuckPic());
 		luckDraw.setLuckExplain(param.getLuckExplain());
-		luckDraw.setLotteryTime(DateUtil.getStringToDate(DateUtil.DATE_FORMAT_YMDHMS ,param.getLotteryTime()));
+		luckDraw.setLotteryTime(DateUtil.getStringToDate(DateUtil.DATE_FORMAT_YMDHM ,param.getLotteryTime()));
 		luckDraw.setLuckPrizeExplain(param.getLuckPrizeExplain());
 		luckDraw.setLuckMode(param.getLuckMode());
 		ResponseDO<String> response = luckService.AddLuck(luckDraw);
@@ -358,7 +358,7 @@ public class LuckProcess {
 			model.setLuckName(details.getLuckName());
 			model.setLuckPic(details.getLuckPic());
 			model.setExplain(details.getExplain());
-			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHMS));
+			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHM));
 			model.setStatus(details.getStatus());
 			model.setMode(details.getMode());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
