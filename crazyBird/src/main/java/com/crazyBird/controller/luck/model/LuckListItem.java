@@ -13,12 +13,19 @@ public class LuckListItem {
 	private String lotteryTime;
 	private Integer status;
 	private Integer mode;
+	private String prizeExplain;
 	private String gmtCreated;
 	private String userName;
 	private String headImgUrl;
 	
 	private List<LuckPrizeItems> items;
 	
+	public String getPrizeExplain() {
+		return prizeExplain;
+	}
+	public void setPrizeExplain(String prizeExplain) {
+		this.prizeExplain = prizeExplain;
+	}
 	public List<LuckPrizeItems> getItems() {
 		return items;
 	}

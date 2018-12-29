@@ -172,6 +172,7 @@ public class LuckProcess {
 					item.setLotteryTime(DateUtil.formatDate(dataResult.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHM));
 					item.setStatus(dataResult.getStatus());
 					item.setMode(dataResult.getMode());
+					item.setPrizeExplain(dataResult.getPrizeExplain());
 					item.setGmtCreated(DateUtil.formatDate(dataResult.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 					item.setUserName(dataResult.getUserName());
 					item.setHeadImgUrl(dataResult.getHeadImgUrl());
@@ -197,7 +198,10 @@ public class LuckProcess {
 			model.setLotteryTime(DateUtil.formatDate(details.getLotteryTime(), DateUtil.DATE_FORMAT_YMDHM));
 			model.setStatus(details.getStatus());
 			model.setMode(details.getMode());
+			model.setPrizeExplain(details.getPrizeExplain());
 			model.setGmtCreated(DateUtil.formatDate(details.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			model.setUserName(details.getUserName());
+			model.setHeadImgUrl(details.getHeadImgUrl());
 			List<LuckPrizeDO> prizes = luckService.getLuckPrize(luckId);
 			model.setItems(convertPrizeList(prizes));
 		}
