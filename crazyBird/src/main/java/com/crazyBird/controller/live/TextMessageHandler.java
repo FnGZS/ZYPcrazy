@@ -34,7 +34,7 @@ public class TextMessageHandler extends TextWebSocketHandler {
 
 		if (session.isOpen()) {
 			//session.sendMessage(new TextMessage("当前房间人数为"+users.size()));
-			session.sendMessage(new TextMessage("欢迎进入直播间,当前房间的在线人数为"+users.size()));
+			session.sendMessage(new TextMessage("{\"title\":\"欢迎进入直播间,当前房间的在线人数为"+users.size()+"\"}"));
 			if (textMessage.size() > 100) {
 				textMessage.clear();
 			} else {
