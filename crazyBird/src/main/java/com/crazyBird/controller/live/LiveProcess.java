@@ -8,6 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.live.model.LivePlayUrlDetailModel;
 import com.crazyBird.controller.live.model.LivePlayUrlItem;
 import com.crazyBird.controller.live.model.LivePlayUrlModel;
@@ -50,6 +51,10 @@ public class LiveProcess {
 		return model;
 		
 	}
-	
+	public SimpleFlagModel getPlayStatic() {
+		SimpleFlagModel model = new SimpleFlagModel();
+		liveService.liveStatistical();
+		return  model;
+	}
 	
 }
