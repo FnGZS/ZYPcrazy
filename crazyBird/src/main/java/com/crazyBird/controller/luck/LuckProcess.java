@@ -1,6 +1,8 @@
 package com.crazyBird.controller.luck;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,7 @@ import com.crazyBird.service.luck.LuckService;
 import com.crazyBird.utils.CollectionUtil;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.PageUtils;
+import com.ibm.icu.text.SimpleDateFormat;
 
 @Component
 public class LuckProcess {
@@ -248,7 +251,16 @@ public class LuckProcess {
 		luckDraw.setLuckName(param.getLuckName());
 		luckDraw.setLuckPic(param.getLuckPic());
 		luckDraw.setLuckExplain(param.getLuckExplain());
-		luckDraw.setLotteryTime(DateUtil.getStringToDate(DateUtil.DATE_FORMAT_YMDHM ,param.getLotteryTime()));
+		String pattern="yyyy-MM-dd HH:mm";
+		SimpleDateFormat dateFormat=new SimpleDateFormat(pattern);
+		Date date = null;
+		try {
+			date = dateFormat.parse(param.getLotteryTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		luckDraw.setLotteryTime(date);
 		luckDraw.setLuckPrizeExplain(param.getLuckPrizeExplain());
 		luckDraw.setLuckMode(param.getLuckMode());
 		ResponseDO<String> response = luckService.AddLuck(luckDraw);

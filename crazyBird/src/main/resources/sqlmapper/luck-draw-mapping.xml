@@ -29,7 +29,7 @@
   <select id="getLuckList" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckListPO">
   	select 
   	u.user_name,u.headimgurl,
-  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.luck_prize_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
   	from luck_draw as ld
   	LEFT JOIN `user` as u ON u.school_num=ld.user_id
   	where ld.is_examine = 1
@@ -42,7 +42,7 @@
   <select id="getLuckDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
   	select 
   	u.user_name,u.headimgurl,
-  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.luck_prize_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
   	from luck_draw as ld
   	LEFT JOIN `user` as u ON u.school_num=ld.user_id
   	where ld.is_examine = 1
@@ -61,7 +61,7 @@
   			#{luckName,jdbcType=VARCHAR},
   			#{luckPic,jdbcType=VARCHAR},
   			#{luckExplain,jdbcType=VARCHAR},
-  			#{lotteryTime,jdbcType=VARCHAR},
+  			#{lotteryTime,jdbcType=TIMESTAMP},
   			#{luckPrizeExplain,jdbcType=VARCHAR},
   			1,1,
   			#{luckMode,jdbcType=INTEGER},
