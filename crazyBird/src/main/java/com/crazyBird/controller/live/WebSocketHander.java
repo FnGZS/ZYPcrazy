@@ -1,5 +1,7 @@
 package com.crazyBird.controller.live;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
@@ -38,9 +40,14 @@ public class WebSocketHander implements WebSocketHandler {
 
 	}
 
-	public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
+	public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) {
 		//logger.debug("链接关闭......" + closeStatus.toString());
-		userHandler.error(webSocketSession);
+		try {
+			userHandler.error(webSocketSession);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean supportsPartialMessages() {

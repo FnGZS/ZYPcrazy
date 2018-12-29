@@ -93,8 +93,9 @@
 		<aop:advisor advice-ref="validateInterceptor"
 			pointcut-ref="controllerOperation" />
 	</aop:config>
-
+	
 	<!-- 异常拦截器 -->
 	<bean id="exceptionResolver" class="com.crazyBird.interceptor.ExceptionResolver" />
+	
 	
 </beans>
