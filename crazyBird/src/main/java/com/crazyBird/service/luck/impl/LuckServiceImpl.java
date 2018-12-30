@@ -207,5 +207,16 @@ public class LuckServiceImpl implements LuckService{
 		return response;
 	}
 
+	@Override
+	public ResponseDO<String> part(IsPartDO isPart) {
+		ResponseDO<String> response = new ResponseDO<String>();
+		if(luckActorDao.part(isPart)) {
+			response.setMessage("报名成功");
+			return response;
+		}
+		response.setMessage("报名失败");
+		return response;
+	}
+
 
 }

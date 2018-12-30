@@ -50,4 +50,6 @@ public abstract interface LuckService {
 
 	ResponseDO<String> manualLottery(Long luckId);
 
+	ResponseDO<String> part(IsPartDO isPart);
+
 }

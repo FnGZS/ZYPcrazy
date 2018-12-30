@@ -38,6 +38,8 @@ public abstract interface LuckActorDao {
 
 	boolean updateActor(LuckActorDO random);
 
+	boolean part(IsPartDO isPart);
+
 
 
 }

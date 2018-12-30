@@ -21,6 +21,7 @@ import com.crazyBird.controller.luck.model.LuckPartakeModel;
 import com.crazyBird.controller.luck.model.LuckPrizeModel;
 import com.crazyBird.controller.luck.model.LuckRandomModel;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
+import com.crazyBird.controller.luck.model.LuckpartModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
 import com.crazyBird.controller.luck.param.AwardParam;
 import com.crazyBird.controller.luck.param.DeleaseParam;
@@ -154,6 +155,15 @@ public class LuckController {
 	@ResponseBody
 	public LuckDetailsModel contentByPrize(Long prizeId) {
 		return luckProcess.contentByPrize(prizeId);
+	}
+	
+	/**
+	 * 报名
+	 * */
+	@RequestMapping(value ="/part", method = RequestMethod.POST)
+	@ResponseBody
+	public LuckpartModel part(@RequestBody IsPartParam param) {
+		return luckProcess.part(param);
 	}
 
 	/**

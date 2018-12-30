@@ -23,6 +23,7 @@ import com.crazyBird.controller.luck.model.LuckPrizeModel;
 import com.crazyBird.controller.luck.model.LuckRandomModel;
 import com.crazyBird.controller.luck.model.LuckWinnersItems;
 import com.crazyBird.controller.luck.model.LuckWinnersModel;
+import com.crazyBird.controller.luck.model.LuckpartModel;
 import com.crazyBird.controller.luck.param.AddLuckParam;
 import com.crazyBird.controller.luck.param.AwardParam;
 import com.crazyBird.controller.luck.param.DeleaseParam;
@@ -405,6 +406,21 @@ public class LuckProcess {
 			return model;
 		}
 		model.setMessage(manualResponse.getMessage());
+		return model;
+	}
+
+	public LuckpartModel part(IsPartParam param) {
+		LuckpartModel model = new LuckpartModel();
+		IsPartDO isPart = new IsPartDO();
+		isPart.setLuckId(param.getLuckId());
+		isPart.setUserId(param.getUserId());
+		ResponseDO<String> response = luckService.part(isPart);
+		if (!response.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+			return model;
+		}
+		model.setMessage(response.getMessage());
 		return model;
 	}
 

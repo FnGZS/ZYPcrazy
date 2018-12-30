@@ -147,4 +147,18 @@
     order by id desc
     limit 1
   </update>
+  <insert id="insert" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO" >
+    insert into luck_actor 
+    (
+    	user_id,luck_id,is_winning,gmt_created,gmt_modified
+    )
+    values 
+    (
+    	#{userId,jdbcType=BIGINT}, 
+    	#{luckId,jdbcType=BIGINT}, 
+    	0,
+    	NOW(),
+		NOW()
+	)
+  </insert>
 </mapper>
