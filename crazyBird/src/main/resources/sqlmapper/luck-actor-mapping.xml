@@ -147,7 +147,7 @@
     order by id desc
     limit 1
   </update>
-  <insert id="insert" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO" >
+  <insert id="part" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO" >
     insert into luck_actor 
     (
     	user_id,luck_id,is_winning,gmt_created,gmt_modified
