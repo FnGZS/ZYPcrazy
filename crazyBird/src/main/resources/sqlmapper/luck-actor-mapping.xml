@@ -84,7 +84,7 @@
   	from luck_actor as la
   	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
   	LEFT JOIN `user` as u ON u.school_num=la.user_id
-  	where la.id = #{luckId,jdbcType=BIGINT}
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
@@ -135,14 +135,13 @@
   	t1.id,t1.user_id,t1.luck_id,t1.is_winning,t1.prize_id
   FROM `luck_actor` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `luck_actor`)-(SELECT MIN(id) FROM `luck_actor`))+(SELECT MIN(id) FROM `luck_actor`)) AS id) AS t2 
   WHERE t1.id >= t2.id 
-  AND is_winning = 2
+  AND is_winning = 0
   limit 1
   </select>
   <update id="updateActor" parameterType="com.crazyBird.dao.luck.dataobject.LuckActorDO" >
-    update user_login
+    update luck_actor
     set is_winning = #{isWinning,jdbcType=INTEGER},
     	prize_id = #{prizeId,jdbcType=BIGINT},
-		sign_in_count = sign_in_count + 1,
 		gmt_modified = NOW()
     where id = #{id,jdbcType=BIGINT}
     order by id desc

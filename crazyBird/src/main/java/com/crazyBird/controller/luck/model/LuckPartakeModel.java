@@ -7,7 +7,6 @@ import com.crazyBird.controller.base.AbstractPageFlagModel;
 public class LuckPartakeModel extends AbstractPageFlagModel {
 
 	private List<LuckPartakeItems> items;
-
 	public List<LuckPartakeItems> getItems() {
 		return items;
 	}

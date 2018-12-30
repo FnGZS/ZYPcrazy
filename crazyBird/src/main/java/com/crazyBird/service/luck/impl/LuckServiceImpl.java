@@ -195,7 +195,7 @@ public class LuckServiceImpl implements LuckService{
 				LuckActorDO random = luckActorDao.getLuckRandom(luckId);
 				random.setPrizeId(luckPrize.getId());
 				random.setIsWinning(1);
-				if(luckActorDao.updateActor(random)) {
+				if(!luckActorDao.updateActor(random)) {
 					response.setCode(ResponseCode.ERROR);
 					response.setMessage("抽奖失败");
 					return response;
