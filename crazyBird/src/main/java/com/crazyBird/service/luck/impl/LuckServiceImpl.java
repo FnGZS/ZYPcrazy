@@ -203,6 +203,7 @@ public class LuckServiceImpl implements LuckService{
 			}
 			
 		}
+		luckDrawDao.endLuck(luckId);
 		response.setMessage("抽奖成功");
 		return response;
 	}

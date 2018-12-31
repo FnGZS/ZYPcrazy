@@ -25,5 +25,7 @@ public abstract interface LuckDrawDao {
 
 	LuckDetailsDTO getDetailsByPrize(@Param("prizeId") Long prizeId);
 
+	void endLuck(@Param("luckId") Long luckId);
+
 	
 }

@@ -95,4 +95,12 @@
   	where ld.is_examine = 1
   	AND lp.id = #{prizeId,jdbcType=INTEGER}
   </select>
+   <update id="endLuck" parameterType="java.lang.Long" >
+    update luck_draw
+    set status = 2,
+		gmt_modified = NOW()
+    where id = #{luckId,jdbcType=BIGINT}
+    order by id desc
+    limit 1
+  </update>
 </mapper>
