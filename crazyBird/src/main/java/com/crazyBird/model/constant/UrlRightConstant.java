@@ -50,6 +50,8 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/lost/lostInput");
         loginVerifyUrlList.add("/lost/lostDelete");
         loginVerifyUrlList.add("/secondary");
+        loginVerifyUrlList.add("/luck/part");
+        loginVerifyUrlList.add("/luck/addLuck");
         
         
         dataSignUrlList.add("/");

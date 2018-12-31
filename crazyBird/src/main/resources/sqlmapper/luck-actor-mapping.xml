@@ -67,7 +67,7 @@
   	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
   	LEFT JOIN luck_prize as lp on la.prize_id=lp.id
   	LEFT JOIN `user` as u ON u.school_num=la.user_id
-  	where la.id = #{luckId,jdbcType=BIGINT}
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
   	AND la.is_winning = 1
   	order by id desc
   	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
@@ -135,6 +135,7 @@
   	t1.id,t1.user_id,t1.luck_id,t1.is_winning,t1.prize_id
   FROM `luck_actor` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `luck_actor`)-(SELECT MIN(id) FROM `luck_actor`))+(SELECT MIN(id) FROM `luck_actor`)) AS id) AS t2 
   WHERE t1.id >= t2.id 
+  AND luck_id = #{luckId,jdbcType=BIGINT}
   AND is_winning = 0
   limit 1
   </select>
