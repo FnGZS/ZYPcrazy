@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.vote.VoteSlideDao">
+	<resultMap id="BaseResultMap"
+		type="com.crazyBird.dao.vote.dataobject.VoteActionSlideDO">
+		<result column="action_id" property="actionId"
+			jdbcType="VARCHAR" />
+				<result column="picture" property="picUrl"
+			jdbcType="VARCHAR" />
+		</resultMap>
+	<select id="getVoteActionSlide" resultMap="BaseResultMap" >
+		select action_id,picture from vote_slide 
+	</select>
+</mapper>

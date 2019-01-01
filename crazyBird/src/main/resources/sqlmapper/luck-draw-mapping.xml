@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.luck.LuckDrawDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckDetailsDTO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_name" property="luckName" jdbcType="VARCHAR" />
+    <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
+    <result column="luck_explain" property="explain" jdbcType="VARCHAR" />
+    <result column="lottery_time" property="lotteryTime" jdbcType="TIMESTAMP" />
+    <result column="luck_prize_explain" property="prizeExplain" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="luck_mode" property="mode" jdbcType="INTEGER" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
+ <sql id="Base_Column_List" >
+   id,user_id,luck_name,luck_pic,luck_explain,lottery_time,luck_prize_explain,status,luck_mode,gmt_created
+ </sql>
+  <select id="getLuckListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckListPO">
+  select count(*)
+  from luck_draw
+  where is_examine = 1
+    <if test="status != null">
+  		AND status = #{status,jdbcType=INTEGER}
+  	</if>
+  </select>
+  <select id="getLuckList" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckListPO">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.luck_prize_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id
+  	where ld.is_examine = 1
+    <if test="status != null">
+  		AND ld.status = #{status,jdbcType=INTEGER}
+  	</if>
+  	order by ld.id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getLuckDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.luck_prize_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id
+  	where ld.is_examine = 1
+  	AND ld.id = #{luckId,jdbcType=INTEGER}
+  </select>
+  <insert id="addLuck"  parameterType="com.crazyBird.dao.luck.dataobject.LuckDrawDO">
+  		insert into luck_draw
+  		(
+  			user_id,luck_name,luck_pic,luck_explain,
+  			lottery_time,luck_prize_explain,is_examine,
+  			status,luck_mode,gmt_created,gmt_modified
+  		)
+  		value
+  		(
+  			#{userId,jdbcType=BIGINT},
+  			#{luckName,jdbcType=VARCHAR},
+  			#{luckPic,jdbcType=VARCHAR},
+  			#{luckExplain,jdbcType=VARCHAR},
+  			#{lotteryTime,jdbcType=TIMESTAMP},
+  			#{luckPrizeExplain,jdbcType=VARCHAR},
+  			1,1,
+  			#{luckMode,jdbcType=INTEGER},
+  			now(),now()
+  		)
+ </insert>
+ <select id="getDeleaseCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.DeleasePO">
+  select count(*)
+  from luck_draw
+  where is_examine = 1
+    AND user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="getDelease" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.DeleasePO">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id
+  	where ld.is_examine = 1
+     AND ld.user_id = #{userId,jdbcType=BIGINT}
+  	order by ld.id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+   <select id="getDetailsByPrize" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id 
+  	LEFT JOIN luck_prize as lp ON ld.id=lp.luck_draw_id
+  	where ld.is_examine = 1
+  	AND lp.id = #{prizeId,jdbcType=INTEGER}
+  </select>
+   <update id="endLuck" parameterType="java.lang.Long" >
+    update luck_draw
+    set status = 2,
+		gmt_modified = NOW()
+    where id = #{luckId,jdbcType=BIGINT}
+    order by id desc
+    limit 1
+  </update>
+</mapper>

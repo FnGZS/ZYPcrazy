@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.luck.LuckActorDao">
+<resultMap id="BaseResultMap" type="com.crazyBird.dao.luck.dataobject.LuckWinnersDTO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="INTEGER" />
+    <result column="price_id" property="priceId" jdbcType="BIGINT" />
+    <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="PartakeResultMap" type="com.crazyBird.dao.luck.dataobject.LuckPartakeDTO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="JoinListMap" type="com.crazyBird.dao.luck.dataobject.LuckDetailsDTO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_name" property="luckName" jdbcType="VARCHAR" />
+    <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
+    <result column="luck_explain" property="explain" jdbcType="VARCHAR" />
+    <result column="lottery_time" property="lotteryTime" jdbcType="TIMESTAMP" />
+    <result column="luck_prize_explain" property="prizeExplain" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="luck_mode" property="mode" jdbcType="INTEGER" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="PrizeResultMap" type="com.crazyBird.dao.luck.dataobject.LuckPrizeDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="luck_prize" property="luckPrize" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="luck_pic" property="luckPic" jdbcType="VARCHAR" />
+    <result column="sponsor" property="sponsor" jdbcType="VARCHAR" />
+    <result column="luck_draw_id" property="luckDrawId" jdbcType="BIGINT" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+<resultMap id="RandomResultMap" type="com.crazyBird.dao.luck.dataobject.LuckActorDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="luck_id" property="luckId" jdbcType="BIGINT" />
+    <result column="is_winning" property="isWinning" jdbcType="VARCHAR" />
+    <result column="prize_id" property="prizeId" jdbcType="BIGINT" />
+</resultMap>
+
+<select id="getLuckWinnersCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
+  select count(*)
+  from luck_actor
+  where luck_id = #{luckId,jdbcType=BIGINT}
+  AND is_winning = 1
+  </select>
+  <select id="getLuckWinners" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckWinnersPO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	lp.id as price_id,lp.luck_prize,lp.num,lp.luck_pic,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
+  	LEFT JOIN luck_prize as lp on la.prize_id=lp.id
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
+  	AND la.is_winning = 1
+  	order by id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getLuckPartakeCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckPartakePO">
+  select count(*)
+  from luck_actor
+  where luck_id = #{luckId,jdbcType=BIGINT}
+  </select>
+  <select id="getLuckPartake" resultMap="PartakeResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckPartakePO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN luck_draw as ld on ld.id=la.luck_id
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
+  	order by id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="seletPart" resultType="com.crazyBird.dao.luck.dataobject.LuckPartakeDTO" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO">
+  	select 
+	la.id,la.user_id,la.luck_id,la.is_winning,
+	u.user_name,u.headimgurl
+  	from luck_actor as la
+  	LEFT JOIN `user` as u ON u.school_num=la.user_id
+  	where la.luck_id = #{luckId,jdbcType=BIGINT}
+  	AND la.user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="getJoinListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.JoinListPO">
+  select count(*)
+  from luck_actor
+  where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="getJoinList" resultMap="JoinListMap" parameterType="com.crazyBird.dao.luck.dataobject.JoinListPO">
+  	select 
+  	u.user_name,u.headimgurl,
+  	ld.id,ld.user_id,ld.luck_name,ld.luck_pic,ld.luck_explain,ld.lottery_time,ld.status,ld.luck_mode,ld.gmt_created
+  	from luck_draw as ld
+  	LEFT JOIN `user` as u ON u.school_num=ld.user_id
+  	LEFT JOIN luck_actor as la ON ld.id=la.luck_id
+  	where ld.is_examine = 1
+     AND la.user_id = #{userId,jdbcType=BIGINT}
+  	order by ld.id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+   <select id="getAwardListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.luck.dataobject.LuckPrizePO">
+  select count(*)
+  from luck_actor
+  where user_id = #{userId,jdbcType=BIGINT}
+  AND is_winning = 1
+  </select>
+  <select id="getAwardList" resultMap="PrizeResultMap" parameterType="com.crazyBird.dao.luck.dataobject.LuckPrizePO">
+  select 
+  	lp.id,lp.luck_prize,lp.num,lp.luck_pic,lp.sponsor,lp.luck_draw_id,lp.gmt_created
+  from luck_prize as lp
+  LEFT JOIN luck_actor as la ON la.prize_id=lp.id
+  where la.user_id = #{userId,jdbcType=BIGINT}
+  AND la.is_winning = 1
+  	order by lp.luck_draw_id desc
+  	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getLuckRandom" resultMap="RandomResultMap" parameterType="java.lang.Long">
+  select 
+  	t1.id,t1.user_id,t1.luck_id,t1.is_winning,t1.prize_id
+  FROM `luck_actor` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `luck_actor`)-(SELECT MIN(id) FROM `luck_actor`))+(SELECT MIN(id) FROM `luck_actor`)) AS id) AS t2 
+  WHERE t1.id >= t2.id 
+  AND luck_id = #{luckId,jdbcType=BIGINT}
+  AND is_winning = 0
+  limit 1
+  </select>
+  <update id="updateActor" parameterType="com.crazyBird.dao.luck.dataobject.LuckActorDO" >
+    update luck_actor
+    set is_winning = #{isWinning,jdbcType=INTEGER},
+    	prize_id = #{prizeId,jdbcType=BIGINT},
+		gmt_modified = NOW()
+    where id = #{id,jdbcType=BIGINT}
+    order by id desc
+    limit 1
+  </update>
+  <insert id="part" parameterType="com.crazyBird.dao.luck.dataobject.IsPartDO" >
+    insert into luck_actor 
+    (
+    	user_id,luck_id,is_winning,gmt_created,gmt_modified
+    )
+    values 
+    (
+    	#{userId,jdbcType=BIGINT}, 
+    	#{luckId,jdbcType=BIGINT}, 
+    	0,
+    	NOW(),
+		NOW()
+	)
+  </insert>
+</mapper>

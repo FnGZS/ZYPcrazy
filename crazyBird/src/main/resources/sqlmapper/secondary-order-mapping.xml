@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crazyBird.dao.secondary.SecondaryOrderDao">
+<resultMap id="BaseResult" type="com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+    <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="postion" property="postion" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
+    <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
+    <result column="goods_price" property="price" jdbcType="DECIMAL" />
+    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+
+<resultMap id="OrderDTOResult" type="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+    <result column="goods_content" property="goodsContent" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="postion" property="postion" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_way" property="goodsWay" jdbcType="VARCHAR" />
+    <result column="trading_way" property="tradingWay" jdbcType="VARCHAR" />
+    <result column="goods_price" property="price" jdbcType="DECIMAL" />
+    <result column="goods_old_price" property="oldPrice" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
+    <result column="seller" property="seller" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="receivePhone" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="receiveAddress" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+
+<resultMap id="GoodsExistDOMap" type="com.crazyBird.dao.secondary.dataobject.GoodsExistDO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+</resultMap>
+
+<resultMap id="CapitalDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="remainder" property="remainder" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+</resultMap>
+<resultMap id="CashDOMap" type="com.crazyBird.dao.secondary.dataobject.SecondaryCashDO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+</resultMap>
+
+<sql id="BaseOrder">
+	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
+ </sql>
+<select id="getSellSecondaryCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
+  	select 
+	count(1)
+  	from secondary_goods where user_id = #{sellId,jdbcType=BIGINT} and status = #{status,jdbcType=INTEGER}
+  </select>
+  <select id="getSellSecondaryByUser" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
+   select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
+  sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way,
+  stw.field as trading_way ,st.field as goods_type, sg.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where sg.`status` = #{status,jdbcType=INTEGER}
+	and sg.user_id = #{sellId,jdbcType=BIGINT}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getPurchaseCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.PurchasePO">
+  	select 
+	count(1)
+  	from secondary_order where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="getPurchaseByUser" resultMap="BaseResult" parameterType="com.crazyBird.dao.secondary.dataobject.PurchasePO">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
+  sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as goods_way,
+  stw.field as trading_way ,st.field as goods_type, sg.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.user_id = #{userId,jdbcType=BIGINT}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+   <select id="getSecondaryGoods" resultMap="GoodsExistDOMap" parameterType="java.lang.Long">
+	select sg.id,sg.status ,u.user_name,sg.user_id
+	from secondary_goods as sg 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id 
+	where sg.id=#{id,jdbcType=BIGINT} 
+  </select>
+    <select id="getOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
+  	select 
+	count(1)
+  	from secondary_order where user_id = #{userId,jdbcType=BIGINT} and order_state = #{orderStatus,jdbcType=INTEGER}
+  </select>
+  <select id="checkSecondaryOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(1) from secondary_order where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state = 1
+  </select>
+  <select id="getOrderList" resultMap="OrderDTOResult" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
+  sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+  sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.user_id = #{userId,jdbcType=BIGINT} and seo.order_state = #{orderStatus,jdbcType=INTEGER}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <insert id="createOrder"  parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+  		insert into secondary_order
+  		(
+  			<include refid="BaseOrder" />
+  		)
+  		value
+  		(
+  			#{orderId,jdbcType=VARCHAR},
+  			#{goodsId,jdbcType=BIGINT},
+  			#{userId,jdbcType=BIGINT},
+  			#{price,jdbcType=DECIMAL},
+  			1,
+  			#{sellerId,jdbcType=BIGINT},
+  			#{seller,jdbcType=VARCHAR},
+  			#{consignee,jdbcType=VARCHAR},
+  			#{receivePhone,jdbcType=VARCHAR},
+  			#{receiveAddress,jdbcType=VARCHAR},
+  			now(),now()
+  		)
+  </insert>
+  <update id="updateOrder" parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO" >
+    update secondary_order
+    set order_state = 0
+    where  id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id ="updateSecondaryOrder" parameterType="java.lang.String">
+  update secondary_order set order_state = 1 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+  </update>
+  <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
+  update secondary_order set order_state = 4 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
+  </update>
+  <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
+    update secondary_order set order_state = 2 and gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
+  </update>
+  <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
+  	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <insert id = "setSecondaryCash" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCashDO">
+    		insert into cash_order
+  		(
+  			user_id,account,cash,gmt_created,gmt_modified
+  		)
+  		value
+  		(
+  			#{userId,jdbcType=BIGINT},
+  			#{account,jdbcType=VARCHAR},
+  			#{cash,jdbcType=DECIMAL},
+  			now(),now()
+  		)
+  </insert>
+</mapper>
