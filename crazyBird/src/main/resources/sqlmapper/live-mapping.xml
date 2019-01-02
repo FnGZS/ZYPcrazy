@@ -14,7 +14,16 @@
 			jdbcType="VARCHAR" />
 		<result column="end_time" property="endTime"
 			jdbcType="TIMESTAMP" />
-		
+	</resultMap>
+		<resultMap id="LiveGiftDOMap"
+		type="com.crazyBird.dao.live.dataobject.LiveGiftDO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="gift_name" property="giftName"
+			jdbcType="VARCHAR" />
+			<result column="gift_image" property="giftImage"
+			jdbcType="VARCHAR" />
+		<result column="gift_price" property="giftPrice"
+			jdbcType="DECIMAL" />
 	</resultMap>
   <sql id="Base_Column_List" >
     id, title,`status`, stream_id,play_url,end_time
@@ -29,6 +38,9 @@
 	<include refid="Base_Column_List"/>
 	from live where id=#{id,jdbcType=INTEGER}
 </select>
-  
+ <select id="getLiveGiftList" resultMap="LiveGiftDOMap">
+ select id,gift_name,gift_image,gift_price
+ from live_gift
+ </select>
 
 </mapper>

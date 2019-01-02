@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.live.model.LiveGiftItem;
+import com.crazyBird.controller.live.model.LiveGiftModel;
 import com.crazyBird.controller.live.model.LivePlayUrlDetailModel;
 import com.crazyBird.controller.live.model.LivePlayUrlItem;
 import com.crazyBird.controller.live.model.LivePlayUrlModel;
 import com.crazyBird.dao.live.dataobject.LiveDO;
+import com.crazyBird.dao.live.dataobject.LiveGiftDO;
 import com.crazyBird.service.live.LiveService;
 import com.crazyBird.utils.DateUtil;
 @Component
@@ -56,5 +59,23 @@ public class LiveProcess {
 		liveService.liveStatistical();
 		return  model;
 	}
+	public LiveGiftModel getLiveGiftList() {
+		LiveGiftModel model = new LiveGiftModel();
+		List<LiveGiftDO> tags = liveService.getLiveGiftList();
+		List<LiveGiftItem> items  = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(tags )) {
+		for (LiveGiftDO tag : tags) {
+			LiveGiftItem item = new LiveGiftItem();
+			item.setGiftImage(tag.getGiftImage());
+			item.setGiftName(tag.getGiftName());
+			item.setGiftPrice(String.valueOf(tag.getGiftPrice()));
+			item.setId(tag.getId());
+			items.add(item);
+		}		
+		model.setList(items);
+		}
+		return model;	
+	}
+	
 	
 }
