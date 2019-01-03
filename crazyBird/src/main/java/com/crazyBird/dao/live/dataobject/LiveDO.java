@@ -7,9 +7,16 @@ public class LiveDO {
 	private String title;
 	private Integer status;
 	private String playUrl;
+	private String imageUrl;
 	private Date endTime;
 	private String streamId;
 	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public String getStreamId() {
 		return streamId;
 	}

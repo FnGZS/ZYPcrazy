@@ -33,6 +33,7 @@ public class LiveProcess {
 				item.setStatus(tag.getStatus());
 				item.setPlayUrl(tag.getPlayUrl());
 				item.setTitle(tag.getTitle());
+				item.setImageUrl(tag.getImageUrl());
 				item.setStreamId(tag.getStreamId());
 				item.setEndTime(DateUtil.formatDate(tag.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
 				items.add(item);
@@ -49,6 +50,7 @@ public class LiveProcess {
 		model.setStatus(liveDO.getStatus());
 		model.setPlayUrl(liveDO.getPlayUrl());
 		model.setTitle(liveDO.getTitle());
+		model.setImageUrl(liveDO.getImageUrl());
 		model.setStreamId(liveDO.getStreamId());
 		model.setEndTime(DateUtil.formatDate(liveDO.getEndTime(), DateUtil.DATE_FORMAT_YMDHMS));
 		return model;

@@ -10,6 +10,8 @@
 			jdbcType="VARCHAR" />
 		<result column="status" property="status"
 			jdbcType="INTEGER" />
+		<result column="image_url" property="imageUrl"
+			jdbcType="VARCHAR" />
 		<result column="play_url" property="playUrl"
 			jdbcType="VARCHAR" />
 		<result column="end_time" property="endTime"
@@ -26,7 +28,7 @@
 			jdbcType="DECIMAL" />
 	</resultMap>
   <sql id="Base_Column_List" >
-    id, title,`status`, stream_id,play_url,end_time
+    id, title,`status`, stream_id,play_url,image_url,end_time
   </sql>
 <select id="getPlayList" resultMap="BaseResultMap">
 	select 
