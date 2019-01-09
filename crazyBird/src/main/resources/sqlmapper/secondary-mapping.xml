@@ -222,6 +222,9 @@
   LEFT JOIN notice_template as nt  on nt.id=sv.notice 
   where sv.user_id=#{userId,jdbcType=BIGINT}
   </select>
+  <select id="getSecondaryGoodsId" parameterType="java.lang.String" resultType="java.lang.Long">
+  select goods_id from secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
+  </select>
   <update id="updateSecondaryMessage" parameterType="java.lang.Long">
   update secondary_goods_violation set is_view=1 where id=#{id,jdbcType=BIGINT}
   </update>

@@ -135,7 +135,7 @@ public class UserPayProcess extends BaseProcess {
 
 	public boolean wxNotify(Map<String, Object> resultMap) {
 		int secondaryFlag = payService.checkSecondaryOrder((String) resultMap.get("out_trade_no"));
-		if (secondaryFlag == 0) {
+		if (secondaryFlag >0) {
 			payService.updateSecondaryOrder((String) resultMap.get("out_trade_no"));
 		}
 		int count = payService.checkWxPayOrder((String) resultMap.get("transaction_id"));
@@ -159,11 +159,11 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
 		System.out.println("二手支付成功");
 		int flag = payService.insertOrder(orderDO);
-		Long id = secondaryService.getSecondaryGoodsId((String) resultMap.get("out_trade_no"));
-		secondaryService.updateSecondaryGoodsPay(id);
 		if (flag <= 0) {
 			return false;
 		}
+		Long id = secondaryService.getSecondaryGoodsId((String) resultMap.get("out_trade_no"));
+		secondaryService.updateSecondaryGoodsPay(id);
 		return true;
 
 	}
