@@ -74,38 +74,36 @@ public class UserPayProcess extends BaseProcess {
 		 */
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		ResponseDO<OrderResponseInfo> result = null;
-		
 
-			String orderId = param.getOrderId();
-			UserPayParam userPay = new UserPayParam();
-			userPay.setFee(param.getFee());
-			userPay.setPlatCode(param.getPlatCode());
-			userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
-			System.out.println(param.getType());
-			if (param.getType() == 1) {
-				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
-			}
-			if (param.getType() == 2) {
-				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL_GIFT);
-			}
-			if (!result.isSuccess()) {
-				model.setCode(HttpCodeEnum.ERROR.getCode());
-				model.setMessage(result.getMessage());
-				return model;
-			}
-			model.setNonceStr(result.getDataResult().getNonceStr());
+		String orderId = param.getOrderId();
+		UserPayParam userPay = new UserPayParam();
+		userPay.setFee(param.getFee());
+		userPay.setPlatCode(param.getPlatCode());
+		userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
+		System.out.println(param.getType());
+		if (param.getType() == 1) {
+			result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
+		}
+		if (param.getType() == 2) {
+			result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL_GIFT);
+		}
+		if (!result.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(result.getMessage());
+			return model;
+		}
+		model.setNonceStr(result.getDataResult().getNonceStr());
 
-			model.setPkg(result.getDataResult().getPkg());
-			model.setSignType(result.getDataResult().getSignType());
-			model.setTimeStamp(result.getDataResult().getTimeStamp());
-			model.setPaySign(result.getDataResult().getPaySign());
+		model.setPkg(result.getDataResult().getPkg());
+		model.setSignType(result.getDataResult().getSignType());
+		model.setTimeStamp(result.getDataResult().getTimeStamp());
+		model.setPaySign(result.getDataResult().getPaySign());
 
-			/*
-			 * else { model.setCode(HttpCodeEnum.ERROR.getCode()); model.setMessage("支付失败");
-			 * }
-			 */
-		
-	
+		/*
+		 * else { model.setCode(HttpCodeEnum.ERROR.getCode()); model.setMessage("支付失败");
+		 * }
+		 */
+
 		return model;
 	}
 
@@ -130,7 +128,7 @@ public class UserPayProcess extends BaseProcess {
 
 	public boolean wxNotify(Map<String, Object> resultMap) {
 		int secondaryFlag = payService.checkSecondaryOrder((String) resultMap.get("out_trade_no"));
-		if (secondaryFlag ==0) {
+		if (secondaryFlag == 0) {
 			payService.updateSecondaryOrder((String) resultMap.get("out_trade_no"));
 		}
 		int count = payService.checkWxPayOrder((String) resultMap.get("transaction_id"));
@@ -147,7 +145,7 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setTrade_type((String) resultMap.get("trade_type"));
 		orderDO.setBank_type((String) resultMap.get("bank_type"));
 		orderDO.setTotal_fee(Integer.valueOf((String) resultMap.get("total_fee")));
-		orderDO.setCash_fee(Integer.valueOf((String)resultMap.get("cash_fee")));
+		orderDO.setCash_fee(Integer.valueOf((String) resultMap.get("cash_fee")));
 		orderDO.setTransaction_id((String) resultMap.get("transaction_id"));
 		orderDO.setOut_trade_no((String) resultMap.get("out_trade_no"));
 		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
@@ -157,14 +155,40 @@ public class UserPayProcess extends BaseProcess {
 		if (flag <= 0) {
 			return false;
 		}
-		Long id = secondaryService.getSecondaryGoodsId((String) resultMap.get("out_trade_no"));
-		secondaryService.updateSecondaryGoodsPay(id);
 		return true;
 
 	}
+
 	public boolean wxNotifyGift(Map<String, Object> resultMap) {
+		int liveFlag = payService.checkLiveOrder((String) resultMap.get("out_trade_no"));
+		if (liveFlag == 0) {
+			payService.updateLiveOrder((String) resultMap.get("out_trade_no"));
+		}
+		int count = payService.checkWxPayOrder((String) resultMap.get("transaction_id"));
+		if (count > 0) {
+			return true;
+		}
+		UserWxPayOrderDO orderDO = new UserWxPayOrderDO();
+		orderDO.setAppid((String) resultMap.get("appid"));
+		orderDO.setMch_id((String) resultMap.get("mch_id"));
+		orderDO.setNonce_str((String) resultMap.get("nonce_str"));
+		orderDO.setSign((String) resultMap.get("sign"));
+		orderDO.setResult_code((String) resultMap.get("result_code"));
+		orderDO.setOpenid((String) resultMap.get("openid"));
+		orderDO.setTrade_type((String) resultMap.get("trade_type"));
+		orderDO.setBank_type((String) resultMap.get("bank_type"));
+		orderDO.setTotal_fee(Integer.valueOf((String) resultMap.get("total_fee")));
+		orderDO.setCash_fee(Integer.valueOf((String) resultMap.get("cash_fee")));
+		orderDO.setTransaction_id((String) resultMap.get("transaction_id"));
+		orderDO.setOut_trade_no((String) resultMap.get("out_trade_no"));
+		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
+		orderDO.setGmt_modified(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
+		int flag = payService.insertOrder(orderDO);
+		if (flag <= 0) {
+			return false;
+		}
 		System.out.println("礼物支付成功");
 		return true;
-		
+
 	}
 }

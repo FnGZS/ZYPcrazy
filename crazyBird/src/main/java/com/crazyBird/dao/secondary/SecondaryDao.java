@@ -43,8 +43,10 @@ public interface SecondaryDao {
 	int getSecondaryGoodsCommentsNum(Long id);
 	//得到回复
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
-	//更新评论状态
+	//更新评论状态(变成已读)
 	int updateSecondaryComments(SecondaryCommentViewDO viewDO);
+	//
+	int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO);
 	//评论
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
 	//回复
@@ -67,7 +69,12 @@ public interface SecondaryDao {
 	
 	List<SecondaryMessageDTO> getSecondaryMessage(Long userId);
 	SecondaryMessageDTO getSecondaryMessageDetail(Long id);
+	//变更审核信息状态（已读）
 	void updateSecondaryMessage(Long id);
+	
+	//变更审核信息状态（不再提醒）
+	void updateSecondaryMessageNoSee(Long id);
+	
 	//更新商品状态 （被买）
 	int updateSecondaryGoodsPay(Long id);
 	

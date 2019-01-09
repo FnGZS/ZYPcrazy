@@ -282,4 +282,15 @@ public class SecondaryServiceImpl implements SecondaryService{
 		return secondaryDao.getSecondaryGoodsId(orderId);
 	}
 
+	@Override
+	public int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO) {
+		
+		return secondaryDao.updateSecondaryCommentsNoSee(viewDO);
+	}
+
+	@Override
+	public void updateSecondaryMessageNoSee(Long id) {
+		secondaryDao.updateSecondaryMessageNoSee(id);
+	}
+
 }

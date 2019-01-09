@@ -15,4 +15,8 @@ public interface LiveDao {
 	
 	int createGiftOrder(LiveOrderDO orderDO);
 	
+	int checkLiveOrder(String orderId);
+	
+	int updateLiveOrder(String out_trade_no);
+	
 }
