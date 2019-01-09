@@ -33,6 +33,7 @@ select count(1) from `order` where transaction_id =#{transaction_id,jdbcType=VAR
 	#{result_code,jdbcType=VARCHAR},
 	#{openid,jdbcType=VARCHAR},
 	#{trade_type,jdbcType=VARCHAR},
+	#{bank_type,jdbcType=VARCHAR},
 	#{total_fee,jdbcType=INTEGER},
 	#{cash_fee,jdbcType=INTEGER},
 	#{transaction_id,jdbcType=VARCHAR},
