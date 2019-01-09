@@ -5,14 +5,17 @@ package com.crazyBird.controller.live;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.live.model.LiveGiftModel;
+import com.crazyBird.controller.live.model.LiveOrderModel;
 import com.crazyBird.controller.live.model.LivePlayUrlDetailModel;
 import com.crazyBird.controller.live.model.LivePlayUrlModel;
+import com.crazyBird.controller.live.param.LiveGiftOrderParam;
 
 
 /**
@@ -82,6 +85,11 @@ public class LiveController {
 	/**
 	 * 下单
 	 */
-	
+	@RequestMapping(value="/createGiftList",method = RequestMethod.POST)
+	@ResponseBody
+	public LiveOrderModel createGiftOrder(@RequestBody LiveGiftOrderParam param) {
+		return liveProcess.createGiftOrder(param);
+		
+	}
 	
 }

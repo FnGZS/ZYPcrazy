@@ -136,7 +136,7 @@ public class SecondaryController {
 		return secondaryProcess.getSecondaryGoodsComments(param);
 	}
 	/**
-	 * 获取用户未读的评论回复
+	 * 获取用户未读的评论回复（0:未读，1已读，2：不再提醒）
 	 *
 	 */
 	@ResponseBody

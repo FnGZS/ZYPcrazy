@@ -17,7 +17,7 @@
 		<result column="end_time" property="endTime"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
-		<resultMap id="LiveGiftDOMap"
+	<resultMap id="LiveGiftDOMap"
 		type="com.crazyBird.dao.live.dataobject.LiveGiftDO">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="gift_name" property="giftName"
@@ -26,6 +26,24 @@
 			jdbcType="VARCHAR" />
 		<result column="gift_price" property="giftPrice"
 			jdbcType="DECIMAL" />
+	</resultMap>
+		<resultMap id="LiveGiftOrderDOMap"
+		type="com.crazyBird.dao.live.dataobject.LiveOrderDO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_id" property="orderId"
+			jdbcType="VARCHAR" />
+		<result column="live_id" property="liveId"
+			jdbcType="INTEGER" />
+		<result column="gift_id" property="giftId"
+			jdbcType="INTEGER" />
+		<result column="gift_num" property="giftNum"
+			jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice"
+			jdbcType="DECIMAL" />
+		<result column="order_state" property="orderState"
+			jdbcType="INTEGER" />
+		<result column="user_id" property="userId"
+			jdbcType="BIGINT" />
 	</resultMap>
   <sql id="Base_Column_List" >
     id, title,`status`, stream_id,play_url,image_url,end_time
@@ -44,5 +62,27 @@
  select id,gift_name,gift_image,gift_price
  from live_gift
  </select>
-
+<insert id="createGiftOrder" parameterType="com.crazyBird.dao.live.dataobject.LiveOrderDO">
+	insert into live_order 
+	(
+	id,
+	order_id,
+	live_id,
+	gift_id,
+	gift_num,
+	total_price,
+	order_state,
+	user_id
+	)
+	values(
+	#{id,jdbcType=BIGINT},
+	#{orderId,jdbcType=VARCHAR},
+	#{liveId,jdbcType=INTEGER},
+	#(giftId,jdbcType=INTEGER),
+	#{giftNum,jdbcType=INTEGER},
+	#{totalPrice,jdbcType=DECIMAL},
+	#{orderState,jdbcType=INTEGER},
+	#{userId,jdbcType=BIGINT}
+	)
+</insert>
 </mapper>

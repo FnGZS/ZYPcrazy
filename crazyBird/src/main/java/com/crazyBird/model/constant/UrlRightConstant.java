@@ -41,6 +41,8 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/live/getPlayUrl");
     	notVerifyUrlList.add("/live/getPlayStatic");
     	notVerifyUrlList.add("/live/getGiftList");
+    	notVerifyUrlList.add("/pay/wxNotify");
+    	notVerifyUrlList.add("/pay/wxNotify/gift");
 
     	
         loginNotNecessaryUrlList.add("/user/account/public");

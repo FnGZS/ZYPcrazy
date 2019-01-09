@@ -204,7 +204,7 @@
   </select>
   <select id="getCommentMessage" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO" resultMap="SecondaryCommetsMessageDTOMap">
   select sc.id ,sc.goods_id,sc.is_view,u.headimgurl,u.user_name,sc.content,sc.gmt_created from secondary_comments as sc LEFT JOIN `user` as u  on u.school_num=sc.reply_id 
-  where replyed_id = #{id,jdbcType=BIGINT} 
+  where replyed_id = #{id,jdbcType=BIGINT} and sc.is_view != 2
   order by sc.gmt_created desc 
   limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>

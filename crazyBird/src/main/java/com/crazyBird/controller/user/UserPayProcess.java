@@ -38,8 +38,10 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 
 @Component
 public class UserPayProcess extends BaseProcess {
-	// 支付成功后的服务器回调url
+	// 二手支付成功后的服务器回调url
 	private static final String NOTIFY_URL = "https://www.sxscott.com/crazyBird/pay/wxNotify";
+	// 二手支付成功后的服务器回调url
+	private static final String NOTIFY_URL_GIFT = "https://www.sxscott.com/crazyBird/pay/wxNotify/gitf";
 
 	@Autowired
 	private UserPayService payService;
@@ -70,7 +72,7 @@ public class UserPayProcess extends BaseProcess {
 		 * System.out.println(test.getSign()); System.out.println(1);
 		 */
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
-		ResponseDO<OrderResponseInfo> result;
+		ResponseDO<OrderResponseInfo> result = null;
 		if ((platUserInfoMap != null) && (!platUserInfoMap.isEmpty())) {
 			if (StringUtils.isBlank(platUserInfoMap.get("encryptedData"))
 					|| StringUtils.isBlank(platUserInfoMap.get("iv"))) {
@@ -78,29 +80,34 @@ public class UserPayProcess extends BaseProcess {
 				model.setMessage("微信交易异常，缺少必要参数");
 				return model;
 			}
-			if (param.getType() == 1) {
-				String orderId = param.getOrderId();
-				UserPayParam userPay = new UserPayParam();
-				userPay.setFee(param.getFee());
-				userPay.setPlatCode(param.getPlatCode());
-				userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
-				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
-				if (!result.isSuccess()) {
-					model.setCode(HttpCodeEnum.ERROR.getCode());
-					model.setMessage(result.getMessage());
-					return model;
-				}
-				model.setNonceStr(result.getDataResult().getNonceStr());
 
-				model.setPkg(result.getDataResult().getPkg());
-				model.setSignType(result.getDataResult().getSignType());
-				model.setTimeStamp(result.getDataResult().getTimeStamp());
-				model.setPaySign(result.getDataResult().getPaySign());
+			String orderId = param.getOrderId();
+			UserPayParam userPay = new UserPayParam();
+			userPay.setFee(param.getFee());
+			userPay.setPlatCode(param.getPlatCode());
+			userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
+			if (param.getType() == 1) {
+				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
 			}
-			else {
+			if (param.getType() == 2) {
+				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL_GIFT);
+			}
+			if (!result.isSuccess()) {
 				model.setCode(HttpCodeEnum.ERROR.getCode());
-				model.setMessage("支付失败");
+				model.setMessage(result.getMessage());
+				return model;
 			}
+			model.setNonceStr(result.getDataResult().getNonceStr());
+
+			model.setPkg(result.getDataResult().getPkg());
+			model.setSignType(result.getDataResult().getSignType());
+			model.setTimeStamp(result.getDataResult().getTimeStamp());
+			model.setPaySign(result.getDataResult().getPaySign());
+
+			/*
+			 * else { model.setCode(HttpCodeEnum.ERROR.getCode()); model.setMessage("支付失败");
+			 * }
+			 */
 		} else {
 			result = null;
 		}
@@ -150,7 +157,7 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setOut_trade_no((String) resultMap.get("out_trade_no"));
 		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
-
+		System.out.println("二手支付成功");
 		int flag = payService.insertOrder(orderDO);
 		Long id = secondaryService.getSecondaryGoodsId((String) resultMap.get("out_trade_no"));
 		secondaryService.updateSecondaryGoodsPay(id);
@@ -159,5 +166,10 @@ public class UserPayProcess extends BaseProcess {
 		}
 		return true;
 
+	}
+	public boolean wxNotifyGift(Map<String, Object> resultMap) {
+		System.out.println("礼物支付成功");
+		return true;
+		
 	}
 }

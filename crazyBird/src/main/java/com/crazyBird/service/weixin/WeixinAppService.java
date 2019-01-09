@@ -99,6 +99,7 @@ public class WeixinAppService {
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
 				}
+
 				Map<String, Object> resultMap = JsonUtils.getMap4Json(sb.toString().trim());
 				String sessionkey = (String) resultMap.get("session_key");
 				if (StringUtils.isBlank(sessionkey)) {
@@ -160,20 +161,50 @@ public class WeixinAppService {
 		int fee = (int) sum;
 		System.out.println(fee);
 		OrderInfo orderInfo = new OrderInfo();
-		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		String platCode = param.getPlatCode();
-		ResponseDO<UserInfo> userInfo = getUserInfo(platCode, platUserInfoMap);
-		if (!userInfo.isSuccess()) {
+		// 获取openId
+		Map<String, Object> loginResultMap = null;
+		String loginUrl = String.format(USER_INFO_URL, APP_ID, SECRET, platCode);
+		URI loginUri = URI.create(loginUrl);
+		HttpGet get = new HttpGet(loginUri);
+		HttpResponse loginResponse;
+		try {
+			loginResponse = getHttpClient().execute(get);
+			if (loginResponse.getStatusLine().getStatusCode() == 200) {
+				HttpEntity entity = loginResponse.getEntity();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+
+				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
+					sb.append(temp);
+				}
+				
+				loginResultMap = JsonUtils.getMap4Json(sb.toString().trim());
+			
+				String sessionkey = (String) loginResultMap.get("session_key");
+				if (StringUtils.isBlank(sessionkey)) {
+					result.setCode(ResponseCode.ERROR);
+					result.setMessage("微信小程序登录异常，code换取session_key失败");
+					return result;
+				}
+			}
+		} catch (Exception e) {
 			result.setCode(ResponseCode.ERROR);
-			result.setMessage(userInfo.getMessage());
-			return result;
+			result.setMessage(e.getMessage());
 		}
+		/*
+		 * ResponseDO<UserInfo> userInfo = getUserInfo(platCode, platUserInfoMap); if
+		 * (!userInfo.isSuccess()) { result.setCode(ResponseCode.ERROR);
+		 * result.setMessage(userInfo.getMessage()); return result; }
+		 */
 		URI uri = URI.create(PAY_URL);
 		HttpPost post = new HttpPost(uri);
 		HttpResponse response;
 		try {
 			// 构建小程序下单接口需要的数据
-			String openid = userInfo.getDataResult().getOpenId();
+			String openid = (String) loginResultMap.get("openid");
+			System.out.println((String) loginResultMap.get("openid"));
 			orderInfo.setAppid(APP_ID);
 			orderInfo.setMch_id(MCH_ID);
 			orderInfo.setNonce_str(RandomUtil.getRandomCharString(32));
@@ -181,6 +212,7 @@ public class WeixinAppService {
 			// 测试订单号
 			orderInfo.setOut_trade_no(orederId);
 			orderInfo.setTotal_fee(fee);
+			System.out.println(fee);
 			orderInfo.setSpbill_create_ip(ip);// ip
 			orderInfo.setNotify_url(notifyUrl);
 			orderInfo.setTrade_type(TRADE_TYPE);
@@ -206,6 +238,7 @@ public class WeixinAppService {
 
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
+					System.out.println(sb);
 				}
 				Map<String, Object> resultMap = XmlToMapUtils.getResult(sb.toString().trim());
 				String returnCode = (String) resultMap.get("return_code");
@@ -213,19 +246,20 @@ public class WeixinAppService {
 					OrderResponseInfo info = new OrderResponseInfo();
 					String pkg = (String) resultMap.get("prepay_id");
 					info.setNonceStr((String) resultMap.get("nonce_str"));
-					info.setPkg(pkg);
+					info.setPkg("prepay_id="+pkg);
 					info.setSignType("MD5");
 					info.setAppId(APP_ID);
 					String dateTime = DateUtil.formatDate(new Date(), DateUtil.dtLong);
 					info.setTimeStamp(dateTime);
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("nonceStr", (String) resultMap.get("nonce_str"));
-					map.put("package", (String) resultMap.get("prepay_id"));
+					map.put("package", "prepay_id="+(String) resultMap.get("prepay_id"));
 					map.put("signType", "MD5");
 					map.put("appId", APP_ID);
 					map.put("timeStamp", dateTime);
 					// 再次签名
-					info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
+					//info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
+					info.setPaySign(SignatureUtils.getSign(map, KEY));
 					System.out.println(info.getPaySign());
 					result.setDataResult(info);
 
@@ -294,9 +328,8 @@ public class WeixinAppService {
 				refundDO.setTotal_fee((Integer) map.get("total_fee"));
 				refundDO.setCash_fee((Integer) map.get("cash_fee"));
 				result.setDataResult(refundDO);
-				
-			}
-			else {
+
+			} else {
 				result.setCode(ResponseCode.ERROR);
 				result.setMessage("退款失败");
 			}
