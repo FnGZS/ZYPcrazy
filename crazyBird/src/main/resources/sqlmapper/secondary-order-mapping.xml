@@ -150,7 +150,7 @@
   			#{goodsId,jdbcType=BIGINT},
   			#{userId,jdbcType=BIGINT},
   			#{price,jdbcType=DECIMAL},
-  			1,
+  			0,
   			#{sellerId,jdbcType=BIGINT},
   			#{seller,jdbcType=VARCHAR},
   			#{consignee,jdbcType=VARCHAR},

@@ -245,9 +245,13 @@
   	`status`= 2 and gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
-   <update id="pdateSecondaryGoodsOnline" parameterType="java.lang.Long">
+   <update id="updateSecondaryGoodsOnline" parameterType="java.lang.Long">
      	update secondary_goods set 
-  	`status`= 3 and gmt_modified=now()
+  	`status`= 1 and gmt_modified=now()
+  	where id=#{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSecondaryGoodsPay" parameterType="java.lang.Long" >
+  update secondary_goods set `status`= 3 and gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
