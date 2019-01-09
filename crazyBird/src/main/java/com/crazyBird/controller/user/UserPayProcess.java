@@ -151,8 +151,8 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setOpenid((String) resultMap.get("openid"));
 		orderDO.setTrade_type((String) resultMap.get("trade_type"));
 		orderDO.setBank_type((String) resultMap.get("bank_type"));
-		orderDO.setTotal_fee((Integer) resultMap.get("total_fee"));
-		orderDO.setCash_fee((Integer) resultMap.get("cash_fee"));
+		orderDO.setTotal_fee(Integer.valueOf((String) resultMap.get("total_fee")));
+		orderDO.setCash_fee(Integer.valueOf((String)resultMap.get("cash_fee")));
 		orderDO.setTransaction_id((String) resultMap.get("transaction_id"));
 		orderDO.setOut_trade_no((String) resultMap.get("out_trade_no"));
 		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));

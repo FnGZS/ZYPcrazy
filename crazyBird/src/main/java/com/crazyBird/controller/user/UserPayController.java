@@ -56,7 +56,6 @@ public class UserPayController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/wxNotify")
-	@ResponseBody
 	public void wxNotify(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		/*double cost = Double.parseDouble("122");
 		double bei = 100.00;
@@ -114,7 +113,6 @@ public class UserPayController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/wxNotify/gift")
-	@ResponseBody
 	public void wxNotifyGift(HttpServletRequest request,HttpServletResponse response) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
         String line = null;
