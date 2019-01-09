@@ -76,7 +76,7 @@ public class UserPayController {
         String resXml = "";
         Map<String, Object> resultMap = XmlToMapUtils.getResult(notityXml);
         String returnCode=(String) resultMap.get("return_code");
-        
+        System.out.println(returnCode);
         if(returnCode.equals("SUCCESS")) {
     	    //校验签名
         	Map<String, Object> checkMap= new HashMap<>();
