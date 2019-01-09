@@ -51,6 +51,7 @@ public class UserPayProcess extends BaseProcess {
 	private SecondaryService secondaryService;
 
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
+		System.out.println(1);
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
 		/*
@@ -73,19 +74,14 @@ public class UserPayProcess extends BaseProcess {
 		 */
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		ResponseDO<OrderResponseInfo> result = null;
-		if ((platUserInfoMap != null) && (!platUserInfoMap.isEmpty())) {
-			if (StringUtils.isBlank(platUserInfoMap.get("encryptedData"))
-					|| StringUtils.isBlank(platUserInfoMap.get("iv"))) {
-				model.setCode(ResponseCode.ERROR);
-				model.setMessage("微信交易异常，缺少必要参数");
-				return model;
-			}
+		
 
 			String orderId = param.getOrderId();
 			UserPayParam userPay = new UserPayParam();
 			userPay.setFee(param.getFee());
 			userPay.setPlatCode(param.getPlatCode());
 			userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
+			System.out.println(param.getType());
 			if (param.getType() == 1) {
 				result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
 			}
@@ -108,9 +104,8 @@ public class UserPayProcess extends BaseProcess {
 			 * else { model.setCode(HttpCodeEnum.ERROR.getCode()); model.setMessage("支付失败");
 			 * }
 			 */
-		} else {
-			result = null;
-		}
+		
+	
 		return model;
 	}
 

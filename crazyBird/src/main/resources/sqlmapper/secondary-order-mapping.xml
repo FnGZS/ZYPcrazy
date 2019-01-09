@@ -165,13 +165,13 @@
     where  id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
   </update>
   <update id ="updateSecondaryOrder" parameterType="java.lang.String">
-  update secondary_order set order_state = 1 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+  update secondary_order set order_state = 1 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
   </update>
   <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
-  update secondary_order set order_state = 4 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
+  update secondary_order set order_state = 4 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
   </update>
   <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
-    update secondary_order set order_state = 2 and gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
+    update secondary_order set order_state = 2 , gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
   </update>
   <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
   	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
