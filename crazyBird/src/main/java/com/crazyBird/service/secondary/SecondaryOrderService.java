@@ -28,5 +28,7 @@ public interface SecondaryOrderService {
 	ResponseDO<SecondaryCashDO> setSecondaryCash(SecondaryCashDO input);
 
 	SecondaryCapitalDO getSecondaryCapital(Long id);
+	
+	int checkSecondaryGoodsPayStatus(Long id);
 
 }

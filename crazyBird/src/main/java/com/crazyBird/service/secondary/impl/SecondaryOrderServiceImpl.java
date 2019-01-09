@@ -131,4 +131,11 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 		}
 		return response;
 	}
+
+
+	@Override
+	public int checkSecondaryGoodsPayStatus(Long id) {
+
+		return secondaryOrderDao.checkSecondaryGoodsPayStatus(id);
+	}
 }

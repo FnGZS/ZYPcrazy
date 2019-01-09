@@ -46,6 +46,8 @@ public interface SecondaryOrderDao {
 	SecondaryCapitalDO getSecondaryCapital(Long userId);
 
 	boolean setSecondaryCash(SecondaryCashDO input);
+	
+	int checkSecondaryGoodsPayStatus(Long id);
 
 
 }

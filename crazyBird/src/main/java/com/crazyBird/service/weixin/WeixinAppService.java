@@ -208,7 +208,7 @@ public class WeixinAppService {
 			orderInfo.setAppid(APP_ID);
 			orderInfo.setMch_id(MCH_ID);
 			orderInfo.setNonce_str(RandomUtil.getRandomCharString(32));
-			orderInfo.setBody("测试");
+			orderInfo.setBody("在元培-商品");
 			// 测试订单号
 			orderInfo.setOut_trade_no(orederId);
 			orderInfo.setTotal_fee(fee);

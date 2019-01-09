@@ -60,7 +60,12 @@ public class SecondaryOrderProcess extends BaseProcess{
 			model.setMessage("添加失败");
 			return model;
 		}
-		
+		int flag = secondaryOrderService.checkSecondaryGoodsPayStatus(param.getGoodsId());
+		if(flag!=0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("宝贝已经被人抢走了");
+			return model;
+		}
 		order.setOrderId(OrderUtils.getOrderCode(userId));
 		order.setGoodsId(param.getGoodsId());
 		order.setUserId(userId);
