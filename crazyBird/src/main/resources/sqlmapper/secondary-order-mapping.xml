@@ -41,6 +41,8 @@
     <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
     <result column="seller" property="seller" jdbcType="VARCHAR" />
     <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="logistics" property="logistics" jdbcType="INTEGER" />
+    <result column="order_state" property="orderState" jdbcType="INTEGER" />
     <result column="receivePhone" property="receivePhone" jdbcType="VARCHAR" />
     <result column="receiveAddress" property="receiveAddress" jdbcType="VARCHAR" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
@@ -69,9 +71,6 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
 </resultMap>
 
-<sql id="BaseOrder">
-	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
- </sql>
 <select id="getSellSecondaryCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
   	select 
 	count(1)
@@ -116,7 +115,7 @@
 	LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
   </select>
-    <select id="getOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
+  <select id="getOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
   	select 
 	count(1)
   	from secondary_order where user_id = #{userId,jdbcType=BIGINT} and order_state = #{orderStatus,jdbcType=INTEGER}
@@ -128,7 +127,7 @@
   select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
   sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
   sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
-  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
 	from secondary_goods as sg
 	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
@@ -139,6 +138,9 @@
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+  <sql id="BaseOrder">
+	order_id,goods_id,user_id,price,order_state,logistics,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
+ </sql>
   <insert id="createOrder"  parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
   		insert into secondary_order
   		(
@@ -150,6 +152,7 @@
   			#{goodsId,jdbcType=BIGINT},
   			#{userId,jdbcType=BIGINT},
   			#{price,jdbcType=DECIMAL},
+  			0,
   			0,
   			#{sellerId,jdbcType=BIGINT},
   			#{seller,jdbcType=VARCHAR},
@@ -192,4 +195,39 @@
   			now(),now()
   		)
   </insert>
+  
+  <select id="getVendorOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
+  	select 
+	count(1)
+  	from secondary_order where seller_id = #{sellerId,jdbcType=BIGINT} and logistics = #{logistics,jdbcType=INTEGER}
+  </select>
+  <select id="getVendorOrderList" resultMap="OrderDTOResult" parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
+  sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+  sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.seller_id = #{sellerId,jdbcType=BIGINT} and seo.logistics = #{logistics,jdbcType=INTEGER}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getOrderDetails" resultMap="OrderDTOResult" parameterType="java.lang.String">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
+  sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+  sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.order_id = #{orderId,jdbcType=BIGINT}
+	limit 1
+  </select>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.OrderDetailsModel;
 import com.crazyBird.controller.secondary.model.SecondaryCapitalItem;
 import com.crazyBird.controller.secondary.model.SecondaryCapitalModel;
 import com.crazyBird.controller.secondary.model.SecondaryCashModel;
@@ -18,6 +19,7 @@ import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
 import com.crazyBird.controller.secondary.param.SecondaryCashParam;
+import com.crazyBird.controller.secondary.param.VendorListParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
@@ -25,6 +27,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
+import com.crazyBird.dao.secondary.dataobject.VendorListPO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -147,6 +150,8 @@ public class SecondaryOrderProcess extends BaseProcess{
 					item.setSellerId(tag.getSellerId());
 					item.setSeller(tag.getSeller());
 					item.setConsignee(tag.getConsignee());
+					item.setLogistics(tag.getLogistics());
+					item.setOrderState(tag.getOrderState());
 					item.setReceivePhone(tag.getReceivePhone());
 					item.setReceiveAddress(tag.getReceiveAddress());
 					item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
@@ -221,6 +226,66 @@ public class SecondaryOrderProcess extends BaseProcess{
 			model.setCode(HttpCodeEnum.SUCCESS.getCode());
 			model.setMessage(response.getMessage());
 		}	
+		return model;
+	}
+
+	public SecondaryOrderListModel vendorList(VendorListParam param) {
+		SecondaryOrderListModel model = new SecondaryOrderListModel();
+		PageUtils.resetPageParam(param);
+		VendorListPO po = new VendorListPO();
+		try {
+			po.setSellerId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		po.setLogistics(param.getLogistics());
+		po.setPageIndex(param.getPageNo() - 1);
+		po.setPageSize(param.getPageSize());
+		ResponsePageQueryDO<List<SecondaryOrderDTO>> response = secondaryOrderService.getVendorOrderList(po);
+		if(response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());
+			model.setTags(convertSecondaryOrder(response.getDataResult()));
+		}
+		else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(response.getMessage());
+		}
+		return model;
+	}
+
+	public OrderDetailsModel orderDetails(String orderId) {
+		OrderDetailsModel model = new OrderDetailsModel();
+		SecondaryOrderDTO orderDetails = secondaryOrderService.getOrderDetails(orderId);
+		if(orderDetails != null) {
+			model.setId(orderDetails.getId());
+			model.setUserId(orderDetails.getUserId());
+			model.setViews(orderDetails.getViews());
+			model.setGoodsNum(orderDetails.getGoodsNum());
+			model.setGoodsTitle(orderDetails.getGoodsTitle());
+			model.setGoodsContent(orderDetails.getGoodsContent());
+			model.setGoodsImg(orderDetails.getGoodsImg());
+			model.setGoodsType(orderDetails.getGoodsType());
+			model.setPostion(orderDetails.getPostion());
+			model.setGoodsWay(orderDetails.getGoodsWay());
+			model.setTradingWay(orderDetails.getTradingWay());
+			model.setPrice(String.valueOf(orderDetails.getPrice()));
+			model.setOldPrice(String.valueOf(orderDetails.getOldPrice()));
+			model.setUserName(orderDetails.getUserName());
+			model.setHeadImgUrl(orderDetails.getHeadImgUrl());
+			model.setOrderId(orderDetails.getOrderId());
+			model.setGoodsId(orderDetails.getGoodsId());
+			model.setSellerId(orderDetails.getSellerId());
+			model.setSeller(orderDetails.getSeller());
+			model.setConsignee(orderDetails.getConsignee());
+			model.setLogistics(orderDetails.getLogistics());
+			model.setOrderState(orderDetails.getOrderState());
+			model.setReceivePhone(orderDetails.getReceivePhone());
+			model.setReceiveAddress(orderDetails.getReceiveAddress());
+			model.setGmtCreated(DateUtil.formatDate(orderDetails.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+			return model;
+		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
 		return model;
 	}
 	

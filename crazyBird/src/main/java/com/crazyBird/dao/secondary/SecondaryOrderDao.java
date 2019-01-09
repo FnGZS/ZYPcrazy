@@ -13,6 +13,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO;
+import com.crazyBird.dao.secondary.dataobject.VendorListPO;
 import com.crazyBird.dao.secondary.dataobject.SellSecondaryPO;
 
 public interface SecondaryOrderDao {
@@ -48,6 +49,12 @@ public interface SecondaryOrderDao {
 	boolean setSecondaryCash(SecondaryCashDO input);
 	
 	int checkSecondaryGoodsPayStatus(Long id);
+
+	int getVendorOrderListCount(VendorListPO po);
+
+	List<SecondaryOrderDTO> getVendorOrderList(VendorListPO po);
+
+	SecondaryOrderDTO getOrderDetails(String orderId);
 
 
 }
