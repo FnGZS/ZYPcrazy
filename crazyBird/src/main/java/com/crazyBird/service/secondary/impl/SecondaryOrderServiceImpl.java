@@ -10,11 +10,10 @@ import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
-import com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
-import com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO;
+import com.crazyBird.dao.secondary.dataobject.VendorListPO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -135,7 +134,33 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 
 	@Override
 	public int checkSecondaryGoodsPayStatus(Long id) {
-
 		return secondaryOrderDao.checkSecondaryGoodsPayStatus(id);
+	}
+
+
+	@Override
+	public ResponsePageQueryDO<List<SecondaryOrderDTO>> getVendorOrderList(VendorListPO po) {
+		ResponsePageQueryDO<List<SecondaryOrderDTO>> response = new ResponsePageQueryDO<>();
+		if(po.getSellerId() == null) {
+			response.setCode(ResponseCode.ERROR);
+			response.setMessage("未登录");
+			return response;
+		}
+		response.setPageIndex(po.getPageIndex());
+		response.setPageSize(po.getPageSize());
+		response.setTotal(secondaryOrderDao.getVendorOrderListCount(po));
+		if (response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
+			List<SecondaryOrderDTO> list = secondaryOrderDao.getVendorOrderList(po);
+			response.setDataResult(list);
+		} else {
+			response.setMessage("没有更多了");
+		}
+		return response;
+	}
+
+
+	@Override
+	public SecondaryOrderDTO getOrderDetails(String orderId) {
+		return secondaryOrderDao.getOrderDetails(orderId);
 	}
 }
