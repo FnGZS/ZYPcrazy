@@ -48,6 +48,18 @@
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
 </resultMap>
 
+<resultMap id="OrderDOResult" type="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO" >
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
+    <result column="seller" property="seller" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="receivePhone" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="receiveAddress" property="receiveAddress" jdbcType="VARCHAR" />
+</resultMap>
+
 <resultMap id="GoodsExistDOMap" type="com.crazyBird.dao.secondary.dataobject.GoodsExistDO" >
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
@@ -173,8 +185,8 @@
   <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
   update secondary_order set order_state = 4 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
   </update>
-  <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
-    update secondary_order set order_state = 2 , gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
+  <update id="updateSecondaryOrderAccept" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+    update secondary_order set order_state = 2 , gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1 and user_id=#{userId,jdbcType=BIGINT}
   </update>
   <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
   	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
@@ -230,4 +242,27 @@
 	where seo.order_id = #{orderId,jdbcType=BIGINT}
 	limit 1
   </select>
+  <select id="getSecondaryOrderDetail" parameterType="java.lang.String" resultMap="OrderDOResult">
+  select * from secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
+  </select>
+  <update id="updateCapitalUser" parameterType="com.crazyBird.dao.secondary.dataobject.CapitalUserDO">
+  update capital_user set remainder = remainder + #{remainder,jdbcType=DECIMAL},gmt_modified=now() where user_id=#{userId,jdbcType=BIGINT}
+  </update>
+  <insert id="createCapitalUser" parameterType="java.lang.Long">
+  insert into capital_user 
+  (
+  id,
+  user_id,
+  remainder,
+  gmt_created,
+  gmt_modified
+  )values
+  (
+  null,
+  #{userId,jdbcType=BIGINT},
+  0.00,
+  now(),
+  now() 
+  )
+  </insert>
 </mapper>

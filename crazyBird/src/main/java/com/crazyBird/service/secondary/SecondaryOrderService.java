@@ -2,6 +2,7 @@ package com.crazyBird.service.secondary;
 
 import java.util.List;
 
+import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
@@ -24,7 +25,7 @@ public interface SecondaryOrderService {
 	
 	int checkSecondaryOrder(String out_trade_no);
 	
-	int updateSecondaryOrderAccept(String orderId);
+	int updateSecondaryOrderAccept(SecondaryOrderDO	orderDO );
 
 	ResponseDO<SecondaryCashDO> setSecondaryCash(SecondaryCashDO input);
 
@@ -35,5 +36,12 @@ public interface SecondaryOrderService {
 	ResponsePageQueryDO<List<SecondaryOrderDTO>> getVendorOrderList(VendorListPO po);
 
 	SecondaryOrderDTO getOrderDetails(String orderId);
+	
+	boolean createCapitalUser(Long userId);
+	
+	SecondaryOrderDO  getSecondaryOrderDetail(String orderId);
+	
+	int updateCapitalUser(CapitalUserDO capitalUserDO);
+
 
 }

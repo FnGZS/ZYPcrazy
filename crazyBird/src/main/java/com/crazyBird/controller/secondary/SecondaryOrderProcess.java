@@ -1,5 +1,6 @@
 package com.crazyBird.controller.secondary;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import com.crazyBird.controller.secondary.param.OrderParam;
 import com.crazyBird.controller.secondary.param.SecondaryCashParam;
 import com.crazyBird.controller.secondary.param.VendorListParam;
 import com.crazyBird.controller.user.param.UserPayParam;
+import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
@@ -39,6 +41,8 @@ import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.OrderUtils;
 import com.crazyBird.utils.PageUtils;
 import com.crazyBird.utils.TokenUtils;
+
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.OrderDecoratorBucket;
 
 @Component
 public class SecondaryOrderProcess extends BaseProcess{
@@ -184,30 +188,74 @@ public class SecondaryOrderProcess extends BaseProcess{
 	
 	public SimpleFlagModel 	updateSecondaryOrderAccept(String orderId) {
 		 SimpleFlagModel model = new SimpleFlagModel();
+		 Long userId = (long) 0;
+		 try {
+				userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(userId.longValue() == 0||userId==null) {
+				model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("请先绑定学号");
+				return model;
+			}
 		 if(orderId==null) {
 				model.setCode(HttpCodeEnum.ERROR.getCode());
 				model.setMessage("参数为空");
 				return model;
 		 }
-		 int count = secondaryOrderService.updateSecondaryOrderAccept(orderId);
-		 if(count>0) {
-				model.setMessage("更新成功");
+		 SecondaryOrderDO  orderDO = new SecondaryOrderDO();
+		 orderDO.setOrderId(orderId);
+		 orderDO.setUserId(userId);
+		 int count = secondaryOrderService.updateSecondaryOrderAccept(orderDO);
+		 if(count<=0) {
+			 	model.setCode(HttpCodeEnum.ERROR.getCode());
+				model.setMessage("已收货或订单不存在");
+				return model;
+				
 		 }
-		return model;
+		 SecondaryOrderDO responseDO=secondaryOrderService.getSecondaryOrderDetail(orderId);
+		 CapitalUserDO capitalUserDO = new CapitalUserDO();
+		 capitalUserDO.setUserId(responseDO.getSellerId());
+		 capitalUserDO.setRemainder(responseDO.getPrice());
+		 secondaryOrderService.updateCapitalUser(capitalUserDO);
+		 //再将记录插入账单            
+		 model.setMessage("更新成功");
+		 return model;
 	}
 	
-	public SecondaryCapitalModel getSecondaryCapital(Long id) {
+	public SecondaryCapitalModel getSecondaryCapital() {
 		SecondaryCapitalModel model = new SecondaryCapitalModel();
-		SecondaryCapitalDO DO = secondaryOrderService.getSecondaryCapital(id);
+		Long userId = (long) 0;
+		try {
+			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(userId.longValue() == 0||userId==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("查询失败,请先去绑定学号");
+			return model;
+		}
+		SecondaryCapitalDO DO = secondaryOrderService.getSecondaryCapital(userId);
+		if(DO==null) {
+			//将用户插入用户资金表
+			secondaryOrderService.createCapitalUser(userId);
+			SecondaryCapitalItem item = new SecondaryCapitalItem();
+			item.setRemainder(BigDecimal.valueOf(0.00));
+			item.setUserId(userId);
+			model.setList(item);
+				
+		}
 		if(DO != null) {
 			SecondaryCapitalItem item = new SecondaryCapitalItem();
 			item.setRemainder(DO.getRemainder());
 			item.setId(DO.getId());
 			item.setUserId(DO.getUserId());
 			model.setList(item);
-			return model;
+	
 		}
-		model.setCode(HttpCodeEnum.ERROR.getCode());
+
 		return model;
 	}
 

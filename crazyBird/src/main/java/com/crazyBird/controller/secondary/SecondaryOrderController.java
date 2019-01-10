@@ -88,9 +88,9 @@ public class SecondaryOrderController {
 	 * 获取资金信息
 	 * **/
 	@ResponseBody
-	@RequestMapping(value = "/getSecondaryCapital/{id}",method = RequestMethod.GET)
-	public SecondaryCapitalModel getSecondaryCapital(@PathVariable Long id) {
-		return secondaryOrderProcess.getSecondaryCapital(id);
+	@RequestMapping(value = "/getSecondaryCapital",method = RequestMethod.GET)
+	public SecondaryCapitalModel getSecondaryCapital() {
+		return secondaryOrderProcess.getSecondaryCapital();
 	}
 	
 	/**

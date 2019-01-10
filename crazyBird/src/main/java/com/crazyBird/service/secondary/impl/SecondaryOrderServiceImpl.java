@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
+import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
@@ -90,20 +91,20 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 	@Override
 	public int updateSecondaryOrderRefund(String out_trade_no) {
 		
-		return updateSecondaryOrderRefund(out_trade_no);
+		return secondaryOrderDao.updateSecondaryOrderRefund(out_trade_no);
 	}
 
 
 	@Override
 	public int checkSecondaryOrder(String out_trade_no) {
-		return checkSecondaryOrder(out_trade_no);
+		return secondaryOrderDao.checkSecondaryOrder(out_trade_no);
 	}
 
 
 	@Override
-	public int updateSecondaryOrderAccept(String orderId) {
+	public int updateSecondaryOrderAccept(SecondaryOrderDO	orderDO ) {
 		
-		return updateSecondaryOrderAccept(orderId);
+		return secondaryOrderDao.updateSecondaryOrderAccept(orderDO);
 	}
 	@Override
 	public SecondaryCapitalDO getSecondaryCapital(Long id) {
@@ -162,5 +163,26 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 	@Override
 	public SecondaryOrderDTO getOrderDetails(String orderId) {
 		return secondaryOrderDao.getOrderDetails(orderId);
+	}
+
+
+	@Override
+	public boolean createCapitalUser(Long userId) {
+
+		return secondaryOrderDao.createCapitalUser(userId);
+	}
+
+
+	@Override
+	public SecondaryOrderDO getSecondaryOrderDetail(String orderId) {
+	
+		return secondaryOrderDao.getSecondaryOrderDetail(orderId);
+	}
+
+
+	@Override
+	public int updateCapitalUser(CapitalUserDO capitalUserDO) {
+
+		return secondaryOrderDao.updateCapitalUser(capitalUserDO);
 	}
 }
