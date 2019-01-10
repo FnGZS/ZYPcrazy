@@ -55,7 +55,7 @@ public class WeixinAppService {
 	// 微信退款地址
 	private static final String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 	// 证书地址
-	public static final String KEY_PATH = "/wwwroot/web/wechat/apiclient_cert.p12";
+	public static final String KEY_PATH = "/www/wechat/certapiclient_cert.p12";
 	// 支付类型
 	private static final String TRADE_TYPE = "JSAPI";
 	// 商户支付密钥
@@ -159,7 +159,7 @@ public class WeixinAppService {
 		double cost = param.getFee();
 		double sum = ArithUtils.mul(cost, times);
 		int fee = (int) sum;
-		System.out.println(fee);
+
 		OrderInfo orderInfo = new OrderInfo();
 		String platCode = param.getPlatCode();
 		// 获取openId
@@ -204,7 +204,6 @@ public class WeixinAppService {
 		try {
 			// 构建小程序下单接口需要的数据
 			String openid = (String) loginResultMap.get("openid");
-			System.out.println((String) loginResultMap.get("openid"));
 			orderInfo.setAppid(APP_ID);
 			orderInfo.setMch_id(MCH_ID);
 			orderInfo.setNonce_str(RandomUtil.getRandomCharString(32));
@@ -212,14 +211,12 @@ public class WeixinAppService {
 			// 测试订单号
 			orderInfo.setOut_trade_no(orederId);
 			orderInfo.setTotal_fee(fee);
-			System.out.println(fee);
 			orderInfo.setSpbill_create_ip(ip);// ip
 			orderInfo.setNotify_url(notifyUrl);
 			orderInfo.setTrade_type(TRADE_TYPE);
 			orderInfo.setOpenid(openid);
 			orderInfo.setSign_type("MD5");
 			String sign = SignatureUtils.getSign(orderInfo, KEY);
-			System.out.println(sign);
 			// 签名
 			orderInfo.setSign(sign);
 			// 将数据转换成xml格式
@@ -230,7 +227,7 @@ public class WeixinAppService {
 			// 调用支付统一下单api
 			response = getHttpClient().execute(post);
 			if (response.getStatusLine().getStatusCode() == 200) {
-				System.out.println("成功");
+
 				HttpEntity entity = response.getEntity();
 
 				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
@@ -238,7 +235,7 @@ public class WeixinAppService {
 
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
-					System.out.println(sb);
+
 				}
 				Map<String, Object> resultMap = XmlToMapUtils.getResult(sb.toString().trim());
 				String returnCode = (String) resultMap.get("return_code");
@@ -260,7 +257,7 @@ public class WeixinAppService {
 					// 再次签名
 					//info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
 					info.setPaySign(SignatureUtils.getSign(map, KEY));
-					System.out.println(info.getPaySign());
+
 					result.setDataResult(info);
 
 				}

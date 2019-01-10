@@ -51,7 +51,6 @@ public class UserPayProcess extends BaseProcess {
 	private SecondaryService secondaryService;
 
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
-		System.out.println(1);
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
 		/*
@@ -80,7 +79,6 @@ public class UserPayProcess extends BaseProcess {
 		userPay.setFee(param.getFee());
 		userPay.setPlatCode(param.getPlatCode());
 		userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
-		System.out.println(param.getType());
 		if (param.getType() == 1) {
 			result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
 		}
@@ -115,11 +113,12 @@ public class UserPayProcess extends BaseProcess {
 			model.setMessage(response.getMessage());
 			return model;
 		}
-
 		int flag1 = payService.insertRefundOrder(response.getDataResult());
+		if(param.getType()==1) {
 		int flag2 = secondaryOrderService.updateSecondaryOrderRefund(response.getDataResult().getOut_trade_no());
 		if (flag1 <= 0 || flag2 <= 0) {
 			model.setMessage("退款成功但更新或插入本地数据时出错");
+			}
 		}
 		Long id = secondaryService.getSecondaryGoodsId(response.getDataResult().getOut_trade_no());
 		secondaryService.updateSecondaryGoodsOnline(id);
@@ -150,7 +149,6 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setOut_trade_no((String) resultMap.get("out_trade_no"));
 		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
-		System.out.println("二手支付成功");
 		int flag = payService.insertOrder(orderDO);
 		if (flag <= 0) {
 			return false;
@@ -187,7 +185,6 @@ public class UserPayProcess extends BaseProcess {
 		if (flag <= 0) {
 			return false;
 		}
-		System.out.println("礼物支付成功");
 		return true;
 
 	}
