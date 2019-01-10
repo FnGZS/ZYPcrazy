@@ -45,7 +45,7 @@ public interface SecondaryDao {
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
 	//更新评论状态(变成已读)
 	int updateSecondaryComments(SecondaryCommentViewDO viewDO);
-	//
+	//更新评论状态(变成不再提醒)
 	int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO);
 	//评论
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
