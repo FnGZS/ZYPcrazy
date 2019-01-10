@@ -22,20 +22,20 @@ import org.apache.http.util.EntityUtils;
 public class PayUtils {
 
 	@SuppressWarnings("deprecation")
-	public static String post(String url, String xmlParam,String KEY_PATH){
+	public static String post(String url, String xmlParam,String KEY_PATH,String mch_id){
         StringBuilder sb = new StringBuilder();
          try {
                 KeyStore keyStore  = KeyStore.getInstance("PKCS12");
                 FileInputStream instream = new FileInputStream(new File(KEY_PATH));
                 try {
-                    keyStore.load(instream, "商户id".toCharArray());
+                    keyStore.load(instream, mch_id.toCharArray());
                 } finally {
                     instream.close();
                 }
           
                 // 证书
                 SSLContext sslcontext = SSLContexts.custom()
-                        .loadKeyMaterial(keyStore, "商户id".toCharArray())
+                        .loadKeyMaterial(keyStore, mch_id.toCharArray())
                         .build();
                 // 只允许TLSv1协议
                 SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(

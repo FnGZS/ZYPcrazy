@@ -55,7 +55,7 @@ public class WeixinAppService {
 	// 微信退款地址
 	private static final String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 	// 证书地址
-	public static final String KEY_PATH = "/www/wechat/certapiclient_cert.p12";
+	public static final String KEY_PATH = "/www/wechat/cert/apiclient_cert.p12";
 	// 支付类型
 	private static final String TRADE_TYPE = "JSAPI";
 	// 商户支付密钥
@@ -297,7 +297,7 @@ public class WeixinAppService {
 		refundInfo.setAppid(APP_ID);
 		refundInfo.setMch_id(MCH_ID);
 		refundInfo.setNonce_str(RandomUtil.getRandomCharString(32));
-		refundInfo.setOut_refund_no(param.getOrderId());
+		refundInfo.setOut_refund_no(RandomUtil.getRandomNumString(64));
 		refundInfo.setOut_trade_no(param.getOrderId());
 		refundInfo.setRefund_fee(refund_fee);
 		refundInfo.setTotal_fee(total_fee);
@@ -308,9 +308,10 @@ public class WeixinAppService {
 			XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
 			xStream.alias("xml", RefundInfo.class);
 			String xml = xStream.toXML(refundInfo);
-			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH);
+			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH,MCH_ID);
+			System.out.println(resultStr);
 			Map map = XmlToMapUtils.getResult(resultStr);
-			String returnCode = map.get("return_code").toString();
+			String returnCode = (String)map.get("return_code");
 			if (returnCode.equals("SUCCESS")) {
 				UserRefundDO refundDO = new UserRefundDO();
 				refundDO.setAppid((String) map.get("appid"));
@@ -318,12 +319,12 @@ public class WeixinAppService {
 				refundDO.setNonce_str((String) map.get("nonce_str"));
 				refundDO.setSign((String) map.get("sign"));
 				refundDO.setTransaction_id((String) map.get("transaction_id"));
-				refundDO.setOut_refund_no((String) map.get("out_trade_no"));
-				refundDO.setOut_trade_no((String) map.get("out_refund_no"));
+				refundDO.setOut_refund_no((String) map.get("out_refund_no"));
+				refundDO.setOut_trade_no((String) map.get("out_trade_no"));
 				refundDO.setRefund_id((String) map.get("refund_id"));
-				refundDO.setRefund_fee((Integer) map.get("refund_fee"));
-				refundDO.setTotal_fee((Integer) map.get("total_fee"));
-				refundDO.setCash_fee((Integer) map.get("cash_fee"));
+				refundDO.setRefund_fee(Integer.valueOf((String)map.get("refund_fee")));
+				refundDO.setTotal_fee(Integer.valueOf((String) map.get("total_fee")));
+				refundDO.setCash_fee(Integer.valueOf((String) map.get("cash_fee")));
 				result.setDataResult(refundDO);
 
 			} else {
