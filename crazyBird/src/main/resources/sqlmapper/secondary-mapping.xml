@@ -204,7 +204,7 @@
   </select>
   <select id="getCommentMessage" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsCommentsPO" resultMap="SecondaryCommetsMessageDTOMap">
   select sc.id ,sc.goods_id,sc.is_view,u.headimgurl,u.user_name,sc.content,sc.gmt_created from secondary_comments as sc LEFT JOIN `user` as u  on u.school_num=sc.reply_id 
-  where replyed_id = #{id,jdbcType=BIGINT} 
+  where replyed_id = #{id,jdbcType=BIGINT} and sc.is_view != 2
   order by sc.gmt_created desc 
   limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
@@ -220,10 +220,16 @@
   from secondary_goods_violation as sv 
   LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id 
   LEFT JOIN notice_template as nt  on nt.id=sv.notice 
-  where sv.user_id=#{userId,jdbcType=BIGINT}
+  where  sv.user_id=#{userId,jdbcType=BIGINT} and sg.user_id !=2
+  </select>
+  <select id="getSecondaryGoodsId" parameterType="java.lang.String" resultType="java.lang.Long">
+  select goods_id from secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
   </select>
   <update id="updateSecondaryMessage" parameterType="java.lang.Long">
   update secondary_goods_violation set is_view=1 where id=#{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateSecondaryMessageNoSee" parameterType="java.lang.Long">
+  update secondary_goods_violation set is_view=2 where id=#{id,jdbcType=BIGINT}
   </update>
   <update id="createSecondaryViews" parameterType="java.lang.Long">
   	update secondary_goods set views = views+1 where id=#{id,jdbcType=BIGINT}
@@ -232,19 +238,27 @@
   	update secondary_comments set is_view = 1
   	 where goods_id=#{goodsId,jdbcType=BIGINT} and replyed_id=#{userId,jdbcType=BIGINT}
   </update>
+    <update id="updateSecondaryCommentsNoSee" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO">
+  	update secondary_comments set is_view = 2
+  	 where goods_id=#{goodsId,jdbcType=BIGINT} and replyed_id=#{userId,jdbcType=BIGINT}
+  </update>
   <update id="deleteSecondaryGoods" parameterType="java.lang.Long">
   	update secondary_goods set 
-  	`status`= 4 and gmt_modified=now()
+  	`status`= 4 , gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
   <update id="updateSecondaryGoodsViolation" parameterType="java.lang.Long">
     	update secondary_goods set 
-  	`status`= 2 and gmt_modified=now()
+  	`status`= 2 , gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
-   <update id="pdateSecondaryGoodsOnline" parameterType="java.lang.Long">
+   <update id="updateSecondaryGoodsOnline" parameterType="java.lang.Long">
      	update secondary_goods set 
-  	`status`= 3 and gmt_modified=now()
+  	`status`= 1 , gmt_modified=now()
+  	where id=#{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateSecondaryGoodsPay" parameterType="java.lang.Long" >
+  update secondary_goods set `status`= 3 , gmt_modified=now()
   	where id=#{id,jdbcType=BIGINT}
   </update>
   <insert id="createSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">

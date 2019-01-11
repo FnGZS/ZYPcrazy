@@ -44,6 +44,8 @@ public interface SecondaryService {
 	//得到回复
 	List<SecondaryGoodsCommentsDTO> getSecondaryGoodsReply(Long commentsId);
 	int updateSecondaryComments(SecondaryCommentViewDO viewDO);
+	//更新评论状态(变成不再提醒)
+	int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO);
 	//评论
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
 	//回复
@@ -58,6 +60,8 @@ public interface SecondaryService {
 	ResponsePageQueryDO<List<SecondaryCommetsMessageDTO>> getCommentMessage(SecondaryGoodsCommentsPO po);
 	List<SecondaryMessageDTO> getSecondaryMessage(Long userId);
 	void updateSecondaryMessage(Long id);
+	//变更审核信息状态（不再提醒）
+	void updateSecondaryMessageNoSee(Long id);
 	SecondaryMessageDTO getSecondaryMessageDetail(Long id);
 	//更新商品状态 （被买）
 	int updateSecondaryGoodsPay(Long id);

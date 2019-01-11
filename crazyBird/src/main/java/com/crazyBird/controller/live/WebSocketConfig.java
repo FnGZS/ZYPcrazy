@@ -16,6 +16,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
 
     @Override
+    
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(textMessageHandler(),"/websocket").addInterceptors(new HandshakeInterceptor());
         registry.addHandler(textMessageHandler(),"/websocket/socketjs").addInterceptors(new HandshakeInterceptor()).withSockJS();

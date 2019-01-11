@@ -136,7 +136,7 @@ public class SecondaryController {
 		return secondaryProcess.getSecondaryGoodsComments(param);
 	}
 	/**
-	 * 获取用户未读的评论回复
+	 * 获取用户未读的评论回复（0:未读，1已读，2：不再提醒）
 	 *
 	 */
 	@ResponseBody
@@ -146,6 +146,24 @@ public class SecondaryController {
 		
 	}
 	
+	/**
+	 * 消息中心删除评论回复提醒消息
+	 */
+	@ResponseBody
+	@RequestMapping(value="/commentMessage/delete",method=RequestMethod.POST)
+	public SimpleFlagModel updateSecondaryCommentsNoSee(@RequestBody SecondaryGoodsGetCommetsParam param) {
+		return secondaryProcess.updateSecondaryCommentsNoSee(param);
+		
+	}
+	/**
+	 * 消息中心删除评审核提醒消息
+	 */
+	@ResponseBody
+	@RequestMapping(value="/violationMessage/delete/{id}",method=RequestMethod.POST)
+	public SimpleFlagModel updateSecondaryMessageNoSee(@PathVariable Long id) {
+		return secondaryProcess.updateSecondaryMessageNoSee(id);
+		
+	}
 	/**
 	 * 查看审核详细信息
 	 */

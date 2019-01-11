@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crazyBird.dao.user.UserWxPayOrderDao">
 <select id="checkWxPayOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
-select count(1) from order where transaction_id =#{transaction_id,jdbcType=VARCHAR}
+select count(1) from `order` where transaction_id =#{transaction_id,jdbcType=VARCHAR}
 </select>
 <insert id="insertOrder" parameterType="com.crazyBird.dao.user.dataobject.UserWxPayOrderDO">
-	insert into order 
+	insert into `order` 
 	(
 	id,
 	appid,
@@ -33,6 +33,7 @@ select count(1) from order where transaction_id =#{transaction_id,jdbcType=VARCH
 	#{result_code,jdbcType=VARCHAR},
 	#{openid,jdbcType=VARCHAR},
 	#{trade_type,jdbcType=VARCHAR},
+	#{bank_type,jdbcType=VARCHAR},
 	#{total_fee,jdbcType=INTEGER},
 	#{cash_fee,jdbcType=INTEGER},
 	#{transaction_id,jdbcType=VARCHAR},
@@ -43,7 +44,7 @@ select count(1) from order where transaction_id =#{transaction_id,jdbcType=VARCH
 </insert>
 
 <insert id="insertRefundOrder" parameterType="com.crazyBird.dao.user.dataobject.UserRefundDO">
-	insert into order 
+	insert into refund_order 
 	(
 	id,
 	appid,

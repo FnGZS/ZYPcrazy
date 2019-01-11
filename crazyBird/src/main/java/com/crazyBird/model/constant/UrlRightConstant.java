@@ -38,7 +38,11 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/secondary/goods");
     	notVerifyUrlList.add("/secondary/comments");
     	notVerifyUrlList.add("/secondary/quantity");
-    	notVerifyUrlList.add("/live");
+    	notVerifyUrlList.add("/live/getPlayUrl");
+    	notVerifyUrlList.add("/live/getPlayStatic");
+    	notVerifyUrlList.add("/live/getGiftList");
+    	notVerifyUrlList.add("/pay/wxNotify");
+    	notVerifyUrlList.add("/pay/wxNotify/gift");
 
     	
         loginNotNecessaryUrlList.add("/user/account/public");
@@ -52,6 +56,8 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/secondary");
         loginVerifyUrlList.add("/luck/part");
         loginVerifyUrlList.add("/luck/addLuck");
+        loginVerifyUrlList.add("/live");
+        
         
         
         dataSignUrlList.add("/");

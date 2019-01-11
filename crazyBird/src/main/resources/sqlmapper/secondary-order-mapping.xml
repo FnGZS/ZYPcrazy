@@ -41,9 +41,23 @@
     <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
     <result column="seller" property="seller" jdbcType="VARCHAR" />
     <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="logistics" property="logistics" jdbcType="INTEGER" />
+    <result column="order_state" property="orderState" jdbcType="INTEGER" />
     <result column="receivePhone" property="receivePhone" jdbcType="VARCHAR" />
     <result column="receiveAddress" property="receiveAddress" jdbcType="VARCHAR" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+</resultMap>
+
+<resultMap id="OrderDOResult" type="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO" >
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
+    <result column="seller" property="seller" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="receivePhone" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="receiveAddress" property="receiveAddress" jdbcType="VARCHAR" />
 </resultMap>
 
 <resultMap id="GoodsExistDOMap" type="com.crazyBird.dao.secondary.dataobject.GoodsExistDO" >
@@ -69,9 +83,6 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
 </resultMap>
 
-<sql id="BaseOrder">
-	order_id,goods_id,user_id,price,order_state,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
- </sql>
 <select id="getSellSecondaryCountByUser" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
   	select 
 	count(1)
@@ -116,7 +127,7 @@
 	LEFT JOIN `user` as u ON u.school_num=sg.user_id 
 	where sg.id=#{id,jdbcType=BIGINT} 
   </select>
-    <select id="getOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
+  <select id="getOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
   	select 
 	count(1)
   	from secondary_order where user_id = #{userId,jdbcType=BIGINT} and order_state = #{orderStatus,jdbcType=INTEGER}
@@ -128,7 +139,7 @@
   select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
   sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
   sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
-  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
 	from secondary_goods as sg
 	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
 	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
@@ -139,6 +150,9 @@
 	order by gmt_created desc
 	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+  <sql id="BaseOrder">
+	order_id,goods_id,user_id,price,order_state,logistics,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
+ </sql>
   <insert id="createOrder"  parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
   		insert into secondary_order
   		(
@@ -150,7 +164,8 @@
   			#{goodsId,jdbcType=BIGINT},
   			#{userId,jdbcType=BIGINT},
   			#{price,jdbcType=DECIMAL},
-  			1,
+  			0,
+  			0,
   			#{sellerId,jdbcType=BIGINT},
   			#{seller,jdbcType=VARCHAR},
   			#{consignee,jdbcType=VARCHAR},
@@ -165,16 +180,19 @@
     where  id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
   </update>
   <update id ="updateSecondaryOrder" parameterType="java.lang.String">
-  update secondary_order set order_state = 1 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+  update secondary_order set order_state = 1 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
   </update>
   <update id ="updateSecondaryOrderRefund" parameterType="java.lang.String">
-  update secondary_order set order_state = 4 and gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
+  update secondary_order set order_state = 4 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
   </update>
-  <update id="updateSecondaryOrderAccept" parameterType="java.lang.String">
-    update secondary_order set order_state = 2 and gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1
+  <update id="updateSecondaryOrderAccept" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+    update secondary_order set order_state = 2 , gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1 and user_id=#{userId,jdbcType=BIGINT}
   </update>
   <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
   	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="checkSecondaryGoodsPayStatus" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(1) from secondary_goods where id = #{id,jdbcType=INTEGER} and `status`=1
   </select>
   <insert id = "setSecondaryCash" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCashDO">
     		insert into cash_order
@@ -188,5 +206,63 @@
   			#{cash,jdbcType=DECIMAL},
   			now(),now()
   		)
+  </insert>
+  
+  <select id="getVendorOrderListCount" resultType="java.lang.Integer" parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
+  	select 
+	count(1)
+  	from secondary_order where seller_id = #{sellerId,jdbcType=BIGINT} and logistics = #{logistics,jdbcType=INTEGER}
+  </select>
+  <select id="getVendorOrderList" resultMap="OrderDTOResult" parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
+  sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+  sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.seller_id = #{sellerId,jdbcType=BIGINT} and seo.logistics = #{logistics,jdbcType=INTEGER}
+	order by gmt_created desc
+	limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getOrderDetails" resultMap="OrderDTOResult" parameterType="java.lang.String">
+  select sg.id, u.user_name,u.headimgurl, sg.user_id,sg.goods_num,sg.goods_title,
+  sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+  sw.field as goods_way,stw.field as trading_way ,st.field as goods_type, 
+  seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+	from secondary_goods as sg
+	LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+	LEFT JOIN secondary_way as sw on sw.id=sg.goods_way 
+	LEFT JOIN secondary_type as st on st.id=sg.goods_type
+	LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way 
+	LEFT JOIN `user` as u ON u.school_num=sg.user_id
+	where seo.order_id = #{orderId,jdbcType=BIGINT}
+	limit 1
+  </select>
+  <select id="getSecondaryOrderDetail" parameterType="java.lang.String" resultMap="OrderDOResult">
+  select * from secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
+  </select>
+  <update id="updateCapitalUser" parameterType="com.crazyBird.dao.secondary.dataobject.CapitalUserDO">
+  update capital_user set remainder = remainder + #{remainder,jdbcType=DECIMAL},gmt_modified=now() where user_id=#{userId,jdbcType=BIGINT}
+  </update>
+  <insert id="createCapitalUser" parameterType="java.lang.Long">
+  insert into capital_user 
+  (
+  id,
+  user_id,
+  remainder,
+  gmt_created,
+  gmt_modified
+  )values
+  (
+  null,
+  #{userId,jdbcType=BIGINT},
+  0.00,
+  now(),
+  now() 
+  )
   </insert>
 </mapper>

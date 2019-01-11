@@ -1,10 +1,17 @@
 package com.crazyBird.controller.user.param;
 
 public class UserRefundParam {
-	
+	private Integer type;
 	private String orderId;
 	private Double totalFee;
 	private Double refundFee;
+	
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
 	public String getOrderId() {
 		return orderId;
 	}

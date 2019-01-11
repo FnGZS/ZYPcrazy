@@ -53,8 +53,9 @@ public class ParamValidateInterceptor implements MethodInterceptor {
             if (objectArray.length == 1 || objectArray.length == 2) {
                 param = objectArray[0];
                 // 支付回调使用objectArray[1]
-                if (objectArray.length == 2) {
+                if (objectArray.length == 2) {      	
                     param = objectArray[1];
+
                 }
                 ReqParam reqParam = (ReqParam) request.getAttribute("ReqParam");
                 reqParam.setFormParam(JsonUtils.toJSON(param));

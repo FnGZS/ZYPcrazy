@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.crazyBird.dao.live.LiveDao;
 import com.crazyBird.dao.live.dataobject.LiveDO;
+import com.crazyBird.dao.live.dataobject.LiveGiftDO;
+import com.crazyBird.dao.live.dataobject.LiveOrderDO;
 import com.crazyBird.service.live.LiveService;
 @Component("LiveService")
 public class LiveServiceImpl implements LiveService{
@@ -65,13 +67,24 @@ public class LiveServiceImpl implements LiveService{
 		try {
 			response = getHttpClient().execute(get);
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public List<LiveGiftDO> getLiveGiftList() {
+		return liveDao.getLiveGiftList();
+	}
+
+	@Override
+	public int createGiftOrder(LiveOrderDO orderDO) {
+		// TODO Auto-generated method stub
+		return liveDao.createGiftOrder(orderDO);
 	}
 	
 	

@@ -52,11 +52,10 @@ public class UserPayController {
 		return payProcess.secondaryRefund(param);
 	}
 	/**
-	 * 支付回调
+	 * 二手支付回调
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/wxNotify")
-	@ResponseBody
 	public void wxNotify(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		/*double cost = Double.parseDouble("122");
 		double bei = 100.00;
@@ -76,14 +75,11 @@ public class UserPayController {
         String resXml = "";
         Map<String, Object> resultMap = XmlToMapUtils.getResult(notityXml);
         String returnCode=(String) resultMap.get("return_code");
-        
+        System.out.println(returnCode);
         if(returnCode.equals("SUCCESS")) {
     	    //校验签名
         	Map<String, Object> checkMap= new HashMap<>();
-        	
-           
-        	
-        	
+  	
         	//	/变更订单状态 业务逻辑 保存微信支付记录
         	
         	boolean flag = payProcess.wxNotify(resultMap);
@@ -111,6 +107,58 @@ public class UserPayController {
         out.flush();
         out.close();
         
+	}
+	/**
+	 * 直播支付回调
+	 * @throws IOException 
+	 */
+	@RequestMapping(value="/wxNotify/gift")
+	public void wxNotifyGift(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
+        String line = null;
+        StringBuilder sb = new StringBuilder();
+        while((line = br.readLine())!=null){
+            sb.append(line);
+        }
+        br.close();
+        String notityXml = sb.toString();
+        String resXml = "";
+        Map<String, Object> resultMap = XmlToMapUtils.getResult(notityXml);
+        String returnCode=(String) resultMap.get("return_code");
+        
+        if(returnCode.equals("SUCCESS")) {
+    	    //校验签名
+        	Map<String, Object> checkMap= new HashMap<>();
+        	
+           
+        	
+        	
+        	//	/变更订单状态 业务逻辑 保存微信支付记录
+        	
+        	boolean flag = payProcess.wxNotifyGift(resultMap);
+        	System.out.println("aa");
+        	if(flag) {
+        	resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
+                    + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+        	}
+        	else {
+        		resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
+                        + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+			}
+        }
+        else {
+        	resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
+                    + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+		}
+        
+        System.out.println("接收到的报文：" + notityXml);
+        System.out.println(resXml);
+        BufferedOutputStream out = new BufferedOutputStream(
+                response.getOutputStream());
+        out.write(resXml.getBytes());
+        out.flush();
+        out.close();
+       
 	}
 	
 }

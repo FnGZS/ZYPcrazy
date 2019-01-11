@@ -55,7 +55,7 @@ public class WeixinAppService {
 	// 微信退款地址
 	private static final String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 	// 证书地址
-	public static final String KEY_PATH = "/wwwroot/web/wechat/apiclient_cert.p12";
+	public static final String KEY_PATH = "/www/wechat/cert/apiclient_cert.p12";
 	// 支付类型
 	private static final String TRADE_TYPE = "JSAPI";
 	// 商户支付密钥
@@ -99,6 +99,7 @@ public class WeixinAppService {
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
 				}
+
 				Map<String, Object> resultMap = JsonUtils.getMap4Json(sb.toString().trim());
 				String sessionkey = (String) resultMap.get("session_key");
 				if (StringUtils.isBlank(sessionkey)) {
@@ -158,26 +159,55 @@ public class WeixinAppService {
 		double cost = param.getFee();
 		double sum = ArithUtils.mul(cost, times);
 		int fee = (int) sum;
-		System.out.println(fee);
+
 		OrderInfo orderInfo = new OrderInfo();
-		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		String platCode = param.getPlatCode();
-		ResponseDO<UserInfo> userInfo = getUserInfo(platCode, platUserInfoMap);
-		if (!userInfo.isSuccess()) {
+		// 获取openId
+		Map<String, Object> loginResultMap = null;
+		String loginUrl = String.format(USER_INFO_URL, APP_ID, SECRET, platCode);
+		URI loginUri = URI.create(loginUrl);
+		HttpGet get = new HttpGet(loginUri);
+		HttpResponse loginResponse;
+		try {
+			loginResponse = getHttpClient().execute(get);
+			if (loginResponse.getStatusLine().getStatusCode() == 200) {
+				HttpEntity entity = loginResponse.getEntity();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+
+				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
+					sb.append(temp);
+				}
+				
+				loginResultMap = JsonUtils.getMap4Json(sb.toString().trim());
+			
+				String sessionkey = (String) loginResultMap.get("session_key");
+				if (StringUtils.isBlank(sessionkey)) {
+					result.setCode(ResponseCode.ERROR);
+					result.setMessage("微信小程序登录异常，code换取session_key失败");
+					return result;
+				}
+			}
+		} catch (Exception e) {
 			result.setCode(ResponseCode.ERROR);
-			result.setMessage(userInfo.getMessage());
-			return result;
+			result.setMessage(e.getMessage());
 		}
+		/*
+		 * ResponseDO<UserInfo> userInfo = getUserInfo(platCode, platUserInfoMap); if
+		 * (!userInfo.isSuccess()) { result.setCode(ResponseCode.ERROR);
+		 * result.setMessage(userInfo.getMessage()); return result; }
+		 */
 		URI uri = URI.create(PAY_URL);
 		HttpPost post = new HttpPost(uri);
 		HttpResponse response;
 		try {
 			// 构建小程序下单接口需要的数据
-			String openid = userInfo.getDataResult().getOpenId();
+			String openid = (String) loginResultMap.get("openid");
 			orderInfo.setAppid(APP_ID);
 			orderInfo.setMch_id(MCH_ID);
 			orderInfo.setNonce_str(RandomUtil.getRandomCharString(32));
-			orderInfo.setBody("测试");
+			orderInfo.setBody("在元培-商品");
 			// 测试订单号
 			orderInfo.setOut_trade_no(orederId);
 			orderInfo.setTotal_fee(fee);
@@ -187,7 +217,6 @@ public class WeixinAppService {
 			orderInfo.setOpenid(openid);
 			orderInfo.setSign_type("MD5");
 			String sign = SignatureUtils.getSign(orderInfo, KEY);
-			System.out.println(sign);
 			// 签名
 			orderInfo.setSign(sign);
 			// 将数据转换成xml格式
@@ -198,7 +227,7 @@ public class WeixinAppService {
 			// 调用支付统一下单api
 			response = getHttpClient().execute(post);
 			if (response.getStatusLine().getStatusCode() == 200) {
-				System.out.println("成功");
+
 				HttpEntity entity = response.getEntity();
 
 				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
@@ -206,6 +235,7 @@ public class WeixinAppService {
 
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
+
 				}
 				Map<String, Object> resultMap = XmlToMapUtils.getResult(sb.toString().trim());
 				String returnCode = (String) resultMap.get("return_code");
@@ -213,20 +243,21 @@ public class WeixinAppService {
 					OrderResponseInfo info = new OrderResponseInfo();
 					String pkg = (String) resultMap.get("prepay_id");
 					info.setNonceStr((String) resultMap.get("nonce_str"));
-					info.setPkg(pkg);
+					info.setPkg("prepay_id="+pkg);
 					info.setSignType("MD5");
 					info.setAppId(APP_ID);
 					String dateTime = DateUtil.formatDate(new Date(), DateUtil.dtLong);
 					info.setTimeStamp(dateTime);
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("nonceStr", (String) resultMap.get("nonce_str"));
-					map.put("package", (String) resultMap.get("prepay_id"));
+					map.put("package", "prepay_id="+(String) resultMap.get("prepay_id"));
 					map.put("signType", "MD5");
 					map.put("appId", APP_ID);
 					map.put("timeStamp", dateTime);
 					// 再次签名
-					info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
-					System.out.println(info.getPaySign());
+					//info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
+					info.setPaySign(SignatureUtils.getSign(map, KEY));
+
 					result.setDataResult(info);
 
 				}
@@ -266,7 +297,7 @@ public class WeixinAppService {
 		refundInfo.setAppid(APP_ID);
 		refundInfo.setMch_id(MCH_ID);
 		refundInfo.setNonce_str(RandomUtil.getRandomCharString(32));
-		refundInfo.setOut_refund_no(param.getOrderId());
+		refundInfo.setOut_refund_no(RandomUtil.getRandomNumString(64));
 		refundInfo.setOut_trade_no(param.getOrderId());
 		refundInfo.setRefund_fee(refund_fee);
 		refundInfo.setTotal_fee(total_fee);
@@ -277,9 +308,10 @@ public class WeixinAppService {
 			XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
 			xStream.alias("xml", RefundInfo.class);
 			String xml = xStream.toXML(refundInfo);
-			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH);
+			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH,MCH_ID);
+			System.out.println(resultStr);
 			Map map = XmlToMapUtils.getResult(resultStr);
-			String returnCode = map.get("return_code").toString();
+			String returnCode = (String)map.get("return_code");
 			if (returnCode.equals("SUCCESS")) {
 				UserRefundDO refundDO = new UserRefundDO();
 				refundDO.setAppid((String) map.get("appid"));
@@ -287,16 +319,15 @@ public class WeixinAppService {
 				refundDO.setNonce_str((String) map.get("nonce_str"));
 				refundDO.setSign((String) map.get("sign"));
 				refundDO.setTransaction_id((String) map.get("transaction_id"));
-				refundDO.setOut_refund_no((String) map.get("out_trade_no"));
-				refundDO.setOut_trade_no((String) map.get("out_refund_no"));
+				refundDO.setOut_refund_no((String) map.get("out_refund_no"));
+				refundDO.setOut_trade_no((String) map.get("out_trade_no"));
 				refundDO.setRefund_id((String) map.get("refund_id"));
-				refundDO.setRefund_fee((Integer) map.get("refund_fee"));
-				refundDO.setTotal_fee((Integer) map.get("total_fee"));
-				refundDO.setCash_fee((Integer) map.get("cash_fee"));
+				refundDO.setRefund_fee(Integer.valueOf((String)map.get("refund_fee")));
+				refundDO.setTotal_fee(Integer.valueOf((String) map.get("total_fee")));
+				refundDO.setCash_fee(Integer.valueOf((String) map.get("cash_fee")));
 				result.setDataResult(refundDO);
-				
-			}
-			else {
+
+			} else {
 				result.setCode(ResponseCode.ERROR);
 				result.setMessage("退款失败");
 			}

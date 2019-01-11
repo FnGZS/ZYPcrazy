@@ -28,6 +28,8 @@ public class SecondaryOrderDTO {
 	private Long sellerId;
 	private String seller;
 	private String consignee;
+	private Integer orderState;
+	private Integer logistics;
 	private String receivePhone;
 	private String receiveAddress;
 	private Date gmtCreated;
@@ -168,6 +170,18 @@ public class SecondaryOrderDTO {
 	}
 	public void setReceiveAddress(String receiveAddress) {
 		this.receiveAddress = receiveAddress;
+	}
+	public Integer getOrderState() {
+		return orderState;
+	}
+	public void setOrderState(Integer orderState) {
+		this.orderState = orderState;
+	}
+	public Integer getLogistics() {
+		return logistics;
+	}
+	public void setLogistics(Integer logistics) {
+		this.logistics = logistics;
 	}
 	
 	

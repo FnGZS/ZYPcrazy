@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.secondary.model.OrderDetailsModel;
 import com.crazyBird.controller.secondary.model.SecondaryCapitalModel;
 import com.crazyBird.controller.secondary.model.SecondaryCashModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderDeleteModel;
@@ -17,6 +18,7 @@ import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
 import com.crazyBird.controller.secondary.param.SecondaryCashParam;
+import com.crazyBird.controller.secondary.param.VendorListParam;
 
 /**
  * 二手市场
@@ -40,12 +42,30 @@ public class SecondaryOrderController {
 	}
 	
 	/**
-	 * 订单列表
+	 * 订单列表（买家的）
 	 * **/
 	@ResponseBody
 	@RequestMapping(value="/orderList",method=RequestMethod.GET)
 	public SecondaryOrderListModel secondaryOrderList(OrderListParam param){
 		return secondaryOrderProcess.getOrderList(param);
+	}
+	
+	/**
+	 * 订单列表（卖家的）
+	 * **/
+	@ResponseBody
+	@RequestMapping(value="/vendorOrderList",method=RequestMethod.GET)
+	public SecondaryOrderListModel vendorOrderList(VendorListParam param){
+		return secondaryOrderProcess.vendorList(param);
+	}
+	
+	/**
+	 * 订单详情
+	 * **/
+	@ResponseBody
+	@RequestMapping(value="/orderDetails",method=RequestMethod.GET)
+	public OrderDetailsModel orderDetails(String orderId){
+		return secondaryOrderProcess.orderDetails(orderId);
 	}
 	
 	/**
@@ -68,9 +88,9 @@ public class SecondaryOrderController {
 	 * 获取资金信息
 	 * **/
 	@ResponseBody
-	@RequestMapping(value = "/getSecondaryCapital/{id}",method = RequestMethod.GET)
-	public SecondaryCapitalModel getSecondaryCapital(@PathVariable Long id) {
-		return secondaryOrderProcess.getSecondaryCapital(id);
+	@RequestMapping(value = "/getSecondaryCapital",method = RequestMethod.GET)
+	public SecondaryCapitalModel getSecondaryCapital() {
+		return secondaryOrderProcess.getSecondaryCapital();
 	}
 	
 	/**
@@ -81,5 +101,8 @@ public class SecondaryOrderController {
 	public SecondaryCashModel setSecondaryCash(@RequestBody SecondaryCashParam param) {
 		return secondaryOrderProcess.setSecondaryCash(param);
 	}
+	
+	
+	
 	
 }

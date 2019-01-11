@@ -360,6 +360,27 @@ public class SecondaryProcess {
 		return model;
 
 	}
+	public SimpleFlagModel updateSecondaryCommentsNoSee(SecondaryGoodsGetCommetsParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		if (param.getId() == null || param.getUserId() == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("参数不能为空");
+			return model;
+		}
+		SecondaryCommentViewDO viewDO = new SecondaryCommentViewDO();
+		viewDO.setGoodsId(param.getId());
+		viewDO.setUserId(param.getUserId());
+		
+		secondaryService.updateSecondaryCommentsNoSee(viewDO);
+		return model;
+		
+	}
+	public SimpleFlagModel updateSecondaryMessageNoSee(Long id) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		secondaryService.updateSecondaryMessageNoSee(id);
+		return model;
+		
+	}
 	public SecondaryMessageDetailModel getSecondaryMessageDetail(Long id) {
 		SecondaryMessageDetailModel model = new SecondaryMessageDetailModel();
 		secondaryService.updateSecondaryMessage(id);

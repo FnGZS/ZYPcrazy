@@ -25,6 +25,8 @@ public class SecondaryOrderItem{
 		private Long sellerId;
 		private String seller;
 		private String consignee;
+		private Integer orderState;
+		private Integer logistics;
 		private String receivePhone;
 		private String receiveAddress;
 		private String gmtCreated;
@@ -166,6 +168,18 @@ public class SecondaryOrderItem{
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+	public Integer getOrderState() {
+		return orderState;
+	}
+	public void setOrderState(Integer orderState) {
+		this.orderState = orderState;
+	}
+	public Integer getLogistics() {
+		return logistics;
+	}
+	public void setLogistics(Integer logistics) {
+		this.logistics = logistics;
 	}
 
 	
