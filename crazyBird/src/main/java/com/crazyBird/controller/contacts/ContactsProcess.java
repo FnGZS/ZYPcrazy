@@ -42,12 +42,15 @@ public class ContactsProcess extends BaseProcess{
 	public ContactsDetailModel getContactsDetail(Long id) {
 		ContactsDetailModel model = new ContactsDetailModel();
 		ContactsDetailDO detail = contactsService.getContactsDetail(id);
+		List<ContactsDetailItem> items =new ArrayList<ContactsDetailItem>();
 		if(detail != null) {
 			ContactsDetailItem item = new ContactsDetailItem();
 			item.setId(detail.getId());
 			item.setName(detail.getName());
 			item.setPhone(detail.getPhone());
-			model.setDetails(item);
+			item.setPhone2(detail.getPhone2());
+			items.add(item);
+			model.setDetails(items);
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());

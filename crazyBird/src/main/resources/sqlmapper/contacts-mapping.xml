@@ -9,14 +9,15 @@
 	<resultMap id="DetailResultMap" type="com.crazyBird.dao.contacts.dataobject.ContactsDetailDO" >
     	<id column="id" property="id" jdbcType="BIGINT" />
     	<result column="name" property="name" jdbcType="VARCHAR"/>
-    	<result column="phone" property="phone" jdbcType="BIGINT"/>
+    	<result column="phone" property="phone" jdbcType="VARCHAR"/>
+    	<result column="phone2" property="phone2" jdbcType="VARCHAR"/>
 	</resultMap>
 	<select id="getContactsType" resultMap="TypeResultMap">
 		select id,type_name
 		from contacts_type
 	</select>
 	<select id="getContactsDetail" resultMap="DetailResultMap" parameterType="java.lang.Long">
-		select id,name,phone
+		select id,name,phone,phone2
 		from contacts_detail
 		where id = #{id,jdbcType=BIGINT}
 	</select>
