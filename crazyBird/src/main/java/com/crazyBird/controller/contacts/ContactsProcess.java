@@ -46,9 +46,11 @@ public class ContactsProcess extends BaseProcess{
 		if(detail != null) {
 			ContactsDetailItem item = new ContactsDetailItem();
 			item.setId(detail.getId());
+			item.setTypeName(detail.getTypeName());
 			item.setName(detail.getName());
 			item.setPhone(detail.getPhone());
 			item.setPhone2(detail.getPhone2());
+			item.setPic(detail.getPic());
 			items.add(item);
 			model.setDetails(items);
 			return model;

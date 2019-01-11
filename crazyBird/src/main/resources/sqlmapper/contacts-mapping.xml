@@ -8,17 +8,22 @@
 	
 	<resultMap id="DetailResultMap" type="com.crazyBird.dao.contacts.dataobject.ContactsDetailDO" >
     	<id column="id" property="id" jdbcType="BIGINT" />
+    	<result column="type_id" property="typeId" jdbcType="BIGINT"/>
+    	<result column="type_name" property="typeName" jdbcType="VARCHAR"/>
     	<result column="name" property="name" jdbcType="VARCHAR"/>
     	<result column="phone" property="phone" jdbcType="VARCHAR"/>
     	<result column="phone2" property="phone2" jdbcType="VARCHAR"/>
+    	<result column="pic" property="pic" jdbcType="VARCHAR"/>
 	</resultMap>
 	<select id="getContactsType" resultMap="TypeResultMap">
 		select id,type_name
 		from contacts_type
 	</select>
 	<select id="getContactsDetail" resultMap="DetailResultMap" parameterType="java.lang.Long">
-		select id,name,phone,phone2
-		from contacts_detail
-		where id = #{id,jdbcType=BIGINT}
+		select d.id,t.type_name,d.name,d.phone,d.phone2,d.pic
+		from contacts_detail d
+		left join contacts_type t
+		on d.type_id = t.id
+		where d.id = #{id,jdbcType=BIGINT}
 	</select>
 </mapper>
