@@ -1,6 +1,6 @@
 package com.crazyBird.controller.contacts.model;
 
-public class ContactsDetailItem {
+public class ContactsTypeListItem {
 	private Long id;
 	private String typeName;
 	private String name;

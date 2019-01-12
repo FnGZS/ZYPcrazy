@@ -7,6 +7,7 @@ public class ContactsDetailDO {
 	private String name;
 	private String phone;
 	private String phone2;
+	private String manger;
 	private String pic;
 	public Long getId() {
 		return id;
@@ -43,6 +44,12 @@ public class ContactsDetailDO {
 	}
 	public void setPhone2(String phone2) {
 		this.phone2 = phone2;
+	}
+	public String getManger() {
+		return manger;
+	}
+	public void setManger(String manger) {
+		this.manger = manger;
 	}
 	public String getPic() {
 		return pic;

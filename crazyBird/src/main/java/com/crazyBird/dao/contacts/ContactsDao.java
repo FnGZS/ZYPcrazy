@@ -11,4 +11,6 @@ public abstract interface ContactsDao {
 
 	ContactsDetailDO getContactsDetail(Long id);
 
+	List<ContactsDetailDO> getContactsTypeList(Long id);
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crazyBird.controller.contacts.model.ContactsDetailModel;
+import com.crazyBird.controller.contacts.model.ContactsTypeListModel;
 import com.crazyBird.controller.contacts.model.ContactsTypeModel;
 
 @Controller
@@ -39,5 +40,17 @@ public class ContactsController {
 	@ResponseBody
 	public ContactsDetailModel getContactsDetail(@PathVariable Long id) {
 		return contactsProcess.getContactsDetail(id);
+	}
+	
+	/**
+	 * 获取某个类型列表
+	 * @param param
+	 * @return
+	 * **/
+	
+	@RequestMapping(value = "/getContactsTypeList/{id}",method = RequestMethod.GET)
+	@ResponseBody
+	public ContactsTypeListModel getContactsTypeList(@PathVariable Long id) {
+		return contactsProcess.getContactsTypeList(id);
 	}
 }
