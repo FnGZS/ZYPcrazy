@@ -97,4 +97,13 @@
     order by id desc
     limit 1
   </update>
+  <update id="changePhone" parameterType="com.crazyBird.dao.user.dataobject.BindingChangeDO" >
+    update user
+    <set >
+      <if test="phone != null">
+      	phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  access_token = #{asToken,jdbcType=VARCHAR}
+  </update>
 </mapper>

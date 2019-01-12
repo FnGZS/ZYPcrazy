@@ -2,6 +2,7 @@ package com.crazyBird.service.user;
 
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
+import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
@@ -25,4 +26,6 @@ public abstract interface UserLoginService {
 	BackgroundDO background();
 
 	ResponseDO<HavePhoneUserDO> getHavePhoneUser(String phone, String accessToken);
+
+	ResponseDO<BindingDO> changeBind(BindingChangeDO bindingChange);
 }

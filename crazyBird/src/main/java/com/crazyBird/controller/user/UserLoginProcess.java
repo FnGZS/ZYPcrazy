@@ -8,12 +8,14 @@ import com.crazyBird.controller.user.model.BindingModel;
 import com.crazyBird.controller.user.model.GetPhoneModel;
 import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
+import com.crazyBird.controller.user.param.BindChangeParam;
 import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
 import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
+import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
@@ -103,31 +105,11 @@ public class UserLoginProcess extends BaseProcess {
 
 	public BindingModel binding(BindingParam param) {
 		BindingModel model = new BindingModel();
-		if(param.getPhone()==null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("手机号不能为空");
-			return model;
-		}
-		if(param.getCode()==null) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage("验证码不能为空");
-			return model;
-		}
-		VerificationDO verification = new VerificationDO();
-		verification.setPhone(param.getPhone());
-		verification.setCode(param.getCode());
-		ResponseDO<String> responseVer = userLoginService.verifica(verification);
-		if(!responseVer.isSuccess()) {
-			model.setCode(HttpCodeEnum.ERROR.getCode());
-			model.setMessage(responseVer.getMessage());
-			return model;
-		}
 		BindingDO binding = new BindingDO();
 		if (param != null) {
 			binding.setAsToken(getReqParam().getReqHead().getAccessToken());
 			binding.setSchoolNum(param.getSchoolNum());
 			binding.setPassword(param.getPassword());
-			binding.setPhone(param.getPhone());
 			ResponseDO<BindingDO> responseDO = userLoginService.userBinding(binding);
 			if (responseDO.isSuccess()) {
 				model.setResult(Integer.valueOf(1));
@@ -241,6 +223,40 @@ public class UserLoginProcess extends BaseProcess {
 		model.setResult(response.getDataResult().getResult());
 		model.setMessage(response.getMessage());
 		model.setPhone(phone);
+		return model;
+	}
+
+	
+	public BindingModel changeBind(BindChangeParam param) {
+		BindingModel model = new BindingModel();
+		if(param.getPhone()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("手机号不能为空");
+			return model;
+		}
+		if(param.getCode()==null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("验证码不能为空");
+			return model;
+		}
+		VerificationDO verification = new VerificationDO();
+		verification.setPhone(param.getPhone());
+		verification.setCode(param.getCode());
+		ResponseDO<String> responseVer = userLoginService.verifica(verification);
+		if(!responseVer.isSuccess()) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage(responseVer.getMessage());
+			return model;
+		}
+		BindingChangeDO bindingChange = new BindingChangeDO();
+		bindingChange.setAsToken(getReqParam().getReqHead().getAccessToken());
+		bindingChange.setPhone(param.getPhone());
+		ResponseDO<BindingDO> responseDO = userLoginService.changeBind(bindingChange);
+		if (responseDO.isSuccess()) {
+			model.setResult(Integer.valueOf(1));
+			model.setAsToken(responseDO.getDataResult().getAsToken());
+		}
+		model.setMessage(responseDO.getMessage());
 		return model;
 	}
 }

@@ -7,6 +7,7 @@ import com.crazyBird.dao.user.UserDao;
 import com.crazyBird.dao.user.UserLoginDao;
 import com.crazyBird.dao.user.VerificationDao;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
+import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
@@ -114,7 +115,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 		}
 		if (userBinding.getIsBinding().equals("1") == true) {
 			responseDO.setCode(ResponseCode.ERROR);
-			responseDO.setMessage("学号未绑定");
+			responseDO.setMessage("学号已绑定");
 			return responseDO;
 		}
 		if ((userBinding != null) && (userBinding.getIsBinding().equals("2") == true)) {
@@ -128,7 +129,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 					bing.setUserId(user.getOpenId());
 					bing.setSex(user.getSex());
 					bing.setHeadimgurl(user.getHeadimgurl());
-					bing.setPhone(binding.getPhone());
+					bing.setPhone(user.getTelephone());
 					userDao.updateBinding(bing);
 					userLoginDO.setAccessToken(TokenUtils.creatAesStr(binding.getSchoolNum()));
 					userLoginDO.setIsBound(Integer.valueOf(1));
@@ -149,6 +150,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 		verificationDao.saveVerCode(verification);
 	}
 
+	/**
+	 * 验证码校验
+	 * */
 	@Override
 	public ResponseDO<String> verifica(VerificationDO verification) {
 		ResponseDO<String> responseVer = new ResponseDO<String>();
@@ -245,5 +249,26 @@ public class UserLoginServiceImpl implements UserLoginService {
 		response.setCode(ResponseCode.ERROR);
 		response.setMessage("错误");
 		return response;
+	}
+
+	@Override
+	public ResponseDO<BindingDO> changeBind(BindingChangeDO bindingChange) {
+		ResponseDO<BindingDO> responseDO = new ResponseDO<>();
+		UserLoginDO userLoginDO = userLoginDao.seletUserByAs(bindingChange.getAsToken());
+		if(userLoginDO.getTelephone() == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("获取过手机号");
+			return responseDO;
+		}
+		UserDO userBinding = userDao.seletUserByOpenId(userLoginDO.getOpenId());
+		bindingChange.setOpenId(userLoginDO.getOpenId());
+		if(userBinding == null) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("未绑定过学号");
+			return responseDO;
+		}
+		userDao.changePhone(bindingChange);
+		userLoginDao.changePhone(bindingChange);
+		return responseDO;
 	}
 }

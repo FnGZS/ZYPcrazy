@@ -10,6 +10,7 @@ import com.crazyBird.controller.user.model.BackgroundModel;
 import com.crazyBird.controller.user.model.GetPhoneModel;
 import com.crazyBird.controller.user.model.LoginModel;
 import com.crazyBird.controller.user.model.MessageModel;
+import com.crazyBird.controller.user.param.BindChangeParam;
 import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
  import com.crazyBird.controller.user.param.LoginParam;
@@ -57,6 +58,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
    @ResponseBody
    public MessageModel smsget(@RequestBody MessageParam param) {
 	     return this.userLoginProcess.smsget(param);
+   }
+   
+   /**
+    * 更改绑定
+    * */
+   @RequestMapping(value={"/changeBind"}, method = RequestMethod.POST)
+   @ResponseBody
+   public BindingModel changeBind(@RequestBody BindChangeParam param) {
+	     return this.userLoginProcess.changeBind(param);
    }
    
    /**

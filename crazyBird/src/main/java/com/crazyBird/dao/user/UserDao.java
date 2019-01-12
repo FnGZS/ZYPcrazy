@@ -2,6 +2,7 @@ package com.crazyBird.dao.user;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.UserDO;
@@ -18,4 +19,9 @@ public abstract interface UserDao {
 	UserDO seletUserByPhone(String phone);
 
 	void updateUser(UserDO phoneUser);
+
+	UserDO seletUserByOpenId(@Param("openId") String openId);
+
+	void changePhone(BindingChangeDO bindingChange);
+
 }

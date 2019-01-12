@@ -1,5 +1,6 @@
 package com.crazyBird.dao.user;
 
+import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
 
 public abstract interface UserLoginDao {
@@ -16,4 +17,6 @@ public abstract interface UserLoginDao {
 	UserLoginDO seletUserByAs(String paramString);
 
 	UserLoginDO seletUserByName(String userName);
+
+	void changePhone(BindingChangeDO bindingChange);
 }
