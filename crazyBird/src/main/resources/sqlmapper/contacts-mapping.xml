@@ -13,6 +13,7 @@
     	<result column="name" property="name" jdbcType="VARCHAR"/>
     	<result column="phone" property="phone" jdbcType="VARCHAR"/>
     	<result column="phone2" property="phone2" jdbcType="VARCHAR"/>
+    	<result column="manger" property="manger" jdbcType="VARCHAR"/>
     	<result column="pic" property="pic" jdbcType="VARCHAR"/>
 	</resultMap>
 	<select id="getContactsType" resultMap="TypeResultMap">
@@ -20,10 +21,17 @@
 		from contacts_type
 	</select>
 	<select id="getContactsDetail" resultMap="DetailResultMap" parameterType="java.lang.Long">
-		select d.id,t.type_name,d.name,d.phone,d.phone2,d.pic
+		select d.id,t.type_name,d.name,d.phone,d.phone2,d.manger,d.pic
 		from contacts_detail d
 		left join contacts_type t
 		on d.type_id = t.id
 		where d.id = #{id,jdbcType=BIGINT}
+	</select>
+		<select id="getContactsTypeList" resultMap="DetailResultMap" parameterType="java.lang.Long">
+		select d.id,t.type_name,d.name,d.phone,d.phone2,d.pic
+		from contacts_detail d
+		left join contacts_type t
+		on d.type_id = t.id
+		where t.id = #{id,jdbcType=BIGINT}
 	</select>
 </mapper>

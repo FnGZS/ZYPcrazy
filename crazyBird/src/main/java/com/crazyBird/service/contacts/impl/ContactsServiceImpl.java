@@ -26,4 +26,9 @@ public class ContactsServiceImpl implements ContactsService{
 		return contactsDao.getContactsDetail(id);
 	}
 
+	@Override
+	public List<ContactsDetailDO> getContactsTypeList(Long id) {
+		return contactsDao.getContactsTypeList(id);
+	}
+
 }

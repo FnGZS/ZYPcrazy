@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.controller.base.BaseProcess;
-import com.crazyBird.controller.contacts.model.ContactsDetailItem;
 import com.crazyBird.controller.contacts.model.ContactsDetailModel;
 import com.crazyBird.controller.contacts.model.ContactsTypeItem;
+import com.crazyBird.controller.contacts.model.ContactsTypeListItem;
+import com.crazyBird.controller.contacts.model.ContactsTypeListModel;
 import com.crazyBird.controller.contacts.model.ContactsTypeModel;
 import com.crazyBird.dao.contacts.dataobject.ContactsDetailDO;
 import com.crazyBird.dao.contacts.dataobject.ContactsTypeDO;
@@ -42,22 +43,39 @@ public class ContactsProcess extends BaseProcess{
 	public ContactsDetailModel getContactsDetail(Long id) {
 		ContactsDetailModel model = new ContactsDetailModel();
 		ContactsDetailDO detail = contactsService.getContactsDetail(id);
-		List<ContactsDetailItem> items =new ArrayList<ContactsDetailItem>();
 		if(detail != null) {
-			ContactsDetailItem item = new ContactsDetailItem();
-			item.setId(detail.getId());
-			item.setTypeName(detail.getTypeName());
-			item.setName(detail.getName());
-			item.setPhone(detail.getPhone());
-			item.setPhone2(detail.getPhone2());
-			item.setPic(detail.getPic());
-			items.add(item);
-			model.setDetails(items);
+			model.setId(detail.getId());
+			model.setTypeName(detail.getTypeName());
+			model.setName(detail.getName());
+			model.setPhone(detail.getPhone());
+			model.setPhone2(detail.getPhone2());
+			model.setManger(detail.getManger());
+			model.setPic(detail.getPic());
 			return model;
 		}
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("无此项");
 		return model;
+	}
+
+	public ContactsTypeListModel getContactsTypeList(Long id) {
+		ContactsTypeListModel model = new ContactsTypeListModel();
+		List<ContactsDetailDO> tags = contactsService.getContactsTypeList(id);
+		if(CollectionUtil.isNotEmpty(tags)) {
+			List<ContactsTypeListItem> items = new ArrayList<ContactsTypeListItem>();
+			for(ContactsDetailDO tag : tags) {
+				ContactsTypeListItem item = new ContactsTypeListItem();
+				item.setId(tag.getId());
+				item.setTypeName(tag.getTypeName());
+				item.setName(tag.getName());
+				item.setPhone(tag.getPhone());
+				item.setPhone2(tag.getPhone2());
+				item.setPic(tag.getPic());
+				items.add(item);
+			}
+			model.setList(items);
+		}
+		return model;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	}
 
 }
