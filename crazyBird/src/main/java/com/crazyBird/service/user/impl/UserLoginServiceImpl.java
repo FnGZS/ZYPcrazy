@@ -247,7 +247,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 			return response;
 		}
 		response.setCode(ResponseCode.ERROR);
-		response.setMessage("错误");
+		response.setMessage("此微信绑定的手机号未在在元培上绑定过");
 		return response;
 	}
 
