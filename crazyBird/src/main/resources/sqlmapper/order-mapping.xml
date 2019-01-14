@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crazyBird.dao.user.UserWxPayOrderDao">
+ <resultMap id="BillDOMap" type="com.crazyBird.dao.user.dataobject.BillDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+ </resultMap>
+ <sql id="Bill_Column_List">
+		id, title,`status`, stream_id,play_url,image_url,end_time
+</sql>
 <select id="checkWxPayOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
 select count(1) from `order` where transaction_id =#{transaction_id,jdbcType=VARCHAR}
 </select>
+<select id="getBillList" parameterType="com.crazyBird.dao.user.dataobject.BillPO" resultMap="BillDOMap">
+select 
+<include refid="Bill_Column_List" />
+from bill
+where user_id=#{userId,jdbcType=BIGINT} 
+order by gmt_created desc
+limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+</select>
+<insert id="insertBill" parameterType="com.crazyBird.dao.user.dataobject.BillDO">
+insert into bill
+(
+id,
+user_id,
+type,
+cash,
+gmt_created,
+gmt_modified
+)
+values
+(
+#{id,jdbcType=BIGINT},
+#{userId,jdbcType=BIGINT},
+#{type,jdbcType=INTEGER},
+#{cash,jdbcType=DECIMAL},
+now(),
+now()
+)
+</insert>
 <insert id="insertOrder" parameterType="com.crazyBird.dao.user.dataobject.UserWxPayOrderDO">
 	insert into `order` 
 	(
