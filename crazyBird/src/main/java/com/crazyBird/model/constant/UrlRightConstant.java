@@ -57,6 +57,7 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/luck/part");
         loginVerifyUrlList.add("/luck/addLuck");
         loginVerifyUrlList.add("/live");
+        loginVerifyUrlList.add("/pay");
         
         
         

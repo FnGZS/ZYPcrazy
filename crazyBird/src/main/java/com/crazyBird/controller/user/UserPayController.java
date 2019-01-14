@@ -99,8 +99,7 @@ public class UserPayController {
                     + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
 		}
         
-        System.out.println("接收到的报文：" + notityXml);
-        System.out.println(resXml);
+
         BufferedOutputStream out = new BufferedOutputStream(
                 response.getOutputStream());
         out.write(resXml.getBytes());
