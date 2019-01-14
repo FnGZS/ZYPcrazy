@@ -150,9 +150,12 @@ public class UserPayProcess extends BaseProcess {
 		orderDO.setGmt_created(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
 		orderDO.setGmt_modified(DateUtil.getStringToDate((String) resultMap.get("time_end"), DateUtil.dtLong));
 		int flag = payService.insertOrder(orderDO);
+	
 		if (flag <= 0) {
 			return false;
 		}
+		Long id = secondaryService.getSecondaryGoodsId((String) resultMap.get("out_trade_no"));
+		secondaryService.updateSecondaryGoodsPay(id);
 		return true;
 
 	}
