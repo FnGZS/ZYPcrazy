@@ -219,7 +219,8 @@ public class SecondaryOrderProcess extends BaseProcess{
 		 capitalUserDO.setUserId(responseDO.getSellerId());
 		 capitalUserDO.setRemainder(responseDO.getPrice());
 		 secondaryOrderService.updateCapitalUser(capitalUserDO);
-		 //再将记录插入账单            
+		 //再将记录插入账单
+		 
 		 model.setMessage("更新成功");
 		 return model;
 	}

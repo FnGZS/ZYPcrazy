@@ -27,7 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
- 
+ /**
+  * 支付相关
+  * @author zzc
+  *
+  */
  @Controller
  @RequestMapping({"/user"})
  public class UserLoginController

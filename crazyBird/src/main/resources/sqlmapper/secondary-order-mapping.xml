@@ -186,7 +186,7 @@
   update secondary_order set order_state = 4 , gmt_modified=now() where order_id=#{out_trade_no,jdbcType=VARCHAR} and  order_state=3
   </update>
   <update id="updateSecondaryOrderAccept" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
-    update secondary_order set order_state = 2 , gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1 and user_id=#{userId,jdbcType=BIGINT}
+    update secondary_order set order_state = 2 ,logistics=2, gmt_modified=now() where order_id=#{orderId,jdbcType=VARCHAR} and  order_state=1 and user_id=#{userId,jdbcType=BIGINT}
   </update>
   <select id="getSecondaryCapital" resultMap="CapitalDOMap" parameterType="java.lang.Long">
   	select * from capital_user where user_id = #{userId,jdbcType=BIGINT}

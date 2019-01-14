@@ -19,7 +19,7 @@ import com.crazyBird.controller.live.param.LiveGiftOrderParam;
 
 
 /**
- * 
+ * 直播功能
  * @author zzc
  * 
  */
