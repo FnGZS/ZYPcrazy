@@ -76,7 +76,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 			return model;
 		}
 		int flag = secondaryOrderService.checkSecondaryGoodsPayStatus(param.getGoodsId());
-		if(flag==0) {
+		if(flag!=0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("宝贝已经被人抢走了");
 			return model;
