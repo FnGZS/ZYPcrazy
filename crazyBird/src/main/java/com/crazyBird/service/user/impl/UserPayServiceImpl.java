@@ -1,13 +1,18 @@
 package com.crazyBird.service.user.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crazyBird.dao.live.LiveDao;
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.user.UserWxPayOrderDao;
+import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.BillPO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
+import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.user.UserPayService;
 
 @Component("UserPayService")
@@ -41,13 +46,23 @@ public class UserPayServiceImpl implements UserPayService{
 	}
 	@Override
 	public int checkLiveOrder(String orderId) {
-		// TODO Auto-generated method stub
+
 		return liveDao.checkLiveOrder(orderId);
 	}
 	@Override
 	public int updateLiveOrder(String out_trade_no) {
-		// TODO Auto-generated method stub
+
 		return liveDao.updateLiveOrder(out_trade_no);
+	}
+	@Override
+	public boolean insertBill(BillDO billDO) {
+	
+		return insertBill(billDO);
+	}
+	@Override
+	public ResponsePageQueryDO<List<BillDO>> getBillList(BillPO po) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

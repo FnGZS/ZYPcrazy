@@ -30,10 +30,15 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.VendorListPO;
+import com.crazyBird.dao.user.UserWxPayOrderDao;
+import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.BillPO;
+import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.secondary.SecondaryOrderService;
+import com.crazyBird.service.user.UserPayService;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.weixin.WeixinAppService;
 import com.crazyBird.utils.CollectionUtil;
@@ -41,6 +46,7 @@ import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.OrderUtils;
 import com.crazyBird.utils.PageUtils;
 import com.crazyBird.utils.TokenUtils;
+import com.mysql.fabric.xmlrpc.base.Param;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.OrderDecoratorBucket;
 
@@ -51,6 +57,8 @@ public class SecondaryOrderProcess extends BaseProcess{
 	private static final String NOTIFY_URL = "https://www.sxscott.com/crazyBird/pay/wxNotify";
 	@Autowired
 	private SecondaryOrderService secondaryOrderService;
+	@Autowired
+	private UserPayService userPayService;
 	
 	public SecondaryOrderModel getCreateOrder(OrderParam param) {
 		SecondaryOrderModel model = new SecondaryOrderModel();
@@ -220,6 +228,11 @@ public class SecondaryOrderProcess extends BaseProcess{
 		 capitalUserDO.setRemainder(responseDO.getPrice());
 		 secondaryOrderService.updateCapitalUser(capitalUserDO);
 		 //再将记录插入账单
+		 BillDO billDO = new BillDO();
+		 billDO.setCash(responseDO.getPrice());
+		 billDO.setUserId(userId);
+		 billDO.setType(3);
+		 userPayService.insertBill(billDO);
 		 
 		 model.setMessage("更新成功");
 		 return model;
