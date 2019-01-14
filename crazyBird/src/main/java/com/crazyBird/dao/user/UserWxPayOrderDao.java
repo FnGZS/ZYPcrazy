@@ -3,6 +3,7 @@ package com.crazyBird.dao.user;
 import java.util.List;
 
 import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.BillPO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 
@@ -13,5 +14,5 @@ public interface UserWxPayOrderDao {
 	//插入账单
 	boolean insertBill(BillDO billDO);
 	//得到账单
-	List<BillDO> getBillList(Long userId);
+	List<BillDO> getBillList(BillPO po);
 }

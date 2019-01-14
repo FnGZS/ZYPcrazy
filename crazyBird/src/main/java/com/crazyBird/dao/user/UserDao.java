@@ -24,4 +24,5 @@ public abstract interface UserDao {
 
 	void changePhone(BindingChangeDO bindingChange);
 
+
 }
