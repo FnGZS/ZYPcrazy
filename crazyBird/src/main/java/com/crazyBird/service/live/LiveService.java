@@ -12,4 +12,5 @@ public interface LiveService {
 	void liveStatistical();
 	List<LiveGiftDO> getLiveGiftList();
 	int createGiftOrder(LiveOrderDO orderDO);
+	void text();
 }

@@ -65,7 +65,11 @@ public class RestLogUtils {
         	}
         }
     }
+    public static void writeSchedulerTaskByInfo(String msg,Logger logger) {
+        logger.info(msg);
 
+    	
+    }
     private static LogAnalysisDO writeRestLogByInfo(ReqParam reqParam, Object resultObject, Date reqTime,
             Boolean jsonFormatter) {
         ReqInfo reqInfo = new ReqInfo();

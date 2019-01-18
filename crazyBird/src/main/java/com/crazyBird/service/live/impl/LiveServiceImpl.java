@@ -86,6 +86,12 @@ public class LiveServiceImpl implements LiveService{
 		// TODO Auto-generated method stub
 		return liveDao.createGiftOrder(orderDO);
 	}
+
+	@Override
+	public void text() {
+		System.out.println(111);
+		
+	}
 	
 	
 	
