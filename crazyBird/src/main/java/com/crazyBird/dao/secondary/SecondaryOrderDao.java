@@ -62,6 +62,10 @@ public interface SecondaryOrderDao {
 	SecondaryOrderDO  getSecondaryOrderDetail(String orderId);
 	
 	int updateCapitalUser(CapitalUserDO capitalUserDO);
+	
+	List<SecondaryOrderDO> getAutomaticAcceptList();
+	
+
 
 
 }

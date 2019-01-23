@@ -267,6 +267,9 @@
 		parameterType="java.lang.Long">
 		select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
 	</select>
+	<select id="getAutomaticAcceptList" resultMap="OrderDOResult">
+		select * from secondary_order  where TIMESTAMPDIFF( DAY,gmt_modified,now())>=7 and order_state=1
+	</select>
 	<select id="checkSecondaryGoodsPayStatus"
 		parameterType="java.lang.Long" resultType="java.lang.Integer">
 		select count(1) from secondary_goods where id = #{id,jdbcType=INTEGER} and
