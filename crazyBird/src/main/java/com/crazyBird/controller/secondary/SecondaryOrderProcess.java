@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,21 +20,21 @@ import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
+import com.crazyBird.controller.secondary.param.RefundApplyParam;
 import com.crazyBird.controller.secondary.param.SecondaryCashParam;
+import com.crazyBird.controller.secondary.param.SecondaryOrderParam;
 import com.crazyBird.controller.secondary.param.VendorListParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
+import com.crazyBird.dao.secondary.dataobject.RefundApplyDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.VendorListPO;
-import com.crazyBird.dao.user.UserWxPayOrderDao;
 import com.crazyBird.dao.user.dataobject.BillDO;
-import com.crazyBird.dao.user.dataobject.BillPO;
-import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
@@ -46,12 +47,9 @@ import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.OrderUtils;
 import com.crazyBird.utils.PageUtils;
 import com.crazyBird.utils.TokenUtils;
-import com.mysql.fabric.xmlrpc.base.Param;
-
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.OrderDecoratorBucket;
 
 @Component
-public class SecondaryOrderProcess extends BaseProcess{
+public class SecondaryOrderProcess extends BaseProcess {
 
 	// 支付成功后的服务器回调url
 	private static final String NOTIFY_URL = "https://www.sxscott.com/crazyBird/pay/wxNotify";
@@ -59,7 +57,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 	private SecondaryOrderService secondaryOrderService;
 	@Autowired
 	private UserPayService userPayService;
-	
+
 	public SecondaryOrderModel getCreateOrder(OrderParam param) {
 		SecondaryOrderModel model = new SecondaryOrderModel();
 		SecondaryOrderDO order = new SecondaryOrderDO();
@@ -67,16 +65,15 @@ public class SecondaryOrderProcess extends BaseProcess{
 		try {
 			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(userId.longValue() == 0) {
+		if (userId.longValue() == 0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("添加失败");
 			return model;
 		}
 		int flag = secondaryOrderService.checkSecondaryGoodsPayStatus(param.getGoodsId());
-		if(flag!=0) {
+		if (flag != 0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("宝贝已经被人抢走了");
 			return model;
@@ -100,7 +97,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 		payParam.setFee(param.getFee());
 		String ip = getReqParam().getIp();
 		String orederId = order.getOrderId();
-		ResponseDO<OrderResponseInfo> responsePay = WeixinAppService.wxPay(payParam, ip, orederId,NOTIFY_URL);
+		ResponseDO<OrderResponseInfo> responsePay = WeixinAppService.wxPay(payParam, ip, orederId, NOTIFY_URL);
 		if (!responsePay.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
@@ -118,29 +115,29 @@ public class SecondaryOrderProcess extends BaseProcess{
 		try {
 			po.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		po.setOrderStatus(param.getOrderStatus());
+		if (param.getOrderStatus() != null) {
+			po.setOrderStatus(param.getOrderStatus());
+		}
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		ResponsePageQueryDO<List<SecondaryOrderDTO>> response = secondaryOrderService.getOrderList(po);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setTags(convertSecondaryOrder(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
 		return model;
 	}
 
-	private List<SecondaryOrderItem> convertSecondaryOrder (List<SecondaryOrderDTO> tags){
+	private List<SecondaryOrderItem> convertSecondaryOrder(List<SecondaryOrderDTO> tags) {
 		List<SecondaryOrderItem> lists = new ArrayList<>();
-		if(CollectionUtil.isNotEmpty(tags)) {
-			for(SecondaryOrderDTO tag:tags) {
-				if(tag != null) {
+		if (CollectionUtil.isNotEmpty(tags)) {
+			for (SecondaryOrderDTO tag : tags) {
+				if (tag != null) {
 					SecondaryOrderItem item = new SecondaryOrderItem();
 					item.setId(tag.getId());
 					item.setUserId(tag.getUserId());
@@ -181,7 +178,6 @@ public class SecondaryOrderProcess extends BaseProcess{
 		try {
 			deleteOrder.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ResponseDO<String> response = secondaryOrderService.deleteSecondaryOrder(deleteOrder);
@@ -193,51 +189,138 @@ public class SecondaryOrderProcess extends BaseProcess{
 		model.setMessage(response.getMessage());
 		return model;
 	}
-	
-	public SimpleFlagModel 	updateSecondaryOrderAccept(String orderId) {
-		 SimpleFlagModel model = new SimpleFlagModel();
-		 Long userId = (long) 0;
-		 try {
-				userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if(userId.longValue() == 0||userId==null) {
-				model.setCode(HttpCodeEnum.ERROR.getCode());
-				model.setMessage("请先绑定学号");
-				return model;
-			}
-		 if(orderId==null) {
-				model.setCode(HttpCodeEnum.ERROR.getCode());
-				model.setMessage("参数为空");
-				return model;
-		 }
-		 SecondaryOrderDO  orderDO = new SecondaryOrderDO();
-		 orderDO.setOrderId(orderId);
-		 orderDO.setUserId(userId);
-		 int count = secondaryOrderService.updateSecondaryOrderAccept(orderDO);
-		 if(count<=0) {
-			 	model.setCode(HttpCodeEnum.ERROR.getCode());
-				model.setMessage("已收货或订单不存在");
-				return model;
-				
-		 }
-		 SecondaryOrderDO responseDO=secondaryOrderService.getSecondaryOrderDetail(orderId);
-		 CapitalUserDO capitalUserDO = new CapitalUserDO();
-		 capitalUserDO.setUserId(responseDO.getSellerId());
-		 capitalUserDO.setRemainder(responseDO.getPrice());
-		 secondaryOrderService.updateCapitalUser(capitalUserDO);
-		 //再将记录插入账单
-		 BillDO billDO = new BillDO();
-		 billDO.setCash(responseDO.getPrice());
-		 billDO.setUserId(userId);
-		 billDO.setType(3);
-		 userPayService.insertBill(billDO);
-		 
-		 model.setMessage("更新成功");
-		 return model;
+
+	public SimpleFlagModel cancelSecondaryOrder(Long id) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		DeleteSecondaryOrderDO deleteOrder = new DeleteSecondaryOrderDO();
+		deleteOrder.setId(id);
+		try {
+			deleteOrder.setUserId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (secondaryOrderService.cancelSecondaryOrder(deleteOrder)) {
+			model.setMessage("取消订单成功");
+			return model;
+		}
+		model.setMessage("取消订单失败");
+		return model;
 	}
-	
+
+	public SimpleFlagModel updateSecondaryOrderAccept(SecondaryOrderParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		Long userId = (long) 0;
+		try {
+			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (userId.longValue() == 0 || userId == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("请先绑定学号");
+			return model;
+		}
+		if (param.getOrderId() == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("参数为空");
+			return model;
+		}
+		SecondaryOrderDO orderDO = new SecondaryOrderDO();
+		orderDO.setOrderId(param.getOrderId());
+		orderDO.setUserId(userId);
+		int count = secondaryOrderService.updateSecondaryOrderAccept(orderDO);
+		if (count <= 0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("已收货或订单不存在");
+			return model;
+
+		}
+		SecondaryOrderDO responseDO = secondaryOrderService.getSecondaryOrderDetail(param.getOrderId());
+		CapitalUserDO capitalUserDO = new CapitalUserDO();
+		capitalUserDO.setUserId(responseDO.getSellerId());
+		capitalUserDO.setRemainder(responseDO.getPrice());
+		secondaryOrderService.updateCapitalUser(capitalUserDO);
+		// 再将记录插入账单
+		BillDO billDO = new BillDO();
+		billDO.setCash(responseDO.getPrice());
+		billDO.setUserId(userId);
+		billDO.setType(3);
+		userPayService.insertBill(billDO);
+
+		model.setMessage("收货成功");
+		return model;
+	}
+
+	public SimpleFlagModel updateSecondaryOrderDelivery(SecondaryOrderParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		Long userId = (long) 0;
+		try {
+			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (userId.longValue() == 0 || userId == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("请先绑定学号");
+			return model;
+		}
+		if (param.getOrderId() == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("参数为空");
+			return model;
+		}
+		SecondaryOrderDO orderDO = new SecondaryOrderDO();
+		orderDO.setOrderId(param.getOrderId());
+		orderDO.setUserId(userId);
+		int count = secondaryOrderService.updateSecondaryOrderDelivery(orderDO);
+		if (count <= 0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("已发货或订单不存在");
+			return model;
+
+		}
+		model.setMessage("发货成功");
+		return model;
+	}
+
+	public SimpleFlagModel updateSecondaryOrderApplyRefund(RefundApplyParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		Long userId = (long) 0;
+		try {
+			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (userId.longValue() == 0 || userId == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("请先绑定学号");
+			return model;
+		}
+		if (param.getOrderId() == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("参数为空");
+			return model;
+		}
+		RefundApplyDO applyDO = new RefundApplyDO();
+		SecondaryOrderDO orderDO = new SecondaryOrderDO();
+		applyDO.setOrderId(param.getOrderId());
+		applyDO.setContent(param.getContent());
+		applyDO.setState(0);
+		applyDO.setType(1);
+		orderDO.setOrderId(param.getOrderId());
+		orderDO.setUserId(userId);
+		int count = secondaryOrderService.updateSecondaryOrderApplyRefund(orderDO);
+
+		if (count <= 0) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("申请失败");
+			return model;
+		}
+		secondaryOrderService.insertRefundApply(applyDO);
+		model.setMessage("已成功申请，请耐心等待结果！");
+		return model;
+	}
+
 	public SecondaryCapitalModel getSecondaryCapital() {
 		SecondaryCapitalModel model = new SecondaryCapitalModel();
 		Long userId = (long) 0;
@@ -246,28 +329,28 @@ public class SecondaryOrderProcess extends BaseProcess{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(userId.longValue() == 0||userId==null) {
+		if (userId.longValue() == 0 || userId == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("查询失败,请先去绑定学号");
 			return model;
 		}
 		SecondaryCapitalDO DO = secondaryOrderService.getSecondaryCapital(userId);
-		if(DO==null) {
-			//将用户插入用户资金表
+		if (DO == null) {
+			// 将用户插入用户资金表
 			secondaryOrderService.createCapitalUser(userId);
 			SecondaryCapitalItem item = new SecondaryCapitalItem();
 			item.setRemainder(BigDecimal.valueOf(0.00));
 			item.setUserId(userId);
 			model.setList(item);
-				
+
 		}
-		if(DO != null) {
+		if (DO != null) {
 			SecondaryCapitalItem item = new SecondaryCapitalItem();
 			item.setRemainder(DO.getRemainder());
 			item.setId(DO.getId());
 			item.setUserId(DO.getUserId());
 			model.setList(item);
-	
+
 		}
 
 		return model;
@@ -280,14 +363,13 @@ public class SecondaryOrderProcess extends BaseProcess{
 		input.setAccount(param.getAccount());
 		input.setCash(param.getCash());
 		ResponseDO<SecondaryCashDO> response = secondaryOrderService.setSecondaryCash(input);
-		if(!response.isSuccess()) {
+		if (!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.SUCCESS.getCode());
 			model.setMessage(response.getMessage());
-		}	
+		}
 		return model;
 	}
 
@@ -298,18 +380,19 @@ public class SecondaryOrderProcess extends BaseProcess{
 		try {
 			po.setSellerId(TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		po.setLogistics(param.getLogistics());
+		if (param.getLogistics() != null) {
+			po.setLogistics(param.getLogistics());
+		}
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		ResponsePageQueryDO<List<SecondaryOrderDTO>> response = secondaryOrderService.getVendorOrderList(po);
-		if(response.isSuccess()) {
+		if (response.isSuccess()) {
 			PageUtils.setPageModel(model, param, response.getTotal());
 			model.setTags(convertSecondaryOrder(response.getDataResult()));
-		}
-		else {
+		} else {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage(response.getMessage());
 		}
@@ -319,7 +402,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 	public OrderDetailsModel orderDetails(String orderId) {
 		OrderDetailsModel model = new OrderDetailsModel();
 		SecondaryOrderDTO orderDetails = secondaryOrderService.getOrderDetails(orderId);
-		if(orderDetails != null) {
+		if (orderDetails != null) {
 			model.setTelephone(orderDetails.getTelephone());
 			model.setId(orderDetails.getId());
 			model.setUserId(orderDetails.getUserId());
@@ -351,5 +434,5 @@ public class SecondaryOrderProcess extends BaseProcess{
 		model.setCode(HttpCodeEnum.ERROR.getCode());
 		return model;
 	}
-	
+
 }

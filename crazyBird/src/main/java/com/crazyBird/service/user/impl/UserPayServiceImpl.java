@@ -57,11 +57,11 @@ public class UserPayServiceImpl implements UserPayService{
 	@Override
 	public boolean insertBill(BillDO billDO) {
 	
-		return insertBill(billDO);
+		return orderDao.insertBill(billDO);
 	}
 	@Override
 	public ResponsePageQueryDO<List<BillDO>> getBillList(BillPO po) {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 

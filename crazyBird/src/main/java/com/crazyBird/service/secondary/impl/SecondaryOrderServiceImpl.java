@@ -9,6 +9,7 @@ import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
+import com.crazyBird.dao.secondary.dataobject.RefundApplyDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
@@ -184,5 +185,33 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 	public int updateCapitalUser(CapitalUserDO capitalUserDO) {
 
 		return secondaryOrderDao.updateCapitalUser(capitalUserDO);
+	}
+
+
+	@Override
+	public boolean cancelSecondaryOrder(DeleteSecondaryOrderDO deleteOrder) {
+		
+		return secondaryOrderDao.deleteSecondaryOrder(deleteOrder);
+	}
+
+
+	@Override
+	public int updateSecondaryOrderDelivery(SecondaryOrderDO orderDO) {
+
+		return secondaryOrderDao.updateSecondaryOrderDelivery(orderDO);
+	}
+
+
+	@Override
+	public int updateSecondaryOrderApplyRefund(SecondaryOrderDO orderDO) {
+	
+		return secondaryOrderDao.updateSecondaryOrderApplyRefund(orderDO);
+	}
+
+
+	@Override
+	public boolean insertRefundApply(RefundApplyDO applyDO) {
+		// TODO Auto-generated method stub
+		return secondaryOrderDao.insertRefundApply(applyDO);
 	}
 }

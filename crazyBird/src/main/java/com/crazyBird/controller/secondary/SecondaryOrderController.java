@@ -17,7 +17,9 @@ import com.crazyBird.controller.secondary.model.SecondaryOrderListModel;
 import com.crazyBird.controller.secondary.model.SecondaryOrderModel;
 import com.crazyBird.controller.secondary.param.OrderListParam;
 import com.crazyBird.controller.secondary.param.OrderParam;
+import com.crazyBird.controller.secondary.param.RefundApplyParam;
 import com.crazyBird.controller.secondary.param.SecondaryCashParam;
+import com.crazyBird.controller.secondary.param.SecondaryOrderParam;
 import com.crazyBird.controller.secondary.param.VendorListParam;
 
 /**
@@ -77,16 +79,38 @@ public class SecondaryOrderController {
 		return secondaryOrderProcess.deleteSecondaryOrder(id);
 	}
 	/**
+	 * 取消订单
+	 */
+	@ResponseBody
+	@RequestMapping(value="/orderCancel",method=RequestMethod.DELETE)
+	public SimpleFlagModel cancelSecondaryOrder(Long id){
+		return secondaryOrderProcess.cancelSecondaryOrder(id);
+	}
+	/**
 	 * 确认收货
 	 */
 	@ResponseBody
 	@RequestMapping(value="/orderAccept",method=RequestMethod.PUT)
-	public SimpleFlagModel updateSecondaryOrderAccept(String orderId) {
-		return secondaryOrderProcess.updateSecondaryOrderAccept(orderId);	
+	public SimpleFlagModel updateSecondaryOrderAccept( @RequestBody SecondaryOrderParam param) {
+		return secondaryOrderProcess.updateSecondaryOrderAccept(param);	
+	}
+	
+	/**
+	 * 确认发货
+	 */
+	@ResponseBody
+	@RequestMapping(value="/orderDelivery",method=RequestMethod.PUT)
+	public SimpleFlagModel updateSecondaryOrderDelivery(@RequestBody SecondaryOrderParam param) {
+		return secondaryOrderProcess.updateSecondaryOrderDelivery(param);	
 	}
 	/**
 	 * 申请退款
 	 */
+	@ResponseBody
+	@RequestMapping(value="/orderApply",method=RequestMethod.PUT)
+	public SimpleFlagModel updateSecondaryOrderApplyRefund(@RequestBody RefundApplyParam param) {
+		return secondaryOrderProcess.updateSecondaryOrderApplyRefund(param);
+	}
 	
 	/**
 	 * 获取资金信息

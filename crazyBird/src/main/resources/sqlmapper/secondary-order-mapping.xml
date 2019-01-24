@@ -191,8 +191,18 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select
 		count(1)
-		from secondary_order where user_id = #{userId,jdbcType=BIGINT} and
-		order_state = #{orderStatus,jdbcType=INTEGER}
+		from secondary_order where user_id = #{userId,jdbcType=BIGINT} 
+		<if test="orderStatus!=null and orderStatus != 0">		
+			<if test="orderStatus==0">
+			and order_state =#{orderStatus,jdbcType=INTEGER} 
+			</if>
+			<if test="orderStatus==1">
+			and order_state =1 or seo.order_state=3 
+			</if>
+			<if test="orderStatus==2">
+			and order_state =#{orderStatus,jdbcType=INTEGER} 
+			</if>
+		</if>
 	</select>
 	<select id="checkSecondaryOrder"
 		parameterType="java.lang.String" resultType="java.lang.Integer">
@@ -213,8 +223,18 @@
 		LEFT JOIN secondary_type as st on st.id=sg.goods_type
 		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.user_id = #{userId,jdbcType=BIGINT} and seo.order_state =
-		#{orderStatus,jdbcType=INTEGER}
+		where seo.user_id = #{userId,jdbcType=BIGINT} 
+		<if test="orderStatus!=null and orderStatus != 0">		
+			<if test="orderStatus==0">
+			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
+			</if>
+			<if test="orderStatus==1">
+			and seo.order_state =1 or seo.order_state=3 
+			</if>
+			<if test="orderStatus==2">
+			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
+			</if>
+		</if>
 		order by gmt_created desc
 		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
@@ -261,7 +281,19 @@
 	</update>
 	<update id="updateSecondaryOrderAccept"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
-		update secondary_order set order_state = 2 ,logistics=2, gmt_modified=now()
+		update secondary_order set order_state = 2 ,logistics=1, gmt_modified=now()
+		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
+		user_id=#{userId,jdbcType=BIGINT}
+	</update>
+	<update id="updateSecondaryOrderDelivery"
+		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+		update secondary_order set logistics=1, gmt_modified=now()
+		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
+		seller_id=#{userId,jdbcType=BIGINT}
+	</update>
+	<update id="updateSecondaryOrderApplyRefund"
+		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
+		update secondary_order set order_state=3, gmt_modified=now()
 		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
 		user_id=#{userId,jdbcType=BIGINT}
 	</update>
@@ -297,8 +329,12 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select
 		count(1)
-		from secondary_order where seller_id = #{sellerId,jdbcType=BIGINT} and
-		logistics = #{logistics,jdbcType=INTEGER}
+		from secondary_order where seller_id = #{sellerId,jdbcType=BIGINT}
+		<if test="logistics!=null">	
+		and logistics =
+		#{logistics,jdbcType=INTEGER}
+		</if>
+		
 	</select>
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
@@ -314,8 +350,11 @@
 		LEFT JOIN secondary_type as st on st.id=sg.goods_type
 		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.seller_id = #{sellerId,jdbcType=BIGINT} and seo.logistics =
+		where seo.seller_id = #{sellerId,jdbcType=BIGINT} 
+		<if test="logistics!=null">	
+			and seo.logistics =
 		#{logistics,jdbcType=INTEGER}
+		</if>
 		order by gmt_created desc
 		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
@@ -363,4 +402,29 @@
 		now()
 		)
 	</insert>
+	<insert id="insertRefundApply" parameterType="com.crazyBird.dao.secondary.dataobject.RefundApplyDO">
+		insert into refund_apply
+		(
+		id,
+		order_id,
+		type,
+		content,
+		state,
+		gmt_created,
+		gmt_modified
+		)values
+		(
+		#{id,jdbcType=BIGINT},
+		#{orderId,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR},
+		#{state,jdbcType=INTEGER},
+		now(),
+		now()
+		)
+	</insert>
+	<delete id="deleteSecondaryOrder" parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
+	delete from secondary_order
+	where id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+	</delete>
 </mapper>

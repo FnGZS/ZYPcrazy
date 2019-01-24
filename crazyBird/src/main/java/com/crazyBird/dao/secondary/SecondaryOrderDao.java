@@ -8,6 +8,7 @@ import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.GoodsExistDO;
 import com.crazyBird.dao.secondary.dataobject.PurchasePO;
+import com.crazyBird.dao.secondary.dataobject.RefundApplyDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCapitalDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryCashDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
@@ -39,11 +40,19 @@ public interface SecondaryOrderDao {
 	
 	int checkSecondaryOrder(String out_trade_no);
 	
+	boolean deleteSecondaryOrder(DeleteSecondaryOrderDO deleteOrder);
+	
 	int updateSecondaryOrder(String out_trade_no);
 	
 	int updateSecondaryOrderRefund(String out_trade_no);
 	
 	int updateSecondaryOrderAccept(SecondaryOrderDO	orderDO);
+	
+	int updateSecondaryOrderDelivery(SecondaryOrderDO	orderDO);
+
+	int updateSecondaryOrderApplyRefund(SecondaryOrderDO	orderDO);
+	
+	boolean insertRefundApply(RefundApplyDO applyDO);
 
 	SecondaryCapitalDO getSecondaryCapital(Long userId);
 
