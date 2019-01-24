@@ -55,6 +55,8 @@
 			jdbcType="VARCHAR" />
 		<result column="goods_way" property="goodsWay"
 			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone"
+			jdbcType="VARCHAR" />
 		<result column="trading_way" property="tradingWay"
 			jdbcType="VARCHAR" />
 		<result column="goods_price" property="price"
@@ -320,7 +322,7 @@
 	<select id="getOrderDetails" resultMap="OrderDTOResult"
 		parameterType="java.lang.String">
 		select sg.id, u.user_name,u.headimgurl,
-		sg.user_id,sg.goods_num,sg.goods_title,
+		sg.user_id,sg.goods_num,sg.goods_title,sg.telephone,
 		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as
 		goods_type,

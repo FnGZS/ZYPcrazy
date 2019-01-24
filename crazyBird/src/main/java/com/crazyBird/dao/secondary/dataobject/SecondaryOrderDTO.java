@@ -15,6 +15,7 @@ public class SecondaryOrderDTO {
 	private String goodsTitle;
 	private String goodsContent;
 	private String goodsImg;
+	private String telephone;
 	private String postion;
 	private String goodsType;
 	private String goodsWay;
@@ -59,6 +60,13 @@ public class SecondaryOrderDTO {
 	}
 	public String getUserName() {
 		return userName;
+	}
+	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;

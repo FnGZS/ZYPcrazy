@@ -12,6 +12,7 @@ public class SecondaryGoodsParam {
 	private Integer goodsType;
 	private Integer goodsWay;
 	private Integer tradingWay;
+	private String telephone;
 	private BigDecimal price;
 	private BigDecimal oldPrice;
 
@@ -42,6 +43,12 @@ public class SecondaryGoodsParam {
 		this.goodsImag = goodsImag;
 	}
 	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 	public BigDecimal getOldPrice() {
 		return oldPrice;
 	}

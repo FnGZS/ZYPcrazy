@@ -320,6 +320,7 @@ public class SecondaryOrderProcess extends BaseProcess{
 		OrderDetailsModel model = new OrderDetailsModel();
 		SecondaryOrderDTO orderDetails = secondaryOrderService.getOrderDetails(orderId);
 		if(orderDetails != null) {
+			model.setTelephone(orderDetails.getTelephone());
 			model.setId(orderDetails.getId());
 			model.setUserId(orderDetails.getUserId());
 			model.setViews(orderDetails.getViews());

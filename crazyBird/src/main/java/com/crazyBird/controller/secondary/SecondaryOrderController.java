@@ -85,6 +85,10 @@ public class SecondaryOrderController {
 		return secondaryOrderProcess.updateSecondaryOrderAccept(orderId);	
 	}
 	/**
+	 * 申请退款
+	 */
+	
+	/**
 	 * 获取资金信息
 	 * **/
 	@ResponseBody

@@ -56,6 +56,7 @@ import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.secondary.SecondaryService;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.PageUtils;
+import com.crazyBird.utils.RegexUtils;
 import com.ibm.icu.text.StringPrep;
 
 @Component
@@ -256,9 +257,13 @@ public class SecondaryProcess {
 		return model;
 
 	}
-
 	public SimpleFlagModel createSecondaryGoods(SecondaryGoodsParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
+		if(!RegexUtils.isLegalMobile(param.getTelephone())) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("请输入正确的联系方式");
+			return model;
+		}
 		SecondaryGoodsDO goodsDO = new SecondaryGoodsDO();
 		goodsDO.setGoodsContent(param.getGoodsContent());
 		goodsDO.setGoodsImag(param.getGoodsImag());
@@ -270,6 +275,7 @@ public class SecondaryProcess {
 		goodsDO.setOldPrice(param.getOldPrice());
 		goodsDO.setTradingWay(param.getTradingWay());
 		goodsDO.setUserId(param.getUserId());
+		goodsDO.setTelephone(param.getTelephone());
 		ResponseDO responseDO = secondaryService.createSecondaryGoods(goodsDO);
 		if (responseDO.isSuccess()) {
 			model.setMessage("发布成功");

@@ -15,6 +15,7 @@ public class OrderDetailsModel extends AbstractFlagModel {
 	private String goodsContent;
 	private String goodsImg;
 	private String postion;
+	private String telephone;
 	private String goodsType;
 	private String goodsWay;
 	private String tradingWay;
@@ -67,6 +68,14 @@ public class OrderDetailsModel extends AbstractFlagModel {
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	public void setUserName(String userName) {
