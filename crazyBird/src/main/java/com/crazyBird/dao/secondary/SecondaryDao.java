@@ -46,7 +46,7 @@ public interface SecondaryDao {
 	//更新评论状态(变成已读)
 	int updateSecondaryComments(SecondaryCommentViewDO viewDO);
 	//更新评论状态(变成不再提醒)
-	int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO);
+	int updateSecondaryCommentsNoSee(Long id);
 	//评论
 	int createSecondaryGoodsComment(SecondaryGoodsCommentDO dto);
 	//回复

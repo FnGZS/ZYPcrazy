@@ -368,16 +368,13 @@ public class SecondaryProcess {
 	}
 	public SimpleFlagModel updateSecondaryCommentsNoSee(SecondaryGoodsGetCommetsParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
-		if (param.getId() == null || param.getUserId() == null) {
+		if (param.getId() == null) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("参数不能为空");
 			return model;
 		}
-		SecondaryCommentViewDO viewDO = new SecondaryCommentViewDO();
-		viewDO.setGoodsId(param.getId());
-		viewDO.setUserId(param.getUserId());
 		
-		secondaryService.updateSecondaryCommentsNoSee(viewDO);
+		secondaryService.updateSecondaryCommentsNoSee(param.getId());
 		return model;
 		
 	}
@@ -419,7 +416,7 @@ public class SecondaryProcess {
 			item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 			item.setGoodsTitle(tag.getGoodsTitle());
 			item.setIsView(tag.getIsView());
-			item.setMessage(tag.getIsView());
+			item.setMessage(tag.getMessage());
 			item.setTitle(tag.getTitle());
 			item.setId(tag.getId());
 			items.add(item);

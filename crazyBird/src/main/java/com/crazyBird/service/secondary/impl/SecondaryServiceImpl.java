@@ -283,9 +283,9 @@ public class SecondaryServiceImpl implements SecondaryService{
 	}
 
 	@Override
-	public int updateSecondaryCommentsNoSee(SecondaryCommentViewDO viewDO) {
+	public int updateSecondaryCommentsNoSee(Long id) {
 		
-		return secondaryDao.updateSecondaryCommentsNoSee(viewDO);
+		return secondaryDao.updateSecondaryCommentsNoSee(id);
 	}
 
 	@Override

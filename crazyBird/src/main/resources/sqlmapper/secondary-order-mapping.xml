@@ -197,10 +197,10 @@
 			and order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-			and order_state =1 or seo.order_state=3 
+			and order_state =1 and logistics=0 or order_state=3 
 			</if>
 			<if test="orderStatus==2">
-			and order_state =#{orderStatus,jdbcType=INTEGER} 
+			and order_state =1  and logistics=1 or order_state=3 
 			</if>
 		</if>
 	</select>
@@ -229,10 +229,10 @@
 			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-			and seo.order_state =1 or seo.order_state=3 
+			and seo.order_state =1 and seo.logistics =0 or seo.order_state=3 
 			</if>
 			<if test="orderStatus==2">
-			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
+			and seo.order_state =1 and seo.logistics =1 or seo.order_state=3 
 			</if>
 		</if>
 		order by gmt_created desc

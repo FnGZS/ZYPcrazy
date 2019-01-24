@@ -309,9 +309,9 @@
 		resultMap="SecondaryMessageDTOMap">
 		select sv.id,sg.goods_title,nt.title,nt.message,sv.is_view,sv.gmt_created
 		from secondary_goods_violation as sv
-		LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id
+		LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id and sv.goods_id = sg.id
 		LEFT JOIN notice_template as nt on nt.id=sv.notice
-		where sv.user_id=#{userId,jdbcType=BIGINT} and sg.user_id !=2
+		where sv.user_id=#{userId,jdbcType=BIGINT} 
 	</select>
 	<select id="getSecondaryGoodsId"
 		parameterType="java.lang.String" resultType="java.lang.Long">
@@ -340,8 +340,7 @@
 	<update id="updateSecondaryCommentsNoSee"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO">
 		update secondary_comments set is_view = 2
-		where goods_id=#{goodsId,jdbcType=BIGINT} and
-		replyed_id=#{userId,jdbcType=BIGINT}
+		where id=#{id,jdbcType=BIGINT}
 	</update>
 	<update id="deleteSecondaryGoods" parameterType="java.lang.Long">
 		update secondary_goods set
