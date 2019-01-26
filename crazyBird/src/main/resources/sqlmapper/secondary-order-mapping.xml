@@ -192,7 +192,7 @@
 		select
 		count(1)
 		from secondary_order where user_id = #{userId,jdbcType=BIGINT} 
-		<if test="orderStatus!=null and orderStatus != 0">		
+		<if test="orderStatus!=null">		
 			<if test="orderStatus==0">
 			and order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
@@ -224,7 +224,7 @@
 		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
 		where seo.user_id = #{userId,jdbcType=BIGINT} 
-		<if test="orderStatus!=null and orderStatus != 0">		
+		<if test="orderStatus!=null ">		
 			<if test="orderStatus==0">
 			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
