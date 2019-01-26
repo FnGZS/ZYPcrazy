@@ -199,10 +199,12 @@ public class SecondaryOrderProcess extends BaseProcess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (secondaryOrderService.cancelSecondaryOrder(deleteOrder)) {
+		System.out.println(deleteOrder.getUserId());
+		if (!secondaryOrderService.cancelSecondaryOrder(deleteOrder)) {
 			model.setMessage("取消订单成功");
 			return model;
 		}
+		model.setCode(HttpCodeEnum.ERROR.getCode());
 		model.setMessage("取消订单失败");
 		return model;
 	}
