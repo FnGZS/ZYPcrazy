@@ -171,7 +171,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 		return lists;
 	}
 
-	public SecondaryOrderDeleteModel deleteSecondaryOrder(Long id) {
+	public SecondaryOrderDeleteModel deleteSecondaryOrder(String id) {
 		SecondaryOrderDeleteModel model = new SecondaryOrderDeleteModel();
 		DeleteSecondaryOrderDO deleteOrder = new DeleteSecondaryOrderDO();
 		deleteOrder.setId(id);
@@ -190,7 +190,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 		return model;
 	}
 
-	public SimpleFlagModel cancelSecondaryOrder(Long id) {
+	public SimpleFlagModel cancelSecondaryOrder(String id) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		DeleteSecondaryOrderDO deleteOrder = new DeleteSecondaryOrderDO();
 		deleteOrder.setId(id);
