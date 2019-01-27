@@ -156,6 +156,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 					item.setHeadImgUrl(tag.getHeadImgUrl());
 					item.setOrderId(tag.getOrderId());
 					item.setGoodsId(tag.getGoodsId());
+					item.setOrderPrice(tag.getOrderPrice());
 					item.setSellerId(tag.getSellerId());
 					item.setSeller(tag.getSeller());
 					item.setConsignee(tag.getConsignee());
@@ -421,6 +422,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			model.setHeadImgUrl(orderDetails.getHeadImgUrl());
 			model.setOrderId(orderDetails.getOrderId());
 			model.setGoodsId(orderDetails.getGoodsId());
+			model.setOrderPrice(orderDetails.getOrderPrice());
 			model.setSellerId(orderDetails.getSellerId());
 			model.setSeller(orderDetails.getSeller());
 			model.setConsignee(orderDetails.getConsignee());

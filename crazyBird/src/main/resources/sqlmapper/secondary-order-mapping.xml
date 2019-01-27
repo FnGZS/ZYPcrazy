@@ -65,6 +65,7 @@
 			jdbcType="DECIMAL" />
 		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
 		<result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
 		<result column="seller_id" property="sellerId"
 			jdbcType="BIGINT" />
 		<result column="seller" property="seller" jdbcType="VARCHAR" />
@@ -136,7 +137,8 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.SellSecondaryPO">
 		select
 		count(1)
-		from secondary_goods where user_id = #{sellId,jdbcType=BIGINT} and status
+		from secondary_goods where user_id =
+		#{sellId,jdbcType=BIGINT} and status
 		= #{status,jdbcType=INTEGER}
 	</select>
 	<select id="getSellSecondaryByUser" resultMap="BaseResult"
@@ -145,23 +147,31 @@
 		sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
 		sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as
 		goods_way,
-		stw.field as trading_way ,st.field as goods_type, sg.gmt_created
+		stw.field as trading_way ,st.field as goods_type,
+		sg.gmt_created
 		from secondary_goods as sg
-		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
-		LEFT JOIN secondary_type as st on st.id=sg.goods_type
-		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
+		LEFT JOIN secondary_way as sw
+		on sw.id=sg.goods_way
+		LEFT JOIN secondary_type as st on
+		st.id=sg.goods_type
+		LEFT JOIN secondary_trading_way as stw on stw.id =
+		sg.trading_way
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where sg.`status` = #{status,jdbcType=INTEGER}
-		and sg.user_id = #{sellId,jdbcType=BIGINT}
+		where
+		sg.`status` = #{status,jdbcType=INTEGER}
+		and sg.user_id =
+		#{sellId,jdbcType=BIGINT}
 		order by gmt_created desc
-		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		limit
+		#{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	<select id="getPurchaseCountByUser"
 		resultType="java.lang.Integer"
 		parameterType="com.crazyBird.dao.secondary.dataobject.PurchasePO">
 		select
 		count(1)
-		from secondary_order where user_id = #{userId,jdbcType=BIGINT}
+		from secondary_order where user_id =
+		#{userId,jdbcType=BIGINT}
 	</select>
 	<select id="getPurchaseByUser" resultMap="BaseResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.PurchasePO">
@@ -169,21 +179,29 @@
 		sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,
 		sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field as
 		goods_way,
-		stw.field as trading_way ,st.field as goods_type, sg.gmt_created
+		stw.field as trading_way ,st.field as goods_type,
+		sg.gmt_created
 		from secondary_goods as sg
-		LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
-		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
-		LEFT JOIN secondary_type as st on st.id=sg.goods_type
-		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
+		LEFT JOIN secondary_order as
+		seo on sg.id=seo.goods_id
+		LEFT JOIN secondary_way as sw on
+		sw.id=sg.goods_way
+		LEFT JOIN secondary_type as st on
+		st.id=sg.goods_type
+		LEFT JOIN secondary_trading_way as stw on stw.id =
+		sg.trading_way
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.user_id = #{userId,jdbcType=BIGINT}
+		where
+		seo.user_id = #{userId,jdbcType=BIGINT}
 		order by gmt_created desc
-		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		limit
+		#{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	<select id="getSecondaryGoods" resultMap="GoodsExistDOMap"
 		parameterType="java.lang.Long">
 		select sg.id,sg.status ,u.user_name,sg.user_id
-		from secondary_goods as sg
+		from
+		secondary_goods as sg
 		LEFT JOIN `user` as u ON u.school_num=sg.user_id
 		where sg.id=#{id,jdbcType=BIGINT}
 	</select>
@@ -191,52 +209,60 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select
 		count(1)
-		from secondary_order where user_id = #{userId,jdbcType=BIGINT} 
-		<if test="orderStatus!=null">		
+		from secondary_order where user_id =
+		#{userId,jdbcType=BIGINT}
+		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
-			and order_state =#{orderStatus,jdbcType=INTEGER} 
+				and order_state =#{orderStatus,jdbcType=INTEGER}
 			</if>
 			<if test="orderStatus==1">
-			and order_state =1 and logistics=0 or order_state=3 
+				and order_state =1 and logistics=0 or order_state=3
 			</if>
 			<if test="orderStatus==2">
-			and order_state =1  and logistics=1 or order_state=3 
+				and order_state =1 and logistics=1 or order_state=3
 			</if>
 		</if>
 	</select>
 	<select id="checkSecondaryOrder"
 		parameterType="java.lang.String" resultType="java.lang.Integer">
-		select count(1) from secondary_order where
-		order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state = 1
+		select count(1) from
+		secondary_order where
+		order_id=#{out_trade_no,jdbcType=VARCHAR} and
+		order_state = 1
 	</select>
 	<select id="getOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select sg.id, u.user_name,u.headimgurl,
 		sg.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
-		sw.field as goods_way,stw.field as trading_way ,st.field as
-		goods_type,
-		seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
+		seo.order_id,seo.goods_id,seo.price as order_price,
+		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
 		from secondary_goods as sg
-		LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+		LEFT JOIN secondary_order as seo on
+		sg.id=seo.goods_id
 		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
 		LEFT JOIN secondary_type as st on st.id=sg.goods_type
-		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
-		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.user_id = #{userId,jdbcType=BIGINT} 
-		<if test="orderStatus!=null ">		
+		LEFT JOIN
+		secondary_trading_way as stw on stw.id = sg.trading_way
+		LEFT JOIN
+		`user` as u ON u.school_num=sg.user_id
+		where seo.user_id =
+		#{userId,jdbcType=BIGINT}
+		<if test="orderStatus!=null ">
 			<if test="orderStatus==0">
-			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
+				and seo.order_state =#{orderStatus,jdbcType=INTEGER}
 			</if>
 			<if test="orderStatus==1">
-			and seo.order_state =1 and seo.logistics =0 or seo.order_state=3 
+				and seo.order_state =1 and seo.logistics =0 or seo.order_state=3
 			</if>
 			<if test="orderStatus==2">
-			and seo.order_state =1 and seo.logistics =1 or seo.order_state=3 
+				and seo.order_state =1 and seo.logistics =1 or seo.order_state=3
 			</if>
 		</if>
 		order by gmt_created desc
-		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		limit
+		#{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	<sql id="BaseOrder">
 		order_id,goods_id,user_id,price,order_state,logistics,seller_id,seller,consignee,receivePhone,receiveAddress,gmt_created,gmt_modified
@@ -267,46 +293,61 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
 		update secondary_order
 		set order_state = 0
-		where order_id = #{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT}
+		where order_id
+		= #{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT}
 	</update>
 	<update id="updateSecondaryOrder"
 		parameterType="java.lang.String">
-		update secondary_order set order_state = 1 , gmt_modified=now() where
-		order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=0
+		update secondary_order set order_state = 1 ,
+		gmt_modified=now() where
+		order_id=#{out_trade_no,jdbcType=VARCHAR} and
+		order_state=0
 	</update>
 	<update id="updateSecondaryOrderRefund"
 		parameterType="java.lang.String">
-		update secondary_order set order_state = 4 , gmt_modified=now() where
-		order_id=#{out_trade_no,jdbcType=VARCHAR} and order_state=3
+		update secondary_order set order_state = 4 ,
+		gmt_modified=now() where
+		order_id=#{out_trade_no,jdbcType=VARCHAR} and
+		order_state=3
 	</update>
 	<update id="updateSecondaryOrderAccept"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
-		update secondary_order set order_state = 2 ,logistics=1, gmt_modified=now()
-		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
+		update secondary_order set order_state = 2 ,logistics=1,
+		gmt_modified=now()
+		where order_id=#{orderId,jdbcType=VARCHAR} and
+		order_state=1 and
 		user_id=#{userId,jdbcType=BIGINT}
 	</update>
 	<update id="updateSecondaryOrderDelivery"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
-		update secondary_order set logistics=1, gmt_modified=now()
-		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
+		update secondary_order set logistics=1,
+		gmt_modified=now()
+		where order_id=#{orderId,jdbcType=VARCHAR} and
+		order_state=1 and
 		seller_id=#{userId,jdbcType=BIGINT}
 	</update>
 	<update id="updateSecondaryOrderApplyRefund"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO">
-		update secondary_order set order_state=3, gmt_modified=now()
-		where order_id=#{orderId,jdbcType=VARCHAR} and order_state=1 and
+		update secondary_order set order_state=3,
+		gmt_modified=now()
+		where order_id=#{orderId,jdbcType=VARCHAR} and
+		order_state=1 and
 		user_id=#{userId,jdbcType=BIGINT}
 	</update>
 	<select id="getSecondaryCapital" resultMap="CapitalDOMap"
 		parameterType="java.lang.Long">
-		select * from capital_user where user_id = #{userId,jdbcType=BIGINT}
+		select * from capital_user where user_id =
+		#{userId,jdbcType=BIGINT}
 	</select>
 	<select id="getAutomaticAcceptList" resultMap="OrderDOResult">
-		select * from secondary_order  where TIMESTAMPDIFF( DAY,gmt_modified,now())>=7 and order_state=1
+		select * from
+		secondary_order where TIMESTAMPDIFF( DAY,gmt_modified,now())>=7 and
+		order_state=1
 	</select>
 	<select id="checkSecondaryGoodsPayStatus"
 		parameterType="java.lang.Long" resultType="java.lang.Integer">
-		select count(1) from secondary_goods where id = #{id,jdbcType=INTEGER} and
+		select count(1) from
+		secondary_goods where id = #{id,jdbcType=INTEGER} and
 		`status`=1
 	</select>
 	<insert id="setSecondaryCash"
@@ -329,55 +370,66 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select
 		count(1)
-		from secondary_order where seller_id = #{sellerId,jdbcType=BIGINT}
-		<if test="logistics!=null">	
-		and logistics =
-		#{logistics,jdbcType=INTEGER}
+		from secondary_order where seller_id =
+		#{sellerId,jdbcType=BIGINT}
+		<if test="logistics!=null">
+			and logistics =
+			#{logistics,jdbcType=INTEGER}
 		</if>
-		
+
 	</select>
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select sg.id, u.user_name,u.headimgurl,
 		sg.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
-		sw.field as goods_way,stw.field as trading_way ,st.field as
-		goods_type,
-		seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
+		seo.order_id,seo.goods_id,seo.price as order_price,
+		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
 		from secondary_goods as sg
-		LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+		LEFT JOIN secondary_order as seo on
+		sg.id=seo.goods_id
 		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
 		LEFT JOIN secondary_type as st on st.id=sg.goods_type
-		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
-		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.seller_id = #{sellerId,jdbcType=BIGINT} 
-		<if test="logistics!=null">	
+		LEFT JOIN
+		secondary_trading_way as stw on stw.id = sg.trading_way
+		LEFT JOIN
+		`user` as u ON u.school_num=sg.user_id
+		where seo.seller_id =
+		#{sellerId,jdbcType=BIGINT}
+		<if test="logistics!=null">
 			and seo.logistics =
-		#{logistics,jdbcType=INTEGER}
+			#{logistics,jdbcType=INTEGER}
 		</if>
 		order by gmt_created desc
-		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		limit
+		#{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	<select id="getOrderDetails" resultMap="OrderDTOResult"
 		parameterType="java.lang.String">
 		select sg.id, u.user_name,u.headimgurl,
-		sg.user_id,sg.goods_num,sg.goods_title,sg.telephone,
+		sg.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
-		sw.field as goods_way,stw.field as trading_way ,st.field as
-		goods_type,
-		seo.gmt_created,seo.order_id,seo.goods_id,seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
+		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
+		seo.order_id,seo.goods_id,seo.price as order_price,
+		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
 		from secondary_goods as sg
-		LEFT JOIN secondary_order as seo on sg.id=seo.goods_id
+		LEFT JOIN secondary_order as seo on
+		sg.id=seo.goods_id
 		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
 		LEFT JOIN secondary_type as st on st.id=sg.goods_type
-		LEFT JOIN secondary_trading_way as stw on stw.id = sg.trading_way
-		LEFT JOIN `user` as u ON u.school_num=sg.user_id
-		where seo.order_id = #{orderId,jdbcType=BIGINT}
+		LEFT JOIN
+		secondary_trading_way as stw on stw.id = sg.trading_way
+		LEFT JOIN
+		`user` as u ON u.school_num=sg.user_id
+		where seo.order_id =
+		#{orderId,jdbcType=BIGINT}
 		limit 1
 	</select>
 	<select id="getSecondaryOrderDetail"
 		parameterType="java.lang.String" resultMap="OrderDOResult">
-		select * from secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
+		select * from
+		secondary_order where order_id=#{orderId,jdbcType=VARCHAR}
 	</select>
 	<update id="updateCapitalUser"
 		parameterType="com.crazyBird.dao.secondary.dataobject.CapitalUserDO">
@@ -386,7 +438,8 @@
 		user_id=#{userId,jdbcType=BIGINT}
 	</update>
 	<insert id="createCapitalUser" parameterType="java.lang.Long">
-		insert into capital_user
+		insert into
+		capital_user
 		(
 		id,
 		user_id,
@@ -402,7 +455,8 @@
 		now()
 		)
 	</insert>
-	<insert id="insertRefundApply" parameterType="com.crazyBird.dao.secondary.dataobject.RefundApplyDO">
+	<insert id="insertRefundApply"
+		parameterType="com.crazyBird.dao.secondary.dataobject.RefundApplyDO">
 		insert into refund_apply
 		(
 		id,
@@ -423,8 +477,10 @@
 		now()
 		)
 	</insert>
-	<delete id="deleteSecondaryOrder" parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
-	delete from secondary_order
-	where order_id = #{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT}
+	<delete id="deleteSecondaryOrder"
+		parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
+		delete from secondary_order
+		where order_id = #{id,jdbcType=VARCHAR} and user_id =
+		#{userId,jdbcType=BIGINT}
 	</delete>
 </mapper>

@@ -1,5 +1,7 @@
 package com.crazyBird.controller.secondary.model;
 
+import java.math.BigDecimal;
+
 import com.crazyBird.controller.base.AbstractFlagModel;
 
 public class OrderDetailsModel extends AbstractFlagModel {
@@ -25,6 +27,7 @@ public class OrderDetailsModel extends AbstractFlagModel {
 	// 订单
 	private String orderId;
 	private Long goodsId;
+	private BigDecimal orderPrice;
 	private Long sellerId;
 	private String seller;
 	private String consignee;
@@ -33,6 +36,14 @@ public class OrderDetailsModel extends AbstractFlagModel {
 	private String receivePhone;
 	private String receiveAddress;
 	private String gmtCreated;
+
+	public BigDecimal getOrderPrice() {
+		return orderPrice;
+	}
+
+	public void setOrderPrice(BigDecimal orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 
 	public Long getId() {
 		return id;

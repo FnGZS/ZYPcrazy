@@ -26,6 +26,7 @@ public class SecondaryOrderDTO {
 	//订单
 	private String orderId;
 	private Long goodsId;
+	private BigDecimal orderPrice;
 	private Long sellerId;
 	private String seller;
 	private String consignee;
@@ -34,6 +35,14 @@ public class SecondaryOrderDTO {
 	private String receivePhone;
 	private String receiveAddress;
 	private Date gmtCreated;
+	
+
+	public BigDecimal getOrderPrice() {
+		return orderPrice;
+	}
+	public void setOrderPrice(BigDecimal orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 	public Long getId() {
 		return id;
 	}
