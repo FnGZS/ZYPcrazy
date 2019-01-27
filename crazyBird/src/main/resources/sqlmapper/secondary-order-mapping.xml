@@ -267,7 +267,7 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
 		update secondary_order
 		set order_state = 0
-		where id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+		where order_id = #{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT}
 	</update>
 	<update id="updateSecondaryOrder"
 		parameterType="java.lang.String">
@@ -425,6 +425,6 @@
 	</insert>
 	<delete id="deleteSecondaryOrder" parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">
 	delete from secondary_order
-	where order_id = #{id,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT}
+	where order_id = #{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT}
 	</delete>
 </mapper>

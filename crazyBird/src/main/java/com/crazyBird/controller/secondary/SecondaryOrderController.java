@@ -75,7 +75,7 @@ public class SecondaryOrderController {
 	 * **/
 	@ResponseBody
 	@RequestMapping(value="/orderDelete",method=RequestMethod.GET)
-	public SecondaryOrderDeleteModel deleteSecondaryOrder(Long id){
+	public SecondaryOrderDeleteModel deleteSecondaryOrder(String id){
 		return secondaryOrderProcess.deleteSecondaryOrder(id);
 	}
 	/**
@@ -83,7 +83,7 @@ public class SecondaryOrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/orderCancel",method=RequestMethod.DELETE)
-	public SimpleFlagModel cancelSecondaryOrder(Long id){
+	public SimpleFlagModel cancelSecondaryOrder(String id){
 		return secondaryOrderProcess.cancelSecondaryOrder(id);
 	}
 	/**
