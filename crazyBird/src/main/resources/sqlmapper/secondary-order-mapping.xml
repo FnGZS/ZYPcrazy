@@ -220,6 +220,10 @@
 			</if>
 			<if test="orderStatus==2">
 				and order_state =1 and logistics=1 or order_state=3
+			and logistics=0  and order_state =1 or order_state=3 and logistics=0
+			</if>
+			<if test="orderStatus==2">
+			and logistics=1   and order_state =1 or order_state=3 and logistics=1 
 			</if>
 		</if>
 	</select>
@@ -258,6 +262,10 @@
 			</if>
 			<if test="orderStatus==2">
 				and seo.order_state =1 and seo.logistics =1 or seo.order_state=3
+			and seo.order_state =1 and seo.logistics =0 or seo.order_state=3 and seo.logistics =0
+			</if>
+			<if test="orderStatus==2">
+			and seo.order_state =1 and seo.logistics =1 or seo.order_state=3 and seo.logistics =1
 			</if>
 		</if>
 		order by gmt_created desc
