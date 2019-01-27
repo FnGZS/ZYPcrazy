@@ -200,7 +200,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			e.printStackTrace();
 		}
 		System.out.println(deleteOrder.getUserId());
-		if (!secondaryOrderService.cancelSecondaryOrder(deleteOrder)) {
+		if (secondaryOrderService.cancelSecondaryOrder(deleteOrder)) {
 			model.setMessage("取消订单成功");
 			return model;
 		}
