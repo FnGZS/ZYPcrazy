@@ -301,7 +301,7 @@
 		parameterType="java.lang.Long" resultMap="SecondaryMessageDTOMap">
 		select sv.id,sg.goods_title,nt.title,nt.message,sv.is_view,sv.gmt_created
 		from secondary_goods_violation as sv
-		LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id
+		LEFT JOIN secondary_goods as sg on sv.user_id = sg.user_id and sv.goods_id= sg.id
 		LEFT JOIN notice_template as nt on nt.id=sv.notice
 		where sv.id=#{id,jdbcType=BIGINT}
 	</select>
