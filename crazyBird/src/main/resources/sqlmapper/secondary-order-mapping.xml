@@ -380,13 +380,20 @@
 		count(1)
 		from secondary_order where seller_id =
 		#{sellerId,jdbcType=BIGINT}
-		<if test="logistics!=null">
-			and logistics =
-			#{logistics,jdbcType=INTEGER}
-		</if>
-		<if test="orderState!=null">
-			and order_state =
-			#{orderState,jdbcType=INTEGER}
+		<if test="orderStatus!=null">
+			<if test="orderStatus==0">
+				and order_state =#{orderStatus,jdbcType=INTEGER}
+			</if>
+			<if test="orderStatus==1">
+				and order_state =1 and logistics=0 or order_state=3
+			</if>
+			<if test="orderStatus==2">
+				and order_state =1 and logistics=1 or order_state=3
+			and logistics=0  and order_state =1 or order_state=3 and logistics=0
+			</if>
+			<if test="orderStatus==2">
+			and logistics=1   and order_state =1 or order_state=3 and logistics=1 
+			</if>
 		</if>
 	</select>
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
@@ -408,9 +415,20 @@
 		`user` as u ON u.school_num=sg.user_id
 		where seo.seller_id =
 		#{sellerId,jdbcType=BIGINT}
-		<if test="logistics!=null">
-			and seo.logistics =
-			#{logistics,jdbcType=INTEGER}
+		<if test="orderStatus!=null">
+			<if test="orderStatus==0">
+				and order_state =#{orderStatus,jdbcType=INTEGER}
+			</if>
+			<if test="orderStatus==1">
+				and order_state =1 and logistics=0 or order_state=3
+			</if>
+			<if test="orderStatus==2">
+				and order_state =1 and logistics=1 or order_state=3
+			and logistics=0  and order_state =1 or order_state=3 and logistics=0
+			</if>
+			<if test="orderStatus==2">
+			and logistics=1   and order_state =1 or order_state=3 and logistics=1 
+			</if>
 		</if>
 		order by gmt_created desc
 		limit

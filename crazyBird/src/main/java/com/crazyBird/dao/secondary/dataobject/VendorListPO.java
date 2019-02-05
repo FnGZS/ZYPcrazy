@@ -5,21 +5,15 @@ import com.crazyBird.service.base.PageQueryDO;
 public class VendorListPO extends PageQueryDO{
 
 	
-	private Integer logistics;
-	private Integer orderState;
+	private Integer orderStatus;
 	private Long sellerId;
 	
-	public Integer getOrderState() {
-		return orderState;
+
+	public Integer getOrderStatus() {
+		return orderStatus;
 	}
-	public void setOrderState(Integer orderState) {
-		this.orderState = orderState;
-	}
-	public Integer getLogistics() {
-		return logistics;
-	}
-	public void setLogistics(Integer logistics) {
-		this.logistics = logistics;
+	public void setOrderStatus(Integer orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 	public Long getSellerId() {
 		return sellerId;

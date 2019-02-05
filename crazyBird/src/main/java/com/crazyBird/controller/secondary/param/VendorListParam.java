@@ -4,25 +4,18 @@ import com.crazyBird.controller.base.AbstractPageParam;
 
 public class VendorListParam extends AbstractPageParam{
 
-	private Integer logistics;
-	private Integer orderStats;
+	private Integer orderStatus;
+
+	public Integer getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(Integer orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 	
 
-	public Integer getOrderStats() {
-		return orderStats;
-	}
 
-	public void setOrderStats(Integer orderStats) {
-		this.orderStats = orderStats;
-	}
-
-	public Integer getLogistics() {
-		return logistics;
-	}
-
-	public void setLogistics(Integer logistics) {
-		this.logistics = logistics;
-	}
 	
 	
 	

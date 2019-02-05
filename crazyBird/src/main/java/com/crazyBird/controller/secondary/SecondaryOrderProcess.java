@@ -387,10 +387,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 
 			e.printStackTrace();
 		}
-		if (param.getLogistics() != null) {
-			po.setLogistics(param.getLogistics());
-		}
-		po.setOrderState(param.getOrderStats());
+		po.setOrderStatus(param.getOrderStatus());
 		po.setPageIndex(param.getPageNo() - 1);
 		po.setPageSize(param.getPageSize());
 		ResponsePageQueryDO<List<SecondaryOrderDTO>> response = secondaryOrderService.getVendorOrderList(po);
