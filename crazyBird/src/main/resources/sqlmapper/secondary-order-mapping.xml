@@ -384,7 +384,10 @@
 			and logistics =
 			#{logistics,jdbcType=INTEGER}
 		</if>
-
+		<if test="orderState!=null">
+			and order_state =
+			#{orderState,jdbcType=INTEGER}
+		</if>
 	</select>
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">

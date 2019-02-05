@@ -6,7 +6,15 @@ public class VendorListPO extends PageQueryDO{
 
 	
 	private Integer logistics;
+	private Integer orderState;
 	private Long sellerId;
+	
+	public Integer getOrderState() {
+		return orderState;
+	}
+	public void setOrderState(Integer orderState) {
+		this.orderState = orderState;
+	}
 	public Integer getLogistics() {
 		return logistics;
 	}
