@@ -380,6 +380,9 @@
 		count(1)
 		from secondary_order where seller_id =
 		#{sellerId,jdbcType=BIGINT}
+		<if test="orderStatus==null">
+			and order_state = 1 or order_state = 2
+		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
 				and order_state = 1 and logistics = 0
@@ -408,6 +411,9 @@
 		`user` as u ON u.school_num=sg.user_id
 		where seo.seller_id =
 		#{sellerId,jdbcType=BIGINT}
+		<if test="orderStatus==null">
+			and seo.order_state = 1 or seo.order_state = 2
+		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
 				and seo.order_state = 1 and seo.logistics = 0
