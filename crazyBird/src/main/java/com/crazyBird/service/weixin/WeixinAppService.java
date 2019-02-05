@@ -309,7 +309,6 @@ public class WeixinAppService {
 			xStream.alias("xml", RefundInfo.class);
 			String xml = xStream.toXML(refundInfo);
 			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH,MCH_ID);
-			System.out.println(resultStr);
 			Map map = XmlToMapUtils.getResult(resultStr);
 			String returnCode = (String)map.get("return_code");
 			if (returnCode.equals("SUCCESS")) {

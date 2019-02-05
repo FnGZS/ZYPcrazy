@@ -42,6 +42,7 @@ import com.crazyBird.service.secondary.SecondaryOrderService;
 import com.crazyBird.service.user.UserPayService;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.weixin.WeixinAppService;
+import com.crazyBird.utils.ArithUtils;
 import com.crazyBird.utils.CollectionUtil;
 import com.crazyBird.utils.DateUtil;
 import com.crazyBird.utils.OrderUtils;
@@ -73,7 +74,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			return model;
 		}
 		int flag = secondaryOrderService.checkSecondaryGoodsPayStatus(param.getGoodsId());
-		if (flag != 0) {
+		if (flag == 0) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());
 			model.setMessage("宝贝已经被人抢走了");
 			return model;
