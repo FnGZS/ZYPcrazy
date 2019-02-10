@@ -149,6 +149,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 					item.setGoodsImg(tag.getGoodsImg());
 					item.setGoodsType(tag.getGoodsType());
 					item.setPostion(tag.getPostion());
+					item.setTelephone(tag.getTelephone());
 					item.setGoodsWay(tag.getGoodsWay());
 					item.setTradingWay(tag.getTradingWay());
 					item.setPrice(String.valueOf(tag.getPrice()));
@@ -157,7 +158,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 					item.setHeadImgUrl(tag.getHeadImgUrl());
 					item.setOrderId(tag.getOrderId());
 					item.setGoodsId(tag.getGoodsId());
-					item.setOrderPrice(tag.getOrderPrice());
+					item.setOrderPrice(String.valueOf(tag.getOrderPrice()));
 					item.setSellerId(tag.getSellerId());
 					item.setSeller(tag.getSeller());
 					item.setConsignee(tag.getConsignee());

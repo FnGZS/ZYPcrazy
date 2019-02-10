@@ -17,6 +17,7 @@ public class SecondaryOrderItem {
 	private String postion;
 	private String goodsType;
 	private String goodsWay;
+	private String telephone;
 	private String tradingWay;
 	private String price;
 	private String oldPrice;
@@ -24,7 +25,7 @@ public class SecondaryOrderItem {
 	// 订单
 	private String orderId;
 	private Long goodsId;
-	private BigDecimal orderPrice;
+	private String orderPrice;
 	private Long sellerId;
 	private String seller;
 	private String consignee;
@@ -33,12 +34,22 @@ public class SecondaryOrderItem {
 	private String receivePhone;
 	private String receiveAddress;
 	private String gmtCreated;
+	
+	public String getTelephone() {
+		return telephone;
+	}
 
-	public BigDecimal getOrderPrice() {
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	
+
+	public String getOrderPrice() {
 		return orderPrice;
 	}
 
-	public void setOrderPrice(BigDecimal orderPrice) {
+	public void setOrderPrice(String orderPrice) {
 		this.orderPrice = orderPrice;
 	}
 

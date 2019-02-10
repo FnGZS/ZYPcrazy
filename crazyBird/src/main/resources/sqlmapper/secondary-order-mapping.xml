@@ -216,10 +216,10 @@
 			and order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-			and logistics=0  and order_state =1 or order_state=3 and logistics=0
+			and logistics=0  and order_state =1 or user_id = #{userId,jdbcType=BIGINT} and order_state=3 and logistics=0
 			</if>
 			<if test="orderStatus==2">
-			and logistics=1   and order_state =1 or order_state=3 and logistics=1 
+			and logistics=1   and order_state =1 or user_id = #{userId,jdbcType=BIGINT} and order_state=3 and logistics=1 
 			</if>
 		</if>
 	</select>
@@ -234,7 +234,7 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select sg.id, u.user_name,u.headimgurl,
 		sg.user_id,sg.goods_num,sg.goods_title,
-		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
 		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
@@ -254,10 +254,10 @@
 			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-			and seo.order_state =1 and seo.logistics =0 or seo.order_state=3 and seo.logistics =0
+			and seo.order_state =1 and seo.logistics =0 or seo.user_id =#{userId,jdbcType=BIGINT} and seo.order_state=3 and seo.logistics =0
 			</if>
 			<if test="orderStatus==2">
-			and seo.order_state =1 and seo.logistics =1 or seo.order_state=3 and seo.logistics =1
+			and seo.order_state =1 and seo.logistics =1 or seo.user_id =#{userId,jdbcType=BIGINT} and  seo.order_state=3 and seo.logistics =1
 			</if>
 		</if>
 		order by gmt_created desc
@@ -377,10 +377,10 @@
 		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
-				and order_state = 1 and logistics = 0 or order_state = 3 and logistics = 0
+				and order_state = 1 and logistics = 0 or seller_id = #{sellerId,jdbcType=BIGINT} and order_state = 3 and logistics = 0
 			</if>
 			<if test="orderStatus==1">
-				and order_state =1 and logistics= 1 or order_state=3 and logistics= 1
+				and order_state =1 and logistics= 1 or seller_id =	#{sellerId,jdbcType=BIGINT} and order_state=3 and logistics= 1
 			</if>
 		</if>
 	</select>
@@ -388,7 +388,7 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select sg.id, u.user_name,u.headimgurl,
 		sg.user_id,sg.goods_num,sg.goods_title,
-		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
 		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
@@ -408,10 +408,10 @@
 		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
-				and seo.order_state = 1 and seo.logistics = 0 or seo.order_state = 3 and seo.logistics = 0 
+				and seo.order_state = 1 and seo.logistics = 0 or seo.seller_id =#{sellerId,jdbcType=BIGINT} and seo.order_state = 3 and seo.logistics = 0 
 			</if>
 			<if test="orderStatus==1">
-				and seo.order_state = 1 and seo.logistics= 1 or seo.order_state=3 and seo.logistics= 1
+				and seo.order_state = 1 and seo.logistics= 1 or seo.seller_id =#{sellerId,jdbcType=BIGINT} and seo.order_state=3 and seo.logistics= 1
 			</if>
 		</if>
 		order by gmt_created desc
@@ -422,7 +422,7 @@
 		parameterType="java.lang.String">
 		select sg.id, u.user_name,u.headimgurl,
 		sg.user_id,sg.goods_num,sg.goods_title,
-		sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
 		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
