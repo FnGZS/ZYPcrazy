@@ -1,41 +1,41 @@
 package com.crazyBird.controller.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.swing.text.html.HTML.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import com.crazyBird.controller.base.AbstractPageParam;
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.user.model.BillItem;
+import com.crazyBird.controller.user.model.BillModel;
 import com.crazyBird.controller.user.model.UserPayModel;
+import com.crazyBird.controller.user.param.BillQueryParam;
 import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.controller.user.param.UserRefundParam;
+import com.crazyBird.dao.user.dataobject.BillDTO;
+import com.crazyBird.dao.user.dataobject.BillPO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
 import com.crazyBird.model.enums.HttpCodeEnum;
-import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.secondary.SecondaryOrderService;
 import com.crazyBird.service.secondary.SecondaryService;
 import com.crazyBird.service.user.UserPayService;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
-import com.crazyBird.service.user.dataobject.TestInfo;
 import com.crazyBird.service.weixin.WeixinAppService;
+import com.crazyBird.utils.CollectionUtil;
 import com.crazyBird.utils.DateUtil;
-import com.crazyBird.utils.JsonUtils;
-import com.crazyBird.utils.RandomUtil;
-import com.crazyBird.utils.SignatureUtils;
-import com.crazyBird.utils.XmlToMapUtils;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
-import com.thoughtworks.xstream.io.xml.XppDriver;
+import com.crazyBird.utils.PageUtils;
+import com.crazyBird.utils.TokenUtils;
+
 
 @Component
 public class UserPayProcess extends BaseProcess {
@@ -51,27 +51,54 @@ public class UserPayProcess extends BaseProcess {
 	@Autowired
 	private SecondaryService secondaryService;
 
+	public BillModel getBillList(AbstractPageParam param) {
+		BillModel model = new BillModel();
+		Long userId = (long) 0;
+		PageUtils.resetPageParam(param);
+		try {
+			userId = TokenUtils.getIdFromAesStr(getReqParam().getReqHead().getAccessToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (userId.longValue() == 0 || userId == null) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("查询失败,请先去绑定学号");
+			return model;
+		}
+		BillPO po = new BillPO();
+		po.setUserId(userId);
+		po.setPageIndex(param.getPageNo()-1);
+		po.setPageSize(param.getPageSize());
+		ResponsePageQueryDO<List<BillDTO>> response= payService.getBillList(po);
+		if(response.isSuccess()) {
+			PageUtils.setPageModel(model, param, response.getTotal());;
+			if(CollectionUtil.isNotEmpty(response.getDataResult())) {
+			List<BillItem> list = new ArrayList<>();
+			for (BillDTO tag : response.getDataResult()) {
+				BillItem item = new BillItem();
+				item.setCash(tag.getCash());
+				item.setId(tag.getId());
+				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
+				item.setMessage(tag.getMessage());
+				item.setTitle(tag.getTitle());
+				item.setUserId(tag.getUserId());
+				list.add(item);
+			}
+			model.setList(list);
+			}
+		}
+		else {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("账单分页出错");
+			
+		}
+		
+		return model;
+		
+	}
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
-		/*
-		 * TestInfo test = new TestInfo(); test.setAppid("wxd930ea5d5a258f4f");
-		 * test.setMch_id("10000100"); test.setDevice_info("1000"); test.setBd("test");
-		 * test.setNonce_str("ibuaiVcKdpRxkhJA"); Map <String,Object> response = new
-		 * HashMap <String,Object>(); response.put("appid", "wxd930ea5d5a258f4f");
-		 * response.put("mch_id","10000100"); response.put("device_info", "1000");
-		 * response.put("body","test"); response.put("nonce_str", "ibuaiVcKdpRxkhJA");
-		 * System.out.println(ip); XStream xStream = new XStream(new XppDriver(new
-		 * XmlFriendlyNameCoder("_-", "_"))); xStream.alias("xml",TestInfo.class);
-		 * xStream.aliasField("body", TestInfo.class, "bd");
-		 * test.setSign(SignatureUtils.getSign(response,
-		 * "192006250b4c09247ec02edce69f6a2d"));
-		 * 
-		 * String xml=xStream.toXML(test); System.out.println(xml); Map <String,Object>
-		 * map = new HashMap <String,Object>(); map=XmlToMapUtils.getResult(xml); String
-		 * xml2=xStream.toXML(test); System.out.println(xml2);
-		 * System.out.println(test.getSign()); System.out.println(1);
-		 */
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		ResponseDO<OrderResponseInfo> result = null;
 
@@ -192,4 +219,6 @@ public class UserPayProcess extends BaseProcess {
 		return true;
 
 	}
+	
+	
 }

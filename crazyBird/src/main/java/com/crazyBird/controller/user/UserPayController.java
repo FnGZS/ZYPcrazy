@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crazyBird.controller.base.AbstractPageParam;
 import com.crazyBird.controller.base.SimpleFlagModel;
+import com.crazyBird.controller.user.model.BillModel;
 import com.crazyBird.controller.user.model.UserPayModel;
 import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserRefundParam;
@@ -31,6 +33,17 @@ import com.crazyBird.utils.XmlToMapUtils;
 public class UserPayController {
 	@Autowired
 	private UserPayProcess payProcess;
+	/**
+	  * 得到账单
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value="/bill", method = RequestMethod.GET)
+	@ResponseBody
+	public BillModel getBillList(AbstractPageParam param) {
+		return payProcess.getBillList(param);
+		
+	}
 	/**
 	 * 重新支付订单
 	 * @param param

@@ -211,15 +211,11 @@
 		count(1)
 		from secondary_order where user_id =
 		#{userId,jdbcType=BIGINT}
-		<if test="orderStatus!=null">
+		<if test="orderStatus!=null">		
 			<if test="orderStatus==0">
-				and order_state =#{orderStatus,jdbcType=INTEGER}
+			and order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-				and order_state =1 and logistics=0 or order_state=3
-			</if>
-			<if test="orderStatus==2">
-				and order_state =1 and logistics=1 or order_state=3
 			and logistics=0  and order_state =1 or order_state=3 and logistics=0
 			</if>
 			<if test="orderStatus==2">
@@ -253,15 +249,11 @@
 		`user` as u ON u.school_num=sg.user_id
 		where seo.user_id =
 		#{userId,jdbcType=BIGINT}
-		<if test="orderStatus!=null ">
+		<if test="orderStatus!=null ">		
 			<if test="orderStatus==0">
-				and seo.order_state =#{orderStatus,jdbcType=INTEGER}
+			and seo.order_state =#{orderStatus,jdbcType=INTEGER} 
 			</if>
 			<if test="orderStatus==1">
-				and seo.order_state =1 and seo.logistics =0 or seo.order_state=3
-			</if>
-			<if test="orderStatus==2">
-				and seo.order_state =1 and seo.logistics =1 or seo.order_state=3
 			and seo.order_state =1 and seo.logistics =0 or seo.order_state=3 and seo.logistics =0
 			</if>
 			<if test="orderStatus==2">
@@ -381,14 +373,14 @@
 		from secondary_order where seller_id =
 		#{sellerId,jdbcType=BIGINT}
 		<if test="orderStatus==null">
-			and order_state = 1 or order_state = 2
+			and order_state != 0
 		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
-				and order_state = 1 and logistics = 0
+				and order_state = 1 and logistics = 0 or order_state = 3 and logistics = 0
 			</if>
 			<if test="orderStatus==1">
-				and order_state =1 and logistics= 1 or order_state=3
+				and order_state =1 and logistics= 1 or order_state=3 and logistics= 1
 			</if>
 		</if>
 	</select>
@@ -412,14 +404,14 @@
 		where seo.seller_id =
 		#{sellerId,jdbcType=BIGINT}
 		<if test="orderStatus==null">
-			and seo.order_state = 1 or seo.order_state = 2
+			and seo.order_state != 0
 		</if>
 		<if test="orderStatus!=null">
 			<if test="orderStatus==0">
-				and seo.order_state = 1 and seo.logistics = 0
+				and seo.order_state = 1 and seo.logistics = 0 or seo.order_state = 3 and seo.logistics = 0 
 			</if>
 			<if test="orderStatus==1">
-				and seo.order_state =1 and seo.logistics= 1 or seo.order_state=3
+				and seo.order_state = 1 and seo.logistics= 1 or seo.order_state=3 and seo.logistics= 1
 			</if>
 		</if>
 		order by gmt_created desc

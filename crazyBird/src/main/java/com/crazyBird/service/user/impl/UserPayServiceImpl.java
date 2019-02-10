@@ -1,5 +1,6 @@
 package com.crazyBird.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.crazyBird.dao.live.LiveDao;
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.user.UserWxPayOrderDao;
 import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.BillDTO;
 import com.crazyBird.dao.user.dataobject.BillPO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
@@ -60,9 +62,20 @@ public class UserPayServiceImpl implements UserPayService{
 		return orderDao.insertBill(billDO);
 	}
 	@Override
-	public ResponsePageQueryDO<List<BillDO>> getBillList(BillPO po) {
+	public ResponsePageQueryDO<List<BillDTO>> getBillList(BillPO po) {
+		ResponsePageQueryDO<List<BillDTO>> response = new ResponsePageQueryDO<>();
+		response.setPageIndex(po.getPageIndex());
+		response.setPageSize(po.getPageSize());
+		response.setTotal(orderDao.getBillCount(po.getUserId()));
 	
-		return null;
+		if(response.getTotal() > 0 && response.getTotalPage() > po.getPageIndex()) {
+			List<BillDTO> list = orderDao.getBillList(po);
+			response.setDataResult(list);
+		}
+		else {
+			response.setMessage("没有更多了");
+		}
+		return response;
 	}
 
 }

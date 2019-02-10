@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.crazyBird.dao.user.UserWxPayOrderDao;
 import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.BillDTO;
 import com.crazyBird.dao.user.dataobject.BillPO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.dao.user.dataobject.UserWxPayOrderDO;
@@ -22,5 +23,5 @@ public interface UserPayService {
 	//插入账单
 	boolean insertBill(BillDO billDO);
 	//得到账单
-	ResponsePageQueryDO<List<BillDO>> getBillList(BillPO po);;
+	ResponsePageQueryDO<List<BillDTO>> getBillList(BillPO po);;
 }
