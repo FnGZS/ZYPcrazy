@@ -1,6 +1,7 @@
 package com.crazyBird.dao.user.dataobject;
 
 public class BillDTO extends BillDO{
+	private Integer type;
 	private String message;
 	private String title;
 	public String getMessage() {
@@ -17,6 +18,14 @@ public class BillDTO extends BillDO{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 	

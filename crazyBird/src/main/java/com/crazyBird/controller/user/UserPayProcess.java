@@ -76,7 +76,13 @@ public class UserPayProcess extends BaseProcess {
 			List<BillItem> list = new ArrayList<>();
 			for (BillDTO tag : response.getDataResult()) {
 				BillItem item = new BillItem();
-				item.setCash(tag.getCash());
+				if(tag.getType()==2) {
+					item.setType(-1);
+				}
+				if(tag.getType()==3) {
+					item.setType(1);
+				}
+				item.setCash(String.valueOf(tag.getCash()));
 				item.setId(tag.getId());
 				item.setGmtCreated(DateUtil.formatDate(tag.getGmtCreated(), DateUtil.DATE_FORMAT_YMDHMS));
 				item.setMessage(tag.getMessage());

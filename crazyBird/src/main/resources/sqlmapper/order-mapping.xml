@@ -12,8 +12,9 @@
  <resultMap id="BillDTOMap" type="com.crazyBird.dao.user.dataobject.BillDTO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
-       <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="cash" property="cash" jdbcType="DECIMAL" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
@@ -30,7 +31,7 @@ where user_id=#{userId,jdbcType=BIGINT}
 </select>
 <select id="getBillList" parameterType="com.crazyBird.dao.user.dataobject.BillPO" resultMap="BillDTOMap">
 select 
-b.id,b.user_id,b.cash,b.gmt_created,b.gmt_modified,nt.title,nt.message
+b.id,b.user_id,b.type,b.cash,b.gmt_created,b.gmt_modified,nt.title,nt.message
 from bill as b 
 LEFT JOIN notice_template  as nt on b.type=nt.id
 where user_id=#{userId,jdbcType=BIGINT} 

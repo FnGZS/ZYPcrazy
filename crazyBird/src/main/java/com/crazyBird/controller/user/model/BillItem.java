@@ -1,14 +1,14 @@
 package com.crazyBird.controller.user.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
+
 
 public class BillItem {
 	private Long id;
 	private Long userId;
 	private String message;
 	private String title;
-	private BigDecimal cash;
+	private Integer type;
+	private String cash;
 	private String gmtCreated;
 	public Long getId() {
 		return id;
@@ -34,17 +34,25 @@ public class BillItem {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public BigDecimal getCash() {
-		return cash;
-	}
-	public void setCash(BigDecimal cash) {
-		this.cash = cash;
-	}
+
 	public String getGmtCreated() {
 		return gmtCreated;
 	}
 	public void setGmtCreated(String gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	public String getCash() {
+		return cash;
+	}
+	public void setCash(String cash) {
+		this.cash = cash;
+	}
+	
 	
 }
