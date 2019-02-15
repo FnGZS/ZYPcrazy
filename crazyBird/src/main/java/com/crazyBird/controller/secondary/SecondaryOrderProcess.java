@@ -2,6 +2,7 @@ package com.crazyBird.controller.secondary;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.formula.functions.Count;
@@ -252,7 +253,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 		billDO.setType(3);
 		userPayService.insertBill(billDO);
 
-		model.setMessage("收货成功");
+		model.setMessage(DateUtil.formatDate(new Date(), DateUtil.DATE_FORMAT_YMDHMS));
 		return model;
 	}
 
@@ -284,7 +285,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			return model;
 
 		}
-		model.setMessage("发货成功");
+		model.setMessage(DateUtil.formatDate(new Date(), DateUtil.DATE_FORMAT_YMDHMS));
 		return model;
 	}
 

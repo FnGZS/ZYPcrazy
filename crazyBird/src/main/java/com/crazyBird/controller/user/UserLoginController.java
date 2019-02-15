@@ -1,5 +1,6 @@
  package com.crazyBird.controller.user;
 
+import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.BackgroundModel;
 /**
  * 登录
@@ -15,7 +16,10 @@ import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
  import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
+import com.crazyBird.controller.user.param.MessagePutParam;
+import com.crazyBird.controller.user.param.UserFormParam;
 import com.crazyBird.service.weixin.WeixinAppService;
+import com.ibm.icu.text.MessagePatternUtil;
 import com.lowagie.text.pdf.codec.Base64;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
  /**
-  * 支付相关
-  * @author zzc
+  * 用户相关
+  * @author zjw
   *
   */
  @Controller
@@ -38,7 +42,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
  {
    @Autowired
    private UserLoginProcess userLoginProcess;
-   
+   /**
+	 * 发送模板消息
+	*/
+   @RequestMapping(value={"/message"}, method = RequestMethod.POST)
+   @ResponseBody
+   public SimpleFlagModel messageput(@RequestBody MessagePutParam param) {
+	   
+	return userLoginProcess.messageput(param);   
+   }
+   /**
+    *  存入formId
+    * @param param
+    * @return
+    */
+   @RequestMapping(value={"/insertForm"}, method = RequestMethod.POST)
+   @ResponseBody
+   public SimpleFlagModel insertFormId(@RequestBody UserFormParam param) {
+	   return userLoginProcess.insertFormId(param);
+   }
    /**
     * 微信第三方登录
     * */

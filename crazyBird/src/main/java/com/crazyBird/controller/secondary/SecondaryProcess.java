@@ -1,6 +1,7 @@
 package com.crazyBird.controller.secondary;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -346,6 +347,7 @@ public class SecondaryProcess {
 			model.setMessage("评论失败");
 			return model;
 		}
+		model.setMessage(DateUtil.formatDate(new Date(), DateUtil.DATE_FORMAT_YMDHMS));
 		return model;
 	}
 
@@ -363,6 +365,7 @@ public class SecondaryProcess {
 			model.setMessage("回复失败");
 			return model;
 		}
+		model.setMessage(DateUtil.formatDate(new Date(), DateUtil.DATE_FORMAT_YMDHMS));
 		return model;
 
 	}

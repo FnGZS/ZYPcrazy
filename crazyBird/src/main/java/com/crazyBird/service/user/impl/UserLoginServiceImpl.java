@@ -13,6 +13,7 @@ import com.crazyBird.dao.user.dataobject.BingDO;
 import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
 import com.crazyBird.dao.user.dataobject.UserDO;
+import com.crazyBird.dao.user.dataobject.UserFormDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
 import com.crazyBird.dao.user.dataobject.VerificationDO;
 import com.crazyBird.service.base.ResponseDO;
@@ -270,5 +271,23 @@ public class UserLoginServiceImpl implements UserLoginService {
 		userDao.changePhone(bindingChange);
 		userLoginDao.changePhone(bindingChange);
 		return responseDO;
+	}
+
+	@Override
+	public void insertFormId(UserFormDO fromDO) {
+		userDao.insertFormId(fromDO);
+		
+	}
+
+	@Override
+	public UserFormDO getFormId(Long userId) {
+
+		return userDao.getFormId(userId);
+	}
+
+	@Override
+	public void deleteFormId(Long id) {
+		userDao.deleteFormId(id);
+		
 	}
 }

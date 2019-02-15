@@ -5,6 +5,7 @@ import com.crazyBird.controller.user.param.UserRefundParam;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.service.user.dataobject.MessageInfo;
 import com.crazyBird.service.user.dataobject.OrderInfo;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
 import com.crazyBird.service.user.dataobject.RefundInfo;
@@ -41,6 +42,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -48,6 +50,10 @@ import org.springframework.stereotype.Component;
 
 @Component("weixinAppService")
 public class WeixinAppService {
+	// 发送模板消息
+	private static final String MESSAGE_PUT = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s";
+	// 获取access_token
+	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
 	// 获取用户信息的API_URL
 	private static final String USER_INFO_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 	// 微信统一下单地址
@@ -179,9 +185,9 @@ public class WeixinAppService {
 				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
 					sb.append(temp);
 				}
-				
+
 				loginResultMap = JsonUtils.getMap4Json(sb.toString().trim());
-			
+
 				String sessionkey = (String) loginResultMap.get("session_key");
 				if (StringUtils.isBlank(sessionkey)) {
 					result.setCode(ResponseCode.ERROR);
@@ -193,11 +199,7 @@ public class WeixinAppService {
 			result.setCode(ResponseCode.ERROR);
 			result.setMessage(e.getMessage());
 		}
-		/*
-		 * ResponseDO<UserInfo> userInfo = getUserInfo(platCode, platUserInfoMap); if
-		 * (!userInfo.isSuccess()) { result.setCode(ResponseCode.ERROR);
-		 * result.setMessage(userInfo.getMessage()); return result; }
-		 */
+
 		URI uri = URI.create(PAY_URL);
 		HttpPost post = new HttpPost(uri);
 		HttpResponse response;
@@ -243,19 +245,19 @@ public class WeixinAppService {
 					OrderResponseInfo info = new OrderResponseInfo();
 					String pkg = (String) resultMap.get("prepay_id");
 					info.setNonceStr((String) resultMap.get("nonce_str"));
-					info.setPkg("prepay_id="+pkg);
+					info.setPkg("prepay_id=" + pkg);
 					info.setSignType("MD5");
 					info.setAppId(APP_ID);
 					String dateTime = DateUtil.formatDate(new Date(), DateUtil.dtLong);
 					info.setTimeStamp(dateTime);
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("nonceStr", (String) resultMap.get("nonce_str"));
-					map.put("package", "prepay_id="+(String) resultMap.get("prepay_id"));
+					map.put("package", "prepay_id=" + (String) resultMap.get("prepay_id"));
 					map.put("signType", "MD5");
 					map.put("appId", APP_ID);
 					map.put("timeStamp", dateTime);
 					// 再次签名
-					//info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
+					// info.setPaySign((String) resultMap.get(SignatureUtils.getSign(map, KEY)));
 					info.setPaySign(SignatureUtils.getSign(map, KEY));
 
 					result.setDataResult(info);
@@ -308,9 +310,9 @@ public class WeixinAppService {
 			XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
 			xStream.alias("xml", RefundInfo.class);
 			String xml = xStream.toXML(refundInfo);
-			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH,MCH_ID);
+			String resultStr = PayUtils.post(REFUND_URL, xml, KEY_PATH, MCH_ID);
 			Map map = XmlToMapUtils.getResult(resultStr);
-			String returnCode = (String)map.get("return_code");
+			String returnCode = (String) map.get("return_code");
 			if (returnCode.equals("SUCCESS")) {
 				UserRefundDO refundDO = new UserRefundDO();
 				refundDO.setAppid((String) map.get("appid"));
@@ -321,7 +323,7 @@ public class WeixinAppService {
 				refundDO.setOut_refund_no((String) map.get("out_refund_no"));
 				refundDO.setOut_trade_no((String) map.get("out_trade_no"));
 				refundDO.setRefund_id((String) map.get("refund_id"));
-				refundDO.setRefund_fee(Integer.valueOf((String)map.get("refund_fee")));
+				refundDO.setRefund_fee(Integer.valueOf((String) map.get("refund_fee")));
 				refundDO.setTotal_fee(Integer.valueOf((String) map.get("total_fee")));
 				refundDO.setCash_fee(Integer.valueOf((String) map.get("cash_fee")));
 				result.setDataResult(refundDO);
@@ -338,6 +340,105 @@ public class WeixinAppService {
 
 		// refundInfo.setOut_refund_no(out_refund_no);
 		return result;
+	}
+
+	/**
+	 * 获取access_token
+	 * 
+	 * @return
+	 */
+	public static String getAccessToken() {
+		Map<String, Object> resultMap = null;
+		String accessToken = null;
+		String accessTokenUrl = String.format(ACCESS_TOKEN_URL, APP_ID, SECRET);
+		URI uri = URI.create(accessTokenUrl);
+		HttpGet get = new HttpGet(uri);
+		HttpResponse response;
+		try {
+			response = getHttpClient().execute(get);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				HttpEntity entity = response.getEntity();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+
+				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
+					sb.append(temp);
+				}
+
+				resultMap = JsonUtils.getMap4Json(sb.toString().trim());
+
+				accessToken = (String) resultMap.get("access_token");
+				if (StringUtils.isBlank(accessToken)) {
+					return accessToken;
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return accessToken;
+	}
+
+	public static ResponseDO messagePut(MessageInfo messageInfo) {
+		ResponseDO responseDO = new ResponseDO<>();
+		//获取acessToken
+		String accessToken = getAccessToken();
+		if(StringUtils.isBlank(accessToken)) {
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage("access_token为空");
+			return responseDO;	
+		}
+		String messagePut = String.format(MESSAGE_PUT, accessToken);
+		URI uri = URI.create(messagePut);
+		HttpPost post = new HttpPost(uri);
+		HttpResponse response;
+		/*XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
+		xStream.alias("xml", MessageInfo.class);
+		String xml = xStream.toXML(messageInfo);*/
+		String json=JsonUtils.toJSON(messageInfo);
+		System.out.println(json);
+		StringEntity stringentity = new StringEntity(json,
+                ContentType.create("application/json", "UTF-8"));
+		post.setEntity(stringentity);
+		try {
+			response = getHttpClient().execute(post);
+			if (response.getStatusLine().getStatusCode() == 200) {
+
+				HttpEntity entity = response.getEntity();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+
+				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
+					sb.append(temp);
+
+				}
+				System.out.println(sb);
+				Map<String, Object> resultMap = JsonUtils.getMap4Json(sb.toString().trim());
+				int returnCode = Integer.valueOf(String.valueOf( resultMap.get("errcode")));
+				System.out.println();
+				if (returnCode== 0) {
+					responseDO.setMessage("发送成功");
+					return responseDO;
+				}
+				else {
+					responseDO.setCode(ResponseCode.ERROR);
+					responseDO.setMessage("发送失败，错误码_"+returnCode+":"+(String) resultMap.get("errMsg"));
+				}
+			}
+		} catch (ClientProtocolException e) {
+			
+			e.printStackTrace();
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage(e.getMessage());
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			responseDO.setCode(ResponseCode.ERROR);
+			responseDO.setMessage(e.getMessage());
+		}
+	
+		return responseDO;
 	}
 
 	public static String decrypt(byte[] key, byte[] iv, byte[] encData) throws Exception {

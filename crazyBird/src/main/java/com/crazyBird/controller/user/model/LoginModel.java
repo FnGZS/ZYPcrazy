@@ -3,6 +3,7 @@ package com.crazyBird.controller.user.model;
 import com.crazyBird.controller.base.AbstractFlagModel;
 
 public class LoginModel extends AbstractFlagModel {
+	private String openId;
 	private String userName;
 	private String userKey;
 	private String avatar;
@@ -73,6 +74,12 @@ public class LoginModel extends AbstractFlagModel {
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
 	}
-
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+	
 	
 }

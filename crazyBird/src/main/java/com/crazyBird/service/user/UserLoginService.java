@@ -6,6 +6,7 @@ import com.crazyBird.dao.user.dataobject.BindingChangeDO;
 import com.crazyBird.dao.user.dataobject.BindingDO;
 import com.crazyBird.dao.user.dataobject.HavePhoneUserDO;
 import com.crazyBird.dao.user.dataobject.LoginDO;
+import com.crazyBird.dao.user.dataobject.UserFormDO;
 import com.crazyBird.dao.user.dataobject.UserLoginDO;
 import com.crazyBird.dao.user.dataobject.VerificationDO;
 import com.crazyBird.service.base.ResponseDO;
@@ -28,4 +29,10 @@ public abstract interface UserLoginService {
 	ResponseDO<HavePhoneUserDO> getHavePhoneUser(String phone, String accessToken);
 
 	ResponseDO<BindingDO> changeBind(BindingChangeDO bindingChange);
+	
+	void insertFormId(UserFormDO fromDO);
+	
+	UserFormDO getFormId(Long userId);
+	
+	void deleteFormId(Long id);
 }

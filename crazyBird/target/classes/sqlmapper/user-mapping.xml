@@ -12,6 +12,13 @@
     <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
   </resultMap>
+    <resultMap id="UserFromMap" type="com.crazyBird.dao.user.dataobject.UserFormDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="form_id" property="formId" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, school_num, user_name, password, open_id, phone, sex, headimgurl,  is_binding, gmt_created, gmt_modified
   </sql>
@@ -44,6 +51,31 @@
   	where open_id = #{openId,jdbcType=VARCHAR}
   	limit 1
   </select>
+  <select id="getFormId" parameterType="java.lang.Long" resultMap="UserFromMap">
+  select id,user_id,form_id,open_id from  user_form 
+  where user_id=#{userId,jdbcType=BIGINT} 
+  order by gmt_created desc 
+  limit 1
+  </select>
+  <insert id="insertFormId" parameterType="com.crazyBird.dao.user.dataobject.UserFormDO">
+  insert into user_form 
+  (
+  id,
+  user_id,
+  open_id,
+  form_id,
+  gmt_created,
+  gmt_modified
+  )values(
+  #{id,jdbcType=BIGINT},
+  #{userId,jdbcType=BIGINT},
+  #{openId,jdbcType=VARCHAR},
+   #{formId,jdbcType=VARCHAR},
+   now(),
+   now()
+   
+  )
+  </insert>
   <update id="updateBinding" parameterType="com.crazyBird.dao.user.dataobject.BingDO" >
     update user
     <set >
@@ -108,4 +140,10 @@
     </set>
     where  open_id = #{openId,jdbcType=VARCHAR}
   </update>
+  <delete id="deleteFormId" parameterType="java.lang.Long">
+  delete from user_form where id=#{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="autoDeleteFormId" >
+  delete from user_form where TIMESTAMPDIFF(DAY,gmt_modified,now())>=6
+  </delete>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
+import com.crazyBird.dao.user.UserDao;
 import com.crazyBird.dao.user.UserWxPayOrderDao;
 import com.crazyBird.dao.user.dataobject.BillDO;
 import com.crazyBird.utils.RestLogUtils;
@@ -22,6 +23,8 @@ public class SecondarySechedulerTask {
 	private SecondaryOrderDao secondaryOrderDao;
 	@Autowired 
 	private UserWxPayOrderDao orderDao;
+	@Autowired
+	private UserDao userDao;
 	//每隔一分钟执行一次 
 	@Scheduled(cron = "0 */1 * * * ?")
 	public void AutoAcceptOrder() {
@@ -47,5 +50,12 @@ public class SecondarySechedulerTask {
 			}
 			
 		}
+	}
+	
+	@Scheduled(cron = "0 0 */1 * * ?")
+	public void AutoDeleteForm() {
+		RestLogUtils.writeSchedulerTaskByInfo("二手自动删除过期的formId",null);
+		userDao.autoDeleteFormId();
+		
 	}
 }

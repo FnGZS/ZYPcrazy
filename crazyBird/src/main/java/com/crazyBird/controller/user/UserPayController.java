@@ -27,7 +27,11 @@ import com.crazyBird.controller.user.param.UserAgainPayParam;
 import com.crazyBird.controller.user.param.UserRefundParam;
 import com.crazyBird.service.user.dataobject.RefundInfo;
 import com.crazyBird.utils.XmlToMapUtils;
-
+/**
+ * 支付相关
+ * @author zzc
+ *
+ */
 @Controller
 @RequestMapping("/pay")
 public class UserPayController {

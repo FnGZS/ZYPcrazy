@@ -233,7 +233,7 @@
 	<select id="getOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select sg.id, u.user_name,u.headimgurl,
-		sg.user_id,sg.goods_num,sg.goods_title,
+		seo.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
@@ -387,7 +387,7 @@
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select sg.id, u.user_name,u.headimgurl,
-		sg.user_id,sg.goods_num,sg.goods_title,
+		seo.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
@@ -421,7 +421,7 @@
 	<select id="getOrderDetails" resultMap="OrderDTOResult"
 		parameterType="java.lang.String">
 		select sg.id, u.user_name,u.headimgurl,
-		sg.user_id,sg.goods_num,sg.goods_title,
+		seo.user_id,sg.goods_num,sg.goods_title,
 		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
