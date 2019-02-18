@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.crazyBird.controller.base.BaseProcess;
 import com.crazyBird.controller.base.SimpleFlagModel;
@@ -59,7 +60,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 	private SecondaryOrderService secondaryOrderService;
 	@Autowired
 	private UserPayService userPayService;
-
+	@Transactional
 	public SecondaryOrderModel getCreateOrder(OrderParam param) {
 		SecondaryOrderModel model = new SecondaryOrderModel();
 		SecondaryOrderDO order = new SecondaryOrderDO();

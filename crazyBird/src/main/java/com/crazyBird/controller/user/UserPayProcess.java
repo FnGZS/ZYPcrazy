@@ -8,6 +8,7 @@ import javax.swing.text.html.HTML.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.crazyBird.controller.base.AbstractPageParam;
 import com.crazyBird.controller.base.BaseProcess;
@@ -102,6 +103,7 @@ public class UserPayProcess extends BaseProcess {
 		return model;
 		
 	}
+	@Transactional
 	public UserPayModel userPay(UserAgainPayParam param) throws IllegalAccessException {
 		UserPayModel model = new UserPayModel();
 		String ip = getIp();
@@ -138,7 +140,7 @@ public class UserPayProcess extends BaseProcess {
 
 		return model;
 	}
-
+	@Transactional
 	public SimpleFlagModel secondaryRefund(UserRefundParam param) {
 		SimpleFlagModel model = new SimpleFlagModel();
 		ResponseDO<UserRefundDO> response = WeixinAppService.refund(param);
