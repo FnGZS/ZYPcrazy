@@ -153,9 +153,10 @@ public class UserPayProcess extends BaseProcess {
 		if (flag1 <= 0 || flag2 <= 0) {
 			model.setMessage("退款成功但更新或插入本地数据时出错");
 			}
-		}
+		
 		Long id = secondaryService.getSecondaryGoodsId(response.getDataResult().getOut_trade_no());
 		secondaryService.updateSecondaryGoodsOnline(id);
+		}
 		return model;
 	}
 
