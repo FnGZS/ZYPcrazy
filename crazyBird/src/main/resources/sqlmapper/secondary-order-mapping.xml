@@ -341,8 +341,8 @@
 	</select>
 	<select id="getAutomaticAcceptList" resultMap="OrderDOResult">
 		select * from
-		secondary_order where TIMESTAMPDIFF( DAY,gmt_modified,now())>=7 and
-		order_state=1
+		secondary_order where TIMESTAMPDIFF( DAY,gmt_modified,now())&gt;=7 and
+		order_state=1 and logistics=1
 	</select>
 	<select id="checkSecondaryGoodsPayStatus"
 		parameterType="java.lang.Long" resultType="java.lang.Integer">
