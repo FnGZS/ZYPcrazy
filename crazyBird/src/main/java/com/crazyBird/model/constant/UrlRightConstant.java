@@ -34,8 +34,8 @@ public class UrlRightConstant {
         loginVerifyUrlList.add("/message");
         loginVerifyUrlList.add("/vote/record");
         loginVerifyUrlList.add("/upload");
-        loginVerifyUrlList.add("/lostInput");
-        loginVerifyUrlList.add("/lostDelete");
+        loginVerifyUrlList.add("/lost/lostInput");
+        loginVerifyUrlList.add("/lost/lostDelete");
         
         
         dataSignUrlList.add("/");

@@ -1,130 +1,141 @@
- package com.crazyBird.interceptor;
- 
- import com.crazyBird.dao.user.dataobject.UserLoginDO;
- import com.crazyBird.exception.CertificateException;
- import com.crazyBird.model.constant.UrlRightConstant;
- import com.crazyBird.model.reqinfo.ReqHead;
- import com.crazyBird.model.reqinfo.ReqParam;
- import com.crazyBird.service.base.ResponseDO;
- import com.crazyBird.service.user.UserLoginService;
- import com.crazyBird.utils.IPUtils;
- import com.crazyBird.utils.TokenUtils;
- import eu.bitwalker.useragentutils.Browser;
- import eu.bitwalker.useragentutils.OperatingSystem;
- import eu.bitwalker.useragentutils.UserAgent;
- import java.util.Date;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpServletResponse;
- import org.apache.commons.lang3.StringUtils;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.web.servlet.HandlerInterceptor;
- import org.springframework.web.servlet.ModelAndView;
- 
- 
- 
- 
- public class MvcTokenInterceptor
-   implements HandlerInterceptor
- {
-  private final String ACCESS_TOKEN = "authorization";
-   private final String APP_VERSION = "app-version";
-   private final String OS = "os";
-   private final String OS_VERSION = "os-version";
-   @Autowired
-   private UserLoginService userLoginService;
-   
-   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg)
-     throws Exception
-   {
-     request.setAttribute("req_time", new Date());
-     
-     String url = request.getRequestURI();
-     
-     ReqHead reqHead = new ReqHead();
-     reqHead.setAccessToken(request.getHeader("authorization"));
-     if (StringUtils.isNotBlank(request.getHeader("app-version"))) {
-       reqHead.setVersion(request.getHeader("app-version"));
-       reqHead.setOs(request.getHeader("os") + "_APP");
-       reqHead.setOsVersion(request.getHeader("os-version"));
-     } else {
-       UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-       reqHead.setBrowser(userAgent.getBrowser().getName());
-       reqHead.setOs(userAgent.getOperatingSystem().getName());
-     }
-     
-     ReqParam reqParam = new ReqParam();
-     reqParam.setReqHead(reqHead);
-     reqParam.setIp(IPUtils.getIp(request));
-     reqParam.setUrl(url);
-    request.setAttribute("ReqParam", reqParam);
-     
- 
-     for (String ignoreLoginUrl : UrlRightConstant.notVerifyUrlList) {
-      if (url.indexOf(ignoreLoginUrl) != -1) {
-         return true;
-       }
-     }
-     
- 
-    checkAccessToken(reqParam);
-     return true;
-   }
-   
- 
- 
- 
- 
-   private void checkAccessToken(ReqParam reqParam)
-     throws Exception
-   {
-     String url = reqParam.getUrl().replaceAll("\\d+", "");
-     String accessToken = reqParam.getReqHead().getAccessToken();
-    if (StringUtils.isBlank(accessToken))
-     {
-       for (String loginNotNecessaryUrl : UrlRightConstant.loginNotNecessaryUrlList) {
-        if (url.indexOf(loginNotNecessaryUrl) != -1) {
-          return;
-         }
-       }
-       
-       for (String secureUrl : UrlRightConstant.loginVerifyUrlList) {
-         if (url.indexOf(secureUrl) != -1) {
-          throw new CertificateException("请先登录");
-         }
-       }
-     }
-     else
-     {
-       try
-       {
-         Long shoolNum = TokenUtils.getIdFromAesStr(accessToken);
-        if (shoolNum == null) {
-          throw new CertificateException("登录信息无效！请重新登录1");
-         }
-        Object responeDO = this.userLoginService.getUserLogin(shoolNum);
-         
-         if ((!((ResponseDO)responeDO).isSuccess()) || (((ResponseDO)responeDO).getDataResult() == null)) {
-          throw new CertificateException("登录信息无效！请重新登录2");
-         }
-         UserLoginDO userLoginDO = (UserLoginDO)((ResponseDO)responeDO).getDataResult();
-         if (userLoginDO.getIsBound().intValue() == 2) {
-          throw new CertificateException("无权限，请绑定");
-         }
-         reqParam.setLoginAccount(userLoginDO.getLoginAccount());
-         return;
-       } catch (Exception e) {
-        throw new CertificateException("登录信息无效！请重新登录");
-       }
-     }
-   }
-   
-   public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
-     throws Exception
-   {}
-   
-   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object arg2, ModelAndView model)
-     throws Exception
-   {}
- }
+package com.crazyBird.interceptor;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import com.crazyBird.exception.CertificateException;
+import com.crazyBird.model.constant.UrlRightConstant;
+import com.crazyBird.model.reqinfo.ReqHead;
+import com.crazyBird.model.reqinfo.ReqParam;
+import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.service.user.UserAccountService;
+import com.crazyBird.utils.DeviceUtils;
+import com.crazyBird.utils.IPUtils;
+import com.crazyBird.utils.TokenUtils;
+
+import eu.bitwalker.useragentutils.UserAgent;
+
+/**
+ * @Type MvcTokenInterceptor
+ * @Desc MVCToken拦截器
+ * @date 2016-8-3
+ * @Version V1.0
+ */
+public class MvcTokenInterceptor implements HandlerInterceptor {
+
+	private final String ACCESS_TOKEN = "authorization";
+	private final String APP_VERSION = "app-version";
+	private final String OS = "os";
+	private final String OS_VERSION = "os-version";
+	
+	@Autowired
+	private UserAccountService userLoginService;
+	
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg) throws Exception {
+		request.setAttribute("req_time", new Date());
+		// 设置request属性,先设置属性，以免日志没打印
+		String url = request.getRequestURI();
+		
+		ReqHead reqHead = new ReqHead();
+		reqHead.setAccessToken(request.getHeader(ACCESS_TOKEN));
+		if(StringUtils.isNotBlank(request.getHeader(APP_VERSION))) { // 手机APP
+			reqHead.setVersion(request.getHeader(APP_VERSION));
+			reqHead.setOs(request.getHeader(OS) + "_APP");
+			reqHead.setOsVersion(request.getHeader(OS_VERSION));
+		} else {
+			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+			reqHead.setBrowser(userAgent.getBrowser().getName());
+			reqHead.setOs(userAgent.getOperatingSystem().getName());
+		}
+		
+		ReqParam reqParam = new ReqParam();
+		reqParam.setReqHead(reqHead);
+		reqParam.setIp(IPUtils.getIp(request));
+		reqParam.setUrl(url);
+		request.setAttribute("ReqParam", reqParam);
+		
+		// 忽略登陆
+		for (String ignoreLoginUrl : UrlRightConstant.notVerifyUrlList) {
+			if (url.indexOf(ignoreLoginUrl) != -1) {
+				return true;
+			}
+		}
+		
+		// 安全认证
+		checkAccessToken(reqParam);
+		return true;
+	}
+	
+	/**
+	 * 安全认证
+	 * 
+	 * @param request
+	 * @throws CertificateException
+	 */
+	private void checkAccessToken(ReqParam reqParam) throws Exception {
+		String url = reqParam.getUrl().replaceAll("\\d+",""); // 去掉url中的数字
+		String accessToken = reqParam.getReqHead().getAccessToken();
+		if (StringUtils.isBlank(accessToken)) {
+			// 非必须登录的接口，access_token为空直接返回
+			for (String loginNotNecessaryUrl : UrlRightConstant.loginNotNecessaryUrlList) {
+				if (url.indexOf(loginNotNecessaryUrl) != -1) {
+					return ;
+				}
+			}
+			// 安全认证，需要登录的接口，必须有access_token
+			for (String secureUrl : UrlRightConstant.loginVerifyUrlList) {
+				if (url.indexOf(secureUrl) != -1) {
+					throw new CertificateException("请先登录");
+				}
+			}
+		} else {
+			// 验证ip和浏览器，判断是否是在其他地方登录过导致的token失效，还可以根据IP获取地区，判断是否是异地登录（需要设计常用地址）
+			// 当token更新时间在本次操作前X时间内，提示当前账号已在其他终端登录，如果ip为异地，警告异地登录
+			// 否则超过X时间，只提示token失效。如果ip为异地，告知，该账号曾在异地登录过。
+			try {
+				Long userId = TokenUtils.getIdFromAesStr(accessToken);
+				if(userId == null) {
+					throw new CertificateException("登录信息无效！请重新登录");
+				}
+				//ResponseDO<UserLoginDO> responeDO = userLoginService.getUserLogin(userId);
+				//ResponseDO<UserLoginDO> responeDO = userLoginService.getUserLogin(userId, DeviceUtils.getDeviceTypeFromOS(reqParam.getReqHead().getOs()));
+				//if(!responeDO.isSuccess() || responeDO.getDataResult() == null) {
+				//	throw new CertificateException("登录信息无效！请重新登录");
+				//}
+				//UserLoginDO userLoginDO = responeDO.getDataResult();
+				// 验证token是否失效————token已失效，请重新登录
+				//if(userLoginDO.getIsDisabled().intValue() == 1) {
+				//	throw new CertificateException("登录信息已失效！请重新登录");
+				//}
+				//String lastAccessToken = userLoginDO.getAccessToken();
+				//if(StringUtils.isBlank(lastAccessToken) || !accessToken.equals(lastAccessToken)) {
+				//	throw new CertificateException("登录信息无效！请重新登录");
+				//}
+				//reqParam.setUserId(userLoginDO.getUserId() + "");
+				//reqParam.setLoginAccount(userLoginDO.getLoginAccount());
+				return ;
+			} catch (Exception e) {
+				throw new CertificateException("登录信息无效！请重新登录");
+			}
+		}
+	}
+	
+	@Override
+	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
+			throws Exception {
+	}
+	
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object arg2, ModelAndView model)
+			throws Exception {
+	}
+}
