@@ -250,7 +250,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 		// 再将记录插入账单
 		BillDO billDO = new BillDO();
 		billDO.setCash(responseDO.getPrice());
-		billDO.setUserId(userId);
+		billDO.setUserId(responseDO.getSellerId());
 		billDO.setType(3);
 		userPayService.insertBill(billDO);
 
@@ -368,7 +368,9 @@ public class SecondaryOrderProcess extends BaseProcess {
 		SecondaryCashDO input = new SecondaryCashDO();
 		input.setUserId(param.getUserId());
 		input.setAccount(param.getAccount());
+		input.setPlatCode(param.getPlatCode());
 		input.setCash(param.getCash());
+		input.setIp(getIp());
 		ResponseDO<SecondaryCashDO> response = secondaryOrderService.setSecondaryCash(input);
 		if (!response.isSuccess()) {
 			model.setCode(HttpCodeEnum.ERROR.getCode());

@@ -106,7 +106,7 @@ public class Md5Utils {
      * @throws Exception
      */
     public static String getMD5(String data) throws Exception {
-        byte[] bytes = data.getBytes("utf-8");
+        byte[] bytes = data.getBytes("UTF-8");
         return getMD5(bytes);
     }
     

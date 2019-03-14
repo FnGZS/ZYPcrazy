@@ -43,6 +43,7 @@ public class UrlRightConstant {
     	notVerifyUrlList.add("/live/getGiftList");
     	notVerifyUrlList.add("/pay/wxNotify");
     	notVerifyUrlList.add("/pay/wxNotify/gift");
+    	notVerifyUrlList.add("/contacts");
 
     	
         loginNotNecessaryUrlList.add("/user/account/public");

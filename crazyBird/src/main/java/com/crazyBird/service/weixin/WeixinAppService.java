@@ -1,10 +1,13 @@
 package com.crazyBird.service.weixin;
 
+import com.crazyBird.controller.user.param.EnterprisePayParam;
 import com.crazyBird.controller.user.param.UserPayParam;
 import com.crazyBird.controller.user.param.UserRefundParam;
+import com.crazyBird.dao.user.dataobject.EnterprisePayDO;
 import com.crazyBird.dao.user.dataobject.UserRefundDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
+import com.crazyBird.service.user.dataobject.EnterprisePayInfo;
 import com.crazyBird.service.user.dataobject.MessageInfo;
 import com.crazyBird.service.user.dataobject.OrderInfo;
 import com.crazyBird.service.user.dataobject.OrderResponseInfo;
@@ -18,7 +21,6 @@ import com.crazyBird.utils.PayUtils;
 import com.crazyBird.utils.RandomUtil;
 import com.crazyBird.utils.SignatureUtils;
 import com.crazyBird.utils.XmlToMapUtils;
-
 import com.thoughtworks.xstream.XStream;
 
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
@@ -27,11 +29,14 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -60,6 +65,8 @@ public class WeixinAppService {
 	private static final String PAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	// 微信退款地址
 	private static final String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+	// 微信企业付款地址
+	private static final String ENTERPRISE_PAY_URL = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
 	// 证书地址
 	public static final String KEY_PATH = "/www/wechat/cert/apiclient_cert.p12";
 	// 支付类型
@@ -84,6 +91,13 @@ public class WeixinAppService {
 		return httpClient;
 	}
 
+	/**
+	 * 微信登陆
+	 * 
+	 * @param platCode
+	 * @param platUserInfoMap
+	 * @return
+	 */
 	public static ResponseDO<UserInfo> getUserInfo(String platCode, Map<String, String> platUserInfoMap) {
 		ResponseDO<UserInfo> result = new ResponseDO<>();
 		// String APP_ID = "wxe39ca82b04cebded";
@@ -343,6 +357,108 @@ public class WeixinAppService {
 	}
 
 	/**
+	 * 企业付款
+	 * 
+	 * @param param
+	 * @param orderId
+	 * @param ip
+	 * @return
+	 */
+	public static ResponseDO<EnterprisePayDO> enterprisePay(EnterprisePayParam param, String orderId, String ip) {
+		ResponseDO<EnterprisePayDO> result = new ResponseDO<>();
+		EnterprisePayDO enterprisePayDO = new EnterprisePayDO();
+		double times = 100.00;
+		double fee = param.getFee();
+		double total_sum = ArithUtils.mul(fee, times);
+		int total_fee = (int) total_sum;
+		// 获取openId
+		Map<String, Object> loginResultMap = null;
+		String loginUrl = String.format(USER_INFO_URL, APP_ID, SECRET, param.getPlatCode());
+		URI loginUri = URI.create(loginUrl);
+		HttpGet get = new HttpGet(loginUri);
+		HttpResponse loginResponse;
+		try {
+			loginResponse = getHttpClient().execute(get);
+			if (loginResponse.getStatusLine().getStatusCode() == 200) {
+				HttpEntity entity = loginResponse.getEntity();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+
+				for (String temp = reader.readLine(); temp != null; temp = reader.readLine()) {
+					sb.append(temp);
+				}
+
+				loginResultMap = JsonUtils.getMap4Json(sb.toString().trim());
+
+				String sessionkey = (String) loginResultMap.get("session_key");
+				if (StringUtils.isBlank(sessionkey)) {
+					result.setCode(ResponseCode.ERROR);
+					result.setMessage("微信小程序登录异常，code换取session_key失败");
+					return result;
+				}
+			}
+		} catch (Exception e) {
+			result.setCode(ResponseCode.ERROR);
+			result.setMessage(e.getMessage());
+		}
+		URI uri = URI.create(PAY_URL);
+		HttpPost post = new HttpPost(uri);
+		HttpResponse response;
+		try {
+			EnterprisePayInfo info = new EnterprisePayInfo();
+			String openid = (String) loginResultMap.get("openid");
+			info.setAmount(total_fee);
+			info.setCheck_name("NO_CHECK");
+			info.setDesc("在元培余额提现:" + String.valueOf(fee) + "元");
+			info.setMch_appid(APP_ID);
+			info.setMchid(MCH_ID);
+			info.setNonce_str(RandomUtil.getRandomCharString(32));
+			info.setOpenid(openid);
+			info.setPartner_trade_no(orderId);
+			info.setSpbill_create_ip(ip);
+			String sign = null;
+			sign = SignatureUtils.getSign(info, KEY);
+			info.setSign(sign);
+			XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
+			xStream.alias("xml", EnterprisePayInfo.class);
+		
+			String xml=xStream.toXML(info);
+			try {
+				xml=new String(xml.getBytes(),"ISO8859-1");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(xml);
+			// 请求官方企业付款接口
+			String resultStr = PayUtils.post(ENTERPRISE_PAY_URL, xml, KEY_PATH, MCH_ID);
+			Map map = XmlToMapUtils.getResult(resultStr);
+			String returnCode = (String) map.get("return_code");
+			String resultCode = (String) map.get("result_code");
+			if (returnCode.equals("SUCCESS") && resultCode.equals("SUCCESS")) {
+				enterprisePayDO.setOpenId(openid);
+				enterprisePayDO.setFee(total_fee);
+				enterprisePayDO.setPartner_trade_no( (String)map.get("partner_trade_no"));
+				enterprisePayDO.setPayment_no((String)map.get("payment_no"));
+				enterprisePayDO.setPayment_time((String)map.get("payment_time"));
+				result.setDataResult(enterprisePayDO);	
+				System.out.println(JsonUtils.toJSON(map));
+			} else {
+				System.out.println(JsonUtils.toJSON(map));
+				result.setCode(ResponseCode.ERROR);
+				result.setMessage(
+						"企业付款失败," + "错误" + (String) map.get("err_code") + ":" + (String) map.get("err_code_des"));
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+
+	/**
 	 * 获取access_token
 	 * 
 	 * @return
@@ -379,26 +495,33 @@ public class WeixinAppService {
 		return accessToken;
 	}
 
+	/**
+	 * 发送通知消息
+	 * 
+	 * @param messageInfo
+	 * @return
+	 */
 	public static ResponseDO messagePut(MessageInfo messageInfo) {
 		ResponseDO responseDO = new ResponseDO<>();
-		//获取acessToken
+		// 获取acessToken
 		String accessToken = getAccessToken();
-		if(StringUtils.isBlank(accessToken)) {
+		if (StringUtils.isBlank(accessToken)) {
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage("access_token为空");
-			return responseDO;	
+			return responseDO;
 		}
 		String messagePut = String.format(MESSAGE_PUT, accessToken);
 		URI uri = URI.create(messagePut);
 		HttpPost post = new HttpPost(uri);
 		HttpResponse response;
-		/*XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")));
-		xStream.alias("xml", MessageInfo.class);
-		String xml = xStream.toXML(messageInfo);*/
-		String json=JsonUtils.toJSON(messageInfo);
+		/*
+		 * XStream xStream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-",
+		 * "_"))); xStream.alias("xml", MessageInfo.class); String xml =
+		 * xStream.toXML(messageInfo);
+		 */
+		String json = JsonUtils.toJSON(messageInfo);
 		System.out.println(json);
-		StringEntity stringentity = new StringEntity(json,
-                ContentType.create("application/json", "UTF-8"));
+		StringEntity stringentity = new StringEntity(json, ContentType.create("application/json", "UTF-8"));
 		post.setEntity(stringentity);
 		try {
 			response = getHttpClient().execute(post);
@@ -415,19 +538,18 @@ public class WeixinAppService {
 				}
 				System.out.println(sb);
 				Map<String, Object> resultMap = JsonUtils.getMap4Json(sb.toString().trim());
-				int returnCode = Integer.valueOf(String.valueOf( resultMap.get("errcode")));
+				int returnCode = Integer.valueOf(String.valueOf(resultMap.get("errcode")));
 				System.out.println();
-				if (returnCode== 0) {
+				if (returnCode == 0) {
 					responseDO.setMessage("发送成功");
 					return responseDO;
-				}
-				else {
+				} else {
 					responseDO.setCode(ResponseCode.ERROR);
-					responseDO.setMessage("发送失败，错误码_"+returnCode+":"+(String) resultMap.get("errMsg"));
+					responseDO.setMessage("发送失败，错误码_" + returnCode + ":" + (String) resultMap.get("errMsg"));
 				}
 			}
 		} catch (ClientProtocolException e) {
-			
+
 			e.printStackTrace();
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage(e.getMessage());
@@ -437,7 +559,7 @@ public class WeixinAppService {
 			responseDO.setCode(ResponseCode.ERROR);
 			responseDO.setMessage(e.getMessage());
 		}
-	
+
 		return responseDO;
 	}
 

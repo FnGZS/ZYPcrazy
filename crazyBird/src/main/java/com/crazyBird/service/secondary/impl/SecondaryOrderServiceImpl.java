@@ -1,10 +1,12 @@
 package com.crazyBird.service.secondary.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.crazyBird.controller.user.param.EnterprisePayParam;
 import com.crazyBird.dao.secondary.SecondaryOrderDao;
 import com.crazyBird.dao.secondary.dataobject.CapitalUserDO;
 import com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO;
@@ -16,17 +18,23 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.VendorListPO;
+import com.crazyBird.dao.user.UserWxPayOrderDao;
+import com.crazyBird.dao.user.dataobject.BillDO;
+import com.crazyBird.dao.user.dataobject.EnterprisePayDO;
 import com.crazyBird.service.base.ResponseCode;
 import com.crazyBird.service.base.ResponseDO;
 import com.crazyBird.service.base.ResponsePageQueryDO;
 import com.crazyBird.service.secondary.SecondaryOrderService;
+import com.crazyBird.service.user.dataobject.EnterprisePayInfo;
+import com.crazyBird.service.weixin.WeixinAppService;
 
 @Component("SecondaryOrderService")
 public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 
 	@Autowired
 	private SecondaryOrderDao secondaryOrderDao;
-	
+	@Autowired
+	private UserWxPayOrderDao userWxPayOrderDao;
 
 	@Override
 	public ResponseDO<String> createOrder(SecondaryOrderDO order) {
@@ -117,14 +125,49 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 	public ResponseDO<SecondaryCashDO> setSecondaryCash(SecondaryCashDO input) {
 		ResponseDO<SecondaryCashDO> response = new ResponseDO<>();
 		SecondaryCapitalDO capital = secondaryOrderDao.getSecondaryCapital(input.getUserId());
+		//检查账户余额与提现金额是否符合
+		
 		if(capital.getRemainder().compareTo(input.getCash()) < 0) {
 			response.setCode(ResponseCode.ERROR);
 			response.setMessage("提现失败，余额不足");
 			return response;
 		}
+		//存入提现记录
 		if(secondaryOrderDao.setSecondaryCash(input)) {
-			response.setCode(ResponseCode.SUCCESS);
-			response.setMessage("提现已申请，请耐心等待");
+			EnterprisePayParam param = new EnterprisePayParam();
+			double fee = input.getCash().doubleValue();
+			if(fee<=1) {
+			param.setFee(fee);
+			}
+			else {
+				param.setFee(Math.round(fee*0.97*100)/100);
+			}
+			param.setPlatCode(input.getPlatCode());
+			System.out.println(String.valueOf(param.getFee()));
+			String orderId=UUID.randomUUID().toString().replace("-", "");
+			//企业付款
+			ResponseDO<EnterprisePayDO> result=WeixinAppService.enterprisePay(param, orderId, input.getIp());
+			if(result.isSuccess()) {
+				//更新用户余额
+				CapitalUserDO capitalUserDO = new CapitalUserDO();
+				capitalUserDO.setUserId(input.getUserId());
+				capitalUserDO.setRemainder(input.getCash());
+				secondaryOrderDao.updateCapitalUserByDelete(capitalUserDO);
+				//插入账单
+				BillDO billDO = new BillDO();
+				billDO.setCash(input.getCash());
+				billDO.setUserId(input.getUserId());
+				billDO.setType(2);
+				userWxPayOrderDao.insertBill(billDO);
+				
+				//存储企业付款记录
+				secondaryOrderDao.insertEnterprisePay(result.getDataResult());
+			}
+			else {
+				response.setCode(ResponseCode.ERROR);
+				response.setMessage(result.getMessage());
+			}
+			
 		}
 		else {
 			response.setCode(ResponseCode.ERROR);

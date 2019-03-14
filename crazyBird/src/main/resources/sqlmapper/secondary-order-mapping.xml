@@ -450,6 +450,12 @@
 		#{remainder,jdbcType=DECIMAL},gmt_modified=now() where
 		user_id=#{userId,jdbcType=BIGINT}
 	</update>
+	<update id="updateCapitalUserByDelete"
+		parameterType="com.crazyBird.dao.secondary.dataobject.CapitalUserDO">
+		update capital_user set remainder = remainder -
+		#{remainder,jdbcType=DECIMAL},gmt_modified=now() where
+		user_id=#{userId,jdbcType=BIGINT}
+	</update>
 	<insert id="createCapitalUser" parameterType="java.lang.Long">
 		insert into
 		capital_user
@@ -489,6 +495,30 @@
 		now(),
 		now()
 		)
+	</insert>
+	<insert id="insertEnterprisePay" parameterType="com.crazyBird.dao.user.dataobject.EnterprisePayDO">
+	insert into enterprise_pay(
+	id,
+	user_id,
+	partner_trade_no,
+	fee,
+	payment_no,
+	open_id,
+	payment_time,
+	gmt_created,
+	gmt_modified
+	)values(
+	null,
+	#{userId,jdbcType=BIGINT},
+	#{partner_trade_no,jdbcType=VARCHAR},
+	#{fee,jdbcType=INTEGER},
+	#{payment_no,jdbcType=VARCHAR},
+	#{openId,jdbcType=VARCHAR},
+	#{payment_time,jdbcType=VARCHAR},
+	now(),
+	now()
+	)
+	
 	</insert>
 	<delete id="deleteSecondaryOrder"
 		parameterType="com.crazyBird.dao.secondary.dataobject.DeleteSecondaryOrderDO">

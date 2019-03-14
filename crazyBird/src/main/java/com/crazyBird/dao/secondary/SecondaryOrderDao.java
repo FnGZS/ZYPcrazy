@@ -16,6 +16,7 @@ import com.crazyBird.dao.secondary.dataobject.SecondaryOrderDTO;
 import com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO;
 import com.crazyBird.dao.secondary.dataobject.UserSecondaryDTO;
 import com.crazyBird.dao.secondary.dataobject.VendorListPO;
+import com.crazyBird.dao.user.dataobject.EnterprisePayDO;
 import com.crazyBird.dao.secondary.dataobject.SellSecondaryPO;
 
 public interface SecondaryOrderDao {
@@ -73,6 +74,10 @@ public interface SecondaryOrderDao {
 	int updateCapitalUser(CapitalUserDO capitalUserDO);
 	
 	List<SecondaryOrderDO> getAutomaticAcceptList();
+	
+	int updateCapitalUserByDelete(CapitalUserDO capitalUserDO);
+	
+	void insertEnterprisePay(EnterprisePayDO enterprisePayDO);
 	
 
 
