@@ -137,10 +137,12 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 			EnterprisePayParam param = new EnterprisePayParam();
 			double fee = input.getCash().doubleValue();
 			if(fee<=1) {
-			param.setFee(fee);
+				response.setCode(ResponseCode.ERROR);
+				response.setMessage("提现金额必须大于1元");
+				return response;
 			}
 			else {
-				param.setFee(Math.round(fee*0.97*100)/100);
+				param.setFee(Math.round(fee*0.97*100)/100.0);
 			}
 			param.setPlatCode(input.getPlatCode());
 			System.out.println(String.valueOf(param.getFee()));
@@ -257,4 +259,5 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 		// TODO Auto-generated method stub
 		return secondaryOrderDao.insertRefundApply(applyDO);
 	}
+	
 }

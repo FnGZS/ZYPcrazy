@@ -10,10 +10,6 @@
 			jdbcType="BIGINT" />
 		<result column="detail" property="detail"
 			jdbcType="VARCHAR" />
-		<result column="gmt_created" property="gmtCreated"
-			jdbcType="TIMESTAMP" />
-		<result column="gmt_modified" property="gmtModified"
-			jdbcType="TIMESTAMP" />
 	</resultMap>
 	<resultMap id="VoteRecordMap" type="com.crazyBird.dao.vote.dataobject.VoteActionRecordDTO">
 		<id column="id" property="id" jdbcType="BIGINT" />

@@ -126,10 +126,7 @@
 		<result column="user_id" property="userId" jdbcType="BIGINT" />
 		<result column="cash" property="cash" jdbcType="DECIMAL" />
 		<result column="account" property="account" jdbcType="VARCHAR" />
-		<result column="gmt_created" property="gmtCreated"
-			jdbcType="TIMESTAMP" />
-		<result column="gmt_modified" property="gmtModified"
-			jdbcType="TIMESTAMP" />
+
 	</resultMap>
 
 	<select id="getSellSecondaryCountByUser"
