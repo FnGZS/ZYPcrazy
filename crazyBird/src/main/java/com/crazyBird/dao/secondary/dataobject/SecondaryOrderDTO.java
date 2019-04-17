@@ -13,6 +13,7 @@ public class SecondaryOrderDTO {
 	private String userName;
 	private String headImgUrl;
 	private String goodsTitle;
+	private Integer goodsState;
 	private String goodsContent;
 	private String goodsImg;
 	private String telephone;
@@ -25,6 +26,7 @@ public class SecondaryOrderDTO {
 	
 	//订单
 	private String orderId;
+	private Long orderUserId;
 	private Long goodsId;
 	private BigDecimal orderPrice;
 	private Long sellerId;
@@ -52,6 +54,13 @@ public class SecondaryOrderDTO {
 	public Long getUserId() {
 		return userId;
 	}
+	
+	public Long getOrderUserId() {
+		return orderUserId;
+	}
+	public void setOrderUserId(Long orderUserId) {
+		this.orderUserId = orderUserId;
+	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
@@ -66,6 +75,13 @@ public class SecondaryOrderDTO {
 	}
 	public void setGoodsNum(Integer goodsNum) {
 		this.goodsNum = goodsNum;
+	}
+	
+	public Integer getGoodsState() {
+		return goodsState;
+	}
+	public void setGoodsState(Integer goodsState) {
+		this.goodsState = goodsState;
 	}
 	public String getUserName() {
 		return userName;

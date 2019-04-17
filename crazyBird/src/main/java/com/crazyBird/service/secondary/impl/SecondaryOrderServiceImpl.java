@@ -136,9 +136,9 @@ public class SecondaryOrderServiceImpl implements SecondaryOrderService{
 		if(secondaryOrderDao.setSecondaryCash(input)) {
 			EnterprisePayParam param = new EnterprisePayParam();
 			double fee = input.getCash().doubleValue();
-			if(fee<=1) {
+			if(fee<1) {
 				response.setCode(ResponseCode.ERROR);
-				response.setMessage("提现金额必须大于1元");
+				response.setMessage("提现金额必须大于等于1元");
 				return response;
 			}
 			else {

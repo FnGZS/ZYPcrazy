@@ -150,8 +150,10 @@ public class SecondaryOrderProcess extends BaseProcess {
 					item.setGoodsContent(tag.getGoodsContent());
 					item.setGoodsImg(tag.getGoodsImg());
 					item.setGoodsType(tag.getGoodsType());
+					item.setGoodsState(tag.getGoodsState());
 					item.setPostion(tag.getPostion());
 					item.setTelephone(tag.getTelephone());
+					item.setOrderUserId(tag.getOrderUserId());
 					item.setGoodsWay(tag.getGoodsWay());
 					item.setTradingWay(tag.getTradingWay());
 					item.setPrice(String.valueOf(tag.getPrice()));
@@ -420,6 +422,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			model.setGoodsImg(orderDetails.getGoodsImg());
 			model.setGoodsType(orderDetails.getGoodsType());
 			model.setPostion(orderDetails.getPostion());
+			model.setGoodsState(orderDetails.getGoodsState());
 			model.setGoodsWay(orderDetails.getGoodsWay());
 			model.setTradingWay(orderDetails.getTradingWay());
 			model.setPrice(String.valueOf(orderDetails.getPrice()));
@@ -428,6 +431,7 @@ public class SecondaryOrderProcess extends BaseProcess {
 			model.setHeadImgUrl(orderDetails.getHeadImgUrl());
 			model.setOrderId(orderDetails.getOrderId());
 			model.setGoodsId(orderDetails.getGoodsId());
+			
 			model.setOrderPrice(orderDetails.getOrderPrice());
 			model.setSellerId(orderDetails.getSellerId());
 			model.setSeller(orderDetails.getSeller());

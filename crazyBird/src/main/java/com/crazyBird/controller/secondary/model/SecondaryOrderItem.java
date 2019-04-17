@@ -12,6 +12,7 @@ public class SecondaryOrderItem {
 	private String userName;
 	private String headImgUrl;
 	private String goodsTitle;
+	private Integer goodsState;
 	private String goodsContent;
 	private String goodsImg;
 	private String postion;
@@ -26,6 +27,7 @@ public class SecondaryOrderItem {
 	private String orderId;
 	private Long goodsId;
 	private String orderPrice;
+	private Long orderUserId;
 	private Long sellerId;
 	private String seller;
 	private String consignee;
@@ -44,6 +46,22 @@ public class SecondaryOrderItem {
 	}
 
 	
+	
+	public Integer getGoodsState() {
+		return goodsState;
+	}
+
+	public void setGoodsState(Integer goodsState) {
+		this.goodsState = goodsState;
+	}
+
+	public Long getOrderUserId() {
+		return orderUserId;
+	}
+
+	public void setOrderUserId(Long orderUserId) {
+		this.orderUserId = orderUserId;
+	}
 
 	public String getOrderPrice() {
 		return orderPrice;

@@ -16,6 +16,7 @@ public class OrderDetailsModel extends AbstractFlagModel {
 	private String goodsTitle;
 	private String goodsContent;
 	private String goodsImg;
+	private Integer goodsState;
 	private String postion;
 	private String telephone;
 	private String goodsType;
@@ -51,6 +52,15 @@ public class OrderDetailsModel extends AbstractFlagModel {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	
+	public Integer getGoodsState() {
+		return goodsState;
+	}
+
+	public void setGoodsState(Integer goodsState) {
+		this.goodsState = goodsState;
 	}
 
 	public Long getUserId() {

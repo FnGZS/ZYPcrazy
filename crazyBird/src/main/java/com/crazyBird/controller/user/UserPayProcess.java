@@ -109,12 +109,18 @@ public class UserPayProcess extends BaseProcess {
 		String ip = getIp();
 		Map<String, String> platUserInfoMap = param.getPlatUserInfoMap();
 		ResponseDO<OrderResponseInfo> result = null;
-
+		int flag = secondaryOrderService.checkSecondaryGoodsPayStatus(param.getGoodsId());
+		if (flag == 0) {
+		
+			model.setMessage("宝贝已经被人抢走了");
+			return model;
+		}
 		String orderId = param.getOrderId();
 		UserPayParam userPay = new UserPayParam();
 		userPay.setFee(param.getFee());
 		userPay.setPlatCode(param.getPlatCode());
 		userPay.setPlatUserInfoMap(param.getPlatUserInfoMap());
+		
 		if (param.getType() == 1) {
 			result = WeixinAppService.wxPay(userPay, ip, orderId, NOTIFY_URL);
 		}

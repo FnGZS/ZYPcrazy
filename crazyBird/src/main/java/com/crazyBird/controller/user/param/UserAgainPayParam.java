@@ -1,7 +1,7 @@
 package com.crazyBird.controller.user.param;
 
 public class UserAgainPayParam extends UserPayParam{
-
+	private Long goodsId;
 	private String orderId;
 	private Integer type;
 	
@@ -19,6 +19,14 @@ public class UserAgainPayParam extends UserPayParam{
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	public Long getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(Long goodsId) {
+		this.goodsId = goodsId;
 	}
 	
 	

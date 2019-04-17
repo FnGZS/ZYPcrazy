@@ -40,12 +40,15 @@
 		<result column="views" property="views" jdbcType="INTEGER" />
 		<result column="goods_num" property="goodsNum"
 			jdbcType="INTEGER" />
+		<result column="order_user_id" property="orderUserId" jdbcType="BIGINT" />
 		<result column="user_name" property="userName"
 			jdbcType="VARCHAR" />
 		<result column="headimgurl" property="headImgUrl"
 			jdbcType="VARCHAR" />
 		<result column="goods_title" property="goodsTitle"
 			jdbcType="VARCHAR" />
+		<result column="status" property="goodsState"
+			jdbcType="INTEGER" />	
 		<result column="goods_content" property="goodsContent"
 			jdbcType="VARCHAR" />
 		<result column="goods_img" property="goodsImg"
@@ -230,7 +233,7 @@
 	<select id="getOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryOrderListPO">
 		select sg.id, u.user_name,u.headimgurl,
-		seo.user_id,sg.goods_num,sg.goods_title,
+		seo.user_id,sg.goods_num,sg.goods_title,sg.`status`,seo.user_id as order_user_id,
 		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
@@ -384,7 +387,7 @@
 	<select id="getVendorOrderList" resultMap="OrderDTOResult"
 		parameterType="com.crazyBird.dao.secondary.dataobject.VendorListPO">
 		select sg.id, u.user_name,u.headimgurl,
-		seo.user_id,sg.goods_num,sg.goods_title,
+		seo.user_id,sg.goods_num,sg.goods_title,sg.`status`,seo.user_id as order_user_id,
 		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
@@ -419,7 +422,7 @@
 		parameterType="java.lang.String">
 		select sg.id, u.user_name,u.headimgurl,
 		seo.user_id,sg.goods_num,sg.goods_title,
-		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,
+		sg.goods_content,sg.telephone,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sg.`status`,
 		sw.field as goods_way,stw.field as trading_way ,st.field as goods_type,
 		seo.order_id,seo.goods_id,seo.price as order_price,
 		seo.seller_id,seo.seller,seo.consignee,seo.logistics,seo.order_state,seo.receivePhone,seo.receiveAddress,seo.gmt_created
