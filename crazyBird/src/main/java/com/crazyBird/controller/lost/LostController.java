@@ -65,10 +65,6 @@ public class LostController {
 	@RequestMapping(value ="/getLostList", method = RequestMethod.GET)
 	@ResponseBody
 	public LostPageModel getLostList(LostPageParam param) throws UnsupportedEncodingException {
-		if (StringUtils.isNotBlank(param.getKey())) {
-			String key = new String(param.getKey().getBytes("iso-8859-1"), "utf-8");
-			param.setKey(key);
-		}
 		return lostProcess.getLostList(param);
 	}
 	

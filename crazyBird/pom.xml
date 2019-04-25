@@ -10,6 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+	
 		<!-- spring版本号 -->
 		<spring.version>4.0.2.RELEASE</spring.version>
 		<!-- mybatis版本号 -->
@@ -201,7 +202,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.7.3</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.7.js4</version>
@@ -318,13 +319,10 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
         </dependency>
-          <dependency>
-            <groupId>com.arcsoft</groupId>
-            <artifactId>arcsoft-sdk-face</artifactId>
-            <version>2.0.0.0</version>
-        </dependency>
-	
+
 	</dependencies>
+
+	
 
 	<build>
 		<plugins>

@@ -27,21 +27,22 @@
 	title,personal,title_pic,publisher,found_pic,content,contact,address,
 	message_id,type_id,is_examine,brow,is_solve,gmt_created,gmt_modified
  </sql>
-	<select id="getLostCount" resultType="java.lang.Integer">
+	<select id="getLostCount" parameterType="com.crazyBird.dao.lost.dataobject.LostPO" resultType="java.lang.Integer">
  		 select count(*)
 		 from lost_article
 			where id !=""
-		<if test="messageId != null">
+		<if test="messageId != null and messageId != ''">
   			AND message_id = #{messageId,jdbcType=INTEGER}
   		</if>
-  		<if test="publisher != null">
+  		<if test="publisher != null and publisher != ''">
   			AND publisher = #{publisher,jdbcType=INTEGER}
   		</if>
-   		 <if test="typeId != null">
+   		 <if test="typeId != null and typeId != ''">
   			AND type_id = #{typeId,jdbcType=INTEGER}
   		</if>
   		<if test="key != null and key != ''">
-  			AND content LIKE CONCAT('%',#{key},'%')
+  			AND (content LIKE CONCAT('%',#{key},'%')
+  			OR title LIKE CONCAT('%',#{key},'%'))
   		</if>
  	 </select>
  	 <select id="getLost" resultMap="BaseResultMap" parameterType="com.crazyBird.dao.lost.dataobject.LostPO">
@@ -50,18 +51,18 @@
 		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
   		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
   		where  la.id !=''
-  		<if test="messageId != null">
+  		<if test="messageId != null and messageId != ''">
   			AND la.message_id = #{messageId,jdbcType=INTEGER}
   		</if>
-  		<if test="publisher != null">
+  		<if test="publisher != null and publisher != ''">
   			AND la.publisher = #{publisher,jdbcType=INTEGER}
   		</if>
-    	<if test="typeId != null">
+    	<if test="typeId != null and typeId != ''">
   			AND la.type_id = #{typeId,jdbcType=INTEGER}
   		</if>
   		<if test="key != null and key != ''">
-  			AND la.content LIKE CONCAT('%',#{key},'%')
-  			OR la.title LIKE CONCAT('%',#{key},'%')
+  			AND (la.content LIKE CONCAT('%',#{key},'%')
+  			OR la.title LIKE CONCAT('%',#{key},'%'))
   		</if>
   		order by la.id desc
   		limit #{startPos,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
