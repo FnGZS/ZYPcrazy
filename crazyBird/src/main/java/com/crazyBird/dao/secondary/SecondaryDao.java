@@ -34,6 +34,7 @@ public interface SecondaryDao {
 	// 删除商品（更改商品状态）
 	int deleteSecondaryGoods(Long id);
 	
+	int updateSecondaryGoods(SecondaryGoodsDO goodsDO);
 	void createSecondaryViews(Long id);
 	
 	//得到评论

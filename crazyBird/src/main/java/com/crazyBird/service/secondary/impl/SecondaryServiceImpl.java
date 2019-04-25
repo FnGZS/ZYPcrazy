@@ -31,6 +31,14 @@ public class SecondaryServiceImpl implements SecondaryService{
 	private SecondaryDao secondaryDao;
 	@Autowired
 	private SecondaryTypeDao secondaryTypeDao;
+	
+	@Override
+	public boolean updateSecondaryGoods(SecondaryGoodsDO goodsDO) {
+		if(secondaryDao.updateSecondaryGoods(goodsDO) > 0) {	
+			return true;
+		}	
+		return false;
+	}
 	@Override
 	public List<SecondarySlideDO> getSecondarySlide() {
 

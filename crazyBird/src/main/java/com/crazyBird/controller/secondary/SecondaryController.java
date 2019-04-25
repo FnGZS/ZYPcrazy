@@ -118,7 +118,16 @@ public class SecondaryController {
 	public SecondaryGoodsModel getSecondaryGoodsByUser(SecondaryGoodsByUserListParam param) {
 		return secondaryProcess.getSecondaryGoodsByUser(param);
 	}
-	
+	/**
+	 * 修改商品
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/goods/update",method = RequestMethod.PUT)
+	@ResponseBody
+	public SimpleFlagModel updateSecondaryGoods(@RequestBody SecondaryGoodsParam param) {
+		return secondaryProcess.updateSecondaryGoods(param);	
+	}
 	/**
 	 * 发布二手商品
 	 */

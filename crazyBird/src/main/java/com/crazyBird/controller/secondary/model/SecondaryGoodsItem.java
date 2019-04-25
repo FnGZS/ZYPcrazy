@@ -11,6 +11,7 @@ public class SecondaryGoodsItem {
 	private String userName;
 	private String headImgUrl;
 	private String goodsTitle;
+	private String telephone;
 	private String goodsContent;
 	private String goodsImg;
 	private String postion;
@@ -39,6 +40,13 @@ public class SecondaryGoodsItem {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 	public Integer getViews() {
 		return views;

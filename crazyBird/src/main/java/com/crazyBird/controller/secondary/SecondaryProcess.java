@@ -92,6 +92,28 @@ public class SecondaryProcess {
 		model.setList(convertSecondaryType(tags));
 		return model;
 	}
+	public SimpleFlagModel updateSecondaryGoods(SecondaryGoodsParam param) {
+		SimpleFlagModel model = new SimpleFlagModel();
+		SecondaryGoodsDO goodsDO = new SecondaryGoodsDO();
+		goodsDO.setGoodsContent(param.getGoodsContent());
+		goodsDO.setGoodsImag(param.getGoodsImag());
+		goodsDO.setGoodsTitle(param.getGoodsTitle());
+		goodsDO.setGoodsType(param.getGoodsType());
+		goodsDO.setGoodsWay(param.getGoodsWay());
+		goodsDO.setId(param.getId());
+		goodsDO.setOldPrice(param.getOldPrice());
+		goodsDO.setPostion(param.getPostion());
+		goodsDO.setPrice(param.getPrice());
+		goodsDO.setTelephone(param.getTelephone());
+		goodsDO.setTradingWay(param.getTradingWay());
+		goodsDO.setUserId(param.getUserId());
+		if (!secondaryService.updateSecondaryGoods(goodsDO)) {
+			model.setCode(HttpCodeEnum.ERROR.getCode());
+			model.setMessage("修改失败");
+			return model;
+		}
+		return model;
+	}
 
 	public SecondaryTypeModel getSecondaryWay() {
 		SecondaryTypeModel model = new SecondaryTypeModel();
@@ -545,6 +567,7 @@ public class SecondaryProcess {
 				item.setGoodsContent(tag.getGoodsContent());
 				item.setGoodsImg(tag.getGoodsImag());
 				// item.setGoodsNum(tag.getGoodsNum());
+				item.setTelephone(tag.getTelephone());
 				item.setGoodsTitle(tag.getGoodsTitle());
 				item.setGoodsType(tag.getGoodsType());
 				item.setGoodsWay(tag.getGoodsWay());

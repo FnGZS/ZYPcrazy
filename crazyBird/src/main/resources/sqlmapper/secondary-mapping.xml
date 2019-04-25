@@ -21,6 +21,8 @@
 		<result column="postion" property="postion" jdbcType="VARCHAR" />
 		<result column="goods_type" property="goodsType"
 			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone"
+			jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="goods_way" property="goodsWay"
 			jdbcType="VARCHAR" />
@@ -229,7 +231,7 @@
 		parameterType="java.lang.Long">
 		select sg.id
 		,u.user_name,u.headimgurl,sg.`status`,sg.user_id,sg.goods_num,sg.goods_title,sg.goods_content,sg.goods_img,sg.goods_price,sg.goods_old_price,sg.postion,sg.views,sw.field
-		as goods_way ,stw.field as trading_way ,st.field as goods_type,
+		as goods_way ,stw.field as trading_way ,st.field as goods_type,sg.telephone,
 		sg.gmt_created
 		from secondary_goods as sg
 		LEFT JOIN secondary_way as sw on sw.id=sg.goods_way
@@ -341,6 +343,51 @@
 		parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryCommentViewDO">
 		update secondary_comments set is_view = 2
 		where id=#{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateSecondaryGoods" parameterType="com.crazyBird.dao.secondary.dataobject.SecondaryGoodsDO">
+	update secondary_goods set
+	<if test="userId!=null">
+	user_id=#{userId,jdbcType=BIGINT},
+	</if>
+	<if test="goodsTitle!=null">
+	goods_title=#{goodsTitle,jdbcType=VARCHAR},
+	</if>
+	<if test="goodsContent!=null">
+	goods_content=	#{goodsContent,jdbcType=VARCHAR},
+	</if>
+	<if test="goodsImag!=null">
+	goods_img=#{goodsImag,jdbcType=VARCHAR},
+	</if>
+	goods_num=null,
+	<if test="postion!=null">
+	postion=#{postion,jdbcType=VARCHAR},
+	</if>
+	<if test="views!=null">
+	views=#{views,jdbcType=INTEGER},
+	</if>
+	<if test="telephone!=null">
+	telephone=#{telephone,jdbcType=VARCHAR},
+	</if>
+	<if test="goodsType!=null">
+	goods_type=#{goodsType,jdbcType=INTEGER},
+	</if>
+	<if test="goodsWay!=null">
+	goods_way=#{goodsWay,jdbcType=INTEGER},
+	</if>
+	<if test="tradingWay!=null">
+	trading_way=#{tradingWay,jdbcType=INTEGER},
+	</if>
+	<if test="status!=null">
+	`status`=#{status,jdbcType=INTEGER},
+	</if>
+	<if test="price!=null">
+	goods_price=#{price,jdbcType=DECIMAL},
+	</if>
+	<if test="oldPrice!=null">
+	goods_old_price=#{oldPrice,jdbcType=DECIMAL},
+	</if>
+	gmt_modified=now()
+	where id=#{id,jdbcType=BIGINT}
 	</update>
 	<update id="deleteSecondaryGoods" parameterType="java.lang.Long">
 		update secondary_goods set

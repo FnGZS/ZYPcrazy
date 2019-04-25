@@ -12,6 +12,7 @@ public class SecondaryGoodsDTO {
 	private String headImgUrl;
 	private String goodsTitle;
 	private String goodsContent;
+	private String telephone;
 	private String goodsImag;
 	private String postion;
 	private String goodsType;
@@ -33,6 +34,13 @@ public class SecondaryGoodsDTO {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 	public Integer getViews() {
 		return views;

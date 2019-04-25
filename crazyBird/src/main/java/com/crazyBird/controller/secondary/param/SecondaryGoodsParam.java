@@ -1,9 +1,11 @@
 package com.crazyBird.controller.secondary.param;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 public class SecondaryGoodsParam {
+	private Long id;
 	private Long userId;
 	private String goodsTitle;
 	private String goodsContent;
@@ -51,6 +53,13 @@ public class SecondaryGoodsParam {
 	}
 	public BigDecimal getOldPrice() {
 		return oldPrice;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public void setOldPrice(BigDecimal oldPrice) {
 		this.oldPrice = oldPrice;
