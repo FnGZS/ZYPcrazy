@@ -31,13 +31,13 @@
  		 select count(*)
 		 from lost_article
 			where id !=""
-		<if test="messageId != null and messageId != ''">
+		<if test="messageId != null">
   			AND message_id = #{messageId,jdbcType=INTEGER}
   		</if>
-  		<if test="publisher != null and publisher != ''">
+  		<if test="publisher != null">
   			AND publisher = #{publisher,jdbcType=INTEGER}
   		</if>
-   		 <if test="typeId != null and typeId != ''">
+   		 <if test="typeId != null">
   			AND type_id = #{typeId,jdbcType=INTEGER}
   		</if>
   		<if test="key != null and key != ''">
@@ -51,13 +51,13 @@
 		la.message_id,la.type_id,lat.type_name,la.is_examine,la.brow,la.is_solve,la.gmt_created
   		from lost_article as la LEFT JOIN lost_article_type as lat on la.type_id=lat.id 
   		where  la.id !=''
-  		<if test="messageId != null and messageId != ''">
+  		<if test="messageId != null">
   			AND la.message_id = #{messageId,jdbcType=INTEGER}
   		</if>
-  		<if test="publisher != null and publisher != ''">
+  		<if test="publisher != null">
   			AND la.publisher = #{publisher,jdbcType=INTEGER}
   		</if>
-    	<if test="typeId != null and typeId != ''">
+    	<if test="typeId != null">
   			AND la.type_id = #{typeId,jdbcType=INTEGER}
   		</if>
   		<if test="key != null and key != ''">
