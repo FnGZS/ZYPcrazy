@@ -362,9 +362,6 @@
 	<if test="postion!=null">
 	postion=#{postion,jdbcType=VARCHAR},
 	</if>
-	<if test="views!=null">
-	views=#{views,jdbcType=INTEGER},
-	</if>
 	<if test="telephone!=null">
 	telephone=#{telephone,jdbcType=VARCHAR},
 	</if>
@@ -376,9 +373,6 @@
 	</if>
 	<if test="tradingWay!=null">
 	trading_way=#{tradingWay,jdbcType=INTEGER},
-	</if>
-	<if test="status!=null">
-	`status`=#{status,jdbcType=INTEGER},
 	</if>
 	<if test="price!=null">
 	goods_price=#{price,jdbcType=DECIMAL},
