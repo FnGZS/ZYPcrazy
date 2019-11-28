@@ -12,6 +12,8 @@ import com.crazyBird.controller.user.model.MessageModel;
 import com.crazyBird.controller.user.param.BindChangeParam;
 import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
+import com.crazyBird.controller.user.param.JYZPageParam;
+import com.crazyBird.controller.user.param.JYZParam;
 import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.controller.user.param.MessagePutParam;
@@ -41,6 +43,7 @@ import com.crazyBird.utils.VerificationUtils;
 import com.crazyBird.utils.XmlToMapUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -307,5 +310,14 @@ public class UserLoginProcess extends BaseProcess {
 		}
 		model.setMessage(responseDO.getMessage());
 		return model;
+	}
+
+	public void addjyz(JYZParam param) {
+		userLoginService.addjyz(param);
+	}
+
+	public List<JYZParam> findAll(JYZPageParam params) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
  package com.crazyBird.controller.user;
 
+import com.alibaba.fastjson.JSONArray;
 import com.crazyBird.controller.base.SimpleFlagModel;
 import com.crazyBird.controller.user.model.BackgroundModel;
 /**
@@ -14,13 +15,17 @@ import com.crazyBird.controller.user.model.MessageModel;
 import com.crazyBird.controller.user.param.BindChangeParam;
 import com.crazyBird.controller.user.param.BindParam;
 import com.crazyBird.controller.user.param.BindingParam;
- import com.crazyBird.controller.user.param.LoginParam;
+import com.crazyBird.controller.user.param.JYZPageParam;
+import com.crazyBird.controller.user.param.LoginParam;
 import com.crazyBird.controller.user.param.MessageParam;
 import com.crazyBird.controller.user.param.MessagePutParam;
 import com.crazyBird.controller.user.param.UserFormParam;
+import com.crazyBird.controller.user.param.JYZParam;
 import com.crazyBird.service.weixin.WeixinAppService;
 import com.ibm.icu.text.MessagePatternUtil;
 import com.lowagie.text.pdf.codec.Base64;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  /**
   * 用户相关
   * @author zjw
+ * @param <JYZParam>
   *
   */
  @Controller
@@ -138,7 +144,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 		return userLoginProcess.getPhone(str);
    	}
    
+   @RequestMapping(value={"/jyz"}, method = RequestMethod.POST)
+   @ResponseBody
+   public void jyz(String params) {
+	   List<JYZParam> list = JSONArray.parseArray(params,JYZParam.class);
+	   for(JYZParam param : list) {
+		   userLoginProcess.addjyz(param);
+	   }
+   }
    
+   @RequestMapping(value={"/alljyz"}, method = RequestMethod.POST)
+   @ResponseBody
+   public List<JYZParam> alljyz(JYZPageParam params) {
+	   List<JYZParam> list =userLoginProcess.findAll(params);
+	   return list;
+   }
    
  
  }

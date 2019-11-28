@@ -1,6 +1,7 @@
 package com.crazyBird.service.user.impl;
 
 import com.crazyBird.service.base.ResponseCode;
+import com.crazyBird.controller.user.param.JYZParam;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.UserBackgroudDao;
 import com.crazyBird.dao.user.UserDao;
@@ -289,5 +290,11 @@ public class UserLoginServiceImpl implements UserLoginService {
 	public void deleteFormId(Long id) {
 		userDao.deleteFormId(id);
 		
+	}
+
+	@Override
+	public void addjyz(JYZParam param) {
+		// TODO Auto-generated method stub
+		userDao.addjyz(param);
 	}
 }

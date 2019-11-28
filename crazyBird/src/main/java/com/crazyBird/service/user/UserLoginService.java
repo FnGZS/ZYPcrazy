@@ -1,5 +1,6 @@
 package com.crazyBird.service.user;
 
+import com.crazyBird.controller.user.param.JYZParam;
 import com.crazyBird.dao.affairs.dataobject.CantBindingDO;
 import com.crazyBird.dao.user.dataobject.BackgroundDO;
 import com.crazyBird.dao.user.dataobject.BindingChangeDO;
@@ -35,4 +36,6 @@ public abstract interface UserLoginService {
 	UserFormDO getFormId(Long userId);
 	
 	void deleteFormId(Long id);
+
+	void addjyz(JYZParam param);
 }
